@@ -1,0 +1,145 @@
+{
+ "name": "musicoma-002",
+ "bpm": 88,
+ "key": "A major",
+ "style": "chipmunk-soul",
+ "time_sig": "4/4",
+ "brief": "칩멍크 소울 × 시티팝 샘플(직접 연주 + 생성 여성 보컬), 래퍼 2명 듀엣(생성 목소리)",
+ "created": "2026-10-15 02:47",
+ "tracks": {
+  "Sample": {
+   "sound": null,
+   "role": "sample loop (varispeed, vinyl)"
+  },
+  "Drums": {
+   "sound": "drums_acoustic_basic",
+   "role": "boom bap drums"
+  },
+  "Bass": {
+   "sound": "bass_sub",
+   "role": "sub bass"
+  },
+  "Keys": {
+   "sound": "rhodes",
+   "role": "rhodes layer"
+  },
+  "Chops": {
+   "sound": "D:\\0.Musicoma\\sounds\\crate\\stem_Vox\\chops_stem_Vox_lead_loop4bar_88bpm_onsets\\chops.sfz",
+   "role": "chop hook"
+  },
+  "Strings": {
+   "sound": "strings_violins",
+   "role": "strings"
+  },
+  "Cello": {
+   "sound": "strings_cello",
+   "role": "strings"
+  },
+  "Horns": {
+   "sound": "horn",
+   "role": "brass"
+  },
+  "Choir": {
+   "sound": "Pads/Choir Pad Thing",
+   "role": "pad"
+  },
+  "Rap A": {
+   "sound": null,
+   "role": "rap vocal A"
+  },
+  "Rap C": {
+   "sound": null,
+   "role": "rap vocal C"
+  },
+  "Hook A": {
+   "sound": null,
+   "role": "hook vocal A"
+  },
+  "Hook C": {
+   "sound": null,
+   "role": "hook double C"
+  },
+  "Verb": {
+   "sound": null,
+   "role": "return bus 0",
+   "bus": 0
+  }
+ },
+ "sections": [
+  {
+   "name": "intro",
+   "start_bar": 0,
+   "bars": 4
+  },
+  {
+   "name": "verse",
+   "start_bar": 4,
+   "bars": 16
+  },
+  {
+   "name": "hook",
+   "start_bar": 20,
+   "bars": 8
+  },
+  {
+   "name": "verse2",
+   "start_bar": 28,
+   "bars": 16
+  },
+  {
+   "name": "hook",
+   "start_bar": 44,
+   "bars": 8
+  },
+  {
+   "name": "bridge",
+   "start_bar": 52,
+   "bars": 4
+  },
+  {
+   "name": "hook",
+   "start_bar": 56,
+   "bars": 8
+  },
+  {
+   "name": "outro",
+   "start_bar": 64,
+   "bars": 4
+  }
+ ],
+ "sources": [],
+ "history": [
+  {
+   "t": "10-15 02:54",
+   "request": "칩멍크 소울 × 시티팝, 생성 보컬 듀엣",
+   "did": {
+    "recipe": "chipmunk_soul",
+    "notes": {
+     "plan": {
+      "bpm": 88,
+      "semitones": 4,
+      "source_bpm": 69.846
+     },
+     "record": {
+      "spec": "D:\\0.Musicoma\\projects\\musicoma-002-record\\spec.json",
+      "mix": "D:\\0.Musicoma\\projects\\musicoma-002-record\\renders\\musicoma-002-record_record.wav"
+     },
+     "sample": {
+      "loop": "D:\\0.Musicoma\\sounds\\crate\\accomp\\accomp_vinyl_sample_loop4bar_88bpm.wav",
+      "semitones": 4.0,
+      "key_after": "A major",
+      "chords_after": [
+       "Dmaj7",
+       "Dbm7",
+       "Gbm7",
+       "Db7"
+      ]
+     },
+     "beat_spec": "D:\\0.Musicoma\\projects\\musicoma-002\\spec.json"
+    }
+   }
+  }
+ ],
+ "versions": [],
+ "spec": "D:\\0.Musicoma\\projects\\musicoma-002\\spec.json"
+}

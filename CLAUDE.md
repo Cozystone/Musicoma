@@ -1,0 +1,45 @@
+# Musicoma — Claude 가 프로듀서로 일하는 DAW
+
+## 원칙 (본인 지시)
+- **진짜 프로듀서처럼.** 곡·반주·샘플 원곡은 직접 작곡·편곡·연주(MIDI + 악기)로 만든다. Suno 류 '곡 생성' 금지.
+  ACE-Step(third_party/ace-step)은 쓰지 않는다.
+- **예외: 보컬만** 로컬 가창 모델(SoulX-Singer)이 Musicoma 가 쓴 멜로디+가사를 부른다(가수 역할). 목소리 복제는 본인 또는 허락받은 목소리만.
+- 저작권 있는 녹음을 받아오지 않는다. 본인 음원은 `sounds/inbox/` — 본인 것으로 보고 그대로 쓴다.
+- Ableton 바이너리 디컴파일·에셋 복사 금지. 화면·동작을 '쓰면서' 참고하고, REA 는 본인 `.als` 가져오기에.
+- 모든 장르를 같은 방식으로: 장르 카드(`musicoma/knowledge/styles/*.yaml`)를 읽고 설계서(spec)를 쓴다. 카드가 없는 장르는 새 카드를 먼저 쓴다(근거를 적고).
+
+## 구조
+| 경로 | 무엇 |
+|---|---|
+| `engine/` | C++ 엔진(Tracktion Engine 3.5 + JUCE 8). `build.bat` 로 빌드. 127.0.0.1:47800 줄 단위 JSON. `help` 로 명령 목록 |
+| `musicoma/` | 파이썬 두뇌. `arrange`(설계서→곡) · `song` · `theory` · `groove` · `compose` · `crate`(샘플) · `transcribe` · `ears`(측정) · `master` · `voice` · `knowledge` |
+| `musicoma/mcp_server.py` | MCP 도구(`.mcp.json` 로 이 폴더에서 자동 등록) |
+| `sounds/` | `sfz/`(피아노·드럼·오케스트라) · `plugins/vst3/`(Surge XT·Dexed·Dragonfly·Airwindows) · `crate/`(가공 샘플) · `voices/` · `inbox/` |
+| `projects/<곡>/` | `spec.json`(설계서) · `song.json`(메타·요청 기록·버전) · `.tracktionedit` · `renders/` |
+
+파이썬은 `D:/0.Musicoma/.venv/Scripts/python.exe` (PYTHONIOENCODING=utf-8).
+
+## 일하는 순서
+1. 요청 → `knowledge_style` 로 카드 찾기(여러 장르 섞임이면 둘 다 읽기). 이어지는 요청이면 `song_status` 먼저.
+2. 설계서(spec) 작성 → `build_spec`. 위치는 박(4/4: n마디 = 4n박), 섹션 기준.
+3. `render` → 리포트 숫자 + PNG 를 **반드시 Read 로 본다**. `render_stems` 로 트랙별 대역 확인.
+4. 문제(issues, 대역 치우침, 밸런스)를 고쳐 다시 짓기. 장르 카드의 balance_lu · target_lufs 기준.
+5. 본인에게: 무엇을 했는지 + 숫자 + 들어볼 파일 경로. `song_log` 로 요청·조치 기록.
+
+## 연주 (가장 중요 — Suno 와의 차이)
+- 악보를 그대로 찍지 않는다. `build_spec` 은 기본으로 연주자 모델(perform)을 입힌다: 피아노 페달·롤·세기 곡선, 베이스 슬라이드·음 길이,
+  드럼 악기별 미세 타이밍·하이햇 강약·필 크레셴도, 스트링/패드/브라스 익스프레션(CC11), 리드 레가토·스쿱.
+- 곡 전체 `feel`(straight/laid_back/pushed/loose/tight)·`intensity` 를 장르에 맞게 정한다. 붐뱁·로파이·네오소울 = laid_back, 하우스·트랩 = tight.
+- 트랙 `role` 을 정확히 적어야 맞는 연주자가 붙는다(piano/keys/bass/drums/strings/pad/brass/lead/guitar/pluck). 직접 정하려면 tracks.<이름>.perform_role.
+- 샘플·찹 트랙은 연주 모델을 붙이지 않는다(자동).
+
+## 미세조정
+- 말 → `knowledge_tweak` → **한 축, 작은 단계**만 → 다시 렌더 → 전/후 숫자로 보고.
+- 어휘집에 없거나 모호하면 하나만 되묻는다(소리/박자/화성/배치 중 무엇).
+- "좋다" → `snapshot`. "아까가 낫다" → `engine edit.undo` 또는 이전 버전 spec.
+
+## 알려진 함정
+- 엔진이 쓰고 있는 오디오 파일은 덮어쓸 수 없다 → crate 는 잠기면 `__2` 이름으로 새로 쓴다.
+- 내장 EQ 의 "Low-pass/High-pass" 는 실제로 로우/하이 **셸프**다(이름만 그렇다).
+- 엔진 렌더의 LUFS 정규화는 리미터가 없어 작게 끝난다 → `Song.render(lufs=)` 가 `master.py` 로 맞춘다.
+- `balance` 이동 한계 ±12dB 에 걸리면 소리 자체(패치·음역·세기)를 바꿔야 한다는 신호.

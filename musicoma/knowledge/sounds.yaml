@@ -1,0 +1,65 @@
+# 쓸 수 있는 소리 카탈로그 — 역할별. path 는 D:/0.Musicoma 기준 상대.
+# 엔진: device.add {device: 'sfz', sfz: <path>} | {device: 'Surge XT'} 후 device.load_file {path: <fxp>}
+
+sfz:
+  piano_grand: {path: sounds/sfz/salamander-grand-piano/Salamander Grand Piano V3.sfz, range: [21, 108], note: "어쿠스틱 그랜드, 벨로시티 16단"}
+  drums_acoustic_basic: {path: sounds/sfz/virtuosity-drums/Programs/01-basic-kit.sfz, map: gm, note: "라이브 킷, 근접+룸. 붐뱁엔 컴프·새추레이션 필수"}
+  drums_acoustic_full: {path: sounds/sfz/virtuosity-drums/Programs/02-full-kit.sfz, map: gm}
+  drums_vintage: {path: sounds/sfz/virtuosity-drums/Programs/08-vintage-mic.sfz, map: gm, note: "빈티지 마이크 — 붐뱁/소울에 잘 맞음"}
+  # VSCO2 CE 오케스트라 — 파일 이름으로 찾기: sounds/sfz/vsco2-ce/*.sfz
+  strings_violins: {path: sounds/sfz/vsco2-ce/ViolinEnsSusVib.sfz, alt: [ViolinEnsPizz, ViolinEnsSpic, ViolinEnsTrem, ViolinEnsSusVib-Quiet]}
+  strings_violas: {path: sounds/sfz/vsco2-ce/ViolaEnsSusVib.sfz}
+  strings_cello: {path: sounds/sfz/vsco2-ce/CelloEnsSusVib.sfz, alt: [CelloEnsPizz, CelloEnsSpic]}
+  contrabass: {path: sounds/sfz/vsco2-ce/ContrabassSusVB.sfz, alt: [ContrabassPizz]}
+  solo_violin: {path: sounds/sfz/vsco2-ce/SViolinVib.sfz}
+  horn: {path: sounds/sfz/vsco2-ce/FHornSus.sfz, alt: [FHornStac, FHornMute]}
+  trumpet: {path: sounds/sfz/vsco2-ce/TrumpetSusVib.sfz, alt: [TrumpetStac, TrumpetHarmonMuteSus]}
+  trombone: {path: sounds/sfz/vsco2-ce/TromboneSus.sfz, alt: [TromboneStac]}
+  tuba: {path: sounds/sfz/vsco2-ce/TubaSus.sfz}
+  flute: {path: sounds/sfz/vsco2-ce/FluteSusVib.sfz, alt: [FluteStac]}
+  clarinet: {path: sounds/sfz/vsco2-ce/ClarinetSus.sfz}
+  oboe: {path: sounds/sfz/vsco2-ce/OboeSusVib.sfz}
+  bassoon: {path: sounds/sfz/vsco2-ce/BassoonSus.sfz}
+  harp: {path: sounds/sfz/vsco2-ce/Harp.sfz}
+  glockenspiel: {path: sounds/sfz/vsco2-ce/Glockenspiel.sfz}
+  marimba: {path: sounds/sfz/vsco2-ce/Marimba.sfz}
+  xylophone: {path: sounds/sfz/vsco2-ce/Xylophone.sfz}
+  tubular_bells: {path: sounds/sfz/vsco2-ce/TubularBells.sfz}
+  timpani: {path: sounds/sfz/vsco2-ce/Timpani.sfz}
+  upright_piano: {path: sounds/sfz/vsco2-ce/UprightPiano.sfz, note: "낡은 업라이트 — 로파이·소울에 좋음"}
+  church_organ: {path: sounds/sfz/vsco2-ce/OrganQuiet.sfz}
+  orchestral_perc: {path: sounds/sfz/vsco2-ce/GM-StylePerc.sfz, map: gm}
+
+surge_xt:   # device: "Surge XT", 패치: device.load_file
+  root: "sounds/plugins/vst3/Surge Synth Team/SurgeXTData/patches_factory"
+  rhodes: [Keys/EP 1.fxp, Keys/EP 2.fxp, Keys/Soft Suitcase.fxp]
+  dx_ep: [Keys/DX EP.fxp]
+  organ: [Keys/Organ 1.fxp, Keys/Organ 2.fxp, Keys/Organ 3.fxp, Keys/House Organ.fxp]
+  bass_sub: [Basses/Sub 1.fxp, Basses/Sub 2.fxp, Basses/Deep End.fxp]
+  bass_finger: [Basses/Fingered.fxp, Basses/E-Bass.fxp, Basses/Mellow.fxp]
+  bass_slap: [Basses/FM Slap.fxp]
+  bass_synth: [Basses/Rubber Bass.fxp, Basses/FM Bass 2.fxp, Basses/Wide Bassline.fxp]
+  pad_warm: [Pads/MKS-70 Warm Pad.fxp, Pads/Winter Warmer.fxp, Pads/Pad 1.fxp]
+  pad_choir: [Pads/Choir Pad Thing.fxp, Pads/Retro Choir.fxp, Pads/Ooh.fxp]
+  brass_synth: [Brass/Synth Brass 2.fxp, Brass/Toto Brass.fxp, Brass/JX-10 Double Brass.fxp, Brass/OB-8 Jump.fxp]
+  stab_chord: [Chords/Major 7 MkI.fxp, Chords/Minor 7.fxp]
+  guitar_ish: [Plucks/E-Guitar.fxp, Plucks/Clean.fxp, Plucks/Guitar.fxp]
+  pluck: [Plucks/Nice Pluck 1.fxp, Plucks/FM Pluck.fxp, Plucks/Lo-Fi Pluck.fxp]
+  lead: [Leads/Classic Lead 1.fxp, Leads/Moogy Saw.fxp]
+  flute: [Winds/Flute 1.fxp, Winds/Dreamy Flute.fxp]
+
+effects:   # device 이름 그대로 device.add
+  builtin: [eq, compressor, reverb, delay, chorus, phaser, lowpass, pitchshift, send, return]
+  vst3:
+    - {name: "Dragonfly Hall Reverb", use: "큰 홀/플레이트 같은 긴 잔향 — 리턴 버스용"}
+    - {name: "Dragonfly Room Reverb", use: "드럼 룸, 짧은 공간"}
+    - {name: "Dragonfly Plate Reverb", use: "보컬·스네어 플레이트"}
+    - {name: "Dragonfly Early Reflections", use: "가까운 공간감"}
+    - {name: "Surge XT Effects", use: "Surge 의 모든 이펙트(새추레이션, 테이프, 필터, 보코더...)"}
+    - {name: "Airwindows Consolidated", use: "Airwindows 수백 종 — 콘솔·테이프·새추레이션·컴프"}
+
+generators:
+  ace_step: "musicoma.gen.generate — 보컬 포함 원곡/샘플 소스 생성 (로컬 ACE-Step 1.5)"
+  demucs: "musicoma.crate.separate — vocals/drums/bass/other 분리"
+
+user_sources: "sounds/inbox/ 에 본인이 넣은 파일 — 본인 소유로 간주하고 그대로 쓴다"

@@ -1,0 +1,18 @@
+id: lofi-hiphop
+name: Lo-fi Hip Hop / Chillhop
+aliases: [로파이, 로파이 힙합, lofi, lo-fi, 공부 음악, study beats, chillhop, 칠합, 누자베스, nujabes, 제이딜라 느낌]
+essence: "흐릿한 재즈 화성, 느슨하게 늦게 치는 드럼(딜라 필), 테이프 와우·크래클, 작은 음량 다이내믹."
+tempo: {range: [70, 90], sweet_spot: 80}
+swing: {amount: 0.6, unit: 16, note: "킥·스네어도 뒤로 끌리는 '드렁큰' 타이밍 — humanize_ms 15~25"}
+harmony:
+  typical: ["ii9 V13 Imaj9 vi9", "IVmaj9 iii7 vi9 ii9", "i9 iv9 bVIImaj7 bIIImaj7", "Imaj7 I7 IVmaj7 iv6"]
+drums:
+  patterns:
+    main: {kick: "x......x..x.....", snare: "....x.......x...", hat: "x.x.x.x.x.x.x.x."}
+    lazy: {kick: "x.........x..x..", snare: "....x.......x...", hat: "x-x-x-xox-x-x-xo"}
+  processing: "킥 저역 둥글게, 스네어 로우패스, 전체 age(tape)"
+keys: {sound: "Surge Keys/EP 2 또는 Salamander 피아노 어둡게(로우패스 3~5k)", voicing: "rhodes, 7·9·11 텐션"}
+bass: {sound: "Basses/Mellow 또는 Sub 1", pattern: "길게, 코드 근음"}
+texture: "빗소리·바이닐 크래클(age vinyl), 기타 하모닉스 한두 번"
+mix: {target_lufs: -14, balance_lu: {drums: 0, keys: -1, sample: -1, bass: -3, texture: -12}, character: "고역 깎고 따뜻하게, 다이내믹 남김"}
+dont: ["밝은 리드", "강한 리미팅"]

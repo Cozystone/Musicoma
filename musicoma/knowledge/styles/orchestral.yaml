@@ -1,0 +1,31 @@
+id: orchestral
+name: Orchestral / Film Score
+aliases: [오케스트라, 오케스트랄, 영화음악, 필름 스코어, 시네마틱, 교향곡, 클래식, orchestra, orchestral, film score, cinematic, symphonic, epic, 에픽, 트레일러]
+essence: "섹션(현·목관·금관·타악)이 역할을 나눠 쌓이는 음악. 드럼 비트 대신 다이내믹(pp→ff)과 오케스트레이션의 두께로 긴장을 만든다."
+tempo: {range: [60, 140], sweet_spot: 90, note: "느린 서정 60-76 · 모험/행진 100-132. 박자감은 드럼이 아니라 현의 스피카토·팀파니·오스티나토로"}
+swing: {amount: 0.5, unit: 16, note: "스윙 없음. 대신 연주자 모델 feel=loose(섹션의 미세한 흔들림), intensity 로 다이내믹"}
+harmony:
+  typical: ["I V/VII vi IV", "i VI III VII", "i iv VI V", "I iii IV iv", "vi IV I V"]
+  note: "모달 믹스처(장조에 iv·bVI)와 페달 포인트(베이스 고정, 위 화음 이동)가 '영화' 느낌의 핵심. 마지막 화음은 길게(2~4마디)"
+sections:
+  layers: "현(바이올린·비올라·첼로·콘트라베이스) = 몸통 · 금관(호른·트럼펫·트롬본·튜바) = 정점 · 목관(플루트·클라리넷·오보에·바순) = 색 · 타악(팀파니·심벌·글로켄) = 강조"
+  build: "1) 현 패드 pp  2) 목관 선율  3) 호른 대선율  4) 금관 전체 + 팀파니 롤 ff  5) 갑자기 비우기(현 한 줄)"
+orchestration:
+  violins: {sound: strings_violins, range: [55, 96], role: strings, note: "선율 = 1st, 화음 상성부"}
+  violas: {sound: strings_violas, range: [48, 84], role: strings, note: "화음 내성"}
+  cellos: {sound: strings_cello, range: [36, 72], role: strings, note: "베이스 또는 따뜻한 선율(테너 음역)"}
+  basses: {sound: contrabass, range: [28, 55], role: bass, note: "첼로 한 옥타브 아래 더블"}
+  horns: {sound: horn, range: [41, 77], role: brass, note: "대선율·영웅적 동기. 5도·옥타브 유니즌"}
+  trumpets: {sound: trumpet, range: [55, 82], role: brass, note: "정점에서만"}
+  trombones: {sound: trombone, range: [40, 72], role: brass, note: "화음 받침, ff 에서"}
+  flute: {sound: flute, range: [60, 96], role: lead}
+  clarinet: {sound: clarinet, range: [50, 89], role: lead}
+  timpani: {sound: timpani, range: [40, 55], role: drums, note: "근음·5도. 섹션 시작 롤, 정점 강타"}
+drums: {patterns: {}, note: "드럼 비트 없음. 필요하면 'epic' 하이브리드: 저음 타악(timpani·orchestral_perc) 4분 오스티나토"}
+mix:
+  target_lufs: -18
+  balance_lu: {violins: 0, cellos: -2, violas: -4, basses: -5, horns: -2, trumpets: -4, trombones: -5, flute: -5, clarinet: -6, timpani: -4}
+  character: "넓은 홀 리버브(버스 하나에 전부 다른 양), 좌→우 객석 배치(1st 바이올린 왼쪽·첼로 오른쪽·금관 가운데 뒤), 압축 최소. LUFS 낮게 두어 다이내믹 보존"
+  seating_pan: {violins: -0.45, violas: 0.1, cellos: 0.35, basses: 0.45, horns: -0.15, trumpets: 0.15, trombones: 0.25, flute: -0.1, clarinet: 0.05, timpani: 0.0}
+perform: {feel: loose, intensity: 0.8, note: "strings/brass 연주자 = CC11 익스프레션 부풀기 · 레가토 겹침이 자동으로 붙는다"}
+evidence: "관현악법 일반(악기 음역·좌석 배치는 표준 오케스트라 배치), VSCO2 CE 악기 음역 기준. 수치 목표는 시작점이며 렌더 측정 후 조정."

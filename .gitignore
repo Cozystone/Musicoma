@@ -1,0 +1,37 @@
+# 환경·빌드
+.venv/
+**/.venv/
+__pycache__/
+*.pyc
+engine/build/
+app/node_modules/
+app/dist/
+# 서드파티 소스·모델(각자 설치 스크립트로 받음)
+third_party/
+# 소리·모델·녹음 — 저장소에 넣지 않음(용량·권리)
+sounds/
+renders/
+research/
+*.wav
+*.mp3
+*.flac
+*.png
+# 곡 데이터: 설계서·메타만 남기고 음원·작업 파일 제외
+projects/*/renders/
+projects/*/vocals/
+projects/*/versions/
+projects/zz-*/
+projects/probe/
+projects/diag/
+projects/smoke-test/
+# 본인 음원 샘플링 곡(비공개 테스트)
+projects/musicoma-004-flyday/
+works/musicoma_004_flyday_sample.py
+# 개인 설정
+.claude/settings.local.json
+tests/report.json
+engine/engine.log
+engine/scan_dead_mans_pedal.txt
+*.log
+projects/ableton-demo-import/
+works/*.log

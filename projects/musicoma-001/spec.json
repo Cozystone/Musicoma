@@ -1,0 +1,438 @@
+{
+ "name": "musicoma-001",
+ "bpm": 86,
+ "key": "D major",
+ "style": "chipmunk-soul",
+ "brief": "Musicoma 첫 작품 — 칸예 레이트 레지스트레이션 스타일(소울 칩멍크 샘플 + 붐뱁 + 오케스트라), 랩 벌스 자리 비움",
+ "sections": [
+  {
+   "name": "intro",
+   "bars": 4
+  },
+  {
+   "name": "verse",
+   "bars": 16
+  },
+  {
+   "name": "hook",
+   "bars": 8
+  },
+  {
+   "name": "verse",
+   "bars": 16
+  },
+  {
+   "name": "hook",
+   "bars": 8
+  },
+  {
+   "name": "bridge",
+   "bars": 4
+  },
+  {
+   "name": "hook",
+   "bars": 8
+  },
+  {
+   "name": "outro",
+   "bars": 4
+  }
+ ],
+ "tracks": {
+  "Sample": {
+   "role": "sample loop (varispeed, vinyl)",
+   "fx": [
+    {
+     "device": "eq",
+     "params": {
+      "Low-pass freq": 110,
+      "Low-pass gain": -14,
+      "Mid freq 1": 350,
+      "Mid gain 1": -3.5,
+      "Mid Q 1": 0.9,
+      "High-pass freq": 11000,
+      "High-pass gain": -3
+     }
+    },
+    {
+     "device": "lowpass",
+     "params": {
+      "frequency": 20000
+     }
+    }
+   ]
+  },
+  "Drums": {
+   "preset": "drums/boombap",
+   "role": "boom bap drums",
+   "sends": {
+    "0": -22
+   }
+  },
+  "Bass": {
+   "sound": "bass_sub",
+   "role": "sub bass",
+   "fx": [
+    {
+     "device": "lowpass",
+     "params": {
+      "frequency": 700
+     }
+    }
+   ]
+  },
+  "Keys": {
+   "sound": "rhodes",
+   "role": "rhodes layer",
+   "pan": -0.15,
+   "sends": {
+    "0": -8
+   }
+  },
+  "Chops": {
+   "sound": "D:\\0.Musicoma\\sounds\\crate\\stem_Lead\\chops_stem_Lead_lead_loop4bar_86bpm_onsets\\chops.sfz",
+   "role": "chop hook",
+   "pan": 0.1,
+   "sends": {
+    "0": -10
+   }
+  },
+  "Strings": {
+   "preset": "strings/ensemble",
+   "role": "strings",
+   "pan": -0.25,
+   "sends": {
+    "0": -8
+   }
+  },
+  "Cello": {
+   "preset": "strings/cello",
+   "role": "strings",
+   "pan": 0.2,
+   "sends": {
+    "0": -10
+   }
+  },
+  "Horns": {
+   "preset": "brass/section",
+   "role": "brass",
+   "pan": 0.3,
+   "sends": {
+    "0": -12
+   }
+  },
+  "Choir": {
+   "preset": "pad/choir",
+   "role": "pad",
+   "sends": {
+    "0": -6
+   }
+  },
+  "Piano": {
+   "preset": "piano/grand_warm",
+   "role": "piano",
+   "pan": -0.1,
+   "sends": {
+    "0": -12
+   }
+  }
+ },
+ "buses": [
+  {
+   "name": "Verb",
+   "bus": 0,
+   "device": "Dragonfly Plate Reverb",
+   "volume_db": -4
+  }
+ ],
+ "parts": [
+  {
+   "track": "Sample",
+   "in": [
+    "intro",
+    "verse",
+    "hook",
+    "outro"
+   ],
+   "audio": {
+    "path": "D:\\0.Musicoma\\sounds\\crate\\accomp\\accomp_vinyl_sample_loop4bar_86bpm.wav",
+    "every": 16
+   }
+  },
+  {
+   "track": "Drums",
+   "in": [
+    "verse"
+   ],
+   "drums": {
+    "pattern": {
+     "kick": "x.....x...x..x..",
+     "snare": "....x.......x...",
+     "hat": "x.x.x.x.x.x.x.x."
+    },
+    "swing": 0.56,
+    "humanize_ms": 6,
+    "humanize_vel": 8,
+    "fill": {
+     "kick": "x.....x...x.....",
+     "snare": "....x.......xoxo",
+     "hat": "x.x.x.x.x.x....."
+    }
+   }
+  },
+  {
+   "track": "Drums",
+   "in": [
+    "hook"
+   ],
+   "drums": {
+    "pattern": {
+     "kick": "x..x......x..x..",
+     "snare": "....x..o....x...",
+     "hat": "x-x-x-x-x-x-x-x-"
+    },
+    "swing": 0.56,
+    "humanize_ms": 6,
+    "humanize_vel": 8,
+    "fill": {
+     "kick": "x.....x...x.....",
+     "snare": "....x.......xoxo",
+     "hat": "x.x.x.x.x.x....."
+    }
+   }
+  },
+  {
+   "track": "Drums",
+   "in": [
+    "outro"
+   ],
+   "drums": {
+    "pattern": {
+     "kick": "x.........x.....",
+     "snare": "....x.......x...",
+     "hat": "................"
+    },
+    "swing": 0.56,
+    "humanize_ms": 6,
+    "humanize_vel": 8
+   }
+  },
+  {
+   "track": "Bass",
+   "in": [
+    "verse",
+    "hook"
+   ],
+   "bass": {
+    "progression": "Dmaj7 Bm7 Em7 A7",
+    "beats_per_chord": 4,
+    "pattern": [
+     [
+      0,
+      1.4,
+      0
+     ],
+     [
+      1.5,
+      0.9,
+      0
+     ],
+     [
+      2.5,
+      0.6,
+      0
+     ],
+     [
+      3.25,
+      0.6,
+      7
+     ]
+    ]
+   }
+  },
+  {
+   "track": "Chops",
+   "in": [
+    "hook"
+   ],
+   "notes": [
+    {
+     "pitch": 36,
+     "start": 0.0,
+     "length": 0.7,
+     "velocity": 100
+    },
+    {
+     "pitch": 37,
+     "start": 0.75,
+     "length": 0.7,
+     "velocity": 88
+    },
+    {
+     "pitch": 36,
+     "start": 1.5,
+     "length": 0.7,
+     "velocity": 88
+    },
+    {
+     "pitch": 38,
+     "start": 2.0,
+     "length": 0.7,
+     "velocity": 88
+    },
+    {
+     "pitch": 37,
+     "start": 3.0,
+     "length": 0.7,
+     "velocity": 88
+    },
+    {
+     "pitch": 39,
+     "start": 3.5,
+     "length": 0.7,
+     "velocity": 88
+    }
+   ],
+   "cycle_beats": 4
+  },
+  {
+   "track": "Strings",
+   "in": [
+    "hook",
+    "bridge"
+   ],
+   "chords": {
+    "progression": "Dmaj7 Bm7 Em7 A7",
+    "beats_per_chord": 4,
+    "voicing": "pad",
+    "velocity": 72
+   }
+  },
+  {
+   "track": "Cello",
+   "in": [
+    "hook"
+   ],
+   "bass": {
+    "progression": "Dmaj7 Bm7 Em7 A7",
+    "beats_per_chord": 4,
+    "low": 36,
+    "high": 55,
+    "pattern": [
+     [
+      0,
+      3.8,
+      12
+     ]
+    ]
+   }
+  },
+  {
+   "track": "Horns",
+   "in": [
+    "hook"
+   ],
+   "chords": {
+    "progression": "Dmaj7 Bm7 Em7 A7",
+    "beats_per_chord": 4,
+    "voicing": "stab",
+    "rhythm": [
+     [
+      0,
+      0.5,
+      1.0
+     ],
+     [
+      2.5,
+      0.75,
+      0.9
+     ]
+    ],
+    "velocity": 92
+   }
+  },
+  {
+   "track": "Choir",
+   "in": [
+    "bridge",
+    "outro"
+   ],
+   "chords": {
+    "progression": "Dmaj7 Bm7 Em7 A7",
+    "beats_per_chord": 4,
+    "voicing": "pad",
+    "velocity": 70
+   }
+  },
+  {
+   "track": "Piano",
+   "in": [
+    "verse"
+   ],
+   "chords": {
+    "progression": "Dmaj7 Bm7 Em7 A7",
+    "beats_per_chord": 4,
+    "voicing": "piano",
+    "rhythm": [
+     [
+      0,
+      1.5,
+      0.8
+     ],
+     [
+      3.5,
+      0.5,
+      0.6
+     ]
+    ],
+    "velocity": 64
+   }
+  }
+ ],
+ "automation": [
+  {
+   "track": "Sample",
+   "device": 1,
+   "param": "frequency",
+   "points": [
+    {
+     "bar": 0,
+     "value": 700
+    },
+    {
+     "beat": 15.75,
+     "value": 1100
+    },
+    {
+     "bar": 4,
+     "value": 20000
+    },
+    {
+     "bar": 64,
+     "value": 20000
+    },
+    {
+     "bar": 68,
+     "value": 500
+    }
+   ]
+  }
+ ],
+ "mix": {
+  "balance": true,
+  "target_lufs": -10.5,
+  "balance_lu": {
+   "drums": 0,
+   "sample": -1.5,
+   "chops": -2,
+   "bass": -2.5,
+   "strings": -5,
+   "cello": -7,
+   "horns": -6,
+   "choir": -8,
+   "piano": -8
+  }
+ },
+ "feel": "laid_back",
+ "intensity": 0.75
+}

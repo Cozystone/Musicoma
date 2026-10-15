@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'">
+<title>Musicoma</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #1e1e1e; color: #ddd;
+    font-family: "Segoe UI", "Malgun Gothic", sans-serif; -webkit-app-region: drag; user-select: none; }
+  .wrap { height: 100%; display: flex; flex-direction: column; justify-content: center; padding: 0 36px; box-sizing: border-box; }
+  .logo { font-size: 34px; font-weight: 700; letter-spacing: -0.5px; color: #eee; }
+  .logo b { color: #e6a31a; }
+  .bar { margin-top: 22px; height: 2px; background: #2c2c2c; overflow: hidden; position: relative; }
+  .bar::after { content: ""; position: absolute; left: -30%; width: 30%; height: 100%; background: #e6a31a;
+    animation: run 1.2s ease-in-out infinite; }
+  @keyframes run { to { left: 100%; } }
+  #status { margin-top: 12px; font-size: 13px; color: #999; white-space: pre-wrap; }
+  body.err #status { color: #e06c5a; }
+  body.err .bar::after { animation: none; background: #e06c5a; left: 0; width: 100%; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="logo">Musicoma<b>.</b></div>
+  <div class="bar"></div>
+  <div id="status">준비 중…</div>
+</div>
+<script>
+  window.setStatus = function (text, isError) {
+    document.getElementById('status').textContent = text;
+    document.body.classList.toggle('err', !!isError);
+  };
+</script>
+</body>
+</html>

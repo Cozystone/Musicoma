@@ -1,0 +1,382 @@
+"""Musicoma MCP 서버 — Claude Code 가 음악을 만들고 고치는 도구 묶음.
+
+등록: D:/0.Musicoma/.mcp.json (프로젝트 범위). 실행: .venv/Scripts/python -m musicoma.mcp_server
+"""
+import json
+import sys
+from pathlib import Path
+
+from mcp.server.fastmcp import FastMCP
+
+ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT))
+
+from musicoma import crate as crate_mod, groove, knowledge, theory, transcribe as tr  # noqa: E402
+from musicoma.engine import connect  # noqa: E402
+from musicoma.song import Song  # noqa: E402
+
+mcp = FastMCP("musicoma", instructions=(
+    "Musicoma: a DAW Claude drives. Workflow: understand the request → knowledge_style (genre card) → "
+    "source (compose & bounce a record via build_spec, or the user's file in sounds/inbox; NEVER AI-generated audio) → crate ops → build tracks with engine/compose → "
+    "render (ears report + png; Read the png) → fix → song_log. For fine-tuning phrases use knowledge_tweak first. "
+    "Positions are in beats (4/4: bar n starts at beat 4n). Never download copyrighted recordings; generate sources."))
+
+_engine = None
+
+
+def E():
+    global _engine
+    if _engine is None:
+        _engine = connect("claude-mcp")
+    try:
+        _engine.call("ping")
+    except Exception:
+        _engine = connect("claude-mcp")
+    return _engine
+
+
+def _song(name):
+    """이름으로 곡을 잡는다. 엔진에 다른 곡이 열려 있으면 이 곡을 연다."""
+    e = E()
+    path = ROOT / "projects" / name / f"{name}.tracktionedit"
+    current = e.call("ping").get("edit", "")
+    if path.exists() and Path(current or ".").resolve() != path.resolve():
+        e.call("edit.load", {"path": str(path)})
+    return Song(name, e)
+
+
+def _j(x):
+    return json.loads(json.dumps(x, ensure_ascii=False, default=lambda o: float(o) if hasattr(o, "__float__") else str(o)))
+
+
+# ----------------------------------------------------------------------------- 엔진
+@mcp.tool()
+def engine(method: str, params: dict | None = None) -> dict:
+    """Raw engine command (full control). Call method='help' for the complete list.
+    Main: edit.new/load/save/info/set/undo/redo, track.add/remove/set, device.available/add/remove/params/set/
+    show/load_file/programs/program/preset_save/preset_load, clip.add_midi/add_audio/list/notes/set_notes/set/remove/
+    import_midi, automation.set, transport.play/stop/state, render. Tracks by index or name; 'master' for master chain.
+    MIDI notes: [{pitch, start, length, velocity}] in beats, note start relative to clip start."""
+    return _j(E().call(method, params or {}))
+
+
+# ----------------------------------------------------------------------------- 지식
+@mcp.tool()
+def knowledge_style(query: str) -> dict:
+    """Find genre/style cards from natural language (Korean or English), e.g. '올드칸예 스타일에 시티팝 샘플링'.
+    Returns matching card ids (best first) and the full YAML of the top matches: tempo, swing, drum patterns,
+    harmony, sounds, sample treatment, arrangement, mix targets (balance_lu, target_lufs), don'ts."""
+    ids = knowledge.find_style(query)
+    return {"matches": ids, "cards": {i: knowledge.style(i) for i in ids[:3]},
+            "all_styles": list(knowledge.styles().keys())}
+
+
+@mcp.tool()
+def knowledge_tweak(phrase: str) -> dict:
+    """Map a fine-tuning request ('킥 좀 더 펀치있게', '더 따뜻하게', '스네어 뒤로') to concrete moves from the
+    tweak lexicon. Apply ONE axis, small step, then render and report before/after numbers."""
+    hits = knowledge.find_tweak(phrase)
+    return {"matches": hits, "note": "no lexicon match — ask one clarifying question (sound/timing/harmony/arrangement)"
+            if not hits else "apply smallest step first"}
+
+
+@mcp.tool()
+def knowledge_sounds() -> dict:
+    """Catalog of available sounds by role (sfz instruments, Surge XT patches, effects) and how to load them.
+    Song tracks accept these role names directly (e.g. 'rhodes', 'bass_sub', 'piano_grand', 'strings_violins')."""
+    return knowledge.sounds()
+
+
+# ----------------------------------------------------------------------------- 곡
+@mcp.tool()
+def song_new(name: str, bpm: float = 90, key: str = "", style: str = "", brief: str = "") -> dict:
+    """Create a new song project (projects/<name>/). style = card id from knowledge_style."""
+    s = Song.new(name, bpm=bpm, key=key or None, style=style or None, brief=brief)
+    return s.summary()
+
+
+@mcp.tool()
+def song_status(name: str) -> dict:
+    """Song summary: meta (bpm/key/style/sections), tracks (role, volume, devices, clips), recent request history,
+    versions. Use at the start of any follow-up request to regain context."""
+    s = _song(name)
+    out = s.summary()
+    out["versions"] = s.meta.get("versions", [])
+    return _j(out)
+
+
+@mcp.tool()
+def song_track(name: str, track: str, sound: str = "", role: str = "", volume_db: float | None = None,
+               pan: float | None = None) -> dict:
+    """Add (or get) a track with an instrument. sound: role name from knowledge_sounds ('rhodes', 'bass_sub',
+    'drums_acoustic_basic', ...), a Surge patch like 'Keys/EP 2', an .sfz path, or a VST3 name."""
+    s = _song(name)
+    s.track(track, sound or None, role=role or None, volume_db=volume_db, pan=pan)
+    return _j(next(t for t in s.summary()["tracks"] if t["name"] == track))
+
+
+@mcp.tool()
+def presets_list(role: str = "") -> dict:
+    """Tone presets by role (piano, keys, bass, drums, strings, pad, brass, lead, guitar, pluck): instrument + fx chain +
+    performance settings. Use preset_apply to switch a track's tone in one step."""
+    from musicoma.knowledge import presets
+    p = presets()
+    return {r: {k: v["name"] for k, v in d.items()} for r, d in p.items() if not role or r == role}
+
+
+@mcp.tool()
+def preset_apply(name: str, track: str, role: str, preset: str) -> dict:
+    """Switch a track's tone: replaces instrument and insert effects (keeps sends), records perform settings.
+    Performance (perform role/feel) takes effect on the next build_spec of the song."""
+    return _j(_song(name)[track].preset(role, preset))
+
+
+@mcp.tool()
+def song_section(name: str, section: str, start_bar: int, bars: int) -> dict:
+    """Mark a section (intro/verse/hook/bridge/outro...). Lets requests like '후렴만' resolve to beats."""
+    s = _song(name)
+    s.section(section, start_bar, bars)
+    return {"sections": s.meta["sections"]}
+
+
+@mcp.tool()
+def render(name: str, lufs: float | None = None, label: str = "", start_beat: float | None = None,
+           end_beat: float | None = None, reference: str = "") -> dict:
+    """Render + master to target LUFS (default from style card) + ears report (loudness, true peak, 6 bands,
+    stereo, issues like dead air/clipping, tempo/key estimate) + spectrogram PNG. Read the PNG to 'see' it.
+    reference: path to a reference wav for band/LUFS comparison."""
+    s = _song(name)
+    rep = s.render(lufs=lufs, label=label or None, start=start_beat, end=end_beat, ref=reference or None)
+    return _j(rep)
+
+
+@mcp.tool()
+def render_stems(name: str) -> list:
+    """Render each track alone and measure LUFS + band energy → see which track owns which band (mix decisions)."""
+    return _j(_song(name).render_stems())
+
+
+@mcp.tool()
+def balance(name: str, targets: dict | None = None) -> dict:
+    """Set track volumes so each role sits at its target loudness relative to the reference (drums=0).
+    targets like {"drums":0,"sample":-1.5,"bass":-2.5}; default = style card mix.balance_lu."""
+    return _j(_song(name).balance(targets))
+
+
+@mcp.tool()
+def snapshot(name: str, label: str, note: str = "") -> dict:
+    """Freeze current state as a version (edit copy + render). Use when the user says 'this is good'."""
+    return _j(_song(name).snapshot(label, note))
+
+
+@mcp.tool()
+def song_log(name: str, request: str, did: str) -> dict:
+    """Record the user's request and what you changed (keeps context for future fine-tuning)."""
+    s = _song(name)
+    s.log(request, did)
+    return {"history_len": len(s.meta["history"])}
+
+
+@mcp.tool()
+def show_device(name: str, track: str, device: int = 0) -> dict:
+    """Open a plugin's own window on the user's screen for hands-on tweaking (hybrid control)."""
+    _song(name)
+    return E().call("device.show", {"track": track, "device": device})
+
+
+# ----------------------------------------------------------------------------- 작곡 도우미
+@mcp.tool()
+def compose(op: str, args: dict) -> dict:
+    """Music helpers that return MIDI notes (beats). ops:
+    - progression {text, key, mode}: 'ii7 V7 Imaj7' or chord names → chord names (supports V7/vi, bVII, i)
+    - voice {chords, style: piano|rhodes|pad|stab|guitar} → voicings (voice-led)
+    - chord_notes {voicings|chords+style, durations, rhythm?[[off,len,velmul]], velocity, strum} → notes
+    - drums {pattern{kick,snare,hat,...: 'x..o-X..'}, bars, swing, swing_unit, humanize_ms, humanize_vel, bpm,
+             start, kit?} → notes  (16 steps/bar; X accent x normal - soft o ghost)
+    - bass {roots|chords, durations, pattern?[[off,len,semi]], velocity} → notes
+    - scale {key, mode, low, high} → midi notes
+    - chord {name, octave} → midi notes
+    - perform {notes, role: piano|keys|bass|drums|strings|pad|brass|lead|guitar|pluck, bpm, feel: straight|laid_back|pushed|loose|tight,
+               intensity 0..1} → {notes, cc, bend} — turns score into a human performance (pedal, rolls, dynamics arcs,
+               micro-timing, expression swells, slides). Pass cc/bend to engine clip.add_midi with the notes.
+    If args has 'song' and 'track', the notes are also written as a clip (args 'start', 'length', 'clip_name')."""
+    a = dict(args)
+    if op == "progression":
+        res = theory.progression(a["text"], a.get("key", "C"), a.get("mode", "major"))
+    elif op == "voice":
+        res = theory.voice(a["chords"], a.get("style", "piano"))
+    elif op == "chord_notes":
+        v = a.get("voicings") or theory.voice(a["chords"], a.get("style", "piano"))
+        res = groove.chord_notes(v, a.get("durations", 4), start=a.get("start_offset", 0.0),
+                                 velocity=a.get("velocity", 82), strum=a.get("strum", 0.0),
+                                 rhythm=[tuple(r) for r in a["rhythm"]] if a.get("rhythm") else None)
+    elif op == "drums":
+        res = groove.pattern_notes(a["pattern"], bars=a.get("bars", 1), swing=a.get("swing", 0.5),
+                                   swing_unit=a.get("swing_unit", 16), humanize_ms=a.get("humanize_ms", 0),
+                                   humanize_vel=a.get("humanize_vel", 0), bpm=a.get("bpm", 90),
+                                   kit=a.get("kit"), start=a.get("start_offset", 0.0), seed=a.get("seed", 0))
+    elif op == "bass":
+        roots = a.get("roots") or [theory.bass_note(c) for c in a["chords"]]
+        res = groove.bass_line(roots, a.get("durations", 4), start=a.get("start_offset", 0.0),
+                               pattern=[tuple(p) for p in a["pattern"]] if a.get("pattern") else None,
+                               velocity=a.get("velocity", 100))
+    elif op == "scale":
+        res = theory.scale_notes(a.get("key", "C"), a.get("mode", "major"), a.get("low", 48), a.get("high", 84))
+    elif op == "chord":
+        res = theory.chord(a["name"], a.get("octave", 4))
+    elif op == "perform":
+        from musicoma import perform as perform_mod
+        res = perform_mod.perform(a["notes"], role=a.get("role", "piano"), bpm=a.get("bpm", 90), feel=a.get("feel", "straight"),
+                                  intensity=a.get("intensity", 0.7), seed=a.get("seed", 1))
+    else:
+        raise ValueError(f"unknown op {op}")
+    out = {"result": res}
+    if a.get("song") and a.get("track") and isinstance(res, list) and res and isinstance(res[0], dict):
+        s = _song(a["song"])
+        out["clip"] = s[a["track"]].midi(res, start=a.get("start", 0.0), length=a.get("length"),
+                                         name=a.get("clip_name", op))
+    return _j(out)
+
+
+# ----------------------------------------------------------------------------- 소스 · 크레이트
+@mcp.tool()
+def crate(op: str, args: dict) -> dict:
+    """Sample tools (each writes new wavs under sounds/crate/, never touches the original). ops:
+    analyze {path} → bpm, key, beats, bars | separate {path} → stems vocals/drums/bass/other |
+    best_bars {path, bars} → loudest-steady region | loop_region {path, start, end, bars, target_bpm} (varispeed fit) |
+    loop {path, bars, bar_index?, target_bpm?} | varispeed {path, semitones|ratio} (chipmunk: pitch+speed) |
+    stretch {path, rate|target_bpm+source_bpm, semitones} (keeps pitch / keeps time) | cut {path, start, end} |
+    chop {path, mode: onsets|beats|even, n, min_len, max_len} | make_kit {chops, out_sfz, base_note=36} (pads) |
+    make_instrument {path, out_sfz, root_note} (one-shot across keyboard) | age {path, preset: vinyl|dusty|tape|radio} |
+    mix_files {paths, out, gains_db?}"""
+    fn = {"analyze": crate_mod.analyze, "separate": crate_mod.separate, "best_bars": crate_mod.best_bars,
+          "loop_region": crate_mod.loop_region, "loop": crate_mod.loop, "varispeed": crate_mod.varispeed,
+          "stretch": crate_mod.stretch, "cut": crate_mod.cut, "chop": crate_mod.chop, "make_kit": crate_mod.make_kit,
+          "make_instrument": crate_mod.make_instrument, "age": crate_mod.age, "mix_files": crate_mod.mix_files}[op]
+    return {"result": _j(fn(**args))}
+
+
+@mcp.tool()
+def transcribe(op: str, path: str, bpm: float, beats_per_chord: int = 2, bass_path: str = "") -> dict:
+    """Extract music from audio so new parts fit the sample. op: bass (pYIN → MIDI notes on 8th grid) |
+    chords (chroma template matching, bass-assisted) → chord names per beats_per_chord."""
+    if op == "bass":
+        return {"notes": tr.bass_notes(path, bpm)}
+    ch = tr.chords(path, bpm, beats_per_chord=beats_per_chord, bass_path=bass_path or None)
+    return {"chords": ch, "simplified": tr.simplify(ch)}
+
+
+@mcp.tool()
+def import_file(path: str, song: str = "", track: str = "", start_beat: float = 0.0) -> dict:
+    """Bring in anything the user/agent has: audio (wav/mp3/flac/aiff/ogg/m4a), video (mp4/mov/mkv/webm → audio),
+    MIDI (.mid), a folder of stems, or an Ableton .als. Converts to 48k wav, measures bpm/key; with `song` it is added
+    as a track. Only for material the user owns or has rights to — never download copyrighted recordings."""
+    from musicoma import importer
+    return _j(importer.import_any(path, song=_song(song) if song else None, track=track or None, start_beat=start_beat))
+
+
+@mcp.tool()
+def reverse_song(path: str, name: str) -> dict:
+    """Reverse-engineer a finished track (audio or video the user owns/has rights to) into an editable Musicoma project:
+    stem separation → tempo/key → drums/bass/chords/melody transcribed to MIDI and re-played by Musicoma instruments,
+    original stems kept as muted reference tracks. Approximate skeleton, not a perfect copy."""
+    from musicoma import importer
+    log = []
+    s = importer.reverse(path, name, log=log.append)
+    return _j({"steps": log, "song": s.summary()})
+
+
+# ----------------------------------------------------------------------------- 레시피
+@mcp.tool()
+def voice_list() -> dict:
+    """Prepared singer voices (sounds/voices). Only the user's own or consented voices may be added."""
+    from musicoma import voice
+    return {"voices": voice.voices()}
+
+
+@mcp.tool()
+def voice_add(name: str, wav: str, language: str = "English", vocal_sep: bool = False) -> dict:
+    """Prepare a singer from a 10-30s singing sample (the user's own or consented voice ONLY — refuse celebrity
+    or third-party cloning). vocal_sep=True if the sample has accompaniment."""
+    from musicoma import voice
+    return voice.add_voice(name, wav, language, vocal_sep)
+
+
+@mcp.tool()
+def sing(voice: str, lyrics: str, bpm: float, melody: str, out: str = "", language: str = "English",
+         seed: int = 0, humanize: dict | None = None) -> dict:
+    """Have a prepared voice sing Musicoma's melody (notation 'E4:1 G4:.5 r:1 ...') with lyrics (one word per note,
+    '+' = hold previous word over the next note; rests take no word). Languages: English/Mandarin/Cantonese.
+    humanize: {vibrato_cents, vibrato_hz, vibrato_delay, glide_ms, scoop_cents, fall_cents, drift_cents}.
+    Returns a 48k wav. In a spec, use a part {"track": "Vox", "in": [...], "vocal": {voice, melody, lyrics}}."""
+    from musicoma import voice as v
+    return {"wav": v.sing(voice, lyrics, bpm, melody=melody, out=out or None, language=language, seed=seed,
+                          humanize=humanize)}
+
+
+@mcp.tool()
+def voice_design(description: str, seed: int | None = None, name: str = "", lang: str = "en",
+                 sample_text: str = "", singer: bool = False) -> dict:
+    """GENERATE a brand-new voice from a text description (VoxCPM2 Voice Design, Apache-2.0) — no picking from a
+    library. e.g. 'A husky middle-aged man, deep gravelly baritone, confident hip-hop rapper'. Same description+seed =
+    same person; change only the seed for another person with the same vibe. NEVER describe or name a real person.
+    singer=True also prepares it for sing() (melodic singing). Returns the voice name for rap()/sing()/parts."""
+    from musicoma import voice_design as vd, voice
+    v = vd.design(description, seed=seed, name=name or None, lang=lang, sample_text=sample_text or None)
+    out = {"voice": v, **vd.info(v), "sample": str(vd.VOICES / v / "design.wav")}
+    if singer:
+        out["singer"] = voice.add_voice_aligned(v, vd.VOICES / v / "design.wav")
+    return out
+
+
+@mcp.tool()
+def rap(voice: str, lines: list, bpm: float, out: str, beats_per_line: float = 4,
+        style: str = "confident rhythmic hip-hop rap delivery", lock: float = 0.75, seed: int = 0) -> dict:
+    """Rap lyric lines with a generated voice, word onsets snapped to the 16th grid (lock 0..1: 1 = machine-tight,
+    0.6-0.8 = human). lines: strings or {text, beats}. Output wav starts at beat 0 of the first line.
+    In a spec: part {"track": "Rap", "in": ["verse"], "rap": {voice, lines, beats_per_line, style, lock, seed}}."""
+    from musicoma import voice_design as vd
+    p, rep = vd.rap(voice, lines, bpm, out, beats_per_line=beats_per_line, style=style, lock=lock, seed=seed)
+    return {"wav": p, "lines": rep}
+
+
+@mcp.tool()
+def voice_character(path: str, out: str, description: str = "", pitch_st: float | None = None,
+                    formant: float | None = None, breath: float | None = None, rasp: float | None = None,
+                    brightness: float | None = None, vibrato: float | None = None, age: float | None = None) -> dict:
+    """Fine-tune the feel of an existing vocal take without changing who it is (WORLD vocoder knobs).
+    description words (husky/raspy/deep/bright/dark/breathy/young/middle-aged...) set defaults; explicit knobs override."""
+    from musicoma import voice_character as vc
+    over = {k: v for k, v in dict(pitch_st=pitch_st, formant=formant, breath=breath, rasp=rasp, brightness=brightness,
+                                  vibrato=vibrato, age=age).items() if v is not None}
+    p, k = vc.character(path, out, description, **over)
+    return {"wav": p, "knobs": k}
+
+
+@mcp.tool()
+def build_spec(spec: dict, render: bool = True, label: str = "") -> dict:
+    """Build a whole song from an arrangement spec (any genre) — see musicoma/arrange.py docstring for the format:
+    sections, tracks{sound, role, fx, sends}, buses, master, parts{drums|chords|bass|melody|notes|audio, in:[sections]},
+    automation, mix{balance, target_lufs}. Fine-tuning = edit the spec (projects/<name>/spec.json) and rebuild."""
+    from musicoma import arrange
+    log = []
+    s, rep = arrange.build(spec, render=render, label=label or None, log=log.append)
+    return _j({"log": log, "report": rep, "song": s.summary()})
+
+
+@mcp.tool()
+def recipe_chipmunk_soul(name: str, bpm: float = 88, semitones: float = 4, key: str = "F major",
+                         source_style: str = "city-pop", lead: str = "flute", seed: int = 7, source: str = "",
+                         brief: str = "") -> dict:
+    """Example recipe (old-Kanye chipmunk soul). No AI audio: composes & records a soul/city-pop 'record' at the
+    slower source tempo, ages it, samples its hook (varispeed +semitones), chops the lead, then builds a boom-bap beat
+    via arrange specs. source = the user's own audio file (sounds/inbox) to sample instead."""
+    from musicoma.recipes import chipmunk_soul as cs
+    log = []
+    s, notes, rep = cs.build(name, bpm=bpm, semitones=semitones, key=key, source_style=source_style, lead=lead,
+                             seed=seed, source=source or None, brief=brief, log=log.append)
+    return _j({"steps": log, "notes": notes, "report": rep, "song": s.summary()})
+
+
+if __name__ == "__main__":
+    mcp.run()

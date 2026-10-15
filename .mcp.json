@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "musicoma": {
+      "command": "D:/0.Musicoma/.venv/Scripts/python.exe",
+      "args": ["-m", "musicoma.mcp_server"],
+      "cwd": "D:/0.Musicoma",
+      "env": { "PYTHONIOENCODING": "utf-8", "PYTHONUTF8": "1" }
+    }
+  }
+}

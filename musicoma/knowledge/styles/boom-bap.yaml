@@ -1,0 +1,17 @@
+id: boom-bap
+name: Boom Bap (90s East Coast)
+aliases: [붐뱁, 붐뱁 힙합, boom bap, boombap, 90년대 힙합, 90s hip hop, 이스트코스트, east coast, 프리모, dj premier, 피트 락, pete rock, 나스 일매틱, illmatic]
+essence: "먼지 낀 재즈·소울 샘플 루프, 크고 딱딱한 킥·스네어, 스윙 있는 하이햇. 장식 최소."
+tempo: {range: [84, 98], sweet_spot: 90}
+swing: {amount: 0.57, unit: 16}
+drums:
+  patterns:
+    main: {kick: "x.......x.x.....", snare: "....x.......x...", hat: "x.x.x.x.x.x.x.x."}
+    premo: {kick: "x.....x..x......", snare: "....x.......x...", hat: "x-x-x-x-x-x-x-x-", open_hat: "......x........."}
+    rock: {kick: "x..x....x.x..x..", snare: "....x.......x...", hat: "x.x.x.x.x.x.x.x."}
+  processing: "SP-1200 느낌: age(dusty) 처럼 12비트, 컴프 세게"
+sample: {source_type: "재즈 피아노·호른·베이스 루프", varispeed_semitones: {range: [0, 2], typical: 0}, chop_style: "1~2마디 루프 또는 피아노 한 음 찹 재배열"}
+bass: {sound: "Surge Basses/Fingered 또는 업라이트 느낌, 짧게 끊어서", pattern: "킥 따라 + 반음 어프로치"}
+keys: {note: "대개 없음. 있으면 재즈 피아노 한두 음"}
+mix: {target_lufs: -11, balance_lu: {drums: 0, sample: -2, bass: -3, keys: -6}, character: "드럼이 왕. 샘플은 중역으로 좁게, 고역 깎음"}
+dont: ["깨끗한 신스", "808 롱 베이스"]

@@ -1,0 +1,123 @@
+# 미세조정 어휘집 — 사람 말 → 구체적 조작.
+# 원칙
+#  1) 한 번에 한 축만, 작게(1단계). '조금'=1단계, 기본=2단계, '확'/'많이'=3~4단계.
+#  2) 바꾼 뒤 렌더 → ears 로 바뀐 숫자를 같이 보고한다(전/후).
+#  3) 대상이 없으면 문맥상 마지막에 만진 트랙, 그것도 없으면 전체(마스터).
+#  4) 반대말은 같은 조작을 반대로. 되돌리기는 edit.undo.
+#  step = 한 단계의 크기
+
+loudness:
+  - say: [더 크게, 키워, 볼륨 올려, louder, turn up]
+    do: "track.set volume_db +2 (step 2dB)"
+  - say: [작게, 줄여, 묻혀, 뒤로, quieter, turn down, sit back]
+    do: "track.set volume_db -2"
+  - say: [앞으로, 튀게, 들리게, 존재감, upfront, pop out]
+    do: "volume +1.5 AND eq presence +2dB @3k (q 1) AND 다른 트랙 같은 대역 -1dB"
+  - say: [음압, 빵빵하게, 세게, 마스터 크게, loud master]
+    do: "render lufs 목표 +1~2 (장르 target_lufs 를 넘지 말 것), 크레스트가 8dB 아래면 거절하고 설명"
+
+tone:
+  - say: [따뜻하게, 따듯하게, 포근하게, warm, warmer]
+    do: "eq 저중역 +1.5dB @250Hz (shelf) AND 고역 -1.5dB @9k shelf AND (선택) 테이프 새추레이션 약하게"
+  - say: [밝게, 선명하게, 쨍하게, bright, brighter, clear]
+    do: "eq high shelf +2dB @8k AND 저중역 -1dB @300Hz"
+  - say: [어둡게, 탁하게, 먹먹하게, dark, darker, muffled]
+    do: "lowpass 컷오프를 한 단계 낮춤 (12k→8k→5k→3k) 또는 high shelf -3dB @6k"
+  - say: [답답해, 뭉개져, 흐려, muddy, boomy]
+    do: "eq -2.5dB @250~400Hz (q 1.4) — 가장 에너지 큰 트랙부터. ears bands low_mid 확인"
+  - say: [얇아, 가벼워, 빈약해, thin, weak]
+    do: "eq +2dB @120~200Hz AND 볼륨 +1. 베이스·킥과 겹치면 베이스는 그대로 두고 대상만"
+  - say: [날카로워, 귀아파, 쏴, harsh, piercing]
+    do: "eq -2dB @2.5~4k (q 2) AND 하이햇·심벌 볼륨 -1.5"
+  - say: [치찰음, 스 소리, sibilant]
+    do: "보컬/샘플 eq -3dB @6~8k (q 3)"
+  - say: [공기감, 에어, airy, air]
+    do: "high shelf +1.5dB @12k (마스터 또는 보컬·패드)"
+  - say: [빈티지하게, 옛날 느낌, 낡게, lofi, 로파이하게, vintage, dusty]
+    do: "crate.age(dusty|vinyl) 로 소스 재가공 OR 트랙에 lowpass 9k + bitcrush 12bit 느낌 + 노이즈 -40dB"
+  - say: [깨끗하게, 클린하게, clean, polished]
+    do: "age 해제(원본 소스로 교체), 노이즈 제거, 리버브 -2dB"
+
+space:
+  - say: [넓게, 펼쳐, 와이드, wide, wider]
+    do: "pan 을 ±0.3 씩 벌림(두 트랙 이상) 또는 스테레오 패드에 chorus mix +; 저역(<150Hz) 은 모노 유지"
+  - say: [좁게, 모아, 모노, narrow, mono]
+    do: "pan 0 으로 모으기, chorus/와이드 효과 빼기"
+  - say: [공간감, 울리게, 리버브, 젖게, roomy, wet, reverb]
+    do: "리턴 버스 리버브 send +3dB (없으면 return 트랙 + Dragonfly Hall 만들기)"
+  - say: [건조하게, 드라이하게, 바짝, dry, tighter]
+    do: "send -4dB 또는 리버브 wet -6dB, 디케이 짧게"
+  - say: [멀게, 뒤에서, distant, far]
+    do: "volume -2, highshelf -2dB @6k, send +3dB, predelay 0"
+  - say: [가깝게, 코앞, intimate, close]
+    do: "send -3dB, presence +1.5dB @3k, 볼륨 +1"
+
+drums:
+  - say: [킥 펀치, 킥 단단하게, 킥 때려, punchy kick, kick punch]
+    do: "킥 트랙 compressor attack 20~30ms ratio 4 threshold -18 AND eq +2dB @60Hz, -2dB @300Hz, +1.5dB @3.5k"
+  - say: [킥 부드럽게, 킥 둥글게, softer kick]
+    do: "킥 고역 -2dB @3k, 컴프 attack 5ms"
+  - say: [스네어 크랙, 스네어 때려, 스네어 세게, snare crack, harder snare]
+    do: "스네어 eq +2dB @200Hz(몸통) +2dB @5k(크랙), 벨로시티 +8, 볼륨 +1"
+  - say: [스네어 뒤로, 레이드백, 늘어지게, laid back, behind the beat]
+    do: "스네어 노트 start +0.03박 (~20ms @90bpm). '많이' 면 +0.05"
+  - say: [앞으로 당겨, 급하게, rushing, on top]
+    do: "해당 노트 start -0.02박"
+  - say: [스윙, 그루브 더, 출렁, swing more, more groove]
+    do: "groove.pattern_notes swing +0.02 (최대 0.62). '덜' 이면 -0.02 (최소 0.5)"
+  - say: [기계적, 딱딱해, 로봇, robotic, stiff]
+    do: "humanize_ms +4, humanize_vel +6 로 다시 찍기"
+  - say: [하이햇 바쁘게, 촘촘하게, busier hats]
+    do: "8분→16분, 또는 고스트(o) 추가"
+  - say: [하이햇 덜, 비워, simpler hats]
+    do: "16분→8분, 오프비트 줄이기"
+  - say: [드럼 더 무겁게, 묵직하게, heavier]
+    do: "킥 +2dB @50Hz, 스네어 피치/샘플 낮은 쪽, 드럼 버스 새추레이션"
+  - say: [필인, 필 넣어, fill]
+    do: "섹션 끝 마디 마지막 1~2박을 스네어/탐 16분(fill_end 패턴)으로 교체"
+
+sample:
+  - say: [더 칩멍크, 더 빠르게 목소리, 더 높게, more chipmunk, higher]
+    do: "varispeed +1반음 다시 (최대 +7), 원곡 BPM 규칙 다시 계산 후 루프 재절단"
+  - say: [덜 칩멍크, 자연스럽게, less chipmunk]
+    do: "varispeed -1반음"
+  - say: [찹 더 잘게, 쪼개, chop more]
+    do: "chop mode=onsets n 을 두 배, min_len 0.08 로"
+  - say: [샘플 필터, 샘플 감춰, filter the sample]
+    do: "샘플 트랙에 lowpass, 컷오프 800Hz 로 오토메이션(인트로) 후 섹션 시작에 20kHz 로"
+  - say: [루프 바꿔, 다른 부분, other part]
+    do: "crate.analyze bars 에서 에너지 비슷한 다른 마디로 loop 다시"
+
+harmony:
+  - say: [더 슬프게, 애절하게, sadder]
+    do: "IV→iv 차용, Imaj7→vi9, 단조 쪽 텐션(m9, m11)"
+  - say: [더 밝게 화성, 희망적으로, happier]
+    do: "vi→IV, sus4→3 해결, add9 늘리기"
+  - say: [재즈하게, 세련되게, jazzier, fancier]
+    do: "3화음→7·9·13 텐션, ii-V 삽입, 트라이톤 대리(V7→bII7)"
+  - say: [단순하게, simpler]
+    do: "텐션 빼고 3화음/7화음, 코드 길이 2배"
+  - say: [전조, 키 올려, key up, modulate]
+    do: "마지막 후렴 +1 또는 +2 반음 (모든 피치 트랙 shift)"
+
+energy_arrangement:
+  - say: [더 신나게, 에너지, 텐션 올려, more energy, hype]
+    do: "템포 +2~4 (샘플 있으면 루프 재계산), 하이햇 16분, 오픈햇 추가, 베이스 옥타브 점프"
+  - say: [차분하게, 힘 빼, chill, calmer]
+    do: "드럼 볼륨 -2, 하이햇 8분, 벨로시티 x0.85, 템포 -2"
+  - say: [빌드업, 고조, build up]
+    do: "섹션 전 4마디: 필터 열림 오토메이션 + 스네어 롤(8분→16분) + 노이즈 스윕"
+  - say: [브레이크, 쉬어가, drop out, break]
+    do: "2마디 동안 드럼·베이스 뮤트(클립 분할 또는 노트 삭제), 샘플만"
+  - say: [인트로 짧게, 바로 시작, shorter intro]
+    do: "인트로 마디 절반으로, 뒤 클립 전부 앞으로 당김"
+  - say: [길게, 더 길게, longer]
+    do: "후렴 한 번 반복 또는 벌스 +8마디"
+
+meta:
+  - say: [아까가 나아, 되돌려, 이전으로, undo, go back]
+    do: "edit.undo (여러 번이면 그 수만큼), 렌더 다시"
+  - say: [이대로 좋아, 딱 좋아, 이거야, perfect, keep]
+    do: "edit.save + 버전 스냅샷(projects/<곡>/versions/) + IDENTITY 로그용 메모: 무엇이 좋았는지"
+  - say: [별로야, 이상해, 아닌데, nah, weird]
+    do: "무엇이 이상한지 1개만 되물을 것(소리/박자/화성/배치 중) — 그 전엔 바꾸지 않음"

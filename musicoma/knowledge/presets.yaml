@@ -1,0 +1,63 @@
+# 음색 프리셋 — 트랙 역할별로 '악기 + 이펙트 체인 + 연주 설정'을 한 번에 바꾼다.
+# 화면의 '음색 바꾸기' 와 MCP preset_apply 가 같은 목록을 쓴다.
+# sound: knowledge/sounds.yaml 의 역할 이름 · Surge 패치('Basses/Fingered') · sfz 경로
+# fx: [{device, params}] (기존 이펙트는 교체) · perform: {role, feel, intensity}
+
+piano:
+  grand_bright:  {name: "그랜드 · 밝게", sound: piano_grand, fx: [{device: eq, params: {"High-pass gain": 2.5, "High-pass freq": 9000, "Low-pass gain": -1}}], perform: {role: piano, intensity: 0.7}}
+  grand_warm:    {name: "그랜드 · 따뜻하게", sound: piano_grand, fx: [{device: eq, params: {"High-pass gain": -3, "High-pass freq": 7000, "Low-pass gain": 1.5, "Low-pass freq": 200}}], perform: {role: piano, intensity: 0.6}}
+  upright_lofi:  {name: "업라이트 · 로파이", sound: upright_piano, fx: [{device: lowpass, params: {frequency: 4500}}, {device: compressor, params: {threshold: -18, ratio: 3, attack: 15, release: 120}}], perform: {role: piano, feel: laid_back, intensity: 0.8}}
+  felt_soft:     {name: "펠트 · 부드럽게", sound: piano_grand, fx: [{device: lowpass, params: {frequency: 2800}}, {device: eq, params: {"Low-pass gain": 2, "Low-pass freq": 250}}], perform: {role: piano, intensity: 0.4}}
+
+keys:
+  rhodes_classic: {name: "로즈 · 클래식", sound: "Keys/EP 1", perform: {role: keys}}
+  rhodes_dark:    {name: "로즈 · 어둡게", sound: "Keys/EP 2", fx: [{device: lowpass, params: {frequency: 3200}}], perform: {role: keys}}
+  dx_ep:          {name: "DX 일렉피아노(80s)", sound: "Keys/DX EP", fx: [{device: chorus}], perform: {role: keys}}
+  suitcase:       {name: "수트케이스", sound: "Keys/Soft Suitcase", perform: {role: keys}}
+  organ:          {name: "오르간", sound: "Keys/Organ 2", perform: {role: keys, intensity: 0.5}}
+
+bass:
+  sub:        {name: "서브 (힙합·트랩)", sound: bass_sub, fx: [{device: lowpass, params: {frequency: 600}}], perform: {role: bass}}
+  finger:     {name: "핑거 베이스", sound: "Basses/Fingered", perform: {role: bass}}
+  slap:       {name: "슬랩 (시티팝·펑크)", sound: "Basses/FM Slap", fx: [{device: compressor, params: {threshold: -16, ratio: 4, attack: 5, release: 60}}], perform: {role: bass, intensity: 0.9}}
+  upright:    {name: "업라이트 (재즈)", sound: contrabass, perform: {role: bass, feel: laid_back}}
+  synth_rubber: {name: "신스 · 러버 (하우스)", sound: "Basses/Rubber Bass", perform: {role: bass, feel: tight}}
+  reese:      {name: "신스 · 와이드", sound: "Basses/Wide Bassline", perform: {role: bass, feel: tight}}
+
+drums:
+  boombap:    {name: "붐뱁 (건조·펀치)", sound: drums_acoustic_basic, fx: [{device: eq, params: {"Low-pass freq": 60, "Low-pass gain": 3, "Mid freq 1": 350, "Mid gain 1": -3, "Mid freq 2": 4500, "Mid gain 2": 2.5}}, {device: compressor, params: {threshold: -20, ratio: 4, attack: 20, release: 80, "output gain": 3}}], perform: {role: drums, feel: laid_back}}
+  live_room:  {name: "라이브 · 룸", sound: drums_acoustic_full, fx: [{device: compressor, params: {threshold: -14, ratio: 2, attack: 30, release: 150}}], perform: {role: drums, feel: straight}}
+  vintage:    {name: "빈티지 (60~70s)", sound: drums_vintage, fx: [{device: lowpass, params: {frequency: 9000}}], perform: {role: drums, feel: loose}}
+  tight_pop:  {name: "타이트 팝", sound: drums_acoustic_basic, fx: [{device: compressor, params: {threshold: -18, ratio: 6, attack: 3, release: 50}}], perform: {role: drums, feel: tight}}
+
+strings:
+  ensemble:   {name: "스트링 앙상블", sound: strings_violins, perform: {role: strings}}
+  cello:      {name: "첼로 섹션", sound: strings_cello, perform: {role: strings}}
+  pizzicato:  {name: "피치카토", sound: "ViolinEnsPizz", perform: {role: pluck}}
+  tremolo:    {name: "트레몰로 (긴장감)", sound: "ViolinEnsTrem", perform: {role: strings, intensity: 0.9}}
+  solo_violin: {name: "솔로 바이올린", sound: solo_violin, perform: {role: lead}}
+
+pad:
+  warm:       {name: "따뜻한 패드", sound: "Pads/MKS-70 Warm Pad", perform: {role: pad}}
+  choir:      {name: "콰이어 패드", sound: "Pads/Choir Pad Thing", perform: {role: pad}}
+  airy:       {name: "공기 같은 패드", sound: "Pads/Pad 1", fx: [{device: Dragonfly Hall Reverb}], perform: {role: pad, intensity: 0.5}}
+
+brass:
+  synth_80s:  {name: "80s 신스 브라스", sound: "Brass/Synth Brass 2", perform: {role: brass}}
+  section:    {name: "호른 섹션", sound: horn, perform: {role: brass}}
+  trumpet:    {name: "트럼펫", sound: trumpet, perform: {role: lead}}
+
+lead:
+  flute:      {name: "플루트", sound: flute, perform: {role: lead}}
+  synth_lead: {name: "신스 리드", sound: "Leads/Classic Lead 1", perform: {role: lead}}
+  saw_lead:   {name: "쏘우 리드", sound: "Leads/Moogy Saw", perform: {role: lead, feel: tight}}
+  bell:       {name: "벨", sound: glockenspiel, perform: {role: pluck}}
+
+guitar:
+  clean:      {name: "클린 기타", sound: "Plucks/Clean", perform: {role: guitar}}
+  electric:   {name: "일렉 기타", sound: "Plucks/E-Guitar", perform: {role: guitar}}
+
+pluck:
+  marimba:    {name: "마림바", sound: marimba, perform: {role: pluck}}
+  harp:       {name: "하프", sound: harp, perform: {role: pluck}}
+  synth_pluck: {name: "신스 플럭", sound: "Plucks/Nice Pluck 1", perform: {role: pluck}}

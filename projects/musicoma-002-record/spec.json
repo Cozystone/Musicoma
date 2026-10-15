@@ -1,0 +1,211 @@
+{
+ "name": "musicoma-002-record",
+ "bpm": 69.846,
+ "key": "F major",
+ "style": "city-pop",
+ "brief": "샘플 소스용 레코드 (직접 작곡·연주)",
+ "sections": [
+  {
+   "name": "intro",
+   "bars": 2
+  },
+  {
+   "name": "A",
+   "bars": 8
+  },
+  {
+   "name": "B",
+   "bars": 8
+  }
+ ],
+ "tracks": {
+  "Drums": {
+   "sound": "drums_acoustic_basic",
+   "role": "drums",
+   "fx": [
+    {
+     "device": "lowpass",
+     "params": {
+      "frequency": 7000
+     }
+    }
+   ]
+  },
+  "Bass": {
+   "sound": "bass_finger",
+   "role": "bass"
+  },
+  "Keys": {
+   "sound": "rhodes",
+   "role": "keys",
+   "pan": -0.15,
+   "sends": {
+    "0": -10
+   }
+  },
+  "Strings": {
+   "sound": "strings_violins",
+   "role": "strings",
+   "pan": 0.2,
+   "sends": {
+    "0": -6
+   }
+  },
+  "Lead": {
+   "sound": "rhodes",
+   "role": "lead",
+   "sends": {
+    "0": -8
+   }
+  },
+  "Vox": {
+   "role": "lead vocal (generated voice)",
+   "sends": {
+    "0": -9
+   },
+   "fx": [
+    {
+     "device": "compressor",
+     "params": {
+      "threshold": -18,
+      "ratio": 3
+     }
+    }
+   ]
+  }
+ },
+ "buses": [
+  {
+   "name": "Room",
+   "bus": 0,
+   "device": "Dragonfly Hall Reverb",
+   "volume_db": -6
+  }
+ ],
+ "parts": [
+  {
+   "track": "Drums",
+   "in": [
+    "A",
+    "B"
+   ],
+   "drums": {
+    "pattern": {
+     "kick": "x.......x.x.....",
+     "snare": "....x.......x...",
+     "hat": "x-x-x-x-x-x-x-x-"
+    },
+    "swing": 0.54,
+    "humanize_ms": 8,
+    "humanize_vel": 10
+   }
+  },
+  {
+   "track": "Bass",
+   "in": [
+    "A",
+    "B"
+   ],
+   "bass": {
+    "progression": "IVmaj7 iii7 vi7 V7/vi IVmaj7 V7sus4 Imaj7 vi9",
+    "beats_per_chord": 4,
+    "pattern": [
+     [
+      0,
+      1.5,
+      0
+     ],
+     [
+      1.5,
+      0.5,
+      7
+     ],
+     [
+      2,
+      1.5,
+      0
+     ],
+     [
+      3.5,
+      0.5,
+      12
+     ]
+    ]
+   }
+  },
+  {
+   "track": "Keys",
+   "in": "all",
+   "chords": {
+    "progression": "IVmaj7 iii7 vi7 V7/vi IVmaj7 V7sus4 Imaj7 vi9",
+    "beats_per_chord": 4,
+    "voicing": "rhodes",
+    "rhythm": [
+     [
+      0,
+      1.5,
+      1.0
+     ],
+     [
+      1.5,
+      1.0,
+      0.75
+     ],
+     [
+      2.5,
+      1.5,
+      0.85
+     ]
+    ],
+    "velocity": 74
+   }
+  },
+  {
+   "track": "Strings",
+   "in": [
+    "B"
+   ],
+   "chords": {
+    "progression": "IVmaj7 iii7 vi7 V7/vi IVmaj7 V7sus4 Imaj7 vi9",
+    "beats_per_chord": 4,
+    "voicing": "pad",
+    "velocity": 70,
+    "legato": 1.0
+   }
+  },
+  {
+   "track": "Lead",
+   "in": [
+    "A"
+   ],
+   "melody": {
+    "text": "Bb4:0.75 Bb4:0.75 A4:1.0 Bb4:1.5 C5:0.75 C5:0.75 C5:1.0 A4:1.5 A4:0.75 Bb4:0.75 C5:1.0 A4:1.5 G4:2.0 r:0.5 F4:0.5 F4:1.0 F4:2.0 r:0.5 G4:0.5 G4:1.0 G4:0.75 F4:0.75 E4:1.0 G4:1.5 A4:2.0 r:0.5 Bb4:0.5 Bb4:1.0 A4:2.0 r:0.5 Bb4:0.5 A4:1.0",
+    "velocity": 84
+   },
+   "transpose": -12
+  },
+  {
+   "track": "Vox",
+   "in": [
+    "B"
+   ],
+   "vocal": {
+    "voice": "gen-singer-b",
+    "melody": "Bb4:0.75 Bb4:0.75 A4:1.0 Bb4:1.5 C5:0.75 C5:0.75 C5:1.0 A4:1.5 A4:0.75 Bb4:0.75 C5:1.0 A4:1.5 G4:2.0 r:0.5 F4:0.5 F4:1.0 F4:2.0 r:0.5 G4:0.5 G4:1.0 G4:0.75 F4:0.75 E4:1.0 G4:1.5 A4:2.0 r:0.5 Bb4:0.5 Bb4:1.0 A4:2.0 r:0.5 Bb4:0.5 A4:1.0",
+    "lyrics": "midnight drive in the city lights you and me tonight hold me close baby never let go of this love so bright shining on and on midnight drive",
+    "seed": 37
+   }
+  }
+ ],
+ "mix": {
+  "balance": true,
+  "balance_lu": {
+   "keys": 0,
+   "lead": 2,
+   "strings": -2,
+   "drums": -3,
+   "bass": -3,
+   "vox": 3
+  }
+ }
+}

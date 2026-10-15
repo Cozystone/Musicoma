@@ -1,0 +1,11 @@
+id: house
+name: House (deep / french / disco house)
+aliases: [하우스, house, 딥하우스, deep house, 프렌치 하우스, french house, 디스코 하우스, 필터 하우스, daft punk 초기]
+essence: "4온더플로어 킥, 오프비트 오픈햇, 필터가 열리고 닫히는 디스코 샘플, 사이드체인 펌핑."
+tempo: {range: [118, 128], sweet_spot: 122}
+swing: {amount: 0.53, unit: 16}
+harmony: {typical: ["vi9 ii9 V13 Imaj9", "i9 iv9", "Imaj7 IVmaj7"]}
+drums: {patterns: {main: {kick: "x...x...x...x...", clap: "....x.......x...", hat: "..x...x...x...x.", shaker: "xxxxxxxxxxxxxxxx"}}}
+sample: {source_type: "디스코·부기 루프", treatment: "로우패스 오토메이션 300Hz→전체, 8~16마디에 걸쳐", varispeed_semitones: {range: [0, 1]}}
+bass: {sound: "Basses/Rubber Bass 또는 FM Bass 2", pattern: "오프비트 8분"}
+mix: {target_lufs: -9, balance_lu: {drums: 0, bass: -2, sample: -2, keys: -4, pad: -8}, sidechain: "킥에 맞춰 베이스·패드 펌핑(볼륨 오토메이션 1박 주기)"}

@@ -1,0 +1,80 @@
+id: chipmunk-soul
+name: Chipmunk Soul (2000s Roc-A-Fella / College Dropout era)
+aliases: [올드칸예, 올드 칸예, 초기 칸예, 칸예 초기, old kanye, early kanye, chipmunk soul, 칩멍크 소울, 칩멍크, college dropout, 칼리지 드롭아웃, roc-a-fella soul, 저스트 블레이즈, just blaze, sped up soul, 스피드업 소울, 고속 소울 샘플]
+era: 2001-2005 (뉴욕 소울 샘플 힙합; 칸예 웨스트, 저스트 블레이즈 계열)
+essence: >
+  오래된 소울/R&B/시티팝 레코드의 보컬+반주 구간을 통째로 빨리 돌려(배속) 음정이 올라간
+  '다람쥐 목소리'가 곡의 정서를 끌고, 그 위에 무겁고 건조한 붐뱁 드럼이 박자를 잡는다.
+  화려함은 샘플이, 단단함은 드럼이 맡는다. 새로 연주한 악기는 샘플을 받쳐줄 뿐 앞에 나서지 않는다.
+
+tempo: {range: [80, 96], sweet_spot: 88, feel: "half-time 아님. 정박 붐뱁. 일부는 더블타임 하이햇 금지"}
+swing: {amount: 0.56, unit: 16, note: "MPC 스윙 54~58%. 하이햇과 고스트 스네어에만 확실히, 킥은 거의 정박"}
+key: "샘플이 정한다. 배속 후 키를 다시 재서 베이스·건반을 거기에 맞춘다"
+
+sample:
+  source_type: "보컬이 크게 들리는 70~80년대 소울·R&B·시티팝 발라드 (느린 곡, 60~80 BPM 원곡)"
+  generate_prompt: >
+    {era} {genre} ballad, emotional {vocal} vocal up front, Fender Rhodes, warm strings, soft drums,
+    vintage analog recording, vinyl, soulful, slow tempo
+  source_bpm_rule: "원곡 BPM = 목표 BPM / 2^(반음/12). 예: 목표 88, +4반음 → 원곡 70"
+  varispeed_semitones: {range: [3, 6], typical: 4, note: "+3 이하는 칩멍크가 안 됨, +7 이상은 우스워짐"}
+  chop_style: >
+    1) 2~4마디 루프를 통째로(Through the Wire 식), 또는 2) 보컬 프레이즈 4~8개를 찹해서 패드로 다시
+    배열(Just Blaze 식). 보컬 끝음절을 반복해 훅을 만든다. 찹은 한 음절 단위로 잘라 끝에 짧은 페이드.
+  treatment: "age: vinyl 또는 dusty. 저역 100Hz 아래는 샘플에서 걷어내고(베이스 자리), 고역은 11~12k 에서 깎는다"
+  filter_trick: "인트로나 브레이크에서 샘플을 로우패스 600~900Hz 로 감췄다가 드럼과 함께 열기"
+
+drums:
+  kit: "펀치 있는 드라이 킷 (drums_acoustic_basic = 근접 마이크) + 강한 처리. vintage-mic 프로그램은 룸이 커서 킥 서브가 빠짐"
+  processing: "킥·스네어에 컴프(어택 10~30ms, 릴리즈 80ms, 4:1), 새추레이션 살짝, 리버브 거의 없음(짧은 룸만)"
+  patterns:
+    main: {kick: "x.....x...x..x..", snare: "....x.......x...", hat: "x.x.x.x.x.x.x.x.", note: "기본 붐뱁"}
+    bounce: {kick: "x..x......x..x..", snare: "....x..o....x...", hat: "x-x-x-x-x-x-x-x-"}
+    sparse_intro: {kick: "x.........x.....", snare: "....x.......x...", hat: "................"}
+    fill_end: {kick: "x.....x...x.....", snare: "....x.......xoxo", hat: "x.x.x.x.x.x....."}
+  velocity: "킥 105~118, 스네어 108~122(강하게), 하이햇 60~85 번갈아, 고스트 40~55"
+  humanize_ms: 6
+
+bass:
+  role: "근음 위주, 샘플의 저역을 대신함. 서브 + 약간의 미드"
+  sound: "Surge: Basses/Sub 1 또는 Basses/Fingered, 로우패스 깊게"
+  pattern: "킥과 거의 같이 친다. 마디 끝에 5도/옥타브 한 번"
+  octave: "E1~E2 (MIDI 28~40)"
+
+keys:
+  role: "샘플 화성을 따라가는 얇은 레이어 — 샘플이 빠지는 브레이크·후렴에서만 존재감"
+  sound: "Surge: Keys/EP 1 (Rhodes 계열) 또는 Salamander 피아노를 어둡게"
+  voicing: "rhodes 보이싱(근음 빼고 3·7·9), C4~G5, 4분음 롱 또는 2·4박 스탭"
+  extras: "스트링 패드(VSCO2) 를 후렴에 아주 작게, 하이 피아노 한 음 멜로디"
+
+harmony:
+  typical: ["Imaj7 vi7 ii7 V7", "vi7 IVmaj7 Imaj7 V7sus4", "ii9 V13 Imaj9 vi9", "i7 bVImaj7 bVII7 i7"]
+  note: "샘플이 화성을 정하므로 analyze 후 crate.analyze 의 키에 맞춰 재해석"
+
+arrangement:
+  bars_per_section: 8
+  template:
+    - {section: intro, bars: 4, elements: [sample_filtered]}
+    - {section: verse1, bars: 16, elements: [sample, drums.main, bass]}
+    - {section: hook, bars: 8, elements: [sample_hook_chops, drums.bounce, bass, keys, strings]}
+    - {section: verse2, bars: 16, elements: [sample, drums.main, bass, keys_sparse]}
+    - {section: hook, bars: 8, elements: [sample_hook_chops, drums.bounce, bass, keys, strings]}
+    - {section: outro, bars: 4, elements: [sample_filtered, drums.sparse_intro]}
+  transitions: "섹션 바뀌기 1박 전 드럼 드롭(뺐다가 1박에 크래시 없이 킥), 샘플만 남기는 2마디 브레이크"
+
+mix:
+  target_lufs: -11
+  balance: "샘플 보컬과 스네어가 가장 앞, 킥은 몸으로, 베이스는 킥 밑"
+  balance_lu: {drums: 0, sample: -1.5, chops: -2, bass: -2.5, keys: -8}   # 드럼 대비 음량(LU), Song.balance()
+  master: "글루 컴프 2:1 느리게, 테이프 새추레이션, 리미터 -1 dBTP"
+  stereo: "샘플은 넓게, 드럼·베이스 모노"
+
+dont:
+  - "트랩 하이햇(32분 롤) 금지"
+  - "깨끗한 현대 신스 리드 금지"
+  - "샘플을 피치시프트(시간 유지)로 올리지 말 것 — 반드시 배속(varispeed)"
+  - "드럼에 긴 리버브 금지"
+
+references_text: >
+  분위기 참고(재생·복제 아님): The College Dropout 의 샘플 루프 감성, Just Blaze 의 보컬 찹 훅,
+  2000년대 초 뉴욕 붐뱁 믹스(드럼 크고 건조, 샘플은 먼지 낀 소리).

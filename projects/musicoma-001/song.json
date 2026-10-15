@@ -1,0 +1,133 @@
+{
+ "name": "musicoma-001",
+ "bpm": 86,
+ "key": "D major",
+ "style": "chipmunk-soul",
+ "time_sig": "4/4",
+ "brief": "Musicoma 첫 작품 — 칸예 레이트 레지스트레이션 스타일(소울 칩멍크 샘플 + 붐뱁 + 오케스트라), 랩 벌스 자리 비움",
+ "created": "2026-10-15 02:04",
+ "tracks": {
+  "Sample": {
+   "sound": null,
+   "role": "sample loop (varispeed, vinyl)"
+  },
+  "Drums": {
+   "sound": "drums_acoustic_basic",
+   "role": "boom bap drums"
+  },
+  "Bass": {
+   "sound": "bass_sub",
+   "role": "sub bass"
+  },
+  "Keys": {
+   "sound": "rhodes",
+   "role": "rhodes layer"
+  },
+  "Chops": {
+   "sound": "D:\\0.Musicoma\\sounds\\crate\\stem_Lead\\chops_stem_Lead_lead_loop4bar_86bpm_onsets\\chops.sfz",
+   "role": "chop hook"
+  },
+  "Strings": {
+   "sound": "strings_violins",
+   "role": "strings"
+  },
+  "Cello": {
+   "sound": "strings_cello",
+   "role": "strings"
+  },
+  "Horns": {
+   "sound": "horn",
+   "role": "brass"
+  },
+  "Choir": {
+   "sound": "Pads/Choir Pad Thing",
+   "role": "pad"
+  },
+  "Piano": {
+   "sound": "piano_grand",
+   "role": "piano"
+  },
+  "Verb": {
+   "sound": null,
+   "role": "return bus 0",
+   "bus": 0
+  }
+ },
+ "sections": [
+  {
+   "name": "intro",
+   "start_bar": 0,
+   "bars": 4
+  },
+  {
+   "name": "verse",
+   "start_bar": 4,
+   "bars": 16
+  },
+  {
+   "name": "hook",
+   "start_bar": 20,
+   "bars": 8
+  },
+  {
+   "name": "verse",
+   "start_bar": 28,
+   "bars": 16
+  },
+  {
+   "name": "hook",
+   "start_bar": 44,
+   "bars": 8
+  },
+  {
+   "name": "bridge",
+   "start_bar": 52,
+   "bars": 4
+  },
+  {
+   "name": "hook",
+   "start_bar": 56,
+   "bars": 8
+  },
+  {
+   "name": "outro",
+   "start_bar": 64,
+   "bars": 4
+  }
+ ],
+ "sources": [],
+ "history": [
+  {
+   "t": "10-15 02:08",
+   "request": "칸예 스타일 첫 작품",
+   "did": {
+    "recipe": "chipmunk_soul",
+    "notes": {
+     "plan": {
+      "bpm": 86,
+      "semitones": 4,
+      "source_bpm": 68.258
+     },
+     "record": {
+      "spec": "D:\\0.Musicoma\\projects\\musicoma-001-record\\spec.json",
+      "mix": "D:\\0.Musicoma\\projects\\musicoma-001-record\\renders\\musicoma-001-record_record.wav"
+     },
+     "sample": {
+      "loop": "D:\\0.Musicoma\\sounds\\crate\\accomp\\accomp_vinyl_sample_loop4bar_86bpm.wav",
+      "semitones": 4.0,
+      "key_after": "D major",
+      "chords_after": [
+       "Dmaj7",
+       "Bm7",
+       "Em7",
+       "A7"
+      ]
+     },
+     "beat_spec": "D:\\0.Musicoma\\projects\\musicoma-001\\spec.json"
+    }
+   }
+  }
+ ],
+ "versions": [],
+ "spec": "D:\\0.Musicoma\\projects\\musicoma-001\\spec.json"
+}

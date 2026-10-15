@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="ko" data-theme="studio">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Musicoma</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header id="transport">
+  <div class="brand">Musicoma<span>.</span></div>
+  <select id="project" data-tip="곡 열기 · 새 곡"></select>
+  <div class="seg">
+    <button id="undo" data-icon="undo" data-tip="되돌리기 (Ctrl+Z)"></button>
+    <button id="redo" data-icon="redo" data-tip="다시 하기 (Ctrl+Y)"></button>
+  </div>
+  <div class="seg transport-seg">
+    <button id="play" data-icon="play" data-tip="재생 (Space)"></button>
+    <button id="stop" data-icon="stop" data-tip="정지 — 두 번 누르면 처음으로"></button>
+    <button id="loop" data-icon="loop" data-tip="선택 구간(또는 첫 섹션) 반복"></button>
+    <button id="rec" class="rec" data-icon="record" data-tip="녹음 (F9) — 암(●) 켠 트랙에 연주가 클립으로 남습니다"></button>
+  </div>
+  <div class="seg">
+    <button id="metro" data-icon="metro" data-tip="메트로놈 (클릭)"></button>
+    <button id="tap" data-tip="탭 템포 — 박자에 맞춰 여러 번 누르기">TAP</button>
+  </div>
+  <div id="pos" class="lcd" data-tip="재생 위치 (마디. 박. 16분)">1. 1. 1</div>
+  <label class="bpm" data-tip="템포"><input id="bpm" type="number" step="0.1"><span>BPM</span></label>
+  <div id="sig" class="lcd sig" data-tip="박자표">4 / 4</div>
+  <div class="seg">
+    <button id="zout" data-icon="zoomout" data-tip="축소 (Ctrl+휠)"></button>
+    <button id="zfit" data-icon="fit" data-tip="곡 전체 맞춤"></button>
+    <button id="zin" data-icon="zoomin" data-tip="확대 (Ctrl+휠)"></button>
+    <button id="lanesz" data-icon="height" data-tip="트랙 높이"></button>
+  </div>
+  <div class="seg">
+    <button id="view-arr" class="on" data-tip="어레인지먼트 뷰 (Tab)">Arr</button>
+    <button id="view-ses" data-tip="세션 뷰 — 섹션을 씬처럼 띄워 반복 재생 (Tab)">Ses</button>
+  </div>
+  <div class="seg">
+    <button id="addtrack" data-icon="plus" data-tip="트랙 추가 (Ctrl+T)"></button>
+    <button id="export" data-icon="export" data-tip="오디오로 내보내기 (Ctrl+Shift+R) — 렌더·측정 후 오른쪽 목록에"></button>
+  </div>
+  <div class="spacer"></div>
+  <div id="claude" class="claude" data-tip="AI 가 엔진을 만지면 여기에 표시됩니다"></div>
+  <select id="device" data-tip="출력 장치"></select>
+  <div class="seg">
+    <button id="mode" data-tip="쉬운 모드: AI 중심 · 프로 모드: 세부 조작 모두">쉬운 모드</button>
+    <button id="toggle-browser" class="pro-only on" data-icon="browser" data-tip="소리 브라우저"></button>
+    <button id="toggle-producer" class="on" data-icon="spark" data-tip="프로듀서(AI) 패널"></button>
+    <button id="theme" data-icon="theme" data-tip="테마: 스튜디오 / 나이트"></button>
+  </div>
+</header>
+
+<div id="main">
+  <aside id="browser">
+    <input id="search" placeholder="소리 검색" data-tip="이름으로 찾기 · 더블클릭하면 선택한 트랙에 들어갑니다">
+    <div id="cats"></div>
+    <div id="items"></div>
+  </aside>
+  <main id="arrange">
+    <div id="overview" data-tip="곡 전체 지도 — 클릭하면 그 위치로"><div id="ov-view"></div></div>
+    <div id="arr-body">
+      <div id="headers"><div class="hdr-spacer">트랙</div><div id="hdr-list"></div></div>
+      <div id="lanes-wrap">
+        <div id="ruler"></div>
+        <div id="lanes"></div>
+        <div id="selection"></div>
+        <div id="playhead"></div>
+      </div>
+    </div>
+    <div id="session" hidden></div>
+    <div id="ctxbar" class="material" hidden>
+      <span id="ctx-range"></span>
+      <input id="ctx-ask" placeholder="이 구간에 무엇을 할까요? 예) 여기 스트링 깔아줘">
+      <button id="ctx-send" class="primary" data-icon="spark">요청</button>
+      <button id="ctx-loop" data-icon="loop" data-tip="이 구간 반복 재생"></button>
+      <button id="ctx-close" data-icon="close" data-tip="선택 해제 (Esc)"></button>
+    </div>
+  </main>
+  <aside id="producer">
+    <div class="p-head"><span>프로듀서</span><small>말로 요청하면 AI 가 만들고 고칩니다</small></div>
+    <select id="ai" data-tip="함께 일할 AI">
+      <option value="claude">Claude (Anthropic 계정)</option>
+      <option value="codex">GPT (ChatGPT 계정)</option>
+    </select>
+    <div id="chips"></div>
+    <div id="feed"></div>
+    <div class="ask">
+      <textarea id="ask" rows="3" placeholder="예) 후렴에 스트링 깔아줘 · 킥 좀 더 펀치있게 · 시티팝 느낌 더"></textarea>
+      <div class="ask-row">
+        <label data-tip="이전 대화를 잇지 않고 새로 시작"><input type="checkbox" id="ask-new"> 새 대화</label>
+        <button id="ask-send" class="primary" data-icon="send">보내기</button>
+      </div>
+    </div>
+    <div class="p-sub">렌더 · 버전</div>
+    <div id="renders"></div>
+  </aside>
+</div>
+
+<section id="detail">
+  <nav>
+    <button data-tab="devices" data-icon="device" class="pro-only on">디바이스</button>
+    <button data-tab="mixer" data-icon="mixer">믹서</button>
+    <button data-tab="piano" data-icon="piano">피아노롤</button>
+    <button data-tab="ears" data-icon="ear">귀(측정)</button>
+    <span id="detail-title"></span>
+    <label class="tone" data-tip="선택한 트랙의 음색을 한 번에 바꿉니다 (악기 + 이펙트 + 연주 방식)">음색 <select id="tone"></select></label>
+  </nav>
+  <div id="devices" class="tab on"></div>
+  <div id="mixer" class="tab"></div>
+  <div id="piano" class="tab"><div class="empty">MIDI 클립을 더블클릭하면 여기서 노트를 직접 고칠 수 있어요.</div></div>
+  <div id="ears" class="tab"></div>
+</section>
+
+<footer id="status">마우스를 올리면 여기에 설명이 나옵니다.</footer>
+
+<script src="icons.js"></script>
+<script src="controls.js"></script>
+<script src="pianoroll.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

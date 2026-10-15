@@ -1,0 +1,691 @@
+{
+ "name": "musicoma-002",
+ "bpm": 88,
+ "key": "A major",
+ "style": "chipmunk-soul",
+ "brief": "칩멍크 소울 × 시티팝 샘플(직접 연주 + 생성 여성 보컬), 래퍼 2명 듀엣(생성 목소리)",
+ "sections": [
+  {
+   "name": "intro",
+   "bars": 4
+  },
+  {
+   "name": "verse",
+   "bars": 16
+  },
+  {
+   "name": "hook",
+   "bars": 8
+  },
+  {
+   "name": "verse2",
+   "bars": 16
+  },
+  {
+   "name": "hook",
+   "bars": 8
+  },
+  {
+   "name": "bridge",
+   "bars": 4
+  },
+  {
+   "name": "hook",
+   "bars": 8
+  },
+  {
+   "name": "outro",
+   "bars": 4
+  }
+ ],
+ "tracks": {
+  "Sample": {
+   "role": "sample loop (varispeed, vinyl)",
+   "fx": [
+    {
+     "device": "eq",
+     "params": {
+      "Low-pass freq": 110,
+      "Low-pass gain": -14,
+      "Mid freq 1": 350,
+      "Mid gain 1": -3.5,
+      "Mid Q 1": 0.9,
+      "High-pass freq": 11000,
+      "High-pass gain": -3
+     }
+    },
+    {
+     "device": "lowpass",
+     "params": {
+      "frequency": 20000
+     }
+    }
+   ]
+  },
+  "Drums": {
+   "preset": "drums/boombap",
+   "role": "boom bap drums",
+   "sends": {
+    "0": -22
+   }
+  },
+  "Bass": {
+   "sound": "bass_sub",
+   "role": "sub bass",
+   "fx": [
+    {
+     "device": "lowpass",
+     "params": {
+      "frequency": 700
+     }
+    }
+   ]
+  },
+  "Keys": {
+   "sound": "rhodes",
+   "role": "rhodes layer",
+   "pan": -0.15,
+   "sends": {
+    "0": -8
+   }
+  },
+  "Chops": {
+   "sound": "D:\\0.Musicoma\\sounds\\crate\\stem_Vox\\chops_stem_Vox_lead_loop4bar_88bpm_onsets\\chops.sfz",
+   "role": "chop hook",
+   "pan": 0.1,
+   "sends": {
+    "0": -10
+   }
+  },
+  "Strings": {
+   "preset": "strings/ensemble",
+   "role": "strings",
+   "pan": -0.25,
+   "sends": {
+    "0": -8
+   }
+  },
+  "Cello": {
+   "preset": "strings/cello",
+   "role": "strings",
+   "pan": 0.2,
+   "sends": {
+    "0": -10
+   }
+  },
+  "Horns": {
+   "preset": "brass/section",
+   "role": "brass",
+   "pan": 0.3,
+   "sends": {
+    "0": -12
+   }
+  },
+  "Choir": {
+   "preset": "pad/choir",
+   "role": "pad",
+   "sends": {
+    "0": -6
+   }
+  },
+  "Rap A": {
+   "role": "rap vocal A",
+   "pan": 0.0,
+   "sends": {
+    "0": -20
+   },
+   "fx": [
+    {
+     "device": "eq",
+     "params": {
+      "Low-pass freq": 120,
+      "Low-pass gain": -8,
+      "Mid freq 2": 3200,
+      "Mid gain 2": 3.5,
+      "High-pass freq": 9000,
+      "High-pass gain": 2.5
+     }
+    },
+    {
+     "device": "compressor",
+     "params": {
+      "threshold": -20,
+      "ratio": 4,
+      "attack": 8,
+      "release": 90
+     }
+    }
+   ]
+  },
+  "Rap C": {
+   "role": "rap vocal C",
+   "pan": 0.0,
+   "sends": {
+    "0": -20
+   },
+   "fx": [
+    {
+     "device": "eq",
+     "params": {
+      "Low-pass freq": 120,
+      "Low-pass gain": -8,
+      "Mid freq 2": 3200,
+      "Mid gain 2": 3.5,
+      "High-pass freq": 9000,
+      "High-pass gain": 2.5
+     }
+    },
+    {
+     "device": "compressor",
+     "params": {
+      "threshold": -20,
+      "ratio": 4,
+      "attack": 8,
+      "release": 90
+     }
+    }
+   ]
+  },
+  "Hook A": {
+   "role": "hook vocal A",
+   "pan": -0.12,
+   "sends": {
+    "0": -16
+   },
+   "fx": [
+    {
+     "device": "eq",
+     "params": {
+      "Low-pass freq": 120,
+      "Low-pass gain": -8,
+      "Mid freq 2": 3200,
+      "Mid gain 2": 3.5,
+      "High-pass freq": 9000,
+      "High-pass gain": 2.5
+     }
+    },
+    {
+     "device": "compressor",
+     "params": {
+      "threshold": -20,
+      "ratio": 4,
+      "attack": 8,
+      "release": 90
+     }
+    }
+   ]
+  },
+  "Hook C": {
+   "role": "hook double C",
+   "pan": 0.12,
+   "sends": {
+    "0": -16
+   },
+   "fx": [
+    {
+     "device": "eq",
+     "params": {
+      "Low-pass freq": 120,
+      "Low-pass gain": -8,
+      "Mid freq 2": 3200,
+      "Mid gain 2": 3.5,
+      "High-pass freq": 9000,
+      "High-pass gain": 2.5
+     }
+    },
+    {
+     "device": "compressor",
+     "params": {
+      "threshold": -20,
+      "ratio": 4,
+      "attack": 8,
+      "release": 90
+     }
+    }
+   ]
+  }
+ },
+ "buses": [
+  {
+   "name": "Verb",
+   "bus": 0,
+   "device": "Dragonfly Plate Reverb",
+   "volume_db": -4
+  }
+ ],
+ "parts": [
+  {
+   "track": "Sample",
+   "in": [
+    "intro",
+    "verse",
+    "hook",
+    "verse2",
+    "outro"
+   ],
+   "audio": {
+    "path": "D:\\0.Musicoma\\sounds\\crate\\accomp\\accomp_vinyl_sample_loop4bar_88bpm.wav",
+    "every": 16
+   }
+  },
+  {
+   "track": "Drums",
+   "in": [
+    "verse",
+    "verse2"
+   ],
+   "drums": {
+    "pattern": {
+     "kick": "x.....x...x..x..",
+     "snare": "....x.......x...",
+     "hat": "x.x.x.x.x.x.x.x."
+    },
+    "swing": 0.56,
+    "humanize_ms": 6,
+    "humanize_vel": 8,
+    "fill": {
+     "kick": "x.....x...x.....",
+     "snare": "....x.......xoxo",
+     "hat": "x.x.x.x.x.x....."
+    }
+   }
+  },
+  {
+   "track": "Drums",
+   "in": [
+    "hook"
+   ],
+   "drums": {
+    "pattern": {
+     "kick": "x..x......x..x..",
+     "snare": "....x..o....x...",
+     "hat": "x-x-x-x-x-x-x-x-"
+    },
+    "swing": 0.56,
+    "humanize_ms": 6,
+    "humanize_vel": 8,
+    "fill": {
+     "kick": "x.....x...x.....",
+     "snare": "....x.......xoxo",
+     "hat": "x.x.x.x.x.x....."
+    }
+   }
+  },
+  {
+   "track": "Drums",
+   "in": [
+    "outro"
+   ],
+   "drums": {
+    "pattern": {
+     "kick": "x.........x.....",
+     "snare": "....x.......x...",
+     "hat": "................"
+    },
+    "swing": 0.56,
+    "humanize_ms": 6,
+    "humanize_vel": 8
+   }
+  },
+  {
+   "track": "Bass",
+   "in": [
+    "verse",
+    "hook",
+    "verse2"
+   ],
+   "bass": {
+    "progression": "Dmaj7 Dbm7 Gbm7 Db7",
+    "beats_per_chord": 4,
+    "pattern": [
+     [
+      0,
+      1.4,
+      0
+     ],
+     [
+      1.5,
+      0.9,
+      0
+     ],
+     [
+      2.5,
+      0.6,
+      0
+     ],
+     [
+      3.25,
+      0.6,
+      7
+     ]
+    ]
+   }
+  },
+  {
+   "track": "Chops",
+   "in": [
+    "hook",
+    "bridge"
+   ],
+   "notes": [
+    {
+     "pitch": 36,
+     "start": 0.0,
+     "length": 0.7,
+     "velocity": 100
+    },
+    {
+     "pitch": 37,
+     "start": 0.75,
+     "length": 0.7,
+     "velocity": 88
+    },
+    {
+     "pitch": 36,
+     "start": 1.5,
+     "length": 0.7,
+     "velocity": 88
+    },
+    {
+     "pitch": 38,
+     "start": 2.0,
+     "length": 0.7,
+     "velocity": 88
+    },
+    {
+     "pitch": 37,
+     "start": 3.0,
+     "length": 0.7,
+     "velocity": 88
+    },
+    {
+     "pitch": 39,
+     "start": 3.5,
+     "length": 0.7,
+     "velocity": 88
+    }
+   ],
+   "cycle_beats": 4
+  },
+  {
+   "track": "Strings",
+   "in": [
+    "hook",
+    "bridge"
+   ],
+   "chords": {
+    "progression": "Dmaj7 Dbm7 Gbm7 Db7",
+    "beats_per_chord": 4,
+    "voicing": "pad",
+    "velocity": 72
+   }
+  },
+  {
+   "track": "Cello",
+   "in": [
+    "hook"
+   ],
+   "bass": {
+    "progression": "Dmaj7 Dbm7 Gbm7 Db7",
+    "beats_per_chord": 4,
+    "low": 36,
+    "high": 55,
+    "pattern": [
+     [
+      0,
+      3.8,
+      12
+     ]
+    ]
+   }
+  },
+  {
+   "track": "Horns",
+   "in": [
+    "hook"
+   ],
+   "chords": {
+    "progression": "Dmaj7 Dbm7 Gbm7 Db7",
+    "beats_per_chord": 4,
+    "voicing": "stab",
+    "rhythm": [
+     [
+      0,
+      0.5,
+      1.0
+     ],
+     [
+      2.5,
+      0.75,
+      0.9
+     ]
+    ],
+    "velocity": 92
+   }
+  },
+  {
+   "track": "Choir",
+   "in": [
+    "bridge",
+    "outro"
+   ],
+   "chords": {
+    "progression": "Dmaj7 Dbm7 Gbm7 Db7",
+    "beats_per_chord": 4,
+    "voicing": "pad",
+    "velocity": 70
+   }
+  },
+  {
+   "track": "Rap A",
+   "in": [
+    "verse"
+   ],
+   "rap": {
+    "voice": "gen-rapper-a",
+    "lines": [
+     "Woke up in the city with the vinyl on repeat",
+     "Mama in the kitchen humming something kind of sweet",
+     "Dusty little record from a summer in Tokyo",
+     "Speed it up a little now the angels sing soprano",
+     "I was in the basement with a sampler and a dream",
+     "Everybody laughing saying that is not a team",
+     "Now I got the strings and I got the horns on top",
+     "Turn the city pop into a hip-hop shop",
+     "Never had a plan B never had a backup",
+     "Every time they doubt me I just turn the track up",
+     "Chipmunk choir in the background going high",
+     "Heaven on a loop and I am never asking why",
+     "Sunday morning soul with a Monday kind of grind",
+     "Leave the past behind but I keep it in the rhyme",
+     "Every single sample got a story in the beat",
+     "So I play it back and put the city on its feet"
+    ],
+    "beats_per_line": 4,
+    "seed": 11
+   }
+  },
+  {
+   "track": "Hook A",
+   "in": [
+    "hook"
+   ],
+   "rap": {
+    "voice": "gen-rapper-a",
+    "lines": [
+     {
+      "text": "City lights, city lights, take me higher",
+      "beats": 8
+     },
+     {
+      "text": "Chipmunk soul and a midnight fire",
+      "beats": 8
+     },
+     {
+      "text": "City lights, city lights, never tired",
+      "beats": 8
+     },
+     {
+      "text": "Play it back till the night retires",
+      "beats": 8
+     }
+    ],
+    "style": "chanting a catchy hip-hop hook, rhythmic, energetic",
+    "lock": 0.9,
+    "seed": 21
+   }
+  },
+  {
+   "track": "Hook C",
+   "in": [
+    "hook"
+   ],
+   "rap": {
+    "voice": "gen-rapper-c",
+    "lines": [
+     {
+      "text": "City lights, city lights, take me higher",
+      "beats": 8
+     },
+     {
+      "text": "Chipmunk soul and a midnight fire",
+      "beats": 8
+     },
+     {
+      "text": "City lights, city lights, never tired",
+      "beats": 8
+     },
+     {
+      "text": "Play it back till the night retires",
+      "beats": 8
+     }
+    ],
+    "style": "chanting a catchy hip-hop hook, rhythmic, energetic",
+    "lock": 0.9,
+    "seed": 22,
+    "gain_db": -4
+   }
+  },
+  {
+   "track": "Rap A",
+   "in": [
+    "verse2"
+   ],
+   "offset": 0,
+   "rap": {
+    "voice": "gen-rapper-a",
+    "lines": [
+     "Back then I was broke with a keyboard and a hope",
+     "Writing on a napkin with a pencil and a quote",
+     "Now the lights are blinking from the Shibuya to the coast",
+     "And I raise a little glass to the ones who matter most"
+    ],
+    "beats_per_line": 4,
+    "seed": 31
+   }
+  },
+  {
+   "track": "Rap C",
+   "in": [
+    "verse2"
+   ],
+   "offset": 16,
+   "rap": {
+    "voice": "gen-rapper-c",
+    "lines": [
+     "Yo I am the new kid with the old soul in the bag",
+     "Pitch it up a third and let the chorus wave a flag",
+     "Cut it on the one and let the snare drag",
+     "Two voices on a record never sounding like a drag"
+    ],
+    "beats_per_line": 4,
+    "seed": 32
+   }
+  },
+  {
+   "track": "Rap A",
+   "in": [
+    "verse2"
+   ],
+   "offset": 32,
+   "rap": {
+    "voice": "gen-rapper-a",
+    "lines": [
+     "Keep it on the vinyl keep it warm keep it real",
+     "Every little crackle is a feeling you can feel",
+     "City lights shining like a diamond in the steel",
+     "Spin it one more time because the moment is the deal"
+    ],
+    "beats_per_line": 4,
+    "seed": 33
+   }
+  },
+  {
+   "track": "Rap C",
+   "in": [
+    "verse2"
+   ],
+   "offset": 48,
+   "rap": {
+    "voice": "gen-rapper-c",
+    "lines": [
+     "Midnight in the city and we running out of time",
+     "Every single dollar going back into the rhyme",
+     "Two generations on a sample so divine",
+     "Speed it up and slow it down and let the city shine"
+    ],
+    "beats_per_line": 4,
+    "seed": 34
+   }
+  }
+ ],
+ "automation": [
+  {
+   "track": "Sample",
+   "device": 1,
+   "param": "frequency",
+   "points": [
+    {
+     "bar": 0,
+     "value": 700
+    },
+    {
+     "beat": 15.75,
+     "value": 1100
+    },
+    {
+     "bar": 4,
+     "value": 20000
+    },
+    {
+     "bar": 64,
+     "value": 20000
+    },
+    {
+     "bar": 68,
+     "value": 500
+    }
+   ]
+  }
+ ],
+ "mix": {
+  "balance": true,
+  "target_lufs": -10.5,
+  "balance_lu": {
+   "drums": 0,
+   "rap a": 1.5,
+   "rap c": 1.5,
+   "hook a": 1.0,
+   "hook c": -3,
+   "sample": -2.5,
+   "chops": -4,
+   "bass": -2.5,
+   "strings": -6,
+   "cello": -8,
+   "horns": -7,
+   "choir": -8
+  }
+ },
+ "feel": "laid_back",
+ "intensity": 0.75
+}

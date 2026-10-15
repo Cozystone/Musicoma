@@ -1,0 +1,57 @@
+{
+ "name": "musicoma-001-record",
+ "bpm": 68.258,
+ "key": "Bb major",
+ "style": "soul",
+ "time_sig": "4/4",
+ "brief": "샘플 소스용 레코드 (직접 작곡·연주)",
+ "created": "2026-10-15 02:04",
+ "tracks": {
+  "Drums": {
+   "sound": "drums_acoustic_basic",
+   "role": "drums"
+  },
+  "Bass": {
+   "sound": "bass_finger",
+   "role": "bass"
+  },
+  "Keys": {
+   "sound": "rhodes",
+   "role": "keys"
+  },
+  "Strings": {
+   "sound": "strings_violins",
+   "role": "strings"
+  },
+  "Lead": {
+   "sound": "solo_violin",
+   "role": "lead"
+  },
+  "Room": {
+   "sound": null,
+   "role": "return bus 0",
+   "bus": 0
+  }
+ },
+ "sections": [
+  {
+   "name": "intro",
+   "start_bar": 0,
+   "bars": 2
+  },
+  {
+   "name": "A",
+   "start_bar": 2,
+   "bars": 8
+  },
+  {
+   "name": "B",
+   "start_bar": 10,
+   "bars": 8
+  }
+ ],
+ "sources": [],
+ "history": [],
+ "versions": [],
+ "spec": "D:\\0.Musicoma\\projects\\musicoma-001-record\\spec.json"
+}

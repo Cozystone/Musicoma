@@ -1,0 +1,2555 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<EDIT appVersion="Unknown" projectID="0/35cff50" creationTime="1792021327034"
+      modifiedBy="anseo" lastSignificantChange="1a13ccb6eb3">
+  <TRANSPORT start="0.0" loopPoint1="0.0" loopPoint2="0.0"/>
+  <PITCHSEQUENCE>
+    <PITCH startBeat="0.0" pitch="60"/>
+  </PITCHSEQUENCE>
+  <TEMPOSEQUENCE>
+    <TEMPO startBeat="0.0" bpm="76.0" curve="1.0"/>
+    <TIMESIG numerator="4" denominator="4" startBeat="0.0"/>
+  </TEMPOSEQUENCE>
+  <VIDEO/>
+  <CLICKTRACK level="0.6000000238418579"/>
+  <MASTERVOLUME>
+    <PLUGIN type="volume" volume="0.6376281380653381" id="1001" enabled="1">
+      <MODIFIERASSIGNMENTS/>
+    </PLUGIN>
+  </MASTERVOLUME>
+  <RACKS/>
+  <MASTERPLUGINS>
+    <PLUGIN type="level" id="1010" enabled="1" remapOnTempoChange="1"/>
+  </MASTERPLUGINS>
+  <INPUTDEVICES>
+    <INPUTDEVICE deviceID="all_midi_in" name="All MIDI Ins"/>
+  </INPUTDEVICES>
+  <TRACKCOMPS/>
+  <SCENES/>
+  <ARRANGERTRACK name="Arranger" id="1006"/>
+  <CHORDTRACK name="Chord" id="1008"/>
+  <MARKERTRACK id="1002" name="Marker"/>
+  <TEMPOTRACK name="Global" id="1007">
+    <MODIFIERS/>
+  </TEMPOTRACK>
+  <MASTERTRACK name="Master" id="1009">
+    <MODIFIERS/>
+  </MASTERTRACK>
+  <TRACK id="1011" name="Violins">
+    <MODIFIERS/>
+    <CLIPSLOTS/>
+    <MIDICLIP name="Violins" start="0.0" length="75.78947368421052" offset="0.0"
+              id="1061" sync="0" currentTake="0" speed="1.0" colour="ff55ff00">
+      <AUTOMATIONCURVES/>
+      <QUANTISATION/>
+      <GROOVE/>
+      <SEQUENCE ver="1" channelNumber="1">
+        <NOTE p="62" b="0.0" l="4.06" v="61" c="0"/>
+        <NOTE p="69" b="0.0" l="4.06" v="64" c="0"/>
+        <NOTE p="77" b="0.0" l="4.06" v="59" c="0"/>
+        <NOTE p="75" b="4.0052" l="4.06" v="66" c="0"/>
+        <NOTE p="66" b="4.0137" l="4.06" v="62" c="0"/>
+        <NOTE p="59" b="4.0147" l="4.06" v="58" c="0"/>
+        <NOTE p="82" b="7.9777" l="4.06" v="65" c="0"/>
+        <NOTE p="66" b="7.978" l="4.06" v="68" c="0"/>
+        <NOTE p="73" b="8.0067" l="4.06" v="66" c="0"/>
+        <NOTE p="61" b="11.9883" l="4.06" v="60" c="0"/>
+        <NOTE p="68" b="12.004" l="4.06" v="64" c="0"/>
+        <NOTE p="77" b="12.0069" l="4.06" v="60" c="0"/>
+        <NOTE p="62" b="16.0" l="4.06" v="61" c="0"/>
+        <NOTE p="77" b="16.0" l="4.06" v="59" c="0"/>
+        <NOTE p="69" b="16.0092" l="4.06" v="59" c="0"/>
+        <NOTE p="59" b="19.9898" l="4.06" v="71" c="0"/>
+        <NOTE p="75" b="19.9947" l="4.06" v="60" c="0"/>
+        <NOTE p="66" b="20.0065" l="4.06" v="64" c="0"/>
+        <NOTE p="73" b="23.9912" l="4.06" v="59" c="0"/>
+        <NOTE p="66" b="23.9974" l="4.06" v="57" c="0"/>
+        <NOTE p="82" b="24.0007" l="4.06" v="60" c="0"/>
+        <NOTE p="68" b="27.9819" l="4.06" v="60" c="0"/>
+        <NOTE p="77" b="27.9849" l="4.06" v="61" c="0"/>
+        <NOTE p="61" b="28.0071" l="4.06" v="60" c="0"/>
+        <NOTE p="77" b="31.9948" l="4.06" v="55" c="0"/>
+        <NOTE p="62" b="31.9999" l="4.06" v="56" c="0"/>
+        <NOTE p="69" b="32.0118" l="4.06" v="55" c="0"/>
+        <NOTE p="75" b="35.984" l="4.06" v="68" c="0"/>
+        <NOTE p="59" b="36.0028" l="4.06" v="69" c="0"/>
+        <NOTE p="66" b="36.0194" l="4.06" v="66" c="0"/>
+        <NOTE p="73" b="40.0021" l="4.06" v="61" c="0"/>
+        <NOTE p="82" b="40.015" l="4.06" v="59" c="0"/>
+        <NOTE p="66" b="40.0183" l="4.06" v="60" c="0"/>
+        <NOTE p="61" b="43.983" l="4.06" v="63" c="0"/>
+        <NOTE p="68" b="44.0131" l="4.06" v="68" c="0"/>
+        <NOTE p="77" b="44.0141" l="4.06" v="65" c="0"/>
+        <NOTE p="69" b="48.0029" l="4.06" v="53" c="0"/>
+        <NOTE p="81" b="48.0029" l="4.06" v="86" c="0"/>
+        <NOTE p="62" b="48.0161" l="4.06" v="61" c="0"/>
+        <NOTE p="74" b="48.0161" l="4.06" v="94" c="0"/>
+        <NOTE p="77" b="48.027" l="4.06" v="60" c="0"/>
+        <NOTE p="89" b="48.027" l="4.06" v="92" c="0"/>
+        <NOTE p="75" b="51.973" l="4.06" v="63" c="0"/>
+        <NOTE p="87" b="51.973" l="4.06" v="97" c="0"/>
+        <NOTE p="59" b="52.0008" l="4.06" v="56" c="0"/>
+        <NOTE p="71" b="52.0008" l="4.06" v="90" c="0"/>
+        <NOTE p="66" b="52.0214" l="4.06" v="66" c="0"/>
+        <NOTE p="78" b="52.0214" l="4.06" v="101" c="0"/>
+        <NOTE p="82" b="55.9926" l="4.06" v="65" c="0"/>
+        <NOTE p="94" b="55.9926" l="4.06" v="100" c="0"/>
+        <NOTE p="73" b="56.0036" l="4.06" v="66" c="0"/>
+        <NOTE p="85" b="56.0036" l="4.06" v="101" c="0"/>
+        <NOTE p="66" b="56.0063" l="4.06" v="60" c="0"/>
+        <NOTE p="78" b="56.0063" l="4.06" v="95" c="0"/>
+        <NOTE p="61" b="59.9885" l="4.06" v="61" c="0"/>
+        <NOTE p="73" b="59.9885" l="4.06" v="96" c="0"/>
+        <NOTE p="77" b="59.9896" l="4.06" v="58" c="0"/>
+        <NOTE p="89" b="59.9896" l="4.06" v="92" c="0"/>
+        <NOTE p="68" b="60.0099" l="4.06" v="59" c="0"/>
+        <NOTE p="80" b="60.0099" l="4.06" v="94" c="0"/>
+        <NOTE p="77" b="64.00069999999999" l="4.06" v="67" c="0"/>
+        <NOTE p="89" b="64.00069999999999" l="4.06" v="100" c="0"/>
+        <NOTE p="62" b="64.0098" l="4.06" v="58" c="0"/>
+        <NOTE p="74" b="64.0098" l="4.06" v="91" c="0"/>
+        <NOTE p="69" b="64.0111" l="4.06" v="57" c="0"/>
+        <NOTE p="81" b="64.0111" l="4.06" v="89" c="0"/>
+        <NOTE p="66" b="67.9867" l="4.06" v="70" c="0"/>
+        <NOTE p="78" b="67.9867" l="4.06" v="105" c="0"/>
+        <NOTE p="75" b="68.0043" l="4.06" v="63" c="0"/>
+        <NOTE p="87" b="68.0043" l="4.06" v="98" c="0"/>
+        <NOTE p="59" b="68.0146" l="4.06" v="63" c="0"/>
+        <NOTE p="71" b="68.0146" l="4.06" v="97" c="0"/>
+        <NOTE p="66" b="71.9778" l="4.06" v="60" c="0"/>
+        <NOTE p="78" b="71.9778" l="4.06" v="96" c="0"/>
+        <NOTE p="82" b="71.9991" l="4.06" v="59" c="0"/>
+        <NOTE p="94" b="71.9991" l="4.06" v="94" c="0"/>
+        <NOTE p="73" b="72.00490000000001" l="4.06" v="64" c="0"/>
+        <NOTE p="85" b="72.00490000000001" l="4.06" v="100" c="0"/>
+        <NOTE p="61" b="75.9739" l="4.06" v="61" c="0"/>
+        <NOTE p="73" b="75.9739" l="4.06" v="95" c="0"/>
+        <NOTE p="68" b="75.97929999999999" l="4.06" v="65" c="0"/>
+        <NOTE p="80" b="75.97929999999999" l="4.06" v="100" c="0"/>
+        <NOTE p="77" b="75.9914" l="4.06" v="60" c="0"/>
+        <NOTE p="89" b="75.9914" l="4.06" v="95" c="0"/>
+        <NOTE p="77" b="80.0001" l="4.06" v="68" c="0"/>
+        <NOTE p="69" b="80.0074" l="4.06" v="65" c="0"/>
+        <NOTE p="62" b="80.0193" l="4.06" v="62" c="0"/>
+        <NOTE p="66" b="83.9836" l="4.06" v="58" c="0"/>
+        <NOTE p="75" b="84.00409999999999" l="4.06" v="64" c="0"/>
+        <NOTE p="59" b="84.01009999999999" l="4.06" v="73" c="0"/>
+        <NOTE p="73" b="87.999" l="4.06" v="71" c="0"/>
+        <NOTE p="66" b="88.00279999999999" l="4.06" v="67" c="0"/>
+        <NOTE p="82" b="88.0222" l="4.06" v="62" c="0"/>
+        <NOTE p="61" b="91.9898" l="4.06" v="61" c="0"/>
+        <NOTE p="77" b="91.9984" l="4.06" v="61" c="0"/>
+        <NOTE p="68" b="92.0008" l="4.06" v="63" c="0"/>
+        <CONTROL b="0.0" type="11" val="7040"/>
+        <CONTROL b="0.0" type="1" val="6400"/>
+        <CONTROL b="0.6667" type="11" val="9728"/>
+        <CONTROL b="0.6667" type="1" val="9088"/>
+        <CONTROL b="1.3333" type="11" val="12416"/>
+        <CONTROL b="1.3333" type="1" val="11776"/>
+        <CONTROL b="2.0" type="11" val="14464"/>
+        <CONTROL b="2.0" type="1" val="13824"/>
+        <CONTROL b="2.6667" type="11" val="14080"/>
+        <CONTROL b="2.6667" type="1" val="13440"/>
+        <CONTROL b="3.3333" type="11" val="12672"/>
+        <CONTROL b="3.3333" type="1" val="12032"/>
+        <CONTROL b="4.0" type="11" val="12672"/>
+        <CONTROL b="4.0" type="1" val="12032"/>
+        <CONTROL b="4.0" type="11" val="12672"/>
+        <CONTROL b="4.0" type="1" val="12032"/>
+        <CONTROL b="4.6667" type="11" val="13824"/>
+        <CONTROL b="4.6667" type="1" val="13184"/>
+        <CONTROL b="5.3333" type="11" val="14464"/>
+        <CONTROL b="5.3333" type="1" val="13824"/>
+        <CONTROL b="6.0" type="11" val="14464"/>
+        <CONTROL b="6.0" type="1" val="13824"/>
+        <CONTROL b="6.6667" type="11" val="14336"/>
+        <CONTROL b="6.6667" type="1" val="13696"/>
+        <CONTROL b="7.3333" type="11" val="13440"/>
+        <CONTROL b="7.3333" type="1" val="12800"/>
+        <CONTROL b="8.0" type="11" val="12672"/>
+        <CONTROL b="8.0" type="1" val="12032"/>
+        <CONTROL b="8.0" type="11" val="12672"/>
+        <CONTROL b="8.0" type="1" val="12032"/>
+        <CONTROL b="8.666700000000001" type="11" val="13824"/>
+        <CONTROL b="8.666700000000001" type="1" val="13184"/>
+        <CONTROL b="9.333299999999999" type="11" val="14464"/>
+        <CONTROL b="9.333299999999999" type="1" val="13824"/>
+        <CONTROL b="10.0" type="11" val="14464"/>
+        <CONTROL b="10.0" type="1" val="13824"/>
+        <CONTROL b="10.6667" type="11" val="14336"/>
+        <CONTROL b="10.6667" type="1" val="13696"/>
+        <CONTROL b="11.3333" type="11" val="13440"/>
+        <CONTROL b="11.3333" type="1" val="12800"/>
+        <CONTROL b="12.0" type="11" val="12672"/>
+        <CONTROL b="12.0" type="1" val="12032"/>
+        <CONTROL b="12.0" type="11" val="12672"/>
+        <CONTROL b="12.0" type="1" val="12032"/>
+        <CONTROL b="12.6667" type="11" val="13824"/>
+        <CONTROL b="12.6667" type="1" val="13184"/>
+        <CONTROL b="13.3333" type="11" val="14464"/>
+        <CONTROL b="13.3333" type="1" val="13824"/>
+        <CONTROL b="14.0" type="11" val="14464"/>
+        <CONTROL b="14.0" type="1" val="13824"/>
+        <CONTROL b="14.6667" type="11" val="14336"/>
+        <CONTROL b="14.6667" type="1" val="13696"/>
+        <CONTROL b="15.3333" type="11" val="13440"/>
+        <CONTROL b="15.3333" type="1" val="12800"/>
+        <CONTROL b="16.0" type="11" val="12672"/>
+        <CONTROL b="16.0" type="1" val="12032"/>
+        <CONTROL b="16.0" type="11" val="7040"/>
+        <CONTROL b="16.0" type="1" val="6400"/>
+        <CONTROL b="16.6667" type="11" val="9728"/>
+        <CONTROL b="16.6667" type="1" val="9088"/>
+        <CONTROL b="17.3333" type="11" val="12416"/>
+        <CONTROL b="17.3333" type="1" val="11776"/>
+        <CONTROL b="18.0" type="11" val="14464"/>
+        <CONTROL b="18.0" type="1" val="13824"/>
+        <CONTROL b="18.6667" type="11" val="14080"/>
+        <CONTROL b="18.6667" type="1" val="13440"/>
+        <CONTROL b="19.3333" type="11" val="12672"/>
+        <CONTROL b="19.3333" type="1" val="12032"/>
+        <CONTROL b="20.0" type="11" val="12672"/>
+        <CONTROL b="20.0" type="1" val="12032"/>
+        <CONTROL b="20.0" type="11" val="12672"/>
+        <CONTROL b="20.0" type="1" val="12032"/>
+        <CONTROL b="20.6667" type="11" val="13824"/>
+        <CONTROL b="20.6667" type="1" val="13184"/>
+        <CONTROL b="21.3333" type="11" val="14464"/>
+        <CONTROL b="21.3333" type="1" val="13824"/>
+        <CONTROL b="22.0" type="11" val="14464"/>
+        <CONTROL b="22.0" type="1" val="13824"/>
+        <CONTROL b="22.6667" type="11" val="14336"/>
+        <CONTROL b="22.6667" type="1" val="13696"/>
+        <CONTROL b="23.3333" type="11" val="13440"/>
+        <CONTROL b="23.3333" type="1" val="12800"/>
+        <CONTROL b="24.0" type="11" val="12672"/>
+        <CONTROL b="24.0" type="1" val="12032"/>
+        <CONTROL b="24.0" type="11" val="12672"/>
+        <CONTROL b="24.0" type="1" val="12032"/>
+        <CONTROL b="24.6667" type="11" val="13824"/>
+        <CONTROL b="24.6667" type="1" val="13184"/>
+        <CONTROL b="25.3333" type="11" val="14464"/>
+        <CONTROL b="25.3333" type="1" val="13824"/>
+        <CONTROL b="26.0" type="11" val="14464"/>
+        <CONTROL b="26.0" type="1" val="13824"/>
+        <CONTROL b="26.6667" type="11" val="14336"/>
+        <CONTROL b="26.6667" type="1" val="13696"/>
+        <CONTROL b="27.3333" type="11" val="13440"/>
+        <CONTROL b="27.3333" type="1" val="12800"/>
+        <CONTROL b="28.0" type="11" val="12672"/>
+        <CONTROL b="28.0" type="1" val="12032"/>
+        <CONTROL b="28.0" type="11" val="12672"/>
+        <CONTROL b="28.0" type="1" val="12032"/>
+        <CONTROL b="28.6667" type="11" val="13824"/>
+        <CONTROL b="28.6667" type="1" val="13184"/>
+        <CONTROL b="29.3333" type="11" val="14464"/>
+        <CONTROL b="29.3333" type="1" val="13824"/>
+        <CONTROL b="30.0" type="11" val="14464"/>
+        <CONTROL b="30.0" type="1" val="13824"/>
+        <CONTROL b="30.6667" type="11" val="14336"/>
+        <CONTROL b="30.6667" type="1" val="13696"/>
+        <CONTROL b="31.3333" type="11" val="13440"/>
+        <CONTROL b="31.3333" type="1" val="12800"/>
+        <CONTROL b="32.0" type="11" val="12672"/>
+        <CONTROL b="32.0" type="1" val="12032"/>
+        <CONTROL b="32.0" type="11" val="12672"/>
+        <CONTROL b="32.0" type="1" val="12032"/>
+        <CONTROL b="32.6667" type="11" val="13824"/>
+        <CONTROL b="32.6667" type="1" val="13184"/>
+        <CONTROL b="33.3333" type="11" val="14464"/>
+        <CONTROL b="33.3333" type="1" val="13824"/>
+        <CONTROL b="34.0" type="11" val="14464"/>
+        <CONTROL b="34.0" type="1" val="13824"/>
+        <CONTROL b="34.6667" type="11" val="14336"/>
+        <CONTROL b="34.6667" type="1" val="13696"/>
+        <CONTROL b="35.3333" type="11" val="13440"/>
+        <CONTROL b="35.3333" type="1" val="12800"/>
+        <CONTROL b="36.0" type="11" val="12672"/>
+        <CONTROL b="36.0" type="1" val="12032"/>
+        <CONTROL b="36.0" type="11" val="12672"/>
+        <CONTROL b="36.0" type="1" val="12032"/>
+        <CONTROL b="36.6667" type="11" val="13824"/>
+        <CONTROL b="36.6667" type="1" val="13184"/>
+        <CONTROL b="37.3333" type="11" val="14464"/>
+        <CONTROL b="37.3333" type="1" val="13824"/>
+        <CONTROL b="38.0" type="11" val="14464"/>
+        <CONTROL b="38.0" type="1" val="13824"/>
+        <CONTROL b="38.6667" type="11" val="14336"/>
+        <CONTROL b="38.6667" type="1" val="13696"/>
+        <CONTROL b="39.3333" type="11" val="13440"/>
+        <CONTROL b="39.3333" type="1" val="12800"/>
+        <CONTROL b="40.0" type="11" val="12672"/>
+        <CONTROL b="40.0" type="1" val="12032"/>
+        <CONTROL b="40.0" type="11" val="12672"/>
+        <CONTROL b="40.0" type="1" val="12032"/>
+        <CONTROL b="40.6667" type="11" val="13824"/>
+        <CONTROL b="40.6667" type="1" val="13184"/>
+        <CONTROL b="41.3333" type="11" val="14464"/>
+        <CONTROL b="41.3333" type="1" val="13824"/>
+        <CONTROL b="42.0" type="11" val="14464"/>
+        <CONTROL b="42.0" type="1" val="13824"/>
+        <CONTROL b="42.6667" type="11" val="14336"/>
+        <CONTROL b="42.6667" type="1" val="13696"/>
+        <CONTROL b="43.3333" type="11" val="13440"/>
+        <CONTROL b="43.3333" type="1" val="12800"/>
+        <CONTROL b="44.0" type="11" val="12672"/>
+        <CONTROL b="44.0" type="1" val="12032"/>
+        <CONTROL b="44.0" type="11" val="12672"/>
+        <CONTROL b="44.0" type="1" val="12032"/>
+        <CONTROL b="44.6667" type="11" val="13824"/>
+        <CONTROL b="44.6667" type="1" val="13184"/>
+        <CONTROL b="45.3333" type="11" val="14464"/>
+        <CONTROL b="45.3333" type="1" val="13824"/>
+        <CONTROL b="46.0" type="11" val="14464"/>
+        <CONTROL b="46.0" type="1" val="13824"/>
+        <CONTROL b="46.6667" type="11" val="14336"/>
+        <CONTROL b="46.6667" type="1" val="13696"/>
+        <CONTROL b="47.3333" type="11" val="13440"/>
+        <CONTROL b="47.3333" type="1" val="12800"/>
+        <CONTROL b="48.0" type="11" val="12672"/>
+        <CONTROL b="48.0" type="1" val="12032"/>
+        <CONTROL b="48.0" type="11" val="7040"/>
+        <CONTROL b="48.0" type="1" val="6400"/>
+        <CONTROL b="48.0" type="11" val="7040"/>
+        <CONTROL b="48.0" type="1" val="6400"/>
+        <CONTROL b="48.6667" type="11" val="9728"/>
+        <CONTROL b="48.6667" type="1" val="9088"/>
+        <CONTROL b="48.6667" type="11" val="9728"/>
+        <CONTROL b="48.6667" type="1" val="9088"/>
+        <CONTROL b="49.3333" type="11" val="12416"/>
+        <CONTROL b="49.3333" type="1" val="11776"/>
+        <CONTROL b="49.3333" type="11" val="12416"/>
+        <CONTROL b="49.3333" type="1" val="11776"/>
+        <CONTROL b="50.0" type="11" val="14464"/>
+        <CONTROL b="50.0" type="1" val="13824"/>
+        <CONTROL b="50.0" type="11" val="14464"/>
+        <CONTROL b="50.0" type="1" val="13824"/>
+        <CONTROL b="50.6667" type="11" val="14080"/>
+        <CONTROL b="50.6667" type="1" val="13440"/>
+        <CONTROL b="50.6667" type="11" val="14080"/>
+        <CONTROL b="50.6667" type="1" val="13440"/>
+        <CONTROL b="51.3333" type="11" val="12672"/>
+        <CONTROL b="51.3333" type="1" val="12032"/>
+        <CONTROL b="51.3333" type="11" val="12672"/>
+        <CONTROL b="51.3333" type="1" val="12032"/>
+        <CONTROL b="52.0" type="11" val="12672"/>
+        <CONTROL b="52.0" type="1" val="12032"/>
+        <CONTROL b="52.0" type="11" val="12672"/>
+        <CONTROL b="52.0" type="1" val="12032"/>
+        <CONTROL b="52.0" type="11" val="12672"/>
+        <CONTROL b="52.0" type="1" val="12032"/>
+        <CONTROL b="52.0" type="11" val="12672"/>
+        <CONTROL b="52.0" type="1" val="12032"/>
+        <CONTROL b="52.6667" type="11" val="13824"/>
+        <CONTROL b="52.6667" type="1" val="13184"/>
+        <CONTROL b="52.6667" type="11" val="13824"/>
+        <CONTROL b="52.6667" type="1" val="13184"/>
+        <CONTROL b="53.3333" type="11" val="14464"/>
+        <CONTROL b="53.3333" type="1" val="13824"/>
+        <CONTROL b="53.3333" type="11" val="14464"/>
+        <CONTROL b="53.3333" type="1" val="13824"/>
+        <CONTROL b="54.0" type="11" val="14464"/>
+        <CONTROL b="54.0" type="1" val="13824"/>
+        <CONTROL b="54.0" type="11" val="14464"/>
+        <CONTROL b="54.0" type="1" val="13824"/>
+        <CONTROL b="54.6667" type="11" val="14336"/>
+        <CONTROL b="54.6667" type="1" val="13696"/>
+        <CONTROL b="54.6667" type="11" val="14336"/>
+        <CONTROL b="54.6667" type="1" val="13696"/>
+        <CONTROL b="55.3333" type="11" val="13440"/>
+        <CONTROL b="55.3333" type="1" val="12800"/>
+        <CONTROL b="55.3333" type="11" val="13440"/>
+        <CONTROL b="55.3333" type="1" val="12800"/>
+        <CONTROL b="56.0" type="11" val="12672"/>
+        <CONTROL b="56.0" type="1" val="12032"/>
+        <CONTROL b="56.0" type="11" val="12672"/>
+        <CONTROL b="56.0" type="1" val="12032"/>
+        <CONTROL b="56.0" type="11" val="12672"/>
+        <CONTROL b="56.0" type="1" val="12032"/>
+        <CONTROL b="56.0" type="11" val="12672"/>
+        <CONTROL b="56.0" type="1" val="12032"/>
+        <CONTROL b="56.6667" type="11" val="13824"/>
+        <CONTROL b="56.6667" type="1" val="13184"/>
+        <CONTROL b="56.6667" type="11" val="13824"/>
+        <CONTROL b="56.6667" type="1" val="13184"/>
+        <CONTROL b="57.3333" type="11" val="14464"/>
+        <CONTROL b="57.3333" type="1" val="13824"/>
+        <CONTROL b="57.3333" type="11" val="14464"/>
+        <CONTROL b="57.3333" type="1" val="13824"/>
+        <CONTROL b="58.0" type="11" val="14464"/>
+        <CONTROL b="58.0" type="1" val="13824"/>
+        <CONTROL b="58.0" type="11" val="14464"/>
+        <CONTROL b="58.0" type="1" val="13824"/>
+        <CONTROL b="58.6667" type="11" val="14336"/>
+        <CONTROL b="58.6667" type="1" val="13696"/>
+        <CONTROL b="58.6667" type="11" val="14336"/>
+        <CONTROL b="58.6667" type="1" val="13696"/>
+        <CONTROL b="59.3333" type="11" val="13440"/>
+        <CONTROL b="59.3333" type="1" val="12800"/>
+        <CONTROL b="59.3333" type="11" val="13440"/>
+        <CONTROL b="59.3333" type="1" val="12800"/>
+        <CONTROL b="60.0" type="11" val="12672"/>
+        <CONTROL b="60.0" type="1" val="12032"/>
+        <CONTROL b="60.0" type="11" val="12672"/>
+        <CONTROL b="60.0" type="1" val="12032"/>
+        <CONTROL b="60.0" type="11" val="12672"/>
+        <CONTROL b="60.0" type="1" val="12032"/>
+        <CONTROL b="60.0" type="11" val="12672"/>
+        <CONTROL b="60.0" type="1" val="12032"/>
+        <CONTROL b="60.6667" type="11" val="13824"/>
+        <CONTROL b="60.6667" type="1" val="13184"/>
+        <CONTROL b="60.6667" type="11" val="13824"/>
+        <CONTROL b="60.6667" type="1" val="13184"/>
+        <CONTROL b="61.3333" type="11" val="14464"/>
+        <CONTROL b="61.3333" type="1" val="13824"/>
+        <CONTROL b="61.3333" type="11" val="14464"/>
+        <CONTROL b="61.3333" type="1" val="13824"/>
+        <CONTROL b="62.0" type="11" val="14464"/>
+        <CONTROL b="62.0" type="1" val="13824"/>
+        <CONTROL b="62.0" type="11" val="14464"/>
+        <CONTROL b="62.0" type="1" val="13824"/>
+        <CONTROL b="62.6667" type="11" val="14336"/>
+        <CONTROL b="62.6667" type="1" val="13696"/>
+        <CONTROL b="62.6667" type="11" val="14336"/>
+        <CONTROL b="62.6667" type="1" val="13696"/>
+        <CONTROL b="63.3333" type="11" val="13440"/>
+        <CONTROL b="63.3333" type="1" val="12800"/>
+        <CONTROL b="63.3333" type="11" val="13440"/>
+        <CONTROL b="63.3333" type="1" val="12800"/>
+        <CONTROL b="64.0" type="11" val="12672"/>
+        <CONTROL b="64.0" type="1" val="12032"/>
+        <CONTROL b="64.0" type="11" val="12672"/>
+        <CONTROL b="64.0" type="1" val="12032"/>
+        <CONTROL b="64.0" type="11" val="12672"/>
+        <CONTROL b="64.0" type="1" val="12032"/>
+        <CONTROL b="64.0" type="11" val="12672"/>
+        <CONTROL b="64.0" type="1" val="12032"/>
+        <CONTROL b="64.66670000000001" type="11" val="13824"/>
+        <CONTROL b="64.66670000000001" type="1" val="13184"/>
+        <CONTROL b="64.66670000000001" type="11" val="13824"/>
+        <CONTROL b="64.66670000000001" type="1" val="13184"/>
+        <CONTROL b="65.33329999999999" type="11" val="14464"/>
+        <CONTROL b="65.33329999999999" type="1" val="13824"/>
+        <CONTROL b="65.33329999999999" type="11" val="14464"/>
+        <CONTROL b="65.33329999999999" type="1" val="13824"/>
+        <CONTROL b="66.0" type="11" val="14464"/>
+        <CONTROL b="66.0" type="1" val="13824"/>
+        <CONTROL b="66.0" type="11" val="14464"/>
+        <CONTROL b="66.0" type="1" val="13824"/>
+        <CONTROL b="66.66670000000001" type="11" val="14336"/>
+        <CONTROL b="66.66670000000001" type="1" val="13696"/>
+        <CONTROL b="66.66670000000001" type="11" val="14336"/>
+        <CONTROL b="66.66670000000001" type="1" val="13696"/>
+        <CONTROL b="67.33329999999999" type="11" val="13440"/>
+        <CONTROL b="67.33329999999999" type="1" val="12800"/>
+        <CONTROL b="67.33329999999999" type="11" val="13440"/>
+        <CONTROL b="67.33329999999999" type="1" val="12800"/>
+        <CONTROL b="68.0" type="11" val="12672"/>
+        <CONTROL b="68.0" type="1" val="12032"/>
+        <CONTROL b="68.0" type="11" val="12672"/>
+        <CONTROL b="68.0" type="1" val="12032"/>
+        <CONTROL b="68.0" type="11" val="12672"/>
+        <CONTROL b="68.0" type="1" val="12032"/>
+        <CONTROL b="68.0" type="11" val="12672"/>
+        <CONTROL b="68.0" type="1" val="12032"/>
+        <CONTROL b="68.66670000000001" type="11" val="13824"/>
+        <CONTROL b="68.66670000000001" type="1" val="13184"/>
+        <CONTROL b="68.66670000000001" type="11" val="13824"/>
+        <CONTROL b="68.66670000000001" type="1" val="13184"/>
+        <CONTROL b="69.33329999999999" type="11" val="14464"/>
+        <CONTROL b="69.33329999999999" type="1" val="13824"/>
+        <CONTROL b="69.33329999999999" type="11" val="14464"/>
+        <CONTROL b="69.33329999999999" type="1" val="13824"/>
+        <CONTROL b="70.0" type="11" val="14464"/>
+        <CONTROL b="70.0" type="1" val="13824"/>
+        <CONTROL b="70.0" type="11" val="14464"/>
+        <CONTROL b="70.0" type="1" val="13824"/>
+        <CONTROL b="70.66670000000001" type="11" val="14336"/>
+        <CONTROL b="70.66670000000001" type="1" val="13696"/>
+        <CONTROL b="70.66670000000001" type="11" val="14336"/>
+        <CONTROL b="70.66670000000001" type="1" val="13696"/>
+        <CONTROL b="71.33329999999999" type="11" val="13440"/>
+        <CONTROL b="71.33329999999999" type="1" val="12800"/>
+        <CONTROL b="71.33329999999999" type="11" val="13440"/>
+        <CONTROL b="71.33329999999999" type="1" val="12800"/>
+        <CONTROL b="72.0" type="11" val="12672"/>
+        <CONTROL b="72.0" type="1" val="12032"/>
+        <CONTROL b="72.0" type="11" val="12672"/>
+        <CONTROL b="72.0" type="1" val="12032"/>
+        <CONTROL b="72.0" type="11" val="12672"/>
+        <CONTROL b="72.0" type="1" val="12032"/>
+        <CONTROL b="72.0" type="11" val="12672"/>
+        <CONTROL b="72.0" type="1" val="12032"/>
+        <CONTROL b="72.66670000000001" type="11" val="13824"/>
+        <CONTROL b="72.66670000000001" type="1" val="13184"/>
+        <CONTROL b="72.66670000000001" type="11" val="13824"/>
+        <CONTROL b="72.66670000000001" type="1" val="13184"/>
+        <CONTROL b="73.33329999999999" type="11" val="14464"/>
+        <CONTROL b="73.33329999999999" type="1" val="13824"/>
+        <CONTROL b="73.33329999999999" type="11" val="14464"/>
+        <CONTROL b="73.33329999999999" type="1" val="13824"/>
+        <CONTROL b="74.0" type="11" val="14464"/>
+        <CONTROL b="74.0" type="1" val="13824"/>
+        <CONTROL b="74.0" type="11" val="14464"/>
+        <CONTROL b="74.0" type="1" val="13824"/>
+        <CONTROL b="74.66670000000001" type="11" val="14336"/>
+        <CONTROL b="74.66670000000001" type="1" val="13696"/>
+        <CONTROL b="74.66670000000001" type="11" val="14336"/>
+        <CONTROL b="74.66670000000001" type="1" val="13696"/>
+        <CONTROL b="75.33329999999999" type="11" val="13440"/>
+        <CONTROL b="75.33329999999999" type="1" val="12800"/>
+        <CONTROL b="75.33329999999999" type="11" val="13440"/>
+        <CONTROL b="75.33329999999999" type="1" val="12800"/>
+        <CONTROL b="76.0" type="11" val="12672"/>
+        <CONTROL b="76.0" type="1" val="12032"/>
+        <CONTROL b="76.0" type="11" val="12672"/>
+        <CONTROL b="76.0" type="1" val="12032"/>
+        <CONTROL b="76.0" type="11" val="12672"/>
+        <CONTROL b="76.0" type="1" val="12032"/>
+        <CONTROL b="76.0" type="11" val="12672"/>
+        <CONTROL b="76.0" type="1" val="12032"/>
+        <CONTROL b="76.66670000000001" type="11" val="13824"/>
+        <CONTROL b="76.66670000000001" type="1" val="13184"/>
+        <CONTROL b="76.66670000000001" type="11" val="13824"/>
+        <CONTROL b="76.66670000000001" type="1" val="13184"/>
+        <CONTROL b="77.33329999999999" type="11" val="14464"/>
+        <CONTROL b="77.33329999999999" type="1" val="13824"/>
+        <CONTROL b="77.33329999999999" type="11" val="14464"/>
+        <CONTROL b="77.33329999999999" type="1" val="13824"/>
+        <CONTROL b="78.0" type="11" val="14464"/>
+        <CONTROL b="78.0" type="1" val="13824"/>
+        <CONTROL b="78.0" type="11" val="14464"/>
+        <CONTROL b="78.0" type="1" val="13824"/>
+        <CONTROL b="78.66670000000001" type="11" val="14336"/>
+        <CONTROL b="78.66670000000001" type="1" val="13696"/>
+        <CONTROL b="78.66670000000001" type="11" val="14336"/>
+        <CONTROL b="78.66670000000001" type="1" val="13696"/>
+        <CONTROL b="79.33329999999999" type="11" val="13440"/>
+        <CONTROL b="79.33329999999999" type="1" val="12800"/>
+        <CONTROL b="79.33329999999999" type="11" val="13440"/>
+        <CONTROL b="79.33329999999999" type="1" val="12800"/>
+        <CONTROL b="80.0" type="11" val="12672"/>
+        <CONTROL b="80.0" type="1" val="12032"/>
+        <CONTROL b="80.0" type="11" val="7040"/>
+        <CONTROL b="80.0" type="1" val="6400"/>
+        <CONTROL b="80.0" type="11" val="12672"/>
+        <CONTROL b="80.0" type="1" val="12032"/>
+        <CONTROL b="80.66670000000001" type="11" val="9728"/>
+        <CONTROL b="80.66670000000001" type="1" val="9088"/>
+        <CONTROL b="81.33329999999999" type="11" val="12416"/>
+        <CONTROL b="81.33329999999999" type="1" val="11776"/>
+        <CONTROL b="82.0" type="11" val="14464"/>
+        <CONTROL b="82.0" type="1" val="13824"/>
+        <CONTROL b="82.66670000000001" type="11" val="14080"/>
+        <CONTROL b="82.66670000000001" type="1" val="13440"/>
+        <CONTROL b="83.33329999999999" type="11" val="12672"/>
+        <CONTROL b="83.33329999999999" type="1" val="12032"/>
+        <CONTROL b="84.0" type="11" val="12672"/>
+        <CONTROL b="84.0" type="1" val="12032"/>
+        <CONTROL b="84.0" type="11" val="12672"/>
+        <CONTROL b="84.0" type="1" val="12032"/>
+        <CONTROL b="84.66670000000001" type="11" val="13824"/>
+        <CONTROL b="84.66670000000001" type="1" val="13184"/>
+        <CONTROL b="85.33329999999999" type="11" val="14464"/>
+        <CONTROL b="85.33329999999999" type="1" val="13824"/>
+        <CONTROL b="86.0" type="11" val="14464"/>
+        <CONTROL b="86.0" type="1" val="13824"/>
+        <CONTROL b="86.66670000000001" type="11" val="14336"/>
+        <CONTROL b="86.66670000000001" type="1" val="13696"/>
+        <CONTROL b="87.33329999999999" type="11" val="13440"/>
+        <CONTROL b="87.33329999999999" type="1" val="12800"/>
+        <CONTROL b="88.0" type="11" val="12672"/>
+        <CONTROL b="88.0" type="1" val="12032"/>
+        <CONTROL b="88.0" type="11" val="12672"/>
+        <CONTROL b="88.0" type="1" val="12032"/>
+        <CONTROL b="88.66670000000001" type="11" val="13824"/>
+        <CONTROL b="88.66670000000001" type="1" val="13184"/>
+        <CONTROL b="89.33329999999999" type="11" val="14464"/>
+        <CONTROL b="89.33329999999999" type="1" val="13824"/>
+        <CONTROL b="90.0" type="11" val="14464"/>
+        <CONTROL b="90.0" type="1" val="13824"/>
+        <CONTROL b="90.66670000000001" type="11" val="14336"/>
+        <CONTROL b="90.66670000000001" type="1" val="13696"/>
+        <CONTROL b="91.33329999999999" type="11" val="13440"/>
+        <CONTROL b="91.33329999999999" type="1" val="12800"/>
+        <CONTROL b="92.0" type="11" val="12672"/>
+        <CONTROL b="92.0" type="1" val="12032"/>
+        <CONTROL b="92.0" type="11" val="12672"/>
+        <CONTROL b="92.0" type="1" val="12032"/>
+        <CONTROL b="92.66670000000001" type="11" val="13824"/>
+        <CONTROL b="92.66670000000001" type="1" val="13184"/>
+        <CONTROL b="93.33329999999999" type="11" val="14464"/>
+        <CONTROL b="93.33329999999999" type="1" val="13824"/>
+        <CONTROL b="94.0" type="11" val="14464"/>
+        <CONTROL b="94.0" type="1" val="13824"/>
+        <CONTROL b="94.66670000000001" type="11" val="14336"/>
+        <CONTROL b="94.66670000000001" type="1" val="13696"/>
+        <CONTROL b="95.33329999999999" type="11" val="13440"/>
+        <CONTROL b="95.33329999999999" type="1" val="12800"/>
+        <CONTROL b="96.0" type="11" val="12672"/>
+        <CONTROL b="96.0" type="1" val="12032"/>
+      </SEQUENCE>
+    </MIDICLIP>
+    <PLUGIN type="musicomaSfz" id="1014" enabled="1" remapOnTempoChange="1"
+            sfzFile="D:\0.Musicoma\sounds\sfz\vsco2-ce\ViolinEnsSusVib.sfz">
+      <MODIFIERASSIGNMENTS/>
+    </PLUGIN>
+    <PLUGIN type="auxsend" id="1052" enabled="1" quickParamName="send level"
+            remapOnTempoChange="1" busNum="0" auxSendSliderPos="0.6065306663513184">
+      <MODIFIERASSIGNMENTS/>
+    </PLUGIN>
+    <PLUGIN type="volume" id="1012" enabled="1" remapOnTempoChange="1" pan="-0.449999988079071">
+      <MODIFIERASSIGNMENTS/>
+    </PLUGIN>
+    <PLUGIN type="level" id="1013" enabled="1"/>
+    <OUTPUTDEVICES>
+      <DEVICE name="(default audio output)"/>
+    </OUTPUTDEVICES>
+  </TRACK>
+  <TRACK id="1015" name="Violas">
+    <MODIFIERS/>
+    <CLIPSLOTS/>
+    <MIDICLIP name="Violas" start="0.0" length="75.78947368421052" offset="0.0"
+              id="1062" sync="0" currentTake="0" speed="1.0" colour="ff00ff00">
+      <AUTOMATIONCURVES/>
+      <QUANTISATION/>
+      <GROOVE/>
+      <SEQUENCE ver="1" channelNumber="1">
+        <NOTE p="50" b="16.0" l="4.06" v="64" c="0"/>
+        <NOTE p="57" b="16.0" l="4.06" v="60" c="0"/>
+        <NOTE p="65" b="16.0" l="4.06" v="62" c="0"/>
+        <NOTE p="63" b="19.9807" l="4.06" v="71" c="0"/>
+        <NOTE p="47" b="20.0008" l="4.06" v="79" c="0"/>
+        <NOTE p="54" b="20.0191" l="4.06" v="71" c="0"/>
+        <NOTE p="70" b="23.9914" l="4.06" v="70" c="0"/>
+        <NOTE p="61" b="23.9948" l="4.06" v="66" c="0"/>
+        <NOTE p="54" b="24.0158" l="4.06" v="71" c="0"/>
+        <NOTE p="65" b="28.0079" l="4.06" v="71" c="0"/>
+        <NOTE p="49" b="28.0122" l="4.06" v="64" c="0"/>
+        <NOTE p="56" b="28.0238" l="4.06" v="72" c="0"/>
+        <NOTE p="65" b="31.9841" l="4.06" v="61" c="0"/>
+        <NOTE p="57" b="31.9847" l="4.06" v="68" c="0"/>
+        <NOTE p="50" b="31.9944" l="4.06" v="56" c="0"/>
+        <NOTE p="47" b="35.9753" l="4.06" v="75" c="0"/>
+        <NOTE p="63" b="36.0178" l="4.06" v="76" c="0"/>
+        <NOTE p="54" b="36.0268" l="4.06" v="68" c="0"/>
+        <NOTE p="70" b="39.9943" l="4.06" v="68" c="0"/>
+        <NOTE p="61" b="40.0033" l="4.06" v="69" c="0"/>
+        <NOTE p="54" b="40.0057" l="4.06" v="70" c="0"/>
+        <NOTE p="49" b="43.9744" l="4.06" v="67" c="0"/>
+        <NOTE p="56" b="43.9954" l="4.06" v="72" c="0"/>
+        <NOTE p="65" b="44.0007" l="4.06" v="70" c="0"/>
+        <NOTE p="57" b="48.0" l="4.06" v="64" c="0"/>
+        <NOTE p="65" b="48.0" l="4.06" v="68" c="0"/>
+        <NOTE p="50" b="48.0205" l="4.06" v="69" c="0"/>
+        <NOTE p="54" b="52.0015" l="4.06" v="78" c="0"/>
+        <NOTE p="63" b="52.0164" l="4.06" v="73" c="0"/>
+        <NOTE p="47" b="52.0357" l="4.06" v="75" c="0"/>
+        <NOTE p="54" b="55.9657" l="4.06" v="70" c="0"/>
+        <NOTE p="61" b="56.0093" l="4.06" v="72" c="0"/>
+        <NOTE p="70" b="56.013" l="4.06" v="66" c="0"/>
+        <NOTE p="65" b="59.9805" l="4.06" v="69" c="0"/>
+        <NOTE p="49" b="59.983" l="4.06" v="74" c="0"/>
+        <NOTE p="56" b="60.0191" l="4.06" v="67" c="0"/>
+        <NOTE p="65" b="63.9842" l="4.06" v="68" c="0"/>
+        <NOTE p="57" b="63.9846" l="4.06" v="64" c="0"/>
+        <NOTE p="50" b="64.0048" l="4.06" v="70" c="0"/>
+        <NOTE p="47" b="67.9738" l="4.06" v="76" c="0"/>
+        <NOTE p="54" b="67.9962" l="4.06" v="79" c="0"/>
+        <NOTE p="63" b="68.0193" l="4.06" v="67" c="0"/>
+        <NOTE p="61" b="71.99890000000001" l="4.06" v="73" c="0"/>
+        <NOTE p="70" b="72.01690000000001" l="4.06" v="68" c="0"/>
+        <NOTE p="54" b="72.02979999999999" l="4.06" v="67" c="0"/>
+        <NOTE p="49" b="75.9863" l="4.06" v="73" c="0"/>
+        <NOTE p="56" b="75.9923" l="4.06" v="70" c="0"/>
+        <NOTE p="65" b="75.99379999999999" l="4.06" v="64" c="0"/>
+        <CONTROL b="16.0" type="11" val="7040"/>
+        <CONTROL b="16.0" type="1" val="6400"/>
+        <CONTROL b="16.6667" type="11" val="9728"/>
+        <CONTROL b="16.6667" type="1" val="9088"/>
+        <CONTROL b="17.3333" type="11" val="12416"/>
+        <CONTROL b="17.3333" type="1" val="11776"/>
+        <CONTROL b="18.0" type="11" val="14464"/>
+        <CONTROL b="18.0" type="1" val="13824"/>
+        <CONTROL b="18.6667" type="11" val="14080"/>
+        <CONTROL b="18.6667" type="1" val="13440"/>
+        <CONTROL b="19.3333" type="11" val="12672"/>
+        <CONTROL b="19.3333" type="1" val="12032"/>
+        <CONTROL b="20.0" type="11" val="12672"/>
+        <CONTROL b="20.0" type="1" val="12032"/>
+        <CONTROL b="20.0" type="11" val="12672"/>
+        <CONTROL b="20.0" type="1" val="12032"/>
+        <CONTROL b="20.6667" type="11" val="13824"/>
+        <CONTROL b="20.6667" type="1" val="13184"/>
+        <CONTROL b="21.3333" type="11" val="14464"/>
+        <CONTROL b="21.3333" type="1" val="13824"/>
+        <CONTROL b="22.0" type="11" val="14464"/>
+        <CONTROL b="22.0" type="1" val="13824"/>
+        <CONTROL b="22.6667" type="11" val="14336"/>
+        <CONTROL b="22.6667" type="1" val="13696"/>
+        <CONTROL b="23.3333" type="11" val="13440"/>
+        <CONTROL b="23.3333" type="1" val="12800"/>
+        <CONTROL b="24.0" type="11" val="12672"/>
+        <CONTROL b="24.0" type="1" val="12032"/>
+        <CONTROL b="24.0" type="11" val="12672"/>
+        <CONTROL b="24.0" type="1" val="12032"/>
+        <CONTROL b="24.6667" type="11" val="13824"/>
+        <CONTROL b="24.6667" type="1" val="13184"/>
+        <CONTROL b="25.3333" type="11" val="14464"/>
+        <CONTROL b="25.3333" type="1" val="13824"/>
+        <CONTROL b="26.0" type="11" val="14464"/>
+        <CONTROL b="26.0" type="1" val="13824"/>
+        <CONTROL b="26.6667" type="11" val="14336"/>
+        <CONTROL b="26.6667" type="1" val="13696"/>
+        <CONTROL b="27.3333" type="11" val="13440"/>
+        <CONTROL b="27.3333" type="1" val="12800"/>
+        <CONTROL b="28.0" type="11" val="12672"/>
+        <CONTROL b="28.0" type="1" val="12032"/>
+        <CONTROL b="28.0" type="11" val="12672"/>
+        <CONTROL b="28.0" type="1" val="12032"/>
+        <CONTROL b="28.6667" type="11" val="13824"/>
+        <CONTROL b="28.6667" type="1" val="13184"/>
+        <CONTROL b="29.3333" type="11" val="14464"/>
+        <CONTROL b="29.3333" type="1" val="13824"/>
+        <CONTROL b="30.0" type="11" val="14464"/>
+        <CONTROL b="30.0" type="1" val="13824"/>
+        <CONTROL b="30.6667" type="11" val="14336"/>
+        <CONTROL b="30.6667" type="1" val="13696"/>
+        <CONTROL b="31.3333" type="11" val="13440"/>
+        <CONTROL b="31.3333" type="1" val="12800"/>
+        <CONTROL b="32.0" type="11" val="12672"/>
+        <CONTROL b="32.0" type="1" val="12032"/>
+        <CONTROL b="32.0" type="11" val="12672"/>
+        <CONTROL b="32.0" type="1" val="12032"/>
+        <CONTROL b="32.6667" type="11" val="13824"/>
+        <CONTROL b="32.6667" type="1" val="13184"/>
+        <CONTROL b="33.3333" type="11" val="14464"/>
+        <CONTROL b="33.3333" type="1" val="13824"/>
+        <CONTROL b="34.0" type="11" val="14464"/>
+        <CONTROL b="34.0" type="1" val="13824"/>
+        <CONTROL b="34.6667" type="11" val="14336"/>
+        <CONTROL b="34.6667" type="1" val="13696"/>
+        <CONTROL b="35.3333" type="11" val="13440"/>
+        <CONTROL b="35.3333" type="1" val="12800"/>
+        <CONTROL b="36.0" type="11" val="12672"/>
+        <CONTROL b="36.0" type="1" val="12032"/>
+        <CONTROL b="36.0" type="11" val="12672"/>
+        <CONTROL b="36.0" type="1" val="12032"/>
+        <CONTROL b="36.6667" type="11" val="13824"/>
+        <CONTROL b="36.6667" type="1" val="13184"/>
+        <CONTROL b="37.3333" type="11" val="14464"/>
+        <CONTROL b="37.3333" type="1" val="13824"/>
+        <CONTROL b="38.0" type="11" val="14464"/>
+        <CONTROL b="38.0" type="1" val="13824"/>
+        <CONTROL b="38.6667" type="11" val="14336"/>
+        <CONTROL b="38.6667" type="1" val="13696"/>
+        <CONTROL b="39.3333" type="11" val="13440"/>
+        <CONTROL b="39.3333" type="1" val="12800"/>
+        <CONTROL b="40.0" type="11" val="12672"/>
+        <CONTROL b="40.0" type="1" val="12032"/>
+        <CONTROL b="40.0" type="11" val="12672"/>
+        <CONTROL b="40.0" type="1" val="12032"/>
+        <CONTROL b="40.6667" type="11" val="13824"/>
+        <CONTROL b="40.6667" type="1" val="13184"/>
+        <CONTROL b="41.3333" type="11" val="14464"/>
+        <CONTROL b="41.3333" type="1" val="13824"/>
+        <CONTROL b="42.0" type="11" val="14464"/>
+        <CONTROL b="42.0" type="1" val="13824"/>
+        <CONTROL b="42.6667" type="11" val="14336"/>
+        <CONTROL b="42.6667" type="1" val="13696"/>
+        <CONTROL b="43.3333" type="11" val="13440"/>
+        <CONTROL b="43.3333" type="1" val="12800"/>
+        <CONTROL b="44.0" type="11" val="12672"/>
+        <CONTROL b="44.0" type="1" val="12032"/>
+        <CONTROL b="44.0" type="11" val="12672"/>
+        <CONTROL b="44.0" type="1" val="12032"/>
+        <CONTROL b="44.6667" type="11" val="13824"/>
+        <CONTROL b="44.6667" type="1" val="13184"/>
+        <CONTROL b="45.3333" type="11" val="14464"/>
+        <CONTROL b="45.3333" type="1" val="13824"/>
+        <CONTROL b="46.0" type="11" val="14464"/>
+        <CONTROL b="46.0" type="1" val="13824"/>
+        <CONTROL b="46.6667" type="11" val="14336"/>
+        <CONTROL b="46.6667" type="1" val="13696"/>
+        <CONTROL b="47.3333" type="11" val="13440"/>
+        <CONTROL b="47.3333" type="1" val="12800"/>
+        <CONTROL b="48.0" type="11" val="12672"/>
+        <CONTROL b="48.0" type="1" val="12032"/>
+        <CONTROL b="48.0" type="11" val="7040"/>
+        <CONTROL b="48.0" type="1" val="6400"/>
+        <CONTROL b="48.6667" type="11" val="9728"/>
+        <CONTROL b="48.6667" type="1" val="9088"/>
+        <CONTROL b="49.3333" type="11" val="12416"/>
+        <CONTROL b="49.3333" type="1" val="11776"/>
+        <CONTROL b="50.0" type="11" val="14464"/>
+        <CONTROL b="50.0" type="1" val="13824"/>
+        <CONTROL b="50.6667" type="11" val="14080"/>
+        <CONTROL b="50.6667" type="1" val="13440"/>
+        <CONTROL b="51.3333" type="11" val="12672"/>
+        <CONTROL b="51.3333" type="1" val="12032"/>
+        <CONTROL b="52.0" type="11" val="12672"/>
+        <CONTROL b="52.0" type="1" val="12032"/>
+        <CONTROL b="52.0" type="11" val="12672"/>
+        <CONTROL b="52.0" type="1" val="12032"/>
+        <CONTROL b="52.6667" type="11" val="13824"/>
+        <CONTROL b="52.6667" type="1" val="13184"/>
+        <CONTROL b="53.3333" type="11" val="14464"/>
+        <CONTROL b="53.3333" type="1" val="13824"/>
+        <CONTROL b="54.0" type="11" val="14464"/>
+        <CONTROL b="54.0" type="1" val="13824"/>
+        <CONTROL b="54.6667" type="11" val="14336"/>
+        <CONTROL b="54.6667" type="1" val="13696"/>
+        <CONTROL b="55.3333" type="11" val="13440"/>
+        <CONTROL b="55.3333" type="1" val="12800"/>
+        <CONTROL b="56.0" type="11" val="12672"/>
+        <CONTROL b="56.0" type="1" val="12032"/>
+        <CONTROL b="56.0" type="11" val="12672"/>
+        <CONTROL b="56.0" type="1" val="12032"/>
+        <CONTROL b="56.6667" type="11" val="13824"/>
+        <CONTROL b="56.6667" type="1" val="13184"/>
+        <CONTROL b="57.3333" type="11" val="14464"/>
+        <CONTROL b="57.3333" type="1" val="13824"/>
+        <CONTROL b="58.0" type="11" val="14464"/>
+        <CONTROL b="58.0" type="1" val="13824"/>
+        <CONTROL b="58.6667" type="11" val="14336"/>
+        <CONTROL b="58.6667" type="1" val="13696"/>
+        <CONTROL b="59.3333" type="11" val="13440"/>
+        <CONTROL b="59.3333" type="1" val="12800"/>
+        <CONTROL b="60.0" type="11" val="12672"/>
+        <CONTROL b="60.0" type="1" val="12032"/>
+        <CONTROL b="60.0" type="11" val="12672"/>
+        <CONTROL b="60.0" type="1" val="12032"/>
+        <CONTROL b="60.6667" type="11" val="13824"/>
+        <CONTROL b="60.6667" type="1" val="13184"/>
+        <CONTROL b="61.3333" type="11" val="14464"/>
+        <CONTROL b="61.3333" type="1" val="13824"/>
+        <CONTROL b="62.0" type="11" val="14464"/>
+        <CONTROL b="62.0" type="1" val="13824"/>
+        <CONTROL b="62.6667" type="11" val="14336"/>
+        <CONTROL b="62.6667" type="1" val="13696"/>
+        <CONTROL b="63.3333" type="11" val="13440"/>
+        <CONTROL b="63.3333" type="1" val="12800"/>
+        <CONTROL b="64.0" type="11" val="12672"/>
+        <CONTROL b="64.0" type="1" val="12032"/>
+        <CONTROL b="64.0" type="11" val="12672"/>
+        <CONTROL b="64.0" type="1" val="12032"/>
+        <CONTROL b="64.66670000000001" type="11" val="13824"/>
+        <CONTROL b="64.66670000000001" type="1" val="13184"/>
+        <CONTROL b="65.33329999999999" type="11" val="14464"/>
+        <CONTROL b="65.33329999999999" type="1" val="13824"/>
+        <CONTROL b="66.0" type="11" val="14464"/>
+        <CONTROL b="66.0" type="1" val="13824"/>
+        <CONTROL b="66.66670000000001" type="11" val="14336"/>
+        <CONTROL b="66.66670000000001" type="1" val="13696"/>
+        <CONTROL b="67.33329999999999" type="11" val="13440"/>
+        <CONTROL b="67.33329999999999" type="1" val="12800"/>
+        <CONTROL b="68.0" type="11" val="12672"/>
+        <CONTROL b="68.0" type="1" val="12032"/>
+        <CONTROL b="68.0" type="11" val="12672"/>
+        <CONTROL b="68.0" type="1" val="12032"/>
+        <CONTROL b="68.66670000000001" type="11" val="13824"/>
+        <CONTROL b="68.66670000000001" type="1" val="13184"/>
+        <CONTROL b="69.33329999999999" type="11" val="14464"/>
+        <CONTROL b="69.33329999999999" type="1" val="13824"/>
+        <CONTROL b="70.0" type="11" val="14464"/>
+        <CONTROL b="70.0" type="1" val="13824"/>
+        <CONTROL b="70.66670000000001" type="11" val="14336"/>
+        <CONTROL b="70.66670000000001" type="1" val="13696"/>
+        <CONTROL b="71.33329999999999" type="11" val="13440"/>
+        <CONTROL b="71.33329999999999" type="1" val="12800"/>
+        <CONTROL b="72.0" type="11" val="12672"/>
+        <CONTROL b="72.0" type="1" val="12032"/>
+        <CONTROL b="72.0" type="11" val="12672"/>
+        <CONTROL b="72.0" type="1" val="12032"/>
+        <CONTROL b="72.66670000000001" type="11" val="13824"/>
+        <CONTROL b="72.66670000000001" type="1" val="13184"/>
+        <CONTROL b="73.33329999999999" type="11" val="14464"/>
+        <CONTROL b="73.33329999999999" type="1" val="13824"/>
+        <CONTROL b="74.0" type="11" val="14464"/>
+        <CONTROL b="74.0" type="1" val="13824"/>
+        <CONTROL b="74.66670000000001" type="11" val="14336"/>
+        <CONTROL b="74.66670000000001" type="1" val="13696"/>
+        <CONTROL b="75.33329999999999" type="11" val="13440"/>
+        <CONTROL b="75.33329999999999" type="1" val="12800"/>
+        <CONTROL b="76.0" type="11" val="12672"/>
+        <CONTROL b="76.0" type="1" val="12032"/>
+        <CONTROL b="76.0" type="11" val="12672"/>
+        <CONTROL b="76.0" type="1" val="12032"/>
+        <CONTROL b="76.66670000000001" type="11" val="13824"/>
+        <CONTROL b="76.66670000000001" type="1" val="13184"/>
+        <CONTROL b="77.33329999999999" type="11" val="14464"/>
+        <CONTROL b="77.33329999999999" type="1" val="13824"/>
+        <CONTROL b="78.0" type="11" val="14464"/>
+        <CONTROL b="78.0" type="1" val="13824"/>
+        <CONTROL b="78.66670000000001" type="11" val="14336"/>
+        <CONTROL b="78.66670000000001" type="1" val="13696"/>
+        <CONTROL b="79.33329999999999" type="11" val="13440"/>
+        <CONTROL b="79.33329999999999" type="1" val="12800"/>
+        <CONTROL b="80.0" type="11" val="12672"/>
+        <CONTROL b="80.0" type="1" val="12032"/>
+      </SEQUENCE>
+    </MIDICLIP>
+    <PLUGIN type="musicomaSfz" id="1018" enabled="1" remapOnTempoChange="1"
+            sfzFile="D:\0.Musicoma\sounds\sfz\vsco2-ce\ViolaEnsSusVib.sfz">
+      <MODIFIERASSIGNMENTS/>
+    </PLUGIN>
+    <PLUGIN type="auxsend" id="1053" enabled="1" quickParamName="send level"
+            remapOnTempoChange="1" busNum="0" auxSendSliderPos="0.6065306663513184">
+      <MODIFIERASSIGNMENTS/>
+    </PLUGIN>
+    <PLUGIN type="volume" id="1016" enabled="1" remapOnTempoChange="1" pan="0.1000000014901161">
+      <MODIFIERASSIGNMENTS/>
+    </PLUGIN>
+    <PLUGIN type="level" id="1017" enabled="1"/>
+    <OUTPUTDEVICES>
+      <DEVICE name="(default audio output)"/>
+    </OUTPUTDEVICES>
+  </TRACK>
+  <TRACK id="1019" name="Cellos">
+    <MODIFIERS/>
+    <CLIPSLOTS/>
+    <MIDICLIP name="Cellos" start="0.0" length="75.78947368421052" offset="0.0"
+              id="1063" sync="0" currentTake="0" speed="1.0" colour="ff00ff55">
+      <AUTOMATIONCURVES/>
+      <QUANTISATION/>
+      <GROOVE/>
+      <SEQUENCE ver="1" channelNumber="1">
+        <NOTE p="38" b="0.0066" l="3.96" v="91" c="0"/>
+        <NOTE p="47" b="3.9898" l="3.96" v="108" c="0"/>
+        <NOTE p="42" b="8.019500000000001" l="3.96" v="104" c="0"/>
+        <NOTE p="49" b="11.9781" l="3.96" v="96" c="0"/>
+        <NOTE p="50" b="16.0" l="1.96" v="92" c="0"/>
+        <NOTE p="53" b="17.9986" l="1.01" v="90" c="0"/>
+        <NOTE p="57" b="18.9983" l="1.01" v="96" c="0"/>
+        <NOTE p="62" b="20.0008" l="2.91" v="100" c="0"/>
+        <NOTE p="60" b="23.0191" l="1.01" v="99" c="0"/>
+        <NOTE p="57" b="23.9807" l="1.96" v="99" c="0"/>
+        <NOTE p="55" b="26.0158" l="1.01" v="102" c="0"/>
+        <NOTE p="53" b="26.9948" l="1.01" v="97" c="0"/>
+        <NOTE p="52" b="27.9914" l="2.91" v="100" c="0"/>
+        <NOTE p="50" b="32.0122" l="1.96" v="91" c="0"/>
+        <NOTE p="53" b="34.0238" l="1.01" v="96" c="0"/>
+        <NOTE p="57" b="35.0079" l="1.01" v="94" c="0"/>
+        <NOTE p="62" b="35.9944" l="1.96" v="89" c="0"/>
+        <NOTE p="65" b="37.9847" l="1.01" v="102" c="0"/>
+        <NOTE p="64" b="38.9841" l="1.01" v="99" c="0"/>
+        <NOTE p="60" b="39.9753" l="1.96" v="98" c="0"/>
+        <NOTE p="57" b="42.0268" l="1.96" v="96" c="0"/>
+        <NOTE p="55" b="44.0178" l="1.96" v="102" c="0"/>
+        <NOTE p="52" b="46.0057" l="1.96" v="96" c="0"/>
+        <NOTE p="38" b="48.0205" l="1.96" v="98" c="0"/>
+        <NOTE p="45" b="49.9978" l="1.96" v="95" c="0"/>
+        <NOTE p="47" b="51.9975" l="1.96" v="103" c="0"/>
+        <NOTE p="54" b="54.0357" l="1.96" v="107" c="0"/>
+        <NOTE p="42" b="56.0015" l="1.96" v="111" c="0"/>
+        <NOTE p="49" b="58.0164" l="1.96" v="105" c="0"/>
+        <NOTE p="49" b="59.9657" l="1.96" v="99" c="0"/>
+        <NOTE p="56" b="62.0093" l="1.96" v="98" c="0"/>
+        <NOTE p="38" b="64.01300000000001" l="1.96" v="96" c="0"/>
+        <NOTE p="45" b="65.983" l="1.96" v="101" c="0"/>
+        <NOTE p="47" b="68.01909999999999" l="1.96" v="101" c="0"/>
+        <NOTE p="54" b="69.98050000000001" l="1.96" v="105" c="0"/>
+        <NOTE p="42" b="72.0048" l="1.96" v="110" c="0"/>
+        <NOTE p="49" b="73.9846" l="1.96" v="101" c="0"/>
+        <NOTE p="49" b="75.9842" l="1.96" v="95" c="0"/>
+        <NOTE p="56" b="77.9738" l="1.96" v="102" c="0"/>
+        <NOTE p="38" b="80.0" l="3.96" v="102" c="0"/>
+        <NOTE p="47" b="84.00700000000001" l="3.96" v="106" c="0"/>
+        <NOTE p="42" b="88.0016" l="3.96" v="107" c="0"/>
+        <NOTE p="49" b="91.9787" l="3.96" v="112" c="0"/>
+        <CONTROL b="0.0" type="11" val="7040"/>
+        <CONTROL b="0.0" type="1" val="6400"/>
+        <CONTROL b="0.65" type="11" val="9728"/>
+        <CONTROL b="0.65" type="1" val="9088"/>
+        <CONTROL b="1.3" type="11" val="12416"/>
+        <CONTROL b="1.3" type="1" val="11776"/>
+        <CONTROL b="1.95" type="11" val="14464"/>
+        <CONTROL b="1.95" type="1" val="13824"/>
+        <CONTROL b="2.6" type="11" val="14080"/>
+        <CONTROL b="2.6" type="1" val="13440"/>
+        <CONTROL b="3.25" type="11" val="12672"/>
+        <CONTROL b="3.25" type="1" val="12032"/>
+        <CONTROL b="3.9" type="11" val="12672"/>
+        <CONTROL b="3.9" type="1" val="12032"/>
+        <CONTROL b="4.0" type="11" val="12672"/>
+        <CONTROL b="4.0" type="1" val="12032"/>
+        <CONTROL b="4.65" type="11" val="13824"/>
+        <CONTROL b="4.65" type="1" val="13184"/>
+        <CONTROL b="5.3" type="11" val="14464"/>
+        <CONTROL b="5.3" type="1" val="13824"/>
+        <CONTROL b="5.95" type="11" val="14464"/>
+        <CONTROL b="5.95" type="1" val="13824"/>
+        <CONTROL b="6.6" type="11" val="14336"/>
+        <CONTROL b="6.6" type="1" val="13696"/>
+        <CONTROL b="7.25" type="11" val="13440"/>
+        <CONTROL b="7.25" type="1" val="12800"/>
+        <CONTROL b="7.9" type="11" val="12672"/>
+        <CONTROL b="7.9" type="1" val="12032"/>
+        <CONTROL b="8.0" type="11" val="12672"/>
+        <CONTROL b="8.0" type="1" val="12032"/>
+        <CONTROL b="8.65" type="11" val="13824"/>
+        <CONTROL b="8.65" type="1" val="13184"/>
+        <CONTROL b="9.300000000000001" type="11" val="14464"/>
+        <CONTROL b="9.300000000000001" type="1" val="13824"/>
+        <CONTROL b="9.949999999999999" type="11" val="14464"/>
+        <CONTROL b="9.949999999999999" type="1" val="13824"/>
+        <CONTROL b="10.6" type="11" val="14336"/>
+        <CONTROL b="10.6" type="1" val="13696"/>
+        <CONTROL b="11.25" type="11" val="13440"/>
+        <CONTROL b="11.25" type="1" val="12800"/>
+        <CONTROL b="11.9" type="11" val="12672"/>
+        <CONTROL b="11.9" type="1" val="12032"/>
+        <CONTROL b="12.0" type="11" val="12672"/>
+        <CONTROL b="12.0" type="1" val="12032"/>
+        <CONTROL b="12.65" type="11" val="13824"/>
+        <CONTROL b="12.65" type="1" val="13184"/>
+        <CONTROL b="13.3" type="11" val="14464"/>
+        <CONTROL b="13.3" type="1" val="13824"/>
+        <CONTROL b="13.95" type="11" val="14464"/>
+        <CONTROL b="13.95" type="1" val="13824"/>
+        <CONTROL b="14.6" type="11" val="14336"/>
+        <CONTROL b="14.6" type="1" val="13696"/>
+        <CONTROL b="15.25" type="11" val="13440"/>
+        <CONTROL b="15.25" type="1" val="12800"/>
+        <CONTROL b="15.9" type="11" val="12672"/>
+        <CONTROL b="15.9" type="1" val="12032"/>
+        <CONTROL b="16.0" type="11" val="7040"/>
+        <CONTROL b="16.0" type="1" val="6400"/>
+        <CONTROL b="16.3167" type="11" val="9728"/>
+        <CONTROL b="16.3167" type="1" val="9088"/>
+        <CONTROL b="16.6333" type="11" val="12416"/>
+        <CONTROL b="16.6333" type="1" val="11776"/>
+        <CONTROL b="16.95" type="11" val="14464"/>
+        <CONTROL b="16.95" type="1" val="13824"/>
+        <CONTROL b="17.2667" type="11" val="14080"/>
+        <CONTROL b="17.2667" type="1" val="13440"/>
+        <CONTROL b="17.5833" type="11" val="12672"/>
+        <CONTROL b="17.5833" type="1" val="12032"/>
+        <CONTROL b="17.9" type="11" val="12672"/>
+        <CONTROL b="17.9" type="1" val="12032"/>
+        <CONTROL b="18.0" type="11" val="12672"/>
+        <CONTROL b="18.0" type="1" val="12032"/>
+        <CONTROL b="18.1583" type="11" val="13824"/>
+        <CONTROL b="18.1583" type="1" val="13184"/>
+        <CONTROL b="18.3167" type="11" val="14464"/>
+        <CONTROL b="18.3167" type="1" val="13824"/>
+        <CONTROL b="18.475" type="11" val="14464"/>
+        <CONTROL b="18.475" type="1" val="13824"/>
+        <CONTROL b="18.6333" type="11" val="14336"/>
+        <CONTROL b="18.6333" type="1" val="13696"/>
+        <CONTROL b="18.7917" type="11" val="13440"/>
+        <CONTROL b="18.7917" type="1" val="12800"/>
+        <CONTROL b="18.95" type="11" val="12672"/>
+        <CONTROL b="18.95" type="1" val="12032"/>
+        <CONTROL b="19.0" type="11" val="12672"/>
+        <CONTROL b="19.0" type="1" val="12032"/>
+        <CONTROL b="19.1583" type="11" val="13824"/>
+        <CONTROL b="19.1583" type="1" val="13184"/>
+        <CONTROL b="19.3167" type="11" val="14464"/>
+        <CONTROL b="19.3167" type="1" val="13824"/>
+        <CONTROL b="19.475" type="11" val="14464"/>
+        <CONTROL b="19.475" type="1" val="13824"/>
+        <CONTROL b="19.6333" type="11" val="14336"/>
+        <CONTROL b="19.6333" type="1" val="13696"/>
+        <CONTROL b="19.7917" type="11" val="13440"/>
+        <CONTROL b="19.7917" type="1" val="12800"/>
+        <CONTROL b="19.95" type="11" val="12672"/>
+        <CONTROL b="19.95" type="1" val="12032"/>
+        <CONTROL b="20.0" type="11" val="12672"/>
+        <CONTROL b="20.0" type="1" val="12032"/>
+        <CONTROL b="20.475" type="11" val="13824"/>
+        <CONTROL b="20.475" type="1" val="13184"/>
+        <CONTROL b="20.95" type="11" val="14464"/>
+        <CONTROL b="20.95" type="1" val="13824"/>
+        <CONTROL b="21.425" type="11" val="14464"/>
+        <CONTROL b="21.425" type="1" val="13824"/>
+        <CONTROL b="21.9" type="11" val="14336"/>
+        <CONTROL b="21.9" type="1" val="13696"/>
+        <CONTROL b="22.375" type="11" val="13440"/>
+        <CONTROL b="22.375" type="1" val="12800"/>
+        <CONTROL b="22.85" type="11" val="12672"/>
+        <CONTROL b="22.85" type="1" val="12032"/>
+        <CONTROL b="23.0" type="11" val="12672"/>
+        <CONTROL b="23.0" type="1" val="12032"/>
+        <CONTROL b="23.1583" type="11" val="13824"/>
+        <CONTROL b="23.1583" type="1" val="13184"/>
+        <CONTROL b="23.3167" type="11" val="14464"/>
+        <CONTROL b="23.3167" type="1" val="13824"/>
+        <CONTROL b="23.475" type="11" val="14464"/>
+        <CONTROL b="23.475" type="1" val="13824"/>
+        <CONTROL b="23.6333" type="11" val="14336"/>
+        <CONTROL b="23.6333" type="1" val="13696"/>
+        <CONTROL b="23.7917" type="11" val="13440"/>
+        <CONTROL b="23.7917" type="1" val="12800"/>
+        <CONTROL b="23.95" type="11" val="12672"/>
+        <CONTROL b="23.95" type="1" val="12032"/>
+        <CONTROL b="24.0" type="11" val="12672"/>
+        <CONTROL b="24.0" type="1" val="12032"/>
+        <CONTROL b="24.3167" type="11" val="13824"/>
+        <CONTROL b="24.3167" type="1" val="13184"/>
+        <CONTROL b="24.6333" type="11" val="14464"/>
+        <CONTROL b="24.6333" type="1" val="13824"/>
+        <CONTROL b="24.95" type="11" val="14464"/>
+        <CONTROL b="24.95" type="1" val="13824"/>
+        <CONTROL b="25.2667" type="11" val="14336"/>
+        <CONTROL b="25.2667" type="1" val="13696"/>
+        <CONTROL b="25.5833" type="11" val="13440"/>
+        <CONTROL b="25.5833" type="1" val="12800"/>
+        <CONTROL b="25.9" type="11" val="12672"/>
+        <CONTROL b="25.9" type="1" val="12032"/>
+        <CONTROL b="26.0" type="11" val="12672"/>
+        <CONTROL b="26.0" type="1" val="12032"/>
+        <CONTROL b="26.1583" type="11" val="13824"/>
+        <CONTROL b="26.1583" type="1" val="13184"/>
+        <CONTROL b="26.3167" type="11" val="14464"/>
+        <CONTROL b="26.3167" type="1" val="13824"/>
+        <CONTROL b="26.475" type="11" val="14464"/>
+        <CONTROL b="26.475" type="1" val="13824"/>
+        <CONTROL b="26.6333" type="11" val="14336"/>
+        <CONTROL b="26.6333" type="1" val="13696"/>
+        <CONTROL b="26.7917" type="11" val="13440"/>
+        <CONTROL b="26.7917" type="1" val="12800"/>
+        <CONTROL b="26.95" type="11" val="12672"/>
+        <CONTROL b="26.95" type="1" val="12032"/>
+        <CONTROL b="27.0" type="11" val="12672"/>
+        <CONTROL b="27.0" type="1" val="12032"/>
+        <CONTROL b="27.1583" type="11" val="13824"/>
+        <CONTROL b="27.1583" type="1" val="13184"/>
+        <CONTROL b="27.3167" type="11" val="14464"/>
+        <CONTROL b="27.3167" type="1" val="13824"/>
+        <CONTROL b="27.475" type="11" val="14464"/>
+        <CONTROL b="27.475" type="1" val="13824"/>
+        <CONTROL b="27.6333" type="11" val="14336"/>
+        <CONTROL b="27.6333" type="1" val="13696"/>
+        <CONTROL b="27.7917" type="11" val="13440"/>
+        <CONTROL b="27.7917" type="1" val="12800"/>
+        <CONTROL b="27.95" type="11" val="12672"/>
+        <CONTROL b="27.95" type="1" val="12032"/>
+        <CONTROL b="28.0" type="11" val="12672"/>
+        <CONTROL b="28.0" type="1" val="12032"/>
+        <CONTROL b="28.475" type="11" val="13824"/>
+        <CONTROL b="28.475" type="1" val="13184"/>
+        <CONTROL b="28.95" type="11" val="14464"/>
+        <CONTROL b="28.95" type="1" val="13824"/>
+        <CONTROL b="29.425" type="11" val="14464"/>
+        <CONTROL b="29.425" type="1" val="13824"/>
+        <CONTROL b="29.9" type="11" val="14336"/>
+        <CONTROL b="29.9" type="1" val="13696"/>
+        <CONTROL b="30.375" type="11" val="13440"/>
+        <CONTROL b="30.375" type="1" val="12800"/>
+        <CONTROL b="30.85" type="11" val="12672"/>
+        <CONTROL b="30.85" type="1" val="12032"/>
+        <CONTROL b="32.0" type="11" val="7040"/>
+        <CONTROL b="32.0" type="1" val="6400"/>
+        <CONTROL b="32.3167" type="11" val="9728"/>
+        <CONTROL b="32.3167" type="1" val="9088"/>
+        <CONTROL b="32.6333" type="11" val="12416"/>
+        <CONTROL b="32.6333" type="1" val="11776"/>
+        <CONTROL b="32.95" type="11" val="14464"/>
+        <CONTROL b="32.95" type="1" val="13824"/>
+        <CONTROL b="33.2667" type="11" val="14080"/>
+        <CONTROL b="33.2667" type="1" val="13440"/>
+        <CONTROL b="33.5833" type="11" val="12672"/>
+        <CONTROL b="33.5833" type="1" val="12032"/>
+        <CONTROL b="33.9" type="11" val="12672"/>
+        <CONTROL b="33.9" type="1" val="12032"/>
+        <CONTROL b="34.0" type="11" val="12672"/>
+        <CONTROL b="34.0" type="1" val="12032"/>
+        <CONTROL b="34.1583" type="11" val="13824"/>
+        <CONTROL b="34.1583" type="1" val="13184"/>
+        <CONTROL b="34.3167" type="11" val="14464"/>
+        <CONTROL b="34.3167" type="1" val="13824"/>
+        <CONTROL b="34.475" type="11" val="14464"/>
+        <CONTROL b="34.475" type="1" val="13824"/>
+        <CONTROL b="34.6333" type="11" val="14336"/>
+        <CONTROL b="34.6333" type="1" val="13696"/>
+        <CONTROL b="34.7917" type="11" val="13440"/>
+        <CONTROL b="34.7917" type="1" val="12800"/>
+        <CONTROL b="34.95" type="11" val="12672"/>
+        <CONTROL b="34.95" type="1" val="12032"/>
+        <CONTROL b="35.0" type="11" val="12672"/>
+        <CONTROL b="35.0" type="1" val="12032"/>
+        <CONTROL b="35.1583" type="11" val="13824"/>
+        <CONTROL b="35.1583" type="1" val="13184"/>
+        <CONTROL b="35.3167" type="11" val="14464"/>
+        <CONTROL b="35.3167" type="1" val="13824"/>
+        <CONTROL b="35.475" type="11" val="14464"/>
+        <CONTROL b="35.475" type="1" val="13824"/>
+        <CONTROL b="35.6333" type="11" val="14336"/>
+        <CONTROL b="35.6333" type="1" val="13696"/>
+        <CONTROL b="35.7917" type="11" val="13440"/>
+        <CONTROL b="35.7917" type="1" val="12800"/>
+        <CONTROL b="35.95" type="11" val="12672"/>
+        <CONTROL b="35.95" type="1" val="12032"/>
+        <CONTROL b="36.0" type="11" val="12672"/>
+        <CONTROL b="36.0" type="1" val="12032"/>
+        <CONTROL b="36.3167" type="11" val="13824"/>
+        <CONTROL b="36.3167" type="1" val="13184"/>
+        <CONTROL b="36.6333" type="11" val="14464"/>
+        <CONTROL b="36.6333" type="1" val="13824"/>
+        <CONTROL b="36.95" type="11" val="14464"/>
+        <CONTROL b="36.95" type="1" val="13824"/>
+        <CONTROL b="37.2667" type="11" val="14336"/>
+        <CONTROL b="37.2667" type="1" val="13696"/>
+        <CONTROL b="37.5833" type="11" val="13440"/>
+        <CONTROL b="37.5833" type="1" val="12800"/>
+        <CONTROL b="37.9" type="11" val="12672"/>
+        <CONTROL b="37.9" type="1" val="12032"/>
+        <CONTROL b="38.0" type="11" val="12672"/>
+        <CONTROL b="38.0" type="1" val="12032"/>
+        <CONTROL b="38.1583" type="11" val="13824"/>
+        <CONTROL b="38.1583" type="1" val="13184"/>
+        <CONTROL b="38.3167" type="11" val="14464"/>
+        <CONTROL b="38.3167" type="1" val="13824"/>
+        <CONTROL b="38.475" type="11" val="14464"/>
+        <CONTROL b="38.475" type="1" val="13824"/>
+        <CONTROL b="38.6333" type="11" val="14336"/>
+        <CONTROL b="38.6333" type="1" val="13696"/>
+        <CONTROL b="38.7917" type="11" val="13440"/>
+        <CONTROL b="38.7917" type="1" val="12800"/>
+        <CONTROL b="38.95" type="11" val="12672"/>
+        <CONTROL b="38.95" type="1" val="12032"/>
+        <CONTROL b="39.0" type="11" val="12672"/>
+        <CONTROL b="39.0" type="1" val="12032"/>
+        <CONTROL b="39.1583" type="11" val="13824"/>
+        <CONTROL b="39.1583" type="1" val="13184"/>
+        <CONTROL b="39.3167" type="11" val="14464"/>
+        <CONTROL b="39.3167" type="1" val="13824"/>
+        <CONTROL b="39.475" type="11" val="14464"/>
+        <CONTROL b="39.475" type="1" val="13824"/>
+        <CONTROL b="39.6333" type="11" val="14336"/>
+        <CONTROL b="39.6333" type="1" val="13696"/>
+        <CONTROL b="39.7917" type="11" val="13440"/>
+        <CONTROL b="39.7917" type="1" val="12800"/>
+        <CONTROL b="39.95" type="11" val="12672"/>
+        <CONTROL b="39.95" type="1" val="12032"/>
+        <CONTROL b="40.0" type="11" val="12672"/>
+        <CONTROL b="40.0" type="1" val="12032"/>
+        <CONTROL b="40.3167" type="11" val="13824"/>
+        <CONTROL b="40.3167" type="1" val="13184"/>
+        <CONTROL b="40.6333" type="11" val="14464"/>
+        <CONTROL b="40.6333" type="1" val="13824"/>
+        <CONTROL b="40.95" type="11" val="14464"/>
+        <CONTROL b="40.95" type="1" val="13824"/>
+        <CONTROL b="41.2667" type="11" val="14336"/>
+        <CONTROL b="41.2667" type="1" val="13696"/>
+        <CONTROL b="41.5833" type="11" val="13440"/>
+        <CONTROL b="41.5833" type="1" val="12800"/>
+        <CONTROL b="41.9" type="11" val="12672"/>
+        <CONTROL b="41.9" type="1" val="12032"/>
+        <CONTROL b="42.0" type="11" val="12672"/>
+        <CONTROL b="42.0" type="1" val="12032"/>
+        <CONTROL b="42.3167" type="11" val="13824"/>
+        <CONTROL b="42.3167" type="1" val="13184"/>
+        <CONTROL b="42.6333" type="11" val="14464"/>
+        <CONTROL b="42.6333" type="1" val="13824"/>
+        <CONTROL b="42.95" type="11" val="14464"/>
+        <CONTROL b="42.95" type="1" val="13824"/>
+        <CONTROL b="43.2667" type="11" val="14336"/>
+        <CONTROL b="43.2667" type="1" val="13696"/>
+        <CONTROL b="43.5833" type="11" val="13440"/>
+        <CONTROL b="43.5833" type="1" val="12800"/>
+        <CONTROL b="43.9" type="11" val="12672"/>
+        <CONTROL b="43.9" type="1" val="12032"/>
+        <CONTROL b="44.0" type="11" val="12672"/>
+        <CONTROL b="44.0" type="1" val="12032"/>
+        <CONTROL b="44.3167" type="11" val="13824"/>
+        <CONTROL b="44.3167" type="1" val="13184"/>
+        <CONTROL b="44.6333" type="11" val="14464"/>
+        <CONTROL b="44.6333" type="1" val="13824"/>
+        <CONTROL b="44.95" type="11" val="14464"/>
+        <CONTROL b="44.95" type="1" val="13824"/>
+        <CONTROL b="45.2667" type="11" val="14336"/>
+        <CONTROL b="45.2667" type="1" val="13696"/>
+        <CONTROL b="45.5833" type="11" val="13440"/>
+        <CONTROL b="45.5833" type="1" val="12800"/>
+        <CONTROL b="45.9" type="11" val="12672"/>
+        <CONTROL b="45.9" type="1" val="12032"/>
+        <CONTROL b="46.0" type="11" val="12672"/>
+        <CONTROL b="46.0" type="1" val="12032"/>
+        <CONTROL b="46.3167" type="11" val="13824"/>
+        <CONTROL b="46.3167" type="1" val="13184"/>
+        <CONTROL b="46.6333" type="11" val="14464"/>
+        <CONTROL b="46.6333" type="1" val="13824"/>
+        <CONTROL b="46.95" type="11" val="14464"/>
+        <CONTROL b="46.95" type="1" val="13824"/>
+        <CONTROL b="47.2667" type="11" val="14336"/>
+        <CONTROL b="47.2667" type="1" val="13696"/>
+        <CONTROL b="47.5833" type="11" val="13440"/>
+        <CONTROL b="47.5833" type="1" val="12800"/>
+        <CONTROL b="47.9" type="11" val="12672"/>
+        <CONTROL b="47.9" type="1" val="12032"/>
+        <CONTROL b="48.0" type="11" val="7040"/>
+        <CONTROL b="48.0" type="1" val="6400"/>
+        <CONTROL b="48.3167" type="11" val="9728"/>
+        <CONTROL b="48.3167" type="1" val="9088"/>
+        <CONTROL b="48.6333" type="11" val="12416"/>
+        <CONTROL b="48.6333" type="1" val="11776"/>
+        <CONTROL b="48.95" type="11" val="14464"/>
+        <CONTROL b="48.95" type="1" val="13824"/>
+        <CONTROL b="49.2667" type="11" val="14080"/>
+        <CONTROL b="49.2667" type="1" val="13440"/>
+        <CONTROL b="49.5833" type="11" val="12672"/>
+        <CONTROL b="49.5833" type="1" val="12032"/>
+        <CONTROL b="49.9" type="11" val="12672"/>
+        <CONTROL b="49.9" type="1" val="12032"/>
+        <CONTROL b="50.0" type="11" val="12672"/>
+        <CONTROL b="50.0" type="1" val="12032"/>
+        <CONTROL b="50.3167" type="11" val="13824"/>
+        <CONTROL b="50.3167" type="1" val="13184"/>
+        <CONTROL b="50.6333" type="11" val="14464"/>
+        <CONTROL b="50.6333" type="1" val="13824"/>
+        <CONTROL b="50.95" type="11" val="14464"/>
+        <CONTROL b="50.95" type="1" val="13824"/>
+        <CONTROL b="51.2667" type="11" val="14336"/>
+        <CONTROL b="51.2667" type="1" val="13696"/>
+        <CONTROL b="51.5833" type="11" val="13440"/>
+        <CONTROL b="51.5833" type="1" val="12800"/>
+        <CONTROL b="51.9" type="11" val="12672"/>
+        <CONTROL b="51.9" type="1" val="12032"/>
+        <CONTROL b="52.0" type="11" val="12672"/>
+        <CONTROL b="52.0" type="1" val="12032"/>
+        <CONTROL b="52.3167" type="11" val="13824"/>
+        <CONTROL b="52.3167" type="1" val="13184"/>
+        <CONTROL b="52.6333" type="11" val="14464"/>
+        <CONTROL b="52.6333" type="1" val="13824"/>
+        <CONTROL b="52.95" type="11" val="14464"/>
+        <CONTROL b="52.95" type="1" val="13824"/>
+        <CONTROL b="53.2667" type="11" val="14336"/>
+        <CONTROL b="53.2667" type="1" val="13696"/>
+        <CONTROL b="53.5833" type="11" val="13440"/>
+        <CONTROL b="53.5833" type="1" val="12800"/>
+        <CONTROL b="53.9" type="11" val="12672"/>
+        <CONTROL b="53.9" type="1" val="12032"/>
+        <CONTROL b="54.0" type="11" val="12672"/>
+        <CONTROL b="54.0" type="1" val="12032"/>
+        <CONTROL b="54.3167" type="11" val="13824"/>
+        <CONTROL b="54.3167" type="1" val="13184"/>
+        <CONTROL b="54.6333" type="11" val="14464"/>
+        <CONTROL b="54.6333" type="1" val="13824"/>
+        <CONTROL b="54.95" type="11" val="14464"/>
+        <CONTROL b="54.95" type="1" val="13824"/>
+        <CONTROL b="55.2667" type="11" val="14336"/>
+        <CONTROL b="55.2667" type="1" val="13696"/>
+        <CONTROL b="55.5833" type="11" val="13440"/>
+        <CONTROL b="55.5833" type="1" val="12800"/>
+        <CONTROL b="55.9" type="11" val="12672"/>
+        <CONTROL b="55.9" type="1" val="12032"/>
+        <CONTROL b="56.0" type="11" val="12672"/>
+        <CONTROL b="56.0" type="1" val="12032"/>
+        <CONTROL b="56.3167" type="11" val="13824"/>
+        <CONTROL b="56.3167" type="1" val="13184"/>
+        <CONTROL b="56.6333" type="11" val="14464"/>
+        <CONTROL b="56.6333" type="1" val="13824"/>
+        <CONTROL b="56.95" type="11" val="14464"/>
+        <CONTROL b="56.95" type="1" val="13824"/>
+        <CONTROL b="57.2667" type="11" val="14336"/>
+        <CONTROL b="57.2667" type="1" val="13696"/>
+        <CONTROL b="57.5833" type="11" val="13440"/>
+        <CONTROL b="57.5833" type="1" val="12800"/>
+        <CONTROL b="57.9" type="11" val="12672"/>
+        <CONTROL b="57.9" type="1" val="12032"/>
+        <CONTROL b="58.0" type="11" val="12672"/>
+        <CONTROL b="58.0" type="1" val="12032"/>
+        <CONTROL b="58.3167" type="11" val="13824"/>
+        <CONTROL b="58.3167" type="1" val="13184"/>
+        <CONTROL b="58.6333" type="11" val="14464"/>
+        <CONTROL b="58.6333" type="1" val="13824"/>
+        <CONTROL b="58.95" type="11" val="14464"/>
+        <CONTROL b="58.95" type="1" val="13824"/>
+        <CONTROL b="59.2667" type="11" val="14336"/>
+        <CONTROL b="59.2667" type="1" val="13696"/>
+        <CONTROL b="59.5833" type="11" val="13440"/>
+        <CONTROL b="59.5833" type="1" val="12800"/>
+        <CONTROL b="59.9" type="11" val="12672"/>
+        <CONTROL b="59.9" type="1" val="12032"/>
+        <CONTROL b="60.0" type="11" val="12672"/>
+        <CONTROL b="60.0" type="1" val="12032"/>
+        <CONTROL b="60.3167" type="11" val="13824"/>
+        <CONTROL b="60.3167" type="1" val="13184"/>
+        <CONTROL b="60.6333" type="11" val="14464"/>
+        <CONTROL b="60.6333" type="1" val="13824"/>
+        <CONTROL b="60.95" type="11" val="14464"/>
+        <CONTROL b="60.95" type="1" val="13824"/>
+        <CONTROL b="61.2667" type="11" val="14336"/>
+        <CONTROL b="61.2667" type="1" val="13696"/>
+        <CONTROL b="61.5833" type="11" val="13440"/>
+        <CONTROL b="61.5833" type="1" val="12800"/>
+        <CONTROL b="61.9" type="11" val="12672"/>
+        <CONTROL b="61.9" type="1" val="12032"/>
+        <CONTROL b="62.0" type="11" val="12672"/>
+        <CONTROL b="62.0" type="1" val="12032"/>
+        <CONTROL b="62.3167" type="11" val="13824"/>
+        <CONTROL b="62.3167" type="1" val="13184"/>
+        <CONTROL b="62.6333" type="11" val="14464"/>
+        <CONTROL b="62.6333" type="1" val="13824"/>
+        <CONTROL b="62.95" type="11" val="14464"/>
+        <CONTROL b="62.95" type="1" val="13824"/>
+        <CONTROL b="63.2667" type="11" val="14336"/>
+        <CONTROL b="63.2667" type="1" val="13696"/>
+        <CONTROL b="63.5833" type="11" val="13440"/>
+        <CONTROL b="63.5833" type="1" val="12800"/>
+        <CONTROL b="63.9" type="11" val="12672"/>
+        <CONTROL b="63.9" type="1" val="12032"/>
+        <CONTROL b="64.0" type="11" val="12672"/>
+        <CONTROL b="64.0" type="1" val="12032"/>
+        <CONTROL b="64.3167" type="11" val="13824"/>
+        <CONTROL b="64.3167" type="1" val="13184"/>
+        <CONTROL b="64.63330000000001" type="11" val="14464"/>
+        <CONTROL b="64.63330000000001" type="1" val="13824"/>
+        <CONTROL b="64.95" type="11" val="14464"/>
+        <CONTROL b="64.95" type="1" val="13824"/>
+        <CONTROL b="65.2667" type="11" val="14336"/>
+        <CONTROL b="65.2667" type="1" val="13696"/>
+        <CONTROL b="65.58329999999999" type="11" val="13440"/>
+        <CONTROL b="65.58329999999999" type="1" val="12800"/>
+        <CONTROL b="65.90000000000001" type="11" val="12672"/>
+        <CONTROL b="65.90000000000001" type="1" val="12032"/>
+        <CONTROL b="66.0" type="11" val="12672"/>
+        <CONTROL b="66.0" type="1" val="12032"/>
+        <CONTROL b="66.3167" type="11" val="13824"/>
+        <CONTROL b="66.3167" type="1" val="13184"/>
+        <CONTROL b="66.63330000000001" type="11" val="14464"/>
+        <CONTROL b="66.63330000000001" type="1" val="13824"/>
+        <CONTROL b="66.95" type="11" val="14464"/>
+        <CONTROL b="66.95" type="1" val="13824"/>
+        <CONTROL b="67.2667" type="11" val="14336"/>
+        <CONTROL b="67.2667" type="1" val="13696"/>
+        <CONTROL b="67.58329999999999" type="11" val="13440"/>
+        <CONTROL b="67.58329999999999" type="1" val="12800"/>
+        <CONTROL b="67.90000000000001" type="11" val="12672"/>
+        <CONTROL b="67.90000000000001" type="1" val="12032"/>
+        <CONTROL b="68.0" type="11" val="12672"/>
+        <CONTROL b="68.0" type="1" val="12032"/>
+        <CONTROL b="68.3167" type="11" val="13824"/>
+        <CONTROL b="68.3167" type="1" val="13184"/>
+        <CONTROL b="68.63330000000001" type="11" val="14464"/>
+        <CONTROL b="68.63330000000001" type="1" val="13824"/>
+        <CONTROL b="68.95" type="11" val="14464"/>
+        <CONTROL b="68.95" type="1" val="13824"/>
+        <CONTROL b="69.2667" type="11" val="14336"/>
+        <CONTROL b="69.2667" type="1" val="13696"/>
+        <CONTROL b="69.58329999999999" type="11" val="13440"/>
+        <CONTROL b="69.58329999999999" type="1" val="12800"/>
+        <CONTROL b="69.90000000000001" type="11" val="12672"/>
+        <CONTROL b="69.90000000000001" type="1" val="12032"/>
+        <CONTROL b="70.0" type="11" val="12672"/>
+        <CONTROL b="70.0" type="1" val="12032"/>
+        <CONTROL b="70.3167" type="11" val="13824"/>
+        <CONTROL b="70.3167" type="1" val="13184"/>
+        <CONTROL b="70.63330000000001" type="11" val="14464"/>
+        <CONTROL b="70.63330000000001" type="1" val="13824"/>
+        <CONTROL b="70.95" type="11" val="14464"/>
+        <CONTROL b="70.95" type="1" val="13824"/>
+        <CONTROL b="71.2667" type="11" val="14336"/>
+        <CONTROL b="71.2667" type="1" val="13696"/>
+        <CONTROL b="71.58329999999999" type="11" val="13440"/>
+        <CONTROL b="71.58329999999999" type="1" val="12800"/>
+        <CONTROL b="71.90000000000001" type="11" val="12672"/>
+        <CONTROL b="71.90000000000001" type="1" val="12032"/>
+        <CONTROL b="72.0" type="11" val="12672"/>
+        <CONTROL b="72.0" type="1" val="12032"/>
+        <CONTROL b="72.3167" type="11" val="13824"/>
+        <CONTROL b="72.3167" type="1" val="13184"/>
+        <CONTROL b="72.63330000000001" type="11" val="14464"/>
+        <CONTROL b="72.63330000000001" type="1" val="13824"/>
+        <CONTROL b="72.95" type="11" val="14464"/>
+        <CONTROL b="72.95" type="1" val="13824"/>
+        <CONTROL b="73.2667" type="11" val="14336"/>
+        <CONTROL b="73.2667" type="1" val="13696"/>
+        <CONTROL b="73.58329999999999" type="11" val="13440"/>
+        <CONTROL b="73.58329999999999" type="1" val="12800"/>
+        <CONTROL b="73.90000000000001" type="11" val="12672"/>
+        <CONTROL b="73.90000000000001" type="1" val="12032"/>
+        <CONTROL b="74.0" type="11" val="12672"/>
+        <CONTROL b="74.0" type="1" val="12032"/>
+        <CONTROL b="74.3167" type="11" val="13824"/>
+        <CONTROL b="74.3167" type="1" val="13184"/>
+        <CONTROL b="74.63330000000001" type="11" val="14464"/>
+        <CONTROL b="74.63330000000001" type="1" val="13824"/>
+        <CONTROL b="74.95" type="11" val="14464"/>
+        <CONTROL b="74.95" type="1" val="13824"/>
+        <CONTROL b="75.2667" type="11" val="14336"/>
+        <CONTROL b="75.2667" type="1" val="13696"/>
+        <CONTROL b="75.58329999999999" type="11" val="13440"/>
+        <CONTROL b="75.58329999999999" type="1" val="12800"/>
+        <CONTROL b="75.90000000000001" type="11" val="12672"/>
+        <CONTROL b="75.90000000000001" type="1" val="12032"/>
+        <CONTROL b="76.0" type="11" val="12672"/>
+        <CONTROL b="76.0" type="1" val="12032"/>
+        <CONTROL b="76.3167" type="11" val="13824"/>
+        <CONTROL b="76.3167" type="1" val="13184"/>
+        <CONTROL b="76.63330000000001" type="11" val="14464"/>
+        <CONTROL b="76.63330000000001" type="1" val="13824"/>
+        <CONTROL b="76.95" type="11" val="14464"/>
+        <CONTROL b="76.95" type="1" val="13824"/>
+        <CONTROL b="77.2667" type="11" val="14336"/>
+        <CONTROL b="77.2667" type="1" val="13696"/>
+        <CONTROL b="77.58329999999999" type="11" val="13440"/>
+        <CONTROL b="77.58329999999999" type="1" val="12800"/>
+        <CONTROL b="77.90000000000001" type="11" val="12672"/>
+        <CONTROL b="77.90000000000001" type="1" val="12032"/>
+        <CONTROL b="78.0" type="11" val="12672"/>
+        <CONTROL b="78.0" type="1" val="12032"/>
+        <CONTROL b="78.3167" type="11" val="13824"/>
+        <CONTROL b="78.3167" type="1" val="13184"/>
+        <CONTROL b="78.63330000000001" type="11" val="14464"/>
+        <CONTROL b="78.63330000000001" type="1" val="13824"/>
+        <CONTROL b="78.95" type="11" val="14464"/>
+        <CONTROL b="78.95" type="1" val="13824"/>
+        <CONTROL b="79.2667" type="11" val="14336"/>
+        <CONTROL b="79.2667" type="1" val="13696"/>
+        <CONTROL b="79.58329999999999" type="11" val="13440"/>
+        <CONTROL b="79.58329999999999" type="1" val="12800"/>
+        <CONTROL b="79.90000000000001" type="11" val="12672"/>
+        <CONTROL b="79.90000000000001" type="1" val="12032"/>
+        <CONTROL b="80.0" type="11" val="7040"/>
+        <CONTROL b="80.0" type="1" val="6400"/>
+        <CONTROL b="80.65000000000001" type="11" val="9728"/>
+        <CONTROL b="80.65000000000001" type="1" val="9088"/>
+        <CONTROL b="81.3" type="11" val="12416"/>
+        <CONTROL b="81.3" type="1" val="11776"/>
+        <CONTROL b="81.95" type="11" val="14464"/>
+        <CONTROL b="81.95" type="1" val="13824"/>
+        <CONTROL b="82.59999999999999" type="11" val="14080"/>
+        <CONTROL b="82.59999999999999" type="1" val="13440"/>
+        <CONTROL b="83.25" type="11" val="12672"/>
+        <CONTROL b="83.25" type="1" val="12032"/>
+        <CONTROL b="83.90000000000001" type="11" val="12672"/>
+        <CONTROL b="83.90000000000001" type="1" val="12032"/>
+        <CONTROL b="84.0" type="11" val="12672"/>
+        <CONTROL b="84.0" type="1" val="12032"/>
+        <CONTROL b="84.65000000000001" type="11" val="13824"/>
+        <CONTROL b="84.65000000000001" type="1" val="13184"/>
+        <CONTROL b="85.3" type="11" val="14464"/>
+        <CONTROL b="85.3" type="1" val="13824"/>
+        <CONTROL b="85.95" type="11" val="14464"/>
+        <CONTROL b="85.95" type="1" val="13824"/>
+        <CONTROL b="86.59999999999999" type="11" val="14336"/>
+        <CONTROL b="86.59999999999999" type="1" val="13696"/>
+        <CONTROL b="87.25" type="11" val="13440"/>
+        <CONTROL b="87.25" type="1" val="12800"/>
+        <CONTROL b="87.90000000000001" type="11" val="12672"/>
+        <CONTROL b="87.90000000000001" type="1" val="12032"/>
+        <CONTROL b="88.0" type="11" val="12672"/>
+        <CONTROL b="88.0" type="1" val="12032"/>
+        <CONTROL b="88.65000000000001" type="11" val="13824"/>
+        <CONTROL b="88.65000000000001" type="1" val="13184"/>
+        <CONTROL b="89.3" type="11" val="14464"/>
+        <CONTROL b="89.3" type="1" val="13824"/>
+        <CONTROL b="89.95" type="11" val="14464"/>
+        <CONTROL b="89.95" type="1" val="13824"/>
+        <CONTROL b="90.59999999999999" type="11" val="14336"/>
+        <CONTROL b="90.59999999999999" type="1" val="13696"/>
+        <CONTROL b="91.25" type="11" val="13440"/>
+        <CONTROL b="91.25" type="1" val="12800"/>
+        <CONTROL b="91.90000000000001" type="11" val="12672"/>
+        <CONTROL b="91.90000000000001" type="1" val="12032"/>
+        <CONTROL b="92.0" type="11" val="12672"/>
+        <CONTROL b="92.0" type="1" val="12032"/>
+        <CONTROL b="92.65000000000001" type="11" val="13824"/>
+        <CONTROL b="92.65000000000001" type="1" val="13184"/>
+        <CONTROL b="93.3" type="11" val="14464"/>
+        <CONTROL b="93.3" type="1" val="13824"/>
+        <CONTROL b="93.95" type="11" val="14464"/>
+        <CONTROL b="93.95" type="1" val="13824"/>
+        <CONTROL b="94.59999999999999" type="11" val="14336"/>
+        <CONTROL b="94.59999999999999" type="1" val="13696"/>
+        <CONTROL b="95.25" type="11" val="13440"/>
+        <CONTROL b="95.25" type="1" val="12800"/>
+        <CONTROL b="95.90000000000001" type="11" val="12672"/>
+        <CONTROL b="95.90000000000001" type="1" val="12032"/>
+      </SEQUENCE>
+    </MIDICLIP>
+    <PLUGIN type="musicomaSfz" id="1022" enabled="1" remapOnTempoChange="1"
+            sfzFile="D:\0.Musicoma\sounds\sfz\vsco2-ce\CelloEnsSusVib.sfz">
+      <MODIFIERASSIGNMENTS/>
+    </PLUGIN>
+    <PLUGIN type="auxsend" id="1054" enabled="1" quickParamName="send level"
+            remapOnTempoChange="1" busNum="0" auxSendSliderPos="0.6065306663513184">
+      <MODIFIERASSIGNMENTS/>
+    </PLUGIN>
+    <PLUGIN type="volume" id="1020" enabled="1" remapOnTempoChange="1" pan="0.3499999940395355">
+      <MODIFIERASSIGNMENTS/>
+    </PLUGIN>
+    <PLUGIN type="level" id="1021" enabled="1"/>
+    <OUTPUTDEVICES>
+      <DEVICE name="(default audio output)"/>
+    </OUTPUTDEVICES>
+  </TRACK>
+  <TRACK id="1023" name="Basses">
+    <MODIFIERS/>
+    <CLIPSLOTS/>
+    <MIDICLIP name="Basses" start="0.0" length="75.78947368421052" offset="0.0"
+              id="1064" sync="0" currentTake="0" speed="1.0" colour="ff00ffaa">
+      <AUTOMATIONCURVES/>
+      <QUANTISATION/>
+      <GROOVE/>
+      <SEQUENCE ver="1" channelNumber="1">
+        <NOTE p="38" b="16.0" l="3.96" v="93" c="0"/>
+        <NOTE p="35" b="19.9986" l="3.96" v="94" c="0"/>
+        <NOTE p="30" b="23.9983" l="3.96" v="98" c="0"/>
+        <NOTE p="37" b="28.0008" l="3.96" v="109" c="0"/>
+        <NOTE p="38" b="32.0191" l="3.96" v="92" c="0"/>
+        <NOTE p="35" b="35.9807" l="3.96" v="99" c="0"/>
+        <NOTE p="30" b="40.0158" l="3.96" v="102" c="0"/>
+        <NOTE p="37" b="43.9948" l="3.96" v="105" c="0"/>
+        <NOTE p="38" b="48.0205" l="3.96" v="98" c="0"/>
+        <NOTE p="35" b="51.9978" l="3.96" v="98" c="0"/>
+        <NOTE p="30" b="55.9975" l="3.96" v="105" c="0"/>
+        <NOTE p="37" b="60.0357" l="3.96" v="105" c="0"/>
+        <NOTE p="38" b="64.00149999999999" l="3.96" v="100" c="0"/>
+        <NOTE p="35" b="68.0164" l="3.96" v="102" c="0"/>
+        <NOTE p="30" b="71.9657" l="3.96" v="109" c="0"/>
+        <NOTE p="37" b="76.0093" l="3.96" v="103" c="0"/>
+        <CONTROL b="16.0" type="11" val="7040"/>
+        <CONTROL b="16.0" type="1" val="6400"/>
+        <CONTROL b="16.65" type="11" val="9728"/>
+        <CONTROL b="16.65" type="1" val="9088"/>
+        <CONTROL b="17.3" type="11" val="12416"/>
+        <CONTROL b="17.3" type="1" val="11776"/>
+        <CONTROL b="17.95" type="11" val="14464"/>
+        <CONTROL b="17.95" type="1" val="13824"/>
+        <CONTROL b="18.6" type="11" val="14080"/>
+        <CONTROL b="18.6" type="1" val="13440"/>
+        <CONTROL b="19.25" type="11" val="12672"/>
+        <CONTROL b="19.25" type="1" val="12032"/>
+        <CONTROL b="19.9" type="11" val="12672"/>
+        <CONTROL b="19.9" type="1" val="12032"/>
+        <CONTROL b="20.0" type="11" val="12672"/>
+        <CONTROL b="20.0" type="1" val="12032"/>
+        <CONTROL b="20.65" type="11" val="13824"/>
+        <CONTROL b="20.65" type="1" val="13184"/>
+        <CONTROL b="21.3" type="11" val="14464"/>
+        <CONTROL b="21.3" type="1" val="13824"/>
+        <CONTROL b="21.95" type="11" val="14464"/>
+        <CONTROL b="21.95" type="1" val="13824"/>
+        <CONTROL b="22.6" type="11" val="14336"/>
+        <CONTROL b="22.6" type="1" val="13696"/>
+        <CONTROL b="23.25" type="11" val="13440"/>
+        <CONTROL b="23.25" type="1" val="12800"/>
+        <CONTROL b="23.9" type="11" val="12672"/>
+        <CONTROL b="23.9" type="1" val="12032"/>
+        <CONTROL b="24.0" type="11" val="12672"/>
+        <CONTROL b="24.0" type="1" val="12032"/>
+        <CONTROL b="24.65" type="11" val="13824"/>
+        <CONTROL b="24.65" type="1" val="13184"/>
+        <CONTROL b="25.3" type="11" val="14464"/>
+        <CONTROL b="25.3" type="1" val="13824"/>
+        <CONTROL b="25.95" type="11" val="14464"/>
+        <CONTROL b="25.95" type="1" val="13824"/>
+        <CONTROL b="26.6" type="11" val="14336"/>
+        <CONTROL b="26.6" type="1" val="13696"/>
+        <CONTROL b="27.25" type="11" val="13440"/>
+        <CONTROL b="27.25" type="1" val="12800"/>
+        <CONTROL b="27.9" type="11" val="12672"/>
+        <CONTROL b="27.9" type="1" val="12032"/>
+        <CONTROL b="28.0" type="11" val="12672"/>
+        <CONTROL b="28.0" type="1" val="12032"/>
+        <CONTROL b="28.65" type="11" val="13824"/>
+        <CONTROL b="28.65" type="1" val="13184"/>
+        <CONTROL b="29.3" type="11" val="14464"/>
+        <CONTROL b="29.3" type="1" val="13824"/>
+        <CONTROL b="29.95" type="11" val="14464"/>
+        <CONTROL b="29.95" type="1" val="13824"/>
+        <CONTROL b="30.6" type="11" val="14336"/>
+        <CONTROL b="30.6" type="1" val="13696"/>
+        <CONTROL b="31.25" type="11" val="13440"/>
+        <CONTROL b="31.25" type="1" val="12800"/>
+        <CONTROL b="31.9" type="11" val="12672"/>
+        <CONTROL b="31.9" type="1" val="12032"/>
+        <CONTROL b="32.0" type="11" val="12672"/>
+        <CONTROL b="32.0" type="1" val="12032"/>
+        <CONTROL b="32.65" type="11" val="13824"/>
+        <CONTROL b="32.65" type="1" val="13184"/>
+        <CONTROL b="33.3" type="11" val="14464"/>
+        <CONTROL b="33.3" type="1" val="13824"/>
+        <CONTROL b="33.95" type="11" val="14464"/>
+        <CONTROL b="33.95" type="1" val="13824"/>
+        <CONTROL b="34.6" type="11" val="14336"/>
+        <CONTROL b="34.6" type="1" val="13696"/>
+        <CONTROL b="35.25" type="11" val="13440"/>
+        <CONTROL b="35.25" type="1" val="12800"/>
+        <CONTROL b="35.9" type="11" val="12672"/>
+        <CONTROL b="35.9" type="1" val="12032"/>
+        <CONTROL b="36.0" type="11" val="12672"/>
+        <CONTROL b="36.0" type="1" val="12032"/>
+        <CONTROL b="36.65" type="11" val="13824"/>
+        <CONTROL b="36.65" type="1" val="13184"/>
+        <CONTROL b="37.3" type="11" val="14464"/>
+        <CONTROL b="37.3" type="1" val="13824"/>
+        <CONTROL b="37.95" type="11" val="14464"/>
+        <CONTROL b="37.95" type="1" val="13824"/>
+        <CONTROL b="38.6" type="11" val="14336"/>
+        <CONTROL b="38.6" type="1" val="13696"/>
+        <CONTROL b="39.25" type="11" val="13440"/>
+        <CONTROL b="39.25" type="1" val="12800"/>
+        <CONTROL b="39.9" type="11" val="12672"/>
+        <CONTROL b="39.9" type="1" val="12032"/>
+        <CONTROL b="40.0" type="11" val="12672"/>
+        <CONTROL b="40.0" type="1" val="12032"/>
+        <CONTROL b="40.65" type="11" val="13824"/>
+        <CONTROL b="40.65" type="1" val="13184"/>
+        <CONTROL b="41.3" type="11" val="14464"/>
+        <CONTROL b="41.3" type="1" val="13824"/>
+        <CONTROL b="41.95" type="11" val="14464"/>
+        <CONTROL b="41.95" type="1" val="13824"/>
+        <CONTROL b="42.6" type="11" val="14336"/>
+        <CONTROL b="42.6" type="1" val="13696"/>
+        <CONTROL b="43.25" type="11" val="13440"/>
+        <CONTROL b="43.25" type="1" val="12800"/>
+        <CONTROL b="43.9" type="11" val="12672"/>
+        <CONTROL b="43.9" type="1" val="12032"/>
+        <CONTROL b="44.0" type="11" val="12672"/>
+        <CONTROL b="44.0" type="1" val="12032"/>
+        <CONTROL b="44.65" type="11" val="13824"/>
+        <CONTROL b="44.65" type="1" val="13184"/>
+        <CONTROL b="45.3" type="11" val="14464"/>
+        <CONTROL b="45.3" type="1" val="13824"/>
+        <CONTROL b="45.95" type="11" val="14464"/>
+        <CONTROL b="45.95" type="1" val="13824"/>
+        <CONTROL b="46.6" type="11" val="14336"/>
+        <CONTROL b="46.6" type="1" val="13696"/>
+        <CONTROL b="47.25" type="11" val="13440"/>
+        <CONTROL b="47.25" type="1" val="12800"/>
+        <CONTROL b="47.9" type="11" val="12672"/>
+        <CONTROL b="47.9" type="1" val="12032"/>
+        <CONTROL b="48.0" type="11" val="7040"/>
+        <CONTROL b="48.0" type="1" val="6400"/>
+        <CONTROL b="48.65" type="11" val="9728"/>
+        <CONTROL b="48.65" type="1" val="9088"/>
+        <CONTROL b="49.3" type="11" val="12416"/>
+        <CONTROL b="49.3" type="1" val="11776"/>
+        <CONTROL b="49.95" type="11" val="14464"/>
+        <CONTROL b="49.95" type="1" val="13824"/>
+        <CONTROL b="50.6" type="11" val="14080"/>
+        <CONTROL b="50.6" type="1" val="13440"/>
+        <CONTROL b="51.25" type="11" val="12672"/>
+        <CONTROL b="51.25" type="1" val="12032"/>
+        <CONTROL b="51.9" type="11" val="12672"/>
+        <CONTROL b="51.9" type="1" val="12032"/>
+        <CONTROL b="52.0" type="11" val="12672"/>
+        <CONTROL b="52.0" type="1" val="12032"/>
+        <CONTROL b="52.65" type="11" val="13824"/>
+        <CONTROL b="52.65" type="1" val="13184"/>
+        <CONTROL b="53.3" type="11" val="14464"/>
+        <CONTROL b="53.3" type="1" val="13824"/>
+        <CONTROL b="53.95" type="11" val="14464"/>
+        <CONTROL b="53.95" type="1" val="13824"/>
+        <CONTROL b="54.6" type="11" val="14336"/>
+        <CONTROL b="54.6" type="1" val="13696"/>
+        <CONTROL b="55.25" type="11" val="13440"/>
+        <CONTROL b="55.25" type="1" val="12800"/>
+        <CONTROL b="55.9" type="11" val="12672"/>
+        <CONTROL b="55.9" type="1" val="12032"/>
+        <CONTROL b="56.0" type="11" val="12672"/>
+        <CONTROL b="56.0" type="1" val="12032"/>
+        <CONTROL b="56.65" type="11" val="13824"/>
+        <CONTROL b="56.65" type="1" val="13184"/>
+        <CONTROL b="57.3" type="11" val="14464"/>
+        <CONTROL b="57.3" type="1" val="13824"/>
+        <CONTROL b="57.95" type="11" val="14464"/>
+        <CONTROL b="57.95" type="1" val="13824"/>
+        <CONTROL b="58.6" type="11" val="14336"/>
+        <CONTROL b="58.6" type="1" val="13696"/>
+        <CONTROL b="59.25" type="11" val="13440"/>
+        <CONTROL b="59.25" type="1" val="12800"/>
+        <CONTROL b="59.9" type="11" val="12672"/>
+        <CONTROL b="59.9" type="1" val="12032"/>
+        <CONTROL b="60.0" type="11" val="12672"/>
+        <CONTROL b="60.0" type="1" val="12032"/>
+        <CONTROL b="60.65" type="11" val="13824"/>
+        <CONTROL b="60.65" type="1" val="13184"/>
+        <CONTROL b="61.3" type="11" val="14464"/>
+        <CONTROL b="61.3" type="1" val="13824"/>
+        <CONTROL b="61.95" type="11" val="14464"/>
+        <CONTROL b="61.95" type="1" val="13824"/>
+        <CONTROL b="62.6" type="11" val="14336"/>
+        <CONTROL b="62.6" type="1" val="13696"/>
+        <CONTROL b="63.25" type="11" val="13440"/>
+        <CONTROL b="63.25" type="1" val="12800"/>
+        <CONTROL b="63.9" type="11" val="12672"/>
+        <CONTROL b="63.9" type="1" val="12032"/>
+        <CONTROL b="64.0" type="11" val="12672"/>
+        <CONTROL b="64.0" type="1" val="12032"/>
+        <CONTROL b="64.65000000000001" type="11" val="13824"/>
+        <CONTROL b="64.65000000000001" type="1" val="13184"/>
+        <CONTROL b="65.3" type="11" val="14464"/>
+        <CONTROL b="65.3" type="1" val="13824"/>
+        <CONTROL b="65.95" type="11" val="14464"/>
+        <CONTROL b="65.95" type="1" val="13824"/>
+        <CONTROL b="66.59999999999999" type="11" val="14336"/>
+        <CONTROL b="66.59999999999999" type="1" val="13696"/>
+        <CONTROL b="67.25" type="11" val="13440"/>
+        <CONTROL b="67.25" type="1" val="12800"/>
+        <CONTROL b="67.90000000000001" type="11" val="12672"/>
+        <CONTROL b="67.90000000000001" type="1" val="12032"/>
+        <CONTROL b="68.0" type="11" val="12672"/>
+        <CONTROL b="68.0" type="1" val="12032"/>
+        <CONTROL b="68.65000000000001" type="11" val="13824"/>
+        <CONTROL b="68.65000000000001" type="1" val="13184"/>
+        <CONTROL b="69.3" type="11" val="14464"/>
+        <CONTROL b="69.3" type="1" val="13824"/>
+        <CONTROL b="69.95" type="11" val="14464"/>
+        <CONTROL b="69.95" type="1" val="13824"/>
+        <CONTROL b="70.59999999999999" type="11" val="14336"/>
+        <CONTROL b="70.59999999999999" type="1" val="13696"/>
+        <CONTROL b="71.25" type="11" val="13440"/>
+        <CONTROL b="71.25" type="1" val="12800"/>
+        <CONTROL b="71.90000000000001" type="11" val="12672"/>
+        <CONTROL b="71.90000000000001" type="1" val="12032"/>
+        <CONTROL b="72.0" type="11" val="12672"/>
+        <CONTROL b="72.0" type="1" val="12032"/>
+        <CONTROL b="72.65000000000001" type="11" val="13824"/>
+        <CONTROL b="72.65000000000001" type="1" val="13184"/>
+        <CONTROL b="73.3" type="11" val="14464"/>
+        <CONTROL b="73.3" type="1" val="13824"/>
+        <CONTROL b="73.95" type="11" val="14464"/>
+        <CONTROL b="73.95" type="1" val="13824"/>
+        <CONTROL b="74.59999999999999" type="11" val="14336"/>
+        <CONTROL b="74.59999999999999" type="1" val="13696"/>
+        <CONTROL b="75.25" type="11" val="13440"/>
+        <CONTROL b="75.25" type="1" val="12800"/>
+        <CONTROL b="75.90000000000001" type="11" val="12672"/>
+        <CONTROL b="75.90000000000001" type="1" val="12032"/>
+        <CONTROL b="76.0" type="11" val="12672"/>
+        <CONTROL b="76.0" type="1" val="12032"/>
+        <CONTROL b="76.65000000000001" type="11" val="13824"/>
+        <CONTROL b="76.65000000000001" type="1" val="13184"/>
+        <CONTROL b="77.3" type="11" val="14464"/>
+        <CONTROL b="77.3" type="1" val="13824"/>
+        <CONTROL b="77.95" type="11" val="14464"/>
+        <CONTROL b="77.95" type="1" val="13824"/>
+        <CONTROL b="78.59999999999999" type="11" val="14336"/>
+        <CONTROL b="78.59999999999999" type="1" val="13696"/>
+        <CONTROL b="79.25" type="11" val="13440"/>
+        <CONTROL b="79.25" type="1" val="12800"/>
+        <CONTROL b="79.90000000000001" type="11" val="12672"/>
+        <CONTROL b="79.90000000000001" type="1" val="12032"/>
+      </SEQUENCE>
+    </MIDICLIP>
+    <PLUGIN type="musicomaSfz" id="1026" enabled="1" remapOnTempoChange="1"
+            sfzFile="D:\0.Musicoma\sounds\sfz\vsco2-ce\ContrabassSusVB.sfz">
+      <MODIFIERASSIGNMENTS/>
+    </PLUGIN>
+    <PLUGIN type="auxsend" id="1055" enabled="1" quickParamName="send level"
+            remapOnTempoChange="1" busNum="0" auxSendSliderPos="0.6065306663513184">
+      <MODIFIERASSIGNMENTS/>
+    </PLUGIN>
+    <PLUGIN type="volume" id="1024" enabled="1" remapOnTempoChange="1" pan="0.449999988079071">
+      <MODIFIERASSIGNMENTS/>
+    </PLUGIN>
+    <PLUGIN type="level" id="1025" enabled="1"/>
+    <OUTPUTDEVICES>
+      <DEVICE name="(default audio output)"/>
+    </OUTPUTDEVICES>
+  </TRACK>
+  <TRACK id="1027" name="Horns">
+    <MODIFIERS/>
+    <CLIPSLOTS/>
+    <MIDICLIP name="Horns" start="0.0" length="75.78947368421052" offset="0.0"
+              id="1065" sync="0" currentTake="0" speed="1.0" colour="ff00ffff">
+      <AUTOMATIONCURVES/>
+      <QUANTISATION/>
+      <GROOVE/>
+      <SEQUENCE ver="1" channelNumber="1">
+        <NOTE p="50" b="16.0" l="3.92" v="50" c="0"/>
+        <NOTE p="57" b="16.0" l="3.92" v="60" c="0"/>
+        <NOTE p="65" b="16.0251" l="3.92" v="46" c="0"/>
+        <NOTE p="47" b="19.992" l="3.92" v="62" c="0"/>
+        <NOTE p="63" b="19.9932" l="3.92" v="59" c="0"/>
+        <NOTE p="54" b="20.0027" l="3.92" v="58" c="0"/>
+        <NOTE p="70" b="23.9971" l="3.92" v="50" c="0"/>
+        <NOTE p="61" b="24.0014" l="3.92" v="54" c="0"/>
+        <NOTE p="54" b="24.004" l="3.92" v="52" c="0"/>
+        <NOTE p="65" b="27.9993" l="3.92" v="60" c="0"/>
+        <NOTE p="49" b="28.0041" l="3.92" v="54" c="0"/>
+        <NOTE p="56" b="28.0091" l="3.92" v="60" c="0"/>
+        <NOTE p="57" b="32.0005" l="3.92" v="56" c="0"/>
+        <NOTE p="65" b="32.0124" l="3.92" v="53" c="0"/>
+        <NOTE p="50" b="32.0127" l="3.92" v="52" c="0"/>
+        <NOTE p="63" b="35.9818" l="3.92" v="60" c="0"/>
+        <NOTE p="54" b="35.9966" l="3.92" v="60" c="0"/>
+        <NOTE p="47" b="36.0173" l="3.92" v="65" c="0"/>
+        <NOTE p="61" b="39.9926" l="3.92" v="55" c="0"/>
+        <NOTE p="54" b="40.0035" l="3.92" v="55" c="0"/>
+        <NOTE p="70" b="40.0066" l="3.92" v="54" c="0"/>
+        <NOTE p="49" b="43.9824" l="3.92" v="54" c="0"/>
+        <NOTE p="56" b="43.9996" l="3.92" v="56" c="0"/>
+        <NOTE p="65" b="44.0099" l="3.92" v="59" c="0"/>
+        <NOTE p="69" b="48.0003" l="1.9" v="93" c="0"/>
+        <NOTE p="74" b="50.0053" l="0.95" v="95" c="0"/>
+        <NOTE p="76" b="51.0111" l="0.95" v="92" c="0"/>
+        <NOTE p="77" b="51.9881" l="2.85" v="98" c="0"/>
+        <NOTE p="74" b="55.0045" l="0.95" v="98" c="0"/>
+        <NOTE p="72" b="55.9964" l="1.9" v="100" c="0"/>
+        <NOTE p="69" b="57.9905" l="0.95" v="109" c="0"/>
+        <NOTE p="72" b="59.0075" l="0.95" v="98" c="0"/>
+        <NOTE p="67" b="59.9868" l="3.8" v="96" c="0"/>
+        <NOTE p="69" b="63.9965" l="1.9" v="94" c="0"/>
+        <NOTE p="74" b="65.97110000000001" l="0.95" v="94" c="0"/>
+        <NOTE p="76" b="67.0068" l="0.95" v="94" c="0"/>
+        <NOTE p="77" b="67.9675" l="1.9" v="99" c="0"/>
+        <NOTE p="79" b="70.0013" l="0.95" v="104" c="0"/>
+        <NOTE p="81" b="71.0115" l="0.95" v="102" c="0"/>
+        <NOTE p="79" b="72.0171" l="1.9" v="98" c="0"/>
+        <NOTE p="77" b="73.97969999999999" l="0.95" v="102" c="0"/>
+        <NOTE p="76" b="75.0085" l="0.95" v="96" c="0"/>
+        <NOTE p="76" b="76.012" l="3.8" v="102" c="0"/>
+        <CONTROL b="16.0" type="11" val="9600"/>
+        <CONTROL b="16.6533" type="11" val="14464"/>
+        <CONTROL b="17.3067" type="11" val="14464"/>
+        <CONTROL b="17.96" type="11" val="14464"/>
+        <CONTROL b="18.6133" type="11" val="14464"/>
+        <CONTROL b="19.2667" type="11" val="13568"/>
+        <CONTROL b="19.92" type="11" val="12672"/>
+        <CONTROL b="20.0" type="11" val="12672"/>
+        <CONTROL b="20.6533" type="11" val="13824"/>
+        <CONTROL b="21.3067" type="11" val="14464"/>
+        <CONTROL b="21.96" type="11" val="14464"/>
+        <CONTROL b="22.6133" type="11" val="14464"/>
+        <CONTROL b="23.2667" type="11" val="14080"/>
+        <CONTROL b="23.92" type="11" val="12672"/>
+        <CONTROL b="24.0" type="11" val="12672"/>
+        <CONTROL b="24.6533" type="11" val="13824"/>
+        <CONTROL b="25.3067" type="11" val="14464"/>
+        <CONTROL b="25.96" type="11" val="14464"/>
+        <CONTROL b="26.6133" type="11" val="14464"/>
+        <CONTROL b="27.2667" type="11" val="14080"/>
+        <CONTROL b="27.92" type="11" val="12672"/>
+        <CONTROL b="28.0" type="11" val="12672"/>
+        <CONTROL b="28.6533" type="11" val="13824"/>
+        <CONTROL b="29.3067" type="11" val="14464"/>
+        <CONTROL b="29.96" type="11" val="14464"/>
+        <CONTROL b="30.6133" type="11" val="14464"/>
+        <CONTROL b="31.2667" type="11" val="14080"/>
+        <CONTROL b="31.92" type="11" val="12672"/>
+        <CONTROL b="32.0" type="11" val="12672"/>
+        <CONTROL b="32.6533" type="11" val="13824"/>
+        <CONTROL b="33.3067" type="11" val="14464"/>
+        <CONTROL b="33.96" type="11" val="14464"/>
+        <CONTROL b="34.6133" type="11" val="14464"/>
+        <CONTROL b="35.2667" type="11" val="14080"/>
+        <CONTROL b="35.92" type="11" val="12672"/>
+        <CONTROL b="36.0" type="11" val="12672"/>
+        <CONTROL b="36.6533" type="11" val="13824"/>
+        <CONTROL b="37.3067" type="11" val="14464"/>
+        <CONTROL b="37.96" type="11" val="14464"/>
+        <CONTROL b="38.6133" type="11" val="14464"/>
+        <CONTROL b="39.2667" type="11" val="14080"/>
+        <CONTROL b="39.92" type="11" val="12672"/>
+        <CONTROL b="40.0" type="11" val="12672"/>
+        <CONTROL b="40.6533" type="11" val="13824"/>
+        <CONTROL b="41.3067" type="11" val="14464"/>
+        <CONTROL b="41.96" type="11" val="14464"/>
+        <CONTROL b="42.6133" type="11" val="14464"/>
+        <CONTROL b="43.2667" type="11" val="14080"/>
+        <CONTROL b="43.92" type="11" val="12672"/>
+        <CONTROL b="44.0" type="11" val="12672"/>
+        <CONTROL b="44.6533" type="11" val="13824"/>
+        <CONTROL b="45.3067" type="11" val="14464"/>
+        <CONTROL b="45.96" type="11" val="14464"/>
+        <CONTROL b="46.6133" type="11" val="14464"/>
+        <CONTROL b="47.2667" type="11" val="14080"/>
+        <CONTROL b="47.92" type="11" val="12672"/>
+        <CONTROL b="48.0" type="11" val="9600"/>
+        <CONTROL b="48.3167" type="11" val="14464"/>
+        <CONTROL b="48.6333" type="11" val="14464"/>
+        <CONTROL b="48.95" type="11" val="14464"/>
+        <CONTROL b="49.2667" type="11" val="14464"/>
+        <CONTROL b="49.5833" type="11" val="13568"/>
+        <CONTROL b="49.9" type="11" val="12672"/>
+        <CONTROL b="50.0" type="11" val="12672"/>
+        <CONTROL b="50.1583" type="11" val="13824"/>
+        <CONTROL b="50.3167" type="11" val="14464"/>
+        <CONTROL b="50.475" type="11" val="14464"/>
+        <CONTROL b="50.6333" type="11" val="14464"/>
+        <CONTROL b="50.7917" type="11" val="14080"/>
+        <CONTROL b="50.95" type="11" val="12672"/>
+        <CONTROL b="51.0" type="11" val="12672"/>
+        <CONTROL b="51.1583" type="11" val="13824"/>
+        <CONTROL b="51.3167" type="11" val="14464"/>
+        <CONTROL b="51.475" type="11" val="14464"/>
+        <CONTROL b="51.6333" type="11" val="14464"/>
+        <CONTROL b="51.7917" type="11" val="14080"/>
+        <CONTROL b="51.95" type="11" val="12672"/>
+        <CONTROL b="52.0" type="11" val="12672"/>
+        <CONTROL b="52.475" type="11" val="13824"/>
+        <CONTROL b="52.95" type="11" val="14464"/>
+        <CONTROL b="53.425" type="11" val="14464"/>
+        <CONTROL b="53.9" type="11" val="14464"/>
+        <CONTROL b="54.375" type="11" val="14080"/>
+        <CONTROL b="54.85" type="11" val="12672"/>
+        <CONTROL b="55.0" type="11" val="9600"/>
+        <CONTROL b="55.1583" type="11" val="14464"/>
+        <CONTROL b="55.3167" type="11" val="14464"/>
+        <CONTROL b="55.475" type="11" val="14464"/>
+        <CONTROL b="55.6333" type="11" val="14464"/>
+        <CONTROL b="55.7917" type="11" val="13568"/>
+        <CONTROL b="55.95" type="11" val="12672"/>
+        <CONTROL b="56.0" type="11" val="12672"/>
+        <CONTROL b="56.3167" type="11" val="13824"/>
+        <CONTROL b="56.6333" type="11" val="14464"/>
+        <CONTROL b="56.95" type="11" val="14464"/>
+        <CONTROL b="57.2667" type="11" val="14464"/>
+        <CONTROL b="57.5833" type="11" val="14080"/>
+        <CONTROL b="57.9" type="11" val="12672"/>
+        <CONTROL b="58.0" type="11" val="12672"/>
+        <CONTROL b="58.1583" type="11" val="13824"/>
+        <CONTROL b="58.3167" type="11" val="14464"/>
+        <CONTROL b="58.475" type="11" val="14464"/>
+        <CONTROL b="58.6333" type="11" val="14464"/>
+        <CONTROL b="58.7917" type="11" val="14080"/>
+        <CONTROL b="58.95" type="11" val="12672"/>
+        <CONTROL b="59.0" type="11" val="12672"/>
+        <CONTROL b="59.1583" type="11" val="13824"/>
+        <CONTROL b="59.3167" type="11" val="14464"/>
+        <CONTROL b="59.475" type="11" val="14464"/>
+        <CONTROL b="59.6333" type="11" val="14464"/>
+        <CONTROL b="59.7917" type="11" val="14080"/>
+        <CONTROL b="59.95" type="11" val="12672"/>
+        <CONTROL b="60.0" type="11" val="12672"/>
+        <CONTROL b="60.6333" type="11" val="13824"/>
+        <CONTROL b="61.2667" type="11" val="14464"/>
+        <CONTROL b="61.9" type="11" val="14464"/>
+        <CONTROL b="62.5333" type="11" val="14464"/>
+        <CONTROL b="63.1667" type="11" val="14080"/>
+        <CONTROL b="63.8" type="11" val="12672"/>
+        <CONTROL b="64.0" type="11" val="9600"/>
+        <CONTROL b="64.3167" type="11" val="14464"/>
+        <CONTROL b="64.63330000000001" type="11" val="14464"/>
+        <CONTROL b="64.95" type="11" val="14464"/>
+        <CONTROL b="65.2667" type="11" val="14464"/>
+        <CONTROL b="65.58329999999999" type="11" val="13568"/>
+        <CONTROL b="65.90000000000001" type="11" val="12672"/>
+        <CONTROL b="66.0" type="11" val="12672"/>
+        <CONTROL b="66.1583" type="11" val="13824"/>
+        <CONTROL b="66.3167" type="11" val="14464"/>
+        <CONTROL b="66.47499999999999" type="11" val="14464"/>
+        <CONTROL b="66.63330000000001" type="11" val="14464"/>
+        <CONTROL b="66.79170000000001" type="11" val="14080"/>
+        <CONTROL b="66.95" type="11" val="12672"/>
+        <CONTROL b="67.0" type="11" val="12672"/>
+        <CONTROL b="67.1583" type="11" val="13824"/>
+        <CONTROL b="67.3167" type="11" val="14464"/>
+        <CONTROL b="67.47499999999999" type="11" val="14464"/>
+        <CONTROL b="67.63330000000001" type="11" val="14464"/>
+        <CONTROL b="67.79170000000001" type="11" val="14080"/>
+        <CONTROL b="67.95" type="11" val="12672"/>
+        <CONTROL b="68.0" type="11" val="12672"/>
+        <CONTROL b="68.3167" type="11" val="13824"/>
+        <CONTROL b="68.63330000000001" type="11" val="14464"/>
+        <CONTROL b="68.95" type="11" val="14464"/>
+        <CONTROL b="69.2667" type="11" val="14464"/>
+        <CONTROL b="69.58329999999999" type="11" val="14080"/>
+        <CONTROL b="69.90000000000001" type="11" val="12672"/>
+        <CONTROL b="70.0" type="11" val="12672"/>
+        <CONTROL b="70.1583" type="11" val="13824"/>
+        <CONTROL b="70.3167" type="11" val="14464"/>
+        <CONTROL b="70.47499999999999" type="11" val="14464"/>
+        <CONTROL b="70.63330000000001" type="11" val="14464"/>
+        <CONTROL b="70.79170000000001" type="11" val="14080"/>
+        <CONTROL b="70.95" type="11" val="12672"/>
+        <CONTROL b="71.0" type="11" val="12672"/>
+        <CONTROL b="71.1583" type="11" val="13824"/>
+        <CONTROL b="71.3167" type="11" val="14464"/>
+        <CONTROL b="71.47499999999999" type="11" val="14464"/>
+        <CONTROL b="71.63330000000001" type="11" val="14464"/>
+        <CONTROL b="71.79170000000001" type="11" val="14080"/>
+        <CONTROL b="71.95" type="11" val="12672"/>
+        <CONTROL b="72.0" type="11" val="12672"/>
+        <CONTROL b="72.3167" type="11" val="13824"/>
+        <CONTROL b="72.63330000000001" type="11" val="14464"/>
+        <CONTROL b="72.95" type="11" val="14464"/>
+        <CONTROL b="73.2667" type="11" val="14464"/>
+        <CONTROL b="73.58329999999999" type="11" val="14080"/>
+        <CONTROL b="73.90000000000001" type="11" val="12672"/>
+        <CONTROL b="74.0" type="11" val="12672"/>
+        <CONTROL b="74.1583" type="11" val="13824"/>
+        <CONTROL b="74.3167" type="11" val="14464"/>
+        <CONTROL b="74.47499999999999" type="11" val="14464"/>
+        <CONTROL b="74.63330000000001" type="11" val="14464"/>
+        <CONTROL b="74.79170000000001" type="11" val="14080"/>
+        <CONTROL b="74.95" type="11" val="12672"/>
+        <CONTROL b="75.0" type="11" val="12672"/>
+        <CONTROL b="75.1583" type="11" val="13824"/>
+        <CONTROL b="75.3167" type="11" val="14464"/>
+        <CONTROL b="75.47499999999999" type="11" val="14464"/>
+        <CONTROL b="75.63330000000001" type="11" val="14464"/>
+        <CONTROL b="75.79170000000001" type="11" val="14080"/>
+        <CONTROL b="75.95" type="11" val="12672"/>
+        <CONTROL b="76.0" type="11" val="12672"/>
+        <CONTROL b="76.63330000000001" type="11" val="13824"/>
+        <CONTROL b="77.2667" type="11" val="14464"/>
+        <CONTROL b="77.90000000000001" type="11" val="14464"/>
+        <CONTROL b="78.5333" type="11" val="14464"/>
+        <CONTROL b="79.16670000000001" type="11" val="14080"/>
+        <CONTROL b="79.8" type="11" val="12672"/>
+      </SEQUENCE>
+    </MIDICLIP>
+    <PLUGIN type="musicomaSfz" id="1030" enabled="1" remapOnTempoChange="1"
+            sfzFile="D:\0.Musicoma\sounds\sfz\vsco2-ce\FHornSus.sfz">
+      <MODIFIERASSIGNMENTS/>
+    </PLUGIN>
+    <PLUGIN type="auxsend" id="1056" enabled="1" quickParamName="send level"
+            remapOnTempoChange="1" busNum="0" auxSendSliderPos="0.6065306663513184">
+      <MODIFIERASSIGNMENTS/>
+    </PLUGIN>
+    <PLUGIN type="volume" id="1028" enabled="1" remapOnTempoChange="1" pan="-0.1500000059604645">
+      <MODIFIERASSIGNMENTS/>
+    </PLUGIN>
+    <PLUGIN type="level" id="1029" enabled="1"/>
+    <OUTPUTDEVICES>
+      <DEVICE name="(default audio output)"/>
+    </OUTPUTDEVICES>
+  </TRACK>
+  <TRACK id="1031" name="Trumpets">
+    <MODIFIERS/>
+    <CLIPSLOTS/>
+    <MIDICLIP name="Trumpets" start="0.0" length="75.78947368421052" offset="0.0"
+              id="1066" sync="0" currentTake="0" speed="1.0" colour="ff00aaff">
+      <AUTOMATIONCURVES/>
+      <QUANTISATION/>
+      <GROOVE/>
+      <SEQUENCE ver="1" channelNumber="1">
+        <NOTE p="77" b="48.0" l="1.47" v="83" c="0"/>
+        <NOTE p="81" b="48.0078" l="1.47" v="88" c="0"/>
+        <NOTE p="74" b="48.0104" l="1.47" v="86" c="0"/>
+        <NOTE p="81" b="50.9797" l="0.98" v="77" c="0"/>
+        <NOTE p="77" b="50.992" l="0.98" v="79" c="0"/>
+        <NOTE p="74" b="50.9995" l="0.98" v="73" c="0"/>
+        <NOTE p="75" b="51.9774" l="1.47" v="90" c="0"/>
+        <NOTE p="71" b="51.9992" l="1.47" v="90" c="0"/>
+        <NOTE p="78" b="52.0248" l="1.47" v="82" c="0"/>
+        <NOTE p="75" b="54.9804" l="0.98" v="76" c="0"/>
+        <NOTE p="78" b="54.9812" l="0.98" v="81" c="0"/>
+        <NOTE p="71" b="55.0222" l="0.98" v="75" c="0"/>
+        <NOTE p="73" b="55.9811" l="1.47" v="101" c="0"/>
+        <NOTE p="70" b="56.0022" l="1.47" v="99" c="0"/>
+        <NOTE p="66" b="56.0028" l="1.47" v="101" c="0"/>
+        <NOTE p="66" b="58.9821" l="0.98" v="86" c="0"/>
+        <NOTE p="70" b="58.9834" l="0.98" v="80" c="0"/>
+        <NOTE p="73" b="59.0083" l="0.98" v="79" c="0"/>
+        <NOTE p="61" b="59.9813" l="1.47" v="93" c="0"/>
+        <NOTE p="68" b="59.9838" l="1.47" v="92" c="0"/>
+        <NOTE p="65" b="59.9941" l="1.47" v="85" c="0"/>
+        <NOTE p="68" b="62.9763" l="0.98" v="80" c="0"/>
+        <NOTE p="61" b="63.0104" l="0.98" v="72" c="0"/>
+        <NOTE p="65" b="63.0142" l="0.98" v="65" c="0"/>
+        <NOTE p="77" b="63.9939" l="1.47" v="83" c="0"/>
+        <NOTE p="74" b="64.0104" l="1.47" v="82" c="0"/>
+        <NOTE p="81" b="64.0107" l="1.47" v="87" c="0"/>
+        <NOTE p="77" b="66.9815" l="0.98" v="81" c="0"/>
+        <NOTE p="74" b="66.9836" l="0.98" v="73" c="0"/>
+        <NOTE p="81" b="67.0151" l="0.98" v="71" c="0"/>
+        <NOTE p="71" b="67.9991" l="1.47" v="84" c="0"/>
+        <NOTE p="78" b="68.0072" l="1.47" v="86" c="0"/>
+        <NOTE p="75" b="68.0115" l="1.47" v="94" c="0"/>
+        <NOTE p="71" b="70.98520000000001" l="0.98" v="80" c="0"/>
+        <NOTE p="75" b="70.99630000000001" l="0.98" v="79" c="0"/>
+        <NOTE p="78" b="71.0184" l="0.98" v="77" c="0"/>
+        <NOTE p="70" b="71.9726" l="1.47" v="98" c="0"/>
+        <NOTE p="66" b="71.9943" l="1.47" v="100" c="0"/>
+        <NOTE p="73" b="72.0029" l="1.47" v="90" c="0"/>
+        <NOTE p="66" b="74.9841" l="0.98" v="84" c="0"/>
+        <NOTE p="70" b="74.9866" l="0.98" v="84" c="0"/>
+        <NOTE p="73" b="75.00449999999999" l="0.98" v="80" c="0"/>
+        <NOTE p="68" b="75.98569999999999" l="1.47" v="94" c="0"/>
+        <NOTE p="61" b="75.9885" l="1.47" v="91" c="0"/>
+        <NOTE p="65" b="76.0035" l="1.47" v="85" c="0"/>
+        <NOTE p="68" b="78.99420000000001" l="0.98" v="82" c="0"/>
+        <NOTE p="65" b="78.9975" l="0.98" v="74" c="0"/>
+        <NOTE p="61" b="79.02079999999999" l="0.98" v="80" c="0"/>
+        <CONTROL b="48.0" type="11" val="9600"/>
+        <CONTROL b="48.245" type="11" val="14464"/>
+        <CONTROL b="48.49" type="11" val="14464"/>
+        <CONTROL b="48.735" type="11" val="14464"/>
+        <CONTROL b="48.98" type="11" val="14464"/>
+        <CONTROL b="49.225" type="11" val="13568"/>
+        <CONTROL b="49.47" type="11" val="9600"/>
+        <CONTROL b="51.0" type="11" val="9600"/>
+        <CONTROL b="51.1633" type="11" val="14464"/>
+        <CONTROL b="51.3267" type="11" val="14464"/>
+        <CONTROL b="51.49" type="11" val="14464"/>
+        <CONTROL b="51.6533" type="11" val="14464"/>
+        <CONTROL b="51.8167" type="11" val="13568"/>
+        <CONTROL b="51.98" type="11" val="12672"/>
+        <CONTROL b="52.0" type="11" val="12672"/>
+        <CONTROL b="52.245" type="11" val="13824"/>
+        <CONTROL b="52.49" type="11" val="14464"/>
+        <CONTROL b="52.735" type="11" val="14464"/>
+        <CONTROL b="52.98" type="11" val="14464"/>
+        <CONTROL b="53.225" type="11" val="14080"/>
+        <CONTROL b="53.47" type="11" val="12672"/>
+        <CONTROL b="55.0" type="11" val="9600"/>
+        <CONTROL b="55.1633" type="11" val="14464"/>
+        <CONTROL b="55.3267" type="11" val="14464"/>
+        <CONTROL b="55.49" type="11" val="14464"/>
+        <CONTROL b="55.6533" type="11" val="14464"/>
+        <CONTROL b="55.8167" type="11" val="13568"/>
+        <CONTROL b="55.98" type="11" val="12672"/>
+        <CONTROL b="56.0" type="11" val="12672"/>
+        <CONTROL b="56.245" type="11" val="13824"/>
+        <CONTROL b="56.49" type="11" val="14464"/>
+        <CONTROL b="56.735" type="11" val="14464"/>
+        <CONTROL b="56.98" type="11" val="14464"/>
+        <CONTROL b="57.225" type="11" val="14080"/>
+        <CONTROL b="57.47" type="11" val="12672"/>
+        <CONTROL b="59.0" type="11" val="9600"/>
+        <CONTROL b="59.1633" type="11" val="14464"/>
+        <CONTROL b="59.3267" type="11" val="14464"/>
+        <CONTROL b="59.49" type="11" val="14464"/>
+        <CONTROL b="59.6533" type="11" val="14464"/>
+        <CONTROL b="59.8167" type="11" val="13568"/>
+        <CONTROL b="59.98" type="11" val="12672"/>
+        <CONTROL b="60.0" type="11" val="12672"/>
+        <CONTROL b="60.245" type="11" val="13824"/>
+        <CONTROL b="60.49" type="11" val="14464"/>
+        <CONTROL b="60.735" type="11" val="14464"/>
+        <CONTROL b="60.98" type="11" val="14464"/>
+        <CONTROL b="61.225" type="11" val="14080"/>
+        <CONTROL b="61.47" type="11" val="12672"/>
+        <CONTROL b="63.0" type="11" val="9600"/>
+        <CONTROL b="63.1633" type="11" val="14464"/>
+        <CONTROL b="63.3267" type="11" val="14464"/>
+        <CONTROL b="63.49" type="11" val="14464"/>
+        <CONTROL b="63.6533" type="11" val="14464"/>
+        <CONTROL b="63.8167" type="11" val="13568"/>
+        <CONTROL b="63.98" type="11" val="12672"/>
+        <CONTROL b="64.0" type="11" val="12672"/>
+        <CONTROL b="64.245" type="11" val="13824"/>
+        <CONTROL b="64.48999999999999" type="11" val="14464"/>
+        <CONTROL b="64.735" type="11" val="14464"/>
+        <CONTROL b="64.98" type="11" val="14464"/>
+        <CONTROL b="65.22499999999999" type="11" val="14080"/>
+        <CONTROL b="65.47" type="11" val="12672"/>
+        <CONTROL b="67.0" type="11" val="9600"/>
+        <CONTROL b="67.16330000000001" type="11" val="14464"/>
+        <CONTROL b="67.3267" type="11" val="14464"/>
+        <CONTROL b="67.48999999999999" type="11" val="14464"/>
+        <CONTROL b="67.6533" type="11" val="14464"/>
+        <CONTROL b="67.8167" type="11" val="13568"/>
+        <CONTROL b="67.98" type="11" val="12672"/>
+        <CONTROL b="68.0" type="11" val="12672"/>
+        <CONTROL b="68.245" type="11" val="13824"/>
+        <CONTROL b="68.48999999999999" type="11" val="14464"/>
+        <CONTROL b="68.735" type="11" val="14464"/>
+        <CONTROL b="68.98" type="11" val="14464"/>
+        <CONTROL b="69.22499999999999" type="11" val="14080"/>
+        <CONTROL b="69.47" type="11" val="12672"/>
+        <CONTROL b="71.0" type="11" val="9600"/>
+        <CONTROL b="71.16330000000001" type="11" val="14464"/>
+        <CONTROL b="71.3267" type="11" val="14464"/>
+        <CONTROL b="71.48999999999999" type="11" val="14464"/>
+        <CONTROL b="71.6533" type="11" val="14464"/>
+        <CONTROL b="71.8167" type="11" val="13568"/>
+        <CONTROL b="71.98" type="11" val="12672"/>
+        <CONTROL b="72.0" type="11" val="12672"/>
+        <CONTROL b="72.245" type="11" val="13824"/>
+        <CONTROL b="72.48999999999999" type="11" val="14464"/>
+        <CONTROL b="72.735" type="11" val="14464"/>
+        <CONTROL b="72.98" type="11" val="14464"/>
+        <CONTROL b="73.22499999999999" type="11" val="14080"/>
+        <CONTROL b="73.47" type="11" val="12672"/>
+        <CONTROL b="75.0" type="11" val="9600"/>
+        <CONTROL b="75.16330000000001" type="11" val="14464"/>
+        <CONTROL b="75.3267" type="11" val="14464"/>
+        <CONTROL b="75.48999999999999" type="11" val="14464"/>
+        <CONTROL b="75.6533" type="11" val="14464"/>
+        <CONTROL b="75.8167" type="11" val="13568"/>
+        <CONTROL b="75.98" type="11" val="12672"/>
+        <CONTROL b="76.0" type="11" val="12672"/>
+        <CONTROL b="76.245" type="11" val="13824"/>
+        <CONTROL b="76.48999999999999" type="11" val="14464"/>
+        <CONTROL b="76.735" type="11" val="14464"/>
+        <CONTROL b="76.98" type="11" val="14464"/>
+        <CONTROL b="77.22499999999999" type="11" val="14080"/>
+        <CONTROL b="77.47" type="11" val="12672"/>
+        <CONTROL b="79.0" type="11" val="9600"/>
+        <CONTROL b="79.16330000000001" type="11" val="14464"/>
+        <CONTROL b="79.3267" type="11" val="14464"/>
+        <CONTROL b="79.48999999999999" type="11" val="14464"/>
+        <CONTROL b="79.6533" type="11" val="14464"/>
+        <CONTROL b="79.8167" type="11" val="13568"/>
+        <CONTROL b="79.98" type="11" val="9600"/>
+      </SEQUENCE>
+    </MIDICLIP>
+    <PLUGIN type="musicomaSfz" id="1034" enabled="1" remapOnTempoChange="1"
+            sfzFile="D:\0.Musicoma\sounds\sfz\vsco2-ce\TrumpetSusVib.sfz">
+      <MODIFIERASSIGNMENTS/>
+    </PLUGIN>
+    <PLUGIN type="auxsend" id="1057" enabled="1" quickParamName="send level"
+            remapOnTempoChange="1" busNum="0" auxSendSliderPos="0.6065306663513184">
+      <MODIFIERASSIGNMENTS/>
+    </PLUGIN>
+    <PLUGIN type="volume" id="1032" enabled="1" remapOnTempoChange="1" pan="0.1500000059604645">
+      <MODIFIERASSIGNMENTS/>
+    </PLUGIN>
+    <PLUGIN type="level" id="1033" enabled="1"/>
+    <OUTPUTDEVICES>
+      <DEVICE name="(default audio output)"/>
+    </OUTPUTDEVICES>
+  </TRACK>
+  <TRACK id="1035" name="Trombones">
+    <MODIFIERS/>
+    <CLIPSLOTS/>
+    <MIDICLIP name="Trombones" start="0.0" length="75.78947368421052" offset="0.0"
+              id="1067" sync="0" currentTake="0" speed="1.0" colour="ff0055ff">
+      <AUTOMATIONCURVES/>
+      <QUANTISATION/>
+      <GROOVE/>
+      <SEQUENCE ver="1" channelNumber="1">
+        <NOTE p="50" b="48.0" l="3.92" v="83" c="0"/>
+        <NOTE p="65" b="48.0" l="3.92" v="87" c="0"/>
+        <NOTE p="57" b="48.0274" l="3.92" v="80" c="0"/>
+        <NOTE p="47" b="51.9827" l="3.92" v="87" c="0"/>
+        <NOTE p="63" b="52.0019" l="3.92" v="89" c="0"/>
+        <NOTE p="54" b="52.01" l="3.92" v="89" c="0"/>
+        <NOTE p="61" b="55.9725" l="3.92" v="89" c="0"/>
+        <NOTE p="54" b="56.0126" l="3.92" v="77" c="0"/>
+        <NOTE p="70" b="56.0178" l="3.92" v="82" c="0"/>
+        <NOTE p="65" b="59.9936" l="3.92" v="84" c="0"/>
+        <NOTE p="49" b="59.9955" l="3.92" v="80" c="0"/>
+        <NOTE p="56" b="60.0066" l="3.92" v="81" c="0"/>
+        <NOTE p="57" b="63.9805" l="3.92" v="83" c="0"/>
+        <NOTE p="50" b="63.984" l="3.92" v="83" c="0"/>
+        <NOTE p="65" b="63.9974" l="3.92" v="81" c="0"/>
+        <NOTE p="63" b="67.98950000000001" l="3.92" v="84" c="0"/>
+        <NOTE p="47" b="68.0047" l="3.92" v="90" c="0"/>
+        <NOTE p="54" b="68.0097" l="3.92" v="90" c="0"/>
+        <NOTE p="54" b="71.98050000000001" l="3.92" v="84" c="0"/>
+        <NOTE p="61" b="71.9969" l="3.92" v="84" c="0"/>
+        <NOTE p="70" b="72.01349999999999" l="3.92" v="83" c="0"/>
+        <NOTE p="49" b="75.9597" l="3.92" v="85" c="0"/>
+        <NOTE p="65" b="75.9935" l="3.92" v="85" c="0"/>
+        <NOTE p="56" b="76.02209999999999" l="3.92" v="85" c="0"/>
+        <CONTROL b="48.0" type="11" val="9600"/>
+        <CONTROL b="48.6533" type="11" val="14464"/>
+        <CONTROL b="49.3067" type="11" val="14464"/>
+        <CONTROL b="49.96" type="11" val="14464"/>
+        <CONTROL b="50.6133" type="11" val="14464"/>
+        <CONTROL b="51.2667" type="11" val="13568"/>
+        <CONTROL b="51.92" type="11" val="12672"/>
+        <CONTROL b="52.0" type="11" val="12672"/>
+        <CONTROL b="52.6533" type="11" val="13824"/>
+        <CONTROL b="53.3067" type="11" val="14464"/>
+        <CONTROL b="53.96" type="11" val="14464"/>
+        <CONTROL b="54.6133" type="11" val="14464"/>
+        <CONTROL b="55.2667" type="11" val="14080"/>
+        <CONTROL b="55.92" type="11" val="12672"/>
+        <CONTROL b="56.0" type="11" val="12672"/>
+        <CONTROL b="56.6533" type="11" val="13824"/>
+        <CONTROL b="57.3067" type="11" val="14464"/>
+        <CONTROL b="57.96" type="11" val="14464"/>
+        <CONTROL b="58.6133" type="11" val="14464"/>
+        <CONTROL b="59.2667" type="11" val="14080"/>
+        <CONTROL b="59.92" type="11" val="12672"/>
+        <CONTROL b="60.0" type="11" val="12672"/>
+        <CONTROL b="60.6533" type="11" val="13824"/>
+        <CONTROL b="61.3067" type="11" val="14464"/>
+        <CONTROL b="61.96" type="11" val="14464"/>
+        <CONTROL b="62.6133" type="11" val="14464"/>
+        <CONTROL b="63.2667" type="11" val="14080"/>
+        <CONTROL b="63.92" type="11" val="12672"/>
+        <CONTROL b="64.0" type="11" val="12672"/>
+        <CONTROL b="64.6533" type="11" val="13824"/>
+        <CONTROL b="65.30670000000001" type="11" val="14464"/>
+        <CONTROL b="65.95999999999999" type="11" val="14464"/>
+        <CONTROL b="66.6133" type="11" val="14464"/>
+        <CONTROL b="67.2667" type="11" val="14080"/>
+        <CONTROL b="67.92" type="11" val="12672"/>
+        <CONTROL b="68.0" type="11" val="12672"/>
+        <CONTROL b="68.6533" type="11" val="13824"/>
+        <CONTROL b="69.30670000000001" type="11" val="14464"/>
+        <CONTROL b="69.95999999999999" type="11" val="14464"/>
+        <CONTROL b="70.6133" type="11" val="14464"/>
+        <CONTROL b="71.2667" type="11" val="14080"/>
+        <CONTROL b="71.92" type="11" val="12672"/>
+        <CONTROL b="72.0" type="11" val="12672"/>
+        <CONTROL b="72.6533" type="11" val="13824"/>
+        <CONTROL b="73.30670000000001" type="11" val="14464"/>
+        <CONTROL b="73.95999999999999" type="11" val="14464"/>
+        <CONTROL b="74.6133" type="11" val="14464"/>
+        <CONTROL b="75.2667" type="11" val="14080"/>
+        <CONTROL b="75.92" type="11" val="12672"/>
+        <CONTROL b="76.0" type="11" val="12672"/>
+        <CONTROL b="76.6533" type="11" val="13824"/>
+        <CONTROL b="77.30670000000001" type="11" val="14464"/>
+        <CONTROL b="77.95999999999999" type="11" val="14464"/>
+        <CONTROL b="78.6133" type="11" val="14464"/>
+        <CONTROL b="79.2667" type="11" val="14080"/>
+        <CONTROL b="79.92" type="11" val="12672"/>
+      </SEQUENCE>
+    </MIDICLIP>
+    <PLUGIN type="musicomaSfz" id="1038" enabled="1" remapOnTempoChange="1"
+            sfzFile="D:\0.Musicoma\sounds\sfz\vsco2-ce\TromboneSus.sfz">
+      <MODIFIERASSIGNMENTS/>
+    </PLUGIN>
+    <PLUGIN type="auxsend" id="1058" enabled="1" quickParamName="send level"
+            remapOnTempoChange="1" busNum="0" auxSendSliderPos="0.6065306663513184">
+      <MODIFIERASSIGNMENTS/>
+    </PLUGIN>
+    <PLUGIN type="volume" id="1036" enabled="1" remapOnTempoChange="1" pan="0.25">
+      <MODIFIERASSIGNMENTS/>
+    </PLUGIN>
+    <PLUGIN type="level" id="1037" enabled="1"/>
+    <OUTPUTDEVICES>
+      <DEVICE name="(default audio output)"/>
+    </OUTPUTDEVICES>
+  </TRACK>
+  <TRACK id="1039" name="Flute">
+    <MODIFIERS/>
+    <CLIPSLOTS/>
+    <MIDICLIP name="Flute" start="0.0" length="75.78947368421052" offset="0.0"
+              id="1068" sync="0" currentTake="0" speed="1.0" colour="ff0000ff">
+      <AUTOMATIONCURVES/>
+      <QUANTISATION/>
+      <GROOVE/>
+      <SEQUENCE ver="1" channelNumber="1">
+        <NOTE p="81" b="50.0132" l="2.016840886334039" v="96" c="0"/>
+        <NOTE p="86" b="52.044" l="3.986042044857462" v="102" c="0"/>
+        <NOTE p="84" b="55.9956" l="3.8" v="102" c="0"/>
+        <NOTE p="79" b="62.0232" l="1.9" v="99" c="0"/>
+        <NOTE p="81" b="65.9991" l="2.030875299155716" v="107" c="0"/>
+        <NOTE p="89" b="68.027" l="4.00295813800903" v="103" c="0"/>
+        <NOTE p="88" b="72.0077" l="4.022348748060508" v="104" c="0"/>
+        <NOTE p="88" b="76.0433" l="3.8" v="95" c="0"/>
+        <CONTROL b="50.0132" type="11" val="9600"/>
+        <CONTROL b="50.5174" type="11" val="14720"/>
+        <CONTROL b="51.0216" type="11" val="14720"/>
+        <CONTROL b="51.5258" type="11" val="14720"/>
+        <CONTROL b="52.03" type="11" val="9600"/>
+        <CONTROL b="52.044" type="11" val="9600"/>
+        <CONTROL b="53.0405" type="11" val="14720"/>
+        <CONTROL b="54.037" type="11" val="14720"/>
+        <CONTROL b="55.0335" type="11" val="14720"/>
+        <CONTROL b="55.9956" type="11" val="9600"/>
+        <CONTROL b="56.03" type="11" val="9600"/>
+        <CONTROL b="56.9456" type="11" val="14720"/>
+        <CONTROL b="57.8956" type="11" val="14720"/>
+        <CONTROL b="58.8456" type="11" val="14720"/>
+        <CONTROL b="59.7956" type="11" val="9600"/>
+        <CONTROL b="62.0232" type="11" val="9600"/>
+        <CONTROL b="62.4982" type="11" val="14720"/>
+        <CONTROL b="62.9732" type="11" val="14720"/>
+        <CONTROL b="63.4482" type="11" val="14720"/>
+        <CONTROL b="63.9232" type="11" val="9600"/>
+        <CONTROL b="65.9991" type="11" val="9600"/>
+        <CONTROL b="66.5068" type="11" val="14720"/>
+        <CONTROL b="67.0146" type="11" val="14720"/>
+        <CONTROL b="67.5223" type="11" val="14720"/>
+        <CONTROL b="68.027" type="11" val="9600"/>
+        <CONTROL b="68.03" type="11" val="9600"/>
+        <CONTROL b="69.0278" type="11" val="14720"/>
+        <CONTROL b="70.02849999999999" type="11" val="14720"/>
+        <CONTROL b="71.02930000000001" type="11" val="14720"/>
+        <CONTROL b="72.0077" type="11" val="9600"/>
+        <CONTROL b="72.03" type="11" val="9600"/>
+        <CONTROL b="73.0132" type="11" val="14720"/>
+        <CONTROL b="74.0188" type="11" val="14720"/>
+        <CONTROL b="75.0244" type="11" val="14720"/>
+        <CONTROL b="76.03" type="11" val="9600"/>
+        <CONTROL b="76.0433" type="11" val="9600"/>
+        <CONTROL b="76.9933" type="11" val="14720"/>
+        <CONTROL b="77.94329999999999" type="11" val="14720"/>
+        <CONTROL b="78.8933" type="11" val="14720"/>
+        <CONTROL b="79.8433" type="11" val="9600"/>
+        <CONTROL b="62.0232" type="4101" val="7209"/>
+        <CONTROL b="62.1232" type="4101" val="8192"/>
+      </SEQUENCE>
+    </MIDICLIP>
+    <PLUGIN type="musicomaSfz" id="1042" enabled="1" remapOnTempoChange="1"
+            sfzFile="D:\0.Musicoma\sounds\sfz\vsco2-ce\FluteSusVib.sfz">
+      <MODIFIERASSIGNMENTS/>
+    </PLUGIN>
+    <PLUGIN type="auxsend" id="1059" enabled="1" quickParamName="send level"
+            remapOnTempoChange="1" busNum="0" auxSendSliderPos="0.6065306663513184">
+      <MODIFIERASSIGNMENTS/>
+    </PLUGIN>
+    <PLUGIN type="volume" id="1040" enabled="1" remapOnTempoChange="1" pan="-0.1000000014901161">
+      <MODIFIERASSIGNMENTS/>
+    </PLUGIN>
+    <PLUGIN type="level" id="1041" enabled="1"/>
+    <OUTPUTDEVICES>
+      <DEVICE name="(default audio output)"/>
+    </OUTPUTDEVICES>
+  </TRACK>
+  <TRACK id="1043" name="Timpani">
+    <MODIFIERS/>
+    <CLIPSLOTS/>
+    <MIDICLIP name="Timpani" start="0.0" length="75.78947368421052" offset="0.0"
+              id="1069" sync="0" currentTake="0" speed="1.0" colour="ff5500ff">
+      <AUTOMATIONCURVES/>
+      <QUANTISATION/>
+      <GROOVE/>
+      <SEQUENCE ver="1" channelNumber="1">
+        <NOTE p="50" b="45.9871" l="0.12" v="54" c="0"/>
+        <NOTE p="50" b="46.1382" l="0.12" v="55" c="0"/>
+        <NOTE p="50" b="46.219" l="0.12" v="62" c="0"/>
+        <NOTE p="50" b="46.3604" l="0.12" v="65" c="0"/>
+        <NOTE p="50" b="46.5094" l="0.12" v="67" c="0"/>
+        <NOTE p="50" b="46.6175" l="0.12" v="66" c="0"/>
+        <NOTE p="50" b="46.7462" l="0.12" v="71" c="0"/>
+        <NOTE p="50" b="46.8624" l="0.12" v="78" c="0"/>
+        <NOTE p="50" b="47.001" l="0.12" v="83" c="0"/>
+        <NOTE p="50" b="47.1352" l="0.12" v="89" c="0"/>
+        <NOTE p="50" b="47.2242" l="0.12" v="88" c="0"/>
+        <NOTE p="50" b="47.3534" l="0.12" v="90" c="0"/>
+        <NOTE p="50" b="47.4998" l="0.12" v="98" c="0"/>
+        <NOTE p="50" b="47.6418" l="0.12" v="101" c="0"/>
+        <NOTE p="50" b="47.7426" l="0.12" v="108" c="0"/>
+        <NOTE p="50" b="47.879" l="0.12" v="112" c="0"/>
+        <NOTE p="50" b="48.023" l="1.0" v="102" c="0"/>
+        <NOTE p="45" b="50.0041" l="1.0" v="79" c="0"/>
+        <NOTE p="50" b="52.0386" l="1.0" v="102" c="0"/>
+        <NOTE p="45" b="54.0012" l="1.0" v="77" c="0"/>
+        <NOTE p="50" b="56.0305" l="1.0" v="106" c="0"/>
+        <NOTE p="45" b="57.9615" l="1.0" v="87" c="0"/>
+        <NOTE p="50" b="60.0089" l="1.0" v="105" c="0"/>
+        <NOTE p="45" b="62.0051" l="1.0" v="85" c="0"/>
+        <NOTE p="50" b="63.9894" l="1.0" v="108" c="0"/>
+        <NOTE p="45" b="65.9836" l="1.0" v="82" c="0"/>
+        <NOTE p="50" b="68.0142" l="1.0" v="100" c="0"/>
+        <NOTE p="45" b="69.98520000000001" l="1.0" v="83" c="0"/>
+        <NOTE p="50" b="72.014" l="1.0" v="105" c="0"/>
+        <NOTE p="45" b="74.0158" l="1.0" v="85" c="0"/>
+        <NOTE p="50" b="76.001" l="1.0" v="109" c="0"/>
+        <NOTE p="45" b="78.0209" l="1.0" v="81" c="0"/>
+      </SEQUENCE>
+    </MIDICLIP>
+    <PLUGIN type="musicomaSfz" id="1046" enabled="1" remapOnTempoChange="1"
+            sfzFile="D:\0.Musicoma\sounds\sfz\vsco2-ce\Timpani.sfz">
+      <MODIFIERASSIGNMENTS/>
+    </PLUGIN>
+    <PLUGIN type="auxsend" id="1060" enabled="1" quickParamName="send level"
+            remapOnTempoChange="1" busNum="0" auxSendSliderPos="0.6065306663513184">
+      <MODIFIERASSIGNMENTS/>
+    </PLUGIN>
+    <PLUGIN type="volume" id="1044" enabled="1" remapOnTempoChange="1" pan="0.0">
+      <MODIFIERASSIGNMENTS/>
+    </PLUGIN>
+    <PLUGIN type="level" id="1045" enabled="1"/>
+    <OUTPUTDEVICES>
+      <DEVICE name="(default audio output)"/>
+    </OUTPUTDEVICES>
+  </TRACK>
+  <TRACK id="1047" name="Hall">
+    <MODIFIERS/>
+    <OUTPUTDEVICES>
+      <DEVICE name="(default audio output)"/>
+    </OUTPUTDEVICES>
+    <CLIPSLOTS/>
+    <PLUGIN type="auxreturn" id="1050" enabled="1" remapOnTempoChange="1"
+            busNum="0"/>
+    <PLUGIN type="vst" uniqueId="88932468" uid="1d6ea83e" filename="D:\0.Musicoma\sounds\plugins\vst3\DragonflyHallReverb.vst3\Contents\x86_64-win\DragonflyHallReverb.vst3"
+            name="Dragonfly Hall Reverb" manufacturer="Michael Willis and Rob vd Berg"
+            id="1051" enabled="1" remapOnTempoChange="1" state="583.VMjLg3i....O+fWarAhckI2bo8la8HRLt.iHfTlai8FYo41Y8HRUTYTK3HxO9.BOVMEUy.Ea0cVZtMEcgQWY9vSRC8Vav8lak4Fc9LSMy3RY3TTV1kULWkWTWgkdUEyUnUULY8FMwbUYA4hX3UULhsVTG4xTvXEVxcmQHMzcVk0YIcDRHUjQgIWP1cUYQYjXrgCLhoWQFM1Z3TUVzEULWUVP1cUYQYjXrgSQhcVRWg0bUYzXqkjLhUVRVkUaqwVXkgSQtnVRWQVY2YUVwTkQg4hYCwjKTYEV3cmUjU1cVkULUYTXtPzPL4hcVgkdUEyUxUEais1cF4BdtLjK4sFajsVPlwjdtX2XuEkQi4VPPwjctLjKpUkQgc1ZG4hdt3RVukEaYASSWkkKpMDStXWLgICNvfELQcjK54hKgU2Xxb0L3XjKv3xPL4hcwDlL3TUXvbmQi4BQosDdpMkSzn1TNQCUowTdHMjKtsVLY4FNvfELQcjKxf0PLYmKtn0aiYjVkclLg4BUS0jctLjKtsVLY4FNUEFL2YzXt3RZKAiK1IlcqwVXtvTZKgmZS4DMpMkSzPUZLkGRC4hLEwVXpUEah4BQS0jKPYUVoUjUj4BQosDdpMkSzn1TNQCUowTdHMjKqUDahI2ZxbUdUwVXpEjYLYmKPEVcQY0XxUjQi8FNrElKDMUStbCLWoVPskUYAcEV3UjUgsVTWkEdMIyUqQiQYUFNE4RNC4BOujzPu0Fbu4VYtQmO77hUSQ0LPwVcmklaSQWXzUlO.."
+            base64:layout="99.LETVOUEU..P.BjjSPUEUSA..ADfPUME.AHPZtQVY3AP.ED......rEVduUGc.DPAEvDHRA..OUEUPUEUSA..ADfPUME.AHPZtQVY3AP.ED......rEVduUGc.DPAEvDHRA..">
+      <MODIFIERASSIGNMENTS/>
+    </PLUGIN>
+    <PLUGIN type="volume" id="1048" enabled="1" remapOnTempoChange="1" volume="0.6376281380653381">
+      <MODIFIERASSIGNMENTS/>
+    </PLUGIN>
+    <PLUGIN type="level" id="1049" enabled="1"/>
+  </TRACK>
+</EDIT>

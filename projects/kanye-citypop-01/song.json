@@ -1,0 +1,263 @@
+{
+ "name": "kanye-citypop-01",
+ "bpm": 88,
+ "key": "F# minor",
+ "style": "chipmunk-soul",
+ "time_sig": "4/4",
+ "brief": "올드칸예 스타일에 시티팝 샘플링 (v3: 드럼 킷 교체 + 역할 밸런스)",
+ "created": "2026-10-14 23:58",
+ "tracks": {
+  "Sample": {
+   "sound": null,
+   "role": "sample loop (varispeed, vinyl)"
+  },
+  "Drums": {
+   "sound": "drums_acoustic_basic",
+   "role": "boom bap drums"
+  },
+  "Bass": {
+   "sound": "bass_sub",
+   "role": "sub bass (sample harmony)"
+  },
+  "Keys": {
+   "sound": "rhodes",
+   "role": "rhodes layer (hook only)"
+  },
+  "Chops": {
+   "sound": "D:\\0.Musicoma\\sounds\\crate\\kanye-citypop-01-source_20261014-235113_0\\chops_vocals_vocals_loop4bar_88bpm_onsets\\vocal_chops.sfz",
+   "role": "vocal chop hook"
+  },
+  "Verb": {
+   "sound": null,
+   "role": "return bus 0",
+   "bus": 0
+  }
+ },
+ "sections": [
+  {
+   "name": "intro",
+   "start_bar": 0,
+   "bars": 4
+  },
+  {
+   "name": "verse",
+   "start_bar": 4,
+   "bars": 8
+  },
+  {
+   "name": "hook",
+   "start_bar": 12,
+   "bars": 8
+  },
+  {
+   "name": "verse",
+   "start_bar": 20,
+   "bars": 8
+  },
+  {
+   "name": "hook",
+   "start_bar": 28,
+   "bars": 8
+  },
+  {
+   "name": "outro",
+   "start_bar": 36,
+   "bars": 4
+  }
+ ],
+ "sources": [
+  {
+   "source": "sounds/generated/kanye-citypop-01-source/20261014-235113_0.wav",
+   "stems": {
+    "bass": "D:\\0.Musicoma\\sounds\\crate\\kanye-citypop-01-source_20261014-235113_0\\stems\\htdemucs\\20261014-235113_0\\bass.wav",
+    "bass_bass_loop4bar_88bpm": "D:\\0.Musicoma\\sounds\\crate\\kanye-citypop-01-source_20261014-235113_0\\stems\\htdemucs\\20261014-235113_0\\bass_bass_loop4bar_88bpm.wav",
+    "drums": "D:\\0.Musicoma\\sounds\\crate\\kanye-citypop-01-source_20261014-235113_0\\stems\\htdemucs\\20261014-235113_0\\drums.wav",
+    "other": "D:\\0.Musicoma\\sounds\\crate\\kanye-citypop-01-source_20261014-235113_0\\stems\\htdemucs\\20261014-235113_0\\other.wav",
+    "other_other_loop4bar_88bpm": "D:\\0.Musicoma\\sounds\\crate\\kanye-citypop-01-source_20261014-235113_0\\stems\\htdemucs\\20261014-235113_0\\other_other_loop4bar_88bpm.wav",
+    "sample_nodrums": "D:\\0.Musicoma\\sounds\\crate\\kanye-citypop-01-source_20261014-235113_0\\stems\\htdemucs\\20261014-235113_0\\sample_nodrums.wav",
+    "sample_nodrums_sample_loop4bar_88bpm": "D:\\0.Musicoma\\sounds\\crate\\kanye-citypop-01-source_20261014-235113_0\\stems\\htdemucs\\20261014-235113_0\\sample_nodrums_sample_loop4bar_88bpm.wav",
+    "sample_nodrums_sample_loop4bar_88bpm_vinyl": "D:\\0.Musicoma\\sounds\\crate\\kanye-citypop-01-source_20261014-235113_0\\stems\\htdemucs\\20261014-235113_0\\sample_nodrums_sample_loop4bar_88bpm_vinyl.wav",
+    "vocals": "D:\\0.Musicoma\\sounds\\crate\\kanye-citypop-01-source_20261014-235113_0\\stems\\htdemucs\\20261014-235113_0\\vocals.wav",
+    "vocals_vocals_loop4bar_88bpm": "D:\\0.Musicoma\\sounds\\crate\\kanye-citypop-01-source_20261014-235113_0\\stems\\htdemucs\\20261014-235113_0\\vocals_vocals_loop4bar_88bpm.wav"
+   },
+   "loops": {
+    "sample": "D:\\0.Musicoma\\sounds\\crate\\kanye-citypop-01-source_20261014-235113_0\\stems\\htdemucs\\20261014-235113_0\\sample_nodrums_sample_loop4bar_88bpm.wav",
+    "vocals": "D:\\0.Musicoma\\sounds\\crate\\kanye-citypop-01-source_20261014-235113_0\\stems\\htdemucs\\20261014-235113_0\\vocals_vocals_loop4bar_88bpm.wav",
+    "bass": "D:\\0.Musicoma\\sounds\\crate\\kanye-citypop-01-source_20261014-235113_0\\stems\\htdemucs\\20261014-235113_0\\bass_bass_loop4bar_88bpm.wav",
+    "other": "D:\\0.Musicoma\\sounds\\crate\\kanye-citypop-01-source_20261014-235113_0\\stems\\htdemucs\\20261014-235113_0\\other_other_loop4bar_88bpm.wav"
+   },
+   "sample_loop_aged": "D:\\0.Musicoma\\sounds\\crate\\kanye-citypop-01-source_20261014-235113_0\\stems\\htdemucs\\20261014-235113_0\\sample_nodrums_sample_loop4bar_88bpm_vinyl.wav",
+   "chops": [
+    "D:\\0.Musicoma\\sounds\\crate\\kanye-citypop-01-source_20261014-235113_0\\chops_vocals_vocals_loop4bar_88bpm_onsets\\00.wav",
+    "D:\\0.Musicoma\\sounds\\crate\\kanye-citypop-01-source_20261014-235113_0\\chops_vocals_vocals_loop4bar_88bpm_onsets\\01.wav",
+    "D:\\0.Musicoma\\sounds\\crate\\kanye-citypop-01-source_20261014-235113_0\\chops_vocals_vocals_loop4bar_88bpm_onsets\\02.wav",
+    "D:\\0.Musicoma\\sounds\\crate\\kanye-citypop-01-source_20261014-235113_0\\chops_vocals_vocals_loop4bar_88bpm_onsets\\03.wav",
+    "D:\\0.Musicoma\\sounds\\crate\\kanye-citypop-01-source_20261014-235113_0\\chops_vocals_vocals_loop4bar_88bpm_onsets\\04.wav",
+    "D:\\0.Musicoma\\sounds\\crate\\kanye-citypop-01-source_20261014-235113_0\\chops_vocals_vocals_loop4bar_88bpm_onsets\\05.wav",
+    "D:\\0.Musicoma\\sounds\\crate\\kanye-citypop-01-source_20261014-235113_0\\chops_vocals_vocals_loop4bar_88bpm_onsets\\06.wav",
+    "D:\\0.Musicoma\\sounds\\crate\\kanye-citypop-01-source_20261014-235113_0\\chops_vocals_vocals_loop4bar_88bpm_onsets\\07.wav"
+   ],
+   "kit": {
+    "sfz": "D:\\0.Musicoma\\sounds\\crate\\kanye-citypop-01-source_20261014-235113_0\\chops_vocals_vocals_loop4bar_88bpm_onsets\\vocal_chops.sfz",
+    "kit": {
+     "chop00": 36,
+     "chop01": 37,
+     "chop02": 38,
+     "chop03": 39,
+     "chop04": 40,
+     "chop05": 41,
+     "chop06": 42,
+     "chop07": 43
+    }
+   },
+   "notes": {
+    "plan": {
+     "bpm": 88,
+     "semitones": 4,
+     "source_bpm": 70,
+     "source_style": "city-pop",
+     "vocal": "female"
+    },
+    "source": {
+     "file": "sounds/generated/kanye-citypop-01-source/20261014-235113_0.wav"
+    },
+    "loop": {
+     "region": {
+      "start": 22.268,
+      "end": 35.991,
+      "bar": 6,
+      "score": 0.0625
+     },
+     "varispeed_ratio": 1.2579,
+     "semitones": 3.97
+    },
+    "harmony": {
+     "key_after_varispeed": "F# minor",
+     "chords": [
+      [
+       "Dmaj9",
+       0,
+       2
+      ],
+      [
+       "D",
+       2,
+       2
+      ],
+      [
+       "Bm9",
+       4,
+       2
+      ],
+      [
+       "Esus4",
+       6,
+       2
+      ],
+      [
+       "Gbm9",
+       8,
+       2
+      ],
+      [
+       "Gbsus4",
+       10,
+       2
+      ],
+      [
+       "Dbsus4",
+       12,
+       2
+      ],
+      [
+       "Dbm",
+       14,
+       null
+      ]
+     ],
+     "bass_notes": 6
+    },
+    "bass_source": "transcribed"
+   }
+  }
+ ],
+ "history": [
+  {
+   "t": "10-14 23:58",
+   "request": "올드칸예 스타일에 시티팝 샘플링 (v3: 드럼 킷 교체 + 역할 밸런스)",
+   "did": {
+    "recipe": "chipmunk_soul",
+    "notes": {
+     "plan": {
+      "bpm": 88,
+      "semitones": 4,
+      "source_bpm": 70,
+      "source_style": "city-pop",
+      "vocal": "female"
+     },
+     "source": {
+      "file": "sounds/generated/kanye-citypop-01-source/20261014-235113_0.wav"
+     },
+     "loop": {
+      "region": {
+       "start": 22.268,
+       "end": 35.991,
+       "bar": 6,
+       "score": 0.0625
+      },
+      "varispeed_ratio": 1.2579,
+      "semitones": 3.97
+     },
+     "harmony": {
+      "key_after_varispeed": "F# minor",
+      "chords": [
+       [
+        "Dmaj9",
+        0,
+        2
+       ],
+       [
+        "D",
+        2,
+        2
+       ],
+       [
+        "Bm9",
+        4,
+        2
+       ],
+       [
+        "Esus4",
+        6,
+        2
+       ],
+       [
+        "Gbm9",
+        8,
+        2
+       ],
+       [
+        "Gbsus4",
+        10,
+        2
+       ],
+       [
+        "Dbsus4",
+        12,
+        2
+       ],
+       [
+        "Dbm",
+        14,
+        null
+       ]
+      ],
+      "bass_notes": 6
+     },
+     "bass_source": "transcribed"
+    }
+   }
+  }
+ ],
+ "versions": []
+}

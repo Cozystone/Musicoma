@@ -1,0 +1,102 @@
+{
+ "plan": {
+  "bpm": 88,
+  "semitones": 4,
+  "source_bpm": 70,
+  "source_style": "city-pop",
+  "vocal": "female"
+ },
+ "source": {
+  "file": "sounds/generated/kanye-citypop-01-source/20261014-235113_0.wav"
+ },
+ "loop": {
+  "region": {
+   "start": 22.268,
+   "end": 35.991,
+   "bar": 6,
+   "score": 0.0625
+  },
+  "varispeed_ratio": 1.2579,
+  "semitones": 3.97
+ },
+ "harmony": {
+  "key_after_varispeed": "F# minor",
+  "chords": [
+   [
+    "Dmaj9",
+    0,
+    2
+   ],
+   [
+    "D",
+    2,
+    2
+   ],
+   [
+    "Bm9",
+    4,
+    2
+   ],
+   [
+    "Esus4",
+    6,
+    2
+   ],
+   [
+    "Gbm9",
+    8,
+    2
+   ],
+   [
+    "Gbsus4",
+    10,
+    2
+   ],
+   [
+    "Dbsus4",
+    12,
+    2
+   ],
+   [
+    "Dbm",
+    14,
+    null
+   ]
+  ],
+  "bass_notes": 6
+ },
+ "bass_source": "transcribed",
+ "balance": {
+  "reference": "Drums",
+  "moves": [
+   {
+    "track": "Sample",
+    "was_lu": 0.1,
+    "target_lu": -1.5,
+    "volume_db": -4.6,
+    "moved_db": -1.6
+   },
+   {
+    "track": "Bass",
+    "was_lu": -6.7,
+    "target_lu": -1.5,
+    "volume_db": 1.2,
+    "moved_db": 5.2
+   },
+   {
+    "track": "Keys",
+    "was_lu": -5.5,
+    "target_lu": -8,
+    "volume_db": -13.5,
+    "moved_db": -2.5
+   },
+   {
+    "track": "Chops",
+    "was_lu": -8.8,
+    "target_lu": -2,
+    "volume_db": 2.8,
+    "moved_db": 6.8
+   }
+  ]
+ }
+}

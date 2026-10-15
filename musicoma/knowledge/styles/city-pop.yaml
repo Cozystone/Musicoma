@@ -1,0 +1,66 @@
+id: city-pop
+name: City Pop (1978-1988 Japan)
+aliases: [시티팝, 시티 팝, city pop, citypop, 재팬 시티팝, japanese city pop, 야마시타 타츠로, 타케우치 마리야, 80년대 일본, 밤의 도시, plastic love 느낌, 버블 시대]
+era: 1978-1988 일본 (AOR·펑크·소울·디스코의 영향, 고급 스튜디오 녹음)
+essence: >
+  도시의 밤, 바다, 드라이브. 화려한 7·9화음과 ii-V 진행, 꽉 찬 리듬 섹션(슬랩/핑거 베이스 + 16비트 기타 커팅 +
+  라이브 드럼), 반짝이는 로즈와 신스 브라스, 깨끗하지만 따뜻한 아날로그 녹음. 슬픈데 세련됨.
+
+tempo: {range: [96, 124], sweet_spot: 108}
+swing: {amount: 0.52, unit: 16, note: "거의 정박, 16분 하이햇이 살짝 밀림"}
+key: "장조 위주, IVmaj7 시작이 단골. Eb·F·Bb·Db 같은 플랫 키가 많음"
+
+harmony:
+  typical:
+    - "IVmaj7 iii7 vi7 V7/vi"          # 'Just the two of us' 계열
+    - "IVmaj7 V7sus4 iii7 vi7"
+    - "ii9 V13 Imaj9 vi9"
+    - "IVmaj7 III7 vi9 Imaj7/V"
+    - "vi9 ii9 V13 Imaj7"
+  borrowed: "bVImaj7, iv6 같은 차용화음으로 애수"
+  voicing: "로즈는 근음 빼고 3·7·9·13, 패드는 넓게"
+
+drums:
+  kit: "라이브 킷 (virtuosity basic/full), 드라이하게 + 짧은 룸"
+  patterns:
+    main: {kick: "x.....x.x.......", snare: "....x.......x...", hat: "xxxxxxxxxxxxxxxx", open_hat: "..............x.", note: "16비트 디스코-펑크"}
+    groove2: {kick: "x..x..x...x..x..", snare: "....x.......x..o", hat: "x-x-x-x-x-x-x-x-"}
+    ballad: {kick: "x.......x.x.....", snare: "....x.......x...", hat: "x.x.x.x.x.x.x.x."}
+  velocity: "하이햇 강약 교차(정박 강), 스네어 100~112"
+
+bass:
+  role: "주인공급. 옥타브 점프, 16분 고스트, 슬랩 팝"
+  sound: "Surge: Basses/Fingered 또는 Basses/FM Slap, 미드 살아있게"
+  pattern: "근음-옥타브-5도 왕복, 16분 싱코페이션. 코드 바뀌기 직전 반음 어프로치"
+
+keys:
+  rhodes: "Surge Keys/EP 1·EP 2 — 2·4박 스탭 또는 16분 싱코페이션 컴핑"
+  piano: "Salamander — 화려한 상행 필인"
+  brass: "Surge Brass/Synth Brass 2·Toto Brass — 후렴 들어가기 전 스탭"
+  strings: "VSCO2 바이올린 앙상블 — 후렴 길게, 옥타브 유니즌 라인"
+  guitar: "16분 뮤트 커팅(Plucks/E-Guitar 또는 Clean) — 2·4 강조"
+
+vocals: "여성 보컬 중심, 영어 후렴 + 일본어 절, 코러스 겹겹이. 생성 시 'female vocal, airy, chorus harmonies'"
+
+arrangement:
+  template:
+    - {section: intro, bars: 8, elements: [rhodes, strings, bass_light]}
+    - {section: verse, bars: 16, elements: [drums.main, bass, rhodes, guitar]}
+    - {section: prechorus, bars: 8, elements: [drums.groove2, bass, rhodes, strings]}
+    - {section: chorus, bars: 16, elements: [drums.main, bass, rhodes, brass, strings, guitar]}
+  transitions: "후렴 전 브라스 스탭 + 탐 필, 마지막 후렴 반음/온음 전조"
+
+mix:
+  balance_lu: {drums: 0, bass: -1, keys: -2, vocal: 2, brass: -4, strings: -6, guitar: -5}
+  target_lufs: -12
+  character: "고역 반짝임(에어 살짝), 중저역 따뜻, 리버브는 플레이트로 보컬·스네어에"
+  master: "부드러운 버스 컴프, 테이프"
+
+as_sample_source:
+  use_for: [chipmunk-soul, lofi-hiphop, future-funk]
+  generate_prompt: >
+    1980s Japanese city pop, {tempo_word} tempo, female vocal, Fender Rhodes, slap bass, synth brass,
+    lush strings, 16-beat drums, analog tape, glossy studio production, nostalgic night drive
+  tip: "칩멍크용이면 느린 발라드(70~80 BPM)로, 퓨처펑크용이면 원곡 템포 그대로 생성"
+
+dont: ["808 금지", "현대 EDM 사이드체인 금지", "단순 3화음만 쓰지 말 것"]

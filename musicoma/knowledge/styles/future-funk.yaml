@@ -1,0 +1,10 @@
+id: future-funk
+name: Future Funk / Vaporwave
+aliases: [퓨처펑크, 퓨처 펑크, future funk, 베이퍼웨이브, vaporwave, 시티팝 리믹스, 애니 시티팝, 마크로스 82-99]
+essence: "시티팝·디스코 샘플을 살짝 빠르게(+1~3반음), 필터 하우스 킥·사이드체인, 보컬 찹 반복."
+tempo: {range: [112, 128], sweet_spot: 120}
+swing: {amount: 0.5, unit: 16}
+sample: {source_type: "시티팝 업템포", varispeed_semitones: {range: [1, 3], typical: 2}, chop_style: "보컬 한 음절 스터터(16분 반복), 필터 스윕"}
+drums: {patterns: {main: {kick: "x...x...x...x...", clap: "....x.......x...", hat: "..x...x...x...x."}}}
+mix: {target_lufs: -9, balance_lu: {drums: 0, sample: -1, chops: -1, bass: -3}, sidechain: "강하게"}
+vaporwave_variant: "반대로 -3~-6반음 느리게(배속 다운), 긴 리버브, 템포 70~90"

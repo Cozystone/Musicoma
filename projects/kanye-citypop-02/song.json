@@ -1,0 +1,127 @@
+{
+ "name": "kanye-citypop-02",
+ "bpm": 88,
+ "key": "A major",
+ "style": "chipmunk-soul",
+ "time_sig": "4/4",
+ "brief": "올드칸예 스타일에 시티팝 샘플링 — AI 생성 없이 직접 작곡한 레코드에서 샘플링",
+ "created": "2026-10-15 00:06",
+ "tracks": {
+  "Sample": {
+   "sound": null,
+   "role": "sample loop (varispeed, vinyl)"
+  },
+  "Drums": {
+   "sound": "drums_acoustic_basic",
+   "role": "boom bap drums"
+  },
+  "Bass": {
+   "sound": "bass_sub",
+   "role": "sub bass"
+  },
+  "Keys": {
+   "sound": null,
+   "role": null
+  },
+  "Chops": {
+   "sound": "D:\\0.Musicoma\\sounds\\crate\\stem_Lead\\chops_stem_Lead_lead_loop4bar_88bpm_onsets\\chops.sfz",
+   "role": "chop hook"
+  },
+  "Verb": {
+   "sound": null,
+   "role": "return bus 0",
+   "bus": 0
+  },
+  "Vox": {
+   "sound": null,
+   "role": "lead vocal (SoulX-Singer, demo-en voice)"
+  }
+ },
+ "sections": [
+  {
+   "name": "intro",
+   "start_bar": 0,
+   "bars": 4
+  },
+  {
+   "name": "verse",
+   "start_bar": 4,
+   "bars": 8
+  },
+  {
+   "name": "hook",
+   "start_bar": 12,
+   "bars": 8
+  },
+  {
+   "name": "verse",
+   "start_bar": 20,
+   "bars": 8
+  },
+  {
+   "name": "hook",
+   "start_bar": 28,
+   "bars": 8
+  },
+  {
+   "name": "outro",
+   "start_bar": 36,
+   "bars": 4
+  }
+ ],
+ "sources": [],
+ "history": [
+  {
+   "t": "10-15 00:08",
+   "request": "올드칸예 스타일에 시티팝 샘플링 — AI 생성 없이 직접 작곡한 레코드에서 샘플링",
+   "did": {
+    "recipe": "chipmunk_soul",
+    "notes": {
+     "plan": {
+      "bpm": 88,
+      "semitones": 4,
+      "source_bpm": 69.846
+     },
+     "record": {
+      "spec": "D:\\0.Musicoma\\projects\\kanye-citypop-02-record\\spec.json",
+      "mix": "D:\\0.Musicoma\\projects\\kanye-citypop-02-record\\renders\\kanye-citypop-02-record_record.wav"
+     },
+     "sample": {
+      "loop": "D:\\0.Musicoma\\sounds\\crate\\accomp\\accomp_vinyl_sample_loop4bar_88bpm.wav",
+      "semitones": 4.0,
+      "key_after": "A major",
+      "chords_after": [
+       "Dmaj7",
+       "Dbm7",
+       "Gbm7",
+       "Db7"
+      ]
+     },
+     "beat_spec": "D:\\0.Musicoma\\projects\\kanye-citypop-02\\spec.json"
+    }
+   }
+  },
+  {
+   "t": "10-15 00:32",
+   "request": "보컬 기능 첫 시험 — 훅에 영어 보컬(demo 목소리) A/B",
+   "did": "Vox 트랙 추가, 훅 2곳 × 2프레이즈, A=사람다운 f0 / B=악보만"
+  },
+  {
+   "t": "10-15 01:05",
+   "request": "Keys 트랙 볼륨을 1dB만 올려줘. 렌더는 하지 마.",
+   "did": "Keys 트랙 볼륨: -10.0 dB → -9.0 dB (+1.0 dB). 렌더 생략."
+  },
+  {
+   "t": "10-15 01:29",
+   "request": "몽환적인 딥하우스 122BPM",
+   "did": "88→122 BPM 전환. Sample을 피치 보존 스트레치한 4마디 루프로 10회 재배치하고 LPF 전개(420Hz→18kHz)를 적용. 4온더플로어 드럼 400노트, 오프비트 Rubber Bass 80노트, MKS-70 Warm Pad 200노트로 교체; Chops·Vox 뮤트. 렌더: -9.7 LUFS, -1.0 dBTP, 문제 없음."
+  },
+  {
+   "t": "10-15 01:31",
+   "request": "방금 바꾼 거 되돌려줘",
+   "did": "최근 편집 1단계 되돌림: Dream Pad 트랙명 → Keys. 렌더 완료 (-10.8 LUFS, -1.0 dBTP)."
+  }
+ ],
+ "versions": [],
+ "spec": "D:\\0.Musicoma\\projects\\kanye-citypop-02\\spec.json"
+}

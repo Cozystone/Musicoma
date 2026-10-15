@@ -1,0 +1,15 @@
+id: trap
+name: Trap (modern Atlanta)
+aliases: [트랩, trap, 애틀랜타, atlanta, 808, 메트로 부민, metro boomin, 드릴 아님]
+essence: "길게 끄는 808 베이스(글라이드), 3연·32분 하이햇 롤, 하프타임 스네어(3박), 어두운 단조 멜로디 루프."
+tempo: {range: [130, 160], sweet_spot: 140, feel: "하프타임 — 체감 70"}
+swing: {amount: 0.5, unit: 16}
+harmony: {typical: ["i bVI bVII i", "i iv bVI V", "i bII i bVII"], mode: "minor / phrygian"}
+drums:
+  patterns:
+    main: {kick: "x.........x..x..|x.....x...x.....", snare: "........x.......", hat: "x.x.x.x.x.x.x.x.", note: "하이햇 롤은 hat_roll 로 따로"}
+  hat_roll: "32분 3~6개, 1/6(3연) 롤, 피치 ±"
+  sounds: "808 킥=베이스 겸용, 클랩+스네어 레이어"
+bass: {sound: "Surge Basses/Sub 1 + 디스토션, 글라이드", pattern: "킥과 같은 위치, 길게"}
+mix: {target_lufs: -8, balance_lu: {bass: 0, drums: -1, melody: -4, keys: -4}, character: "808 크게, 하이햇 밝게, 멜로디 루프는 좁고 어둡게"}
+dont: ["스윙 많이", "라이브 킷"]

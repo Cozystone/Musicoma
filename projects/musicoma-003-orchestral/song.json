@@ -1,0 +1,78 @@
+{
+ "name": "musicoma-003-orchestral",
+ "bpm": 76,
+ "key": "D minor",
+ "style": "orchestral",
+ "time_sig": "4/4",
+ "brief": "오케스트라 큐(장르 테스트) — 섹션 쌓기와 다이내믹",
+ "created": "2026-10-15 08:42",
+ "tracks": {
+  "Violins": {
+   "sound": "strings_violins",
+   "role": "strings"
+  },
+  "Violas": {
+   "sound": "strings_violas",
+   "role": "strings"
+  },
+  "Cellos": {
+   "sound": "strings_cello",
+   "role": "strings"
+  },
+  "Basses": {
+   "sound": "contrabass",
+   "role": "bass"
+  },
+  "Horns": {
+   "sound": "horn",
+   "role": "brass"
+  },
+  "Trumpets": {
+   "sound": "trumpet",
+   "role": "brass"
+  },
+  "Trombones": {
+   "sound": "trombone",
+   "role": "brass"
+  },
+  "Flute": {
+   "sound": "flute",
+   "role": "lead"
+  },
+  "Timpani": {
+   "sound": "timpani",
+   "role": "drums"
+  },
+  "Hall": {
+   "sound": null,
+   "role": "return bus 0",
+   "bus": 0
+  }
+ },
+ "sections": [
+  {
+   "name": "intro",
+   "start_bar": 0,
+   "bars": 4
+  },
+  {
+   "name": "A",
+   "start_bar": 4,
+   "bars": 8
+  },
+  {
+   "name": "B",
+   "start_bar": 12,
+   "bars": 8
+  },
+  {
+   "name": "end",
+   "start_bar": 20,
+   "bars": 4
+  }
+ ],
+ "sources": [],
+ "history": [],
+ "versions": [],
+ "spec": "D:\\0.Musicoma\\projects\\musicoma-003-orchestral\\spec.json"
+}

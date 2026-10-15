@@ -1,0 +1,32 @@
+{
+ "render": [
+  {
+   "tracks": 4,
+   "audio_sec": 16.0,
+   "render_sec": 3.56,
+   "x_realtime": 4.5
+  },
+  {
+   "tracks": 16,
+   "audio_sec": 16.0,
+   "render_sec": 5.15,
+   "x_realtime": 3.1
+  },
+  {
+   "tracks": 32,
+   "audio_sec": 16.0,
+   "render_sec": 6.0,
+   "x_realtime": 2.7
+  },
+  {
+   "tracks": 64,
+   "audio_sec": 16.0,
+   "render_sec": 9.34,
+   "x_realtime": 1.7
+  }
+ ],
+ "device": "스피커(KEF EGG)",
+ "sample_rate": 48000.0,
+ "buffer": 480,
+ "output_latency_ms": 10.0
+}

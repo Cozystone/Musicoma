@@ -1,0 +1,193 @@
+{
+ "name": "musicoma-001-record",
+ "bpm": 68.258,
+ "key": "Bb major",
+ "style": "soul",
+ "brief": "샘플 소스용 레코드 (직접 작곡·연주)",
+ "sections": [
+  {
+   "name": "intro",
+   "bars": 2
+  },
+  {
+   "name": "A",
+   "bars": 8
+  },
+  {
+   "name": "B",
+   "bars": 8
+  }
+ ],
+ "tracks": {
+  "Drums": {
+   "sound": "drums_acoustic_basic",
+   "role": "drums",
+   "fx": [
+    {
+     "device": "lowpass",
+     "params": {
+      "frequency": 7000
+     }
+    }
+   ]
+  },
+  "Bass": {
+   "sound": "bass_finger",
+   "role": "bass"
+  },
+  "Keys": {
+   "sound": "rhodes",
+   "role": "keys",
+   "pan": -0.15,
+   "sends": {
+    "0": -10
+   }
+  },
+  "Strings": {
+   "sound": "strings_violins",
+   "role": "strings",
+   "pan": 0.2,
+   "sends": {
+    "0": -6
+   }
+  },
+  "Lead": {
+   "sound": "solo_violin",
+   "role": "lead",
+   "sends": {
+    "0": -8
+   }
+  }
+ },
+ "buses": [
+  {
+   "name": "Room",
+   "bus": 0,
+   "device": "Dragonfly Hall Reverb",
+   "volume_db": -6
+  }
+ ],
+ "parts": [
+  {
+   "track": "Drums",
+   "in": [
+    "A",
+    "B"
+   ],
+   "drums": {
+    "pattern": {
+     "kick": "x.......x.x.....",
+     "snare": "....x.......x...",
+     "hat": "x-x-x-x-x-x-x-x-"
+    },
+    "swing": 0.54,
+    "humanize_ms": 8,
+    "humanize_vel": 10
+   }
+  },
+  {
+   "track": "Bass",
+   "in": [
+    "A",
+    "B"
+   ],
+   "bass": {
+    "progression": "Imaj7 vi7 ii7 V7 Imaj7 vi7 IVmaj7 V7sus4",
+    "beats_per_chord": 4,
+    "pattern": [
+     [
+      0,
+      1.5,
+      0
+     ],
+     [
+      1.5,
+      0.5,
+      7
+     ],
+     [
+      2,
+      1.5,
+      0
+     ],
+     [
+      3.5,
+      0.5,
+      12
+     ]
+    ]
+   }
+  },
+  {
+   "track": "Keys",
+   "in": "all",
+   "chords": {
+    "progression": "Imaj7 vi7 ii7 V7 Imaj7 vi7 IVmaj7 V7sus4",
+    "beats_per_chord": 4,
+    "voicing": "rhodes",
+    "rhythm": [
+     [
+      0,
+      1.5,
+      1.0
+     ],
+     [
+      1.5,
+      1.0,
+      0.75
+     ],
+     [
+      2.5,
+      1.5,
+      0.85
+     ]
+    ],
+    "velocity": 74
+   }
+  },
+  {
+   "track": "Strings",
+   "in": [
+    "B"
+   ],
+   "chords": {
+    "progression": "Imaj7 vi7 ii7 V7 Imaj7 vi7 IVmaj7 V7sus4",
+    "beats_per_chord": 4,
+    "voicing": "pad",
+    "velocity": 70,
+    "legato": 1.0
+   }
+  },
+  {
+   "track": "Lead",
+   "in": [
+    "B"
+   ],
+   "melody": {
+    "text": "Bb4:0.75 A4:0.75 Bb4:1.0 A4:1.5 G4:2.0 r:0.5 A4:0.5 Bb4:1.0 C5:2.0 r:0.5 D5:0.5 Eb5:1.0 Eb5:0.75 Eb5:0.75 D5:1.0 F5:1.5 r:0.25 Eb5:0.75 D5:0.5 D5:2.5 D5:2.0 r:0.5 Eb5:0.5 C5:1.0 Bb4:2.0 r:0.5 Bb4:0.5 Bb4:1.0 C5:0.75 C5:0.75 A4:1.0 Bb4:1.5",
+    "velocity": 96
+   }
+  },
+  {
+   "track": "Lead",
+   "in": [
+    "A"
+   ],
+   "melody": {
+    "text": "Bb4:0.75 A4:0.75 Bb4:1.0 A4:1.5 G4:2.0 r:0.5 A4:0.5 Bb4:1.0 C5:2.0 r:0.5 D5:0.5 Eb5:1.0 Eb5:0.75 Eb5:0.75 D5:1.0 F5:1.5 r:0.25 Eb5:0.75 D5:0.5 D5:2.5 D5:2.0 r:0.5 Eb5:0.5 C5:1.0 Bb4:2.0 r:0.5 Bb4:0.5 Bb4:1.0 C5:0.75 C5:0.75 A4:1.0 Bb4:1.5",
+    "velocity": 84
+   },
+   "transpose": -12
+  }
+ ],
+ "mix": {
+  "balance": true,
+  "balance_lu": {
+   "keys": 0,
+   "lead": 2,
+   "strings": -2,
+   "drums": -3,
+   "bass": -3
+  }
+ }
+}

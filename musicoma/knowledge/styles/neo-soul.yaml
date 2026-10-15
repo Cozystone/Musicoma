@@ -1,0 +1,11 @@
+id: neo-soul
+name: Neo Soul / 90s-00s R&B
+aliases: [네오소울, 네오 소울, neo soul, 디안젤로, d'angelo, 에리카 바두, 90년대 알앤비, 90s rnb, r&b, 알앤비, 소울쿼리언스]
+essence: "늦게 끌리는 드럼(딜라 타이밍), 텐션 많은 로즈·오르간, 따뜻한 베이스, 인간적인 흔들림."
+tempo: {range: [70, 96], sweet_spot: 84}
+swing: {amount: 0.6, unit: 16, note: "스네어를 늦게(+15~25ms), 킥은 약간 이르게"}
+harmony: {typical: ["IVmaj9 iii7 ii9 Imaj9", "ii9 V13sus4 Imaj9 vi11", "i9 iv9 i9 V7#9"]}
+drums: {patterns: {main: {kick: "x.......x..x....", snare: "....x.......x...", hat: "x.xox.x.x.xox.x."}}}
+keys: {sound: "Surge Keys/EP 1, Organ 2", voicing: "rhodes + 상성부 크로매틱 이동"}
+bass: {sound: "Basses/Fingered, 레가토, 슬라이드", pattern: "멜로딕, 코드톤 사이 경과음"}
+mix: {target_lufs: -13, balance_lu: {drums: 0, keys: -1, bass: -2, organ: -6}, character: "따뜻, 중역 풍부, 스네어 둔탁"}

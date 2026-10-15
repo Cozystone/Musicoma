@@ -1,0 +1,61 @@
+{
+ "name": "musicoma-002-record",
+ "bpm": 69.846,
+ "key": "F major",
+ "style": "city-pop",
+ "time_sig": "4/4",
+ "brief": "샘플 소스용 레코드 (직접 작곡·연주)",
+ "created": "2026-10-15 02:46",
+ "tracks": {
+  "Drums": {
+   "sound": "drums_acoustic_basic",
+   "role": "drums"
+  },
+  "Bass": {
+   "sound": "bass_finger",
+   "role": "bass"
+  },
+  "Keys": {
+   "sound": "rhodes",
+   "role": "keys"
+  },
+  "Strings": {
+   "sound": "strings_violins",
+   "role": "strings"
+  },
+  "Lead": {
+   "sound": "rhodes",
+   "role": "lead"
+  },
+  "Vox": {
+   "sound": null,
+   "role": "lead vocal (generated voice)"
+  },
+  "Room": {
+   "sound": null,
+   "role": "return bus 0",
+   "bus": 0
+  }
+ },
+ "sections": [
+  {
+   "name": "intro",
+   "start_bar": 0,
+   "bars": 2
+  },
+  {
+   "name": "A",
+   "start_bar": 2,
+   "bars": 8
+  },
+  {
+   "name": "B",
+   "start_bar": 10,
+   "bars": 8
+  }
+ ],
+ "sources": [],
+ "history": [],
+ "versions": [],
+ "spec": "D:\\0.Musicoma\\projects\\musicoma-002-record\\spec.json"
+}
