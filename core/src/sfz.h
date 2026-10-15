@@ -30,6 +30,7 @@ enum class ModTarget
     EgDelay, EgAttack, EgHold, EgDecay, EgSustain, EgRelease,
     AmpVeltrack, Cutoff1, Cutoff2, Resonance1, Resonance2,
     Eq1Gain, Eq2Gain, Eq3Gain, Eq1Freq, Eq2Freq, Eq3Freq,
+    Delay,
     Count
 };
 
@@ -77,6 +78,7 @@ struct Region
     float offTime = 0.006f;
     float delay = 0.0f;
     float volume = 0.0f, amplitude = 100.0f, pan = 0.0f, width = 100.0f;
+    float groupVolume = 0.0f, masterVolume = 0.0f, globalVolume = 0.0f;   // SFZ v2 단계별 볼륨 (dB)
     float tune = 0.0f;
     int transpose = 0;
     float pitchKeytrack = 100.0f;

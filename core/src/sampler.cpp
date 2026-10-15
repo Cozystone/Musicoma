@@ -272,7 +272,7 @@ void SfzSynth::startVoice (const Region& r, int key, float vel, bool releaseTrig
     v.loopStart = ls; v.loopEnd = le;
 
     // 엔벨로프
-    float egDelay = std::max (0.0f, r.egDelay + ccMod (r, ModTarget::EgDelay)) + std::max (0.0f, r.delay);
+    float egDelay = std::max (0.0f, r.egDelay + ccMod (r, ModTarget::EgDelay)) + std::max (0.0f, r.delay + ccMod (r, ModTarget::Delay));
     float att = std::max (0.0f, r.egAttack + ccMod (r, ModTarget::EgAttack));
     float hold = std::max (0.0f, r.egHold + ccMod (r, ModTarget::EgHold));
     float dec = std::max (0.0f, r.egDecay + ccMod (r, ModTarget::EgDecay));
@@ -289,7 +289,7 @@ void SfzSynth::startVoice (const Region& r, int key, float vel, bool releaseTrig
     v.stageLeft = att > 0 ? (int64_t) (att * sr) + 1 : v.holdLen;
 
     // 정적 이득: 볼륨·벨로시티·키 크로스페이드·rt_decay·amp_keytrack
-    double gainDb = r.volume + r.ampKeytrack * (key - r.ampKeycenter);
+    double gainDb = r.volume + r.groupVolume + r.masterVolume + r.globalVolume + r.ampKeytrack * (key - r.ampKeycenter);
     if (releaseTrig && r.rtDecay > 0) gainDb -= r.rtDecay * rtSeconds;
     float g = dbToGain (gainDb) * (r.amplitude / 100.0f) * velocityGain (r, vel);
 

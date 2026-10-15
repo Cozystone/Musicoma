@@ -1,5 +1,6 @@
 #include "audiofile.h"
 #include <algorithm>
+#include <bit>
 #include <cstring>
 #include <fstream>
 
@@ -105,45 +106,53 @@ namespace {
 
 struct BitReader
 {
+    // 64비트 캐시: 위쪽(MSB)부터 꺼낸다
     const uint8_t* d;
     size_t n;
-    size_t pos = 0;      // 비트 위치
+    size_t bytePos = 0;   // 다음에 캐시로 넣을 바이트
+    uint64_t cache = 0;
+    int bits = 0;         // 캐시에 든 비트 수
 
     BitReader (const uint8_t* data, size_t len) : d (data), n (len) {}
 
-    bool eof() const { return (pos >> 3) >= n; }
-
-    inline uint32_t bit()
+    inline void refill()
     {
-        size_t byte = pos >> 3;
-        if (byte >= n) throw std::runtime_error ("FLAC: read past end");
-        uint32_t b = (d[byte] >> (7 - (pos & 7))) & 1u;
-        ++pos;
-        return b;
+        while (bits <= 56)
+        {
+            uint64_t b = bytePos < n ? d[bytePos] : 0;
+            if (bytePos >= n + 8) throw std::runtime_error ("FLAC: read past end");
+            ++bytePos;
+            cache |= b << (56 - bits);
+            bits += 8;
+        }
     }
 
-    inline uint64_t bits (int k)
+    /** 지금 읽을 비트의 바이트 위치 */
+    size_t pos() const { return (bytePos * 8 - (size_t) bits); }
+    void seekBits (size_t bitPos) { bytePos = bitPos >> 3; cache = 0; bits = 0; int skip = (int) (bitPos & 7); if (skip) { refill(); cache <<= skip; bits -= skip; } }
+
+    inline uint64_t read (int k)
     {
         if (k == 0) return 0;
-        uint64_t v = 0;
-        // 바이트 정렬된 빠른 경로
-        while (k >= 8 && (pos & 7) == 0)
+        if (k > 56)
         {
-            size_t byte = pos >> 3;
-            if (byte >= n) throw std::runtime_error ("FLAC: read past end");
-            v = (v << 8) | d[byte];
-            pos += 8;
-            k -= 8;
+            uint64_t hi = read (k - 32);
+            return (hi << 32) | read (32);
         }
-        while (k-- > 0)
-            v = (v << 1) | bit();
+        if (bits < k) refill();
+        uint64_t v = cache >> (64 - k);
+        cache <<= k;
+        bits -= k;
         return v;
     }
+
+    inline uint32_t bit() { return (uint32_t) read (1); }
+    inline uint64_t bitsN (int k) { return read (k); }
 
     inline int64_t sbits (int k)
     {
         if (k == 0) return 0;
-        uint64_t v = bits (k);
+        uint64_t v = read (k);
         if (v & (1ull << (k - 1)))
             return (int64_t) v - (int64_t) (1ull << k);
         return (int64_t) v;
@@ -154,35 +163,48 @@ struct BitReader
         uint32_t zeros = 0;
         while (true)
         {
-            size_t byte = pos >> 3;
-            if (byte >= n) throw std::runtime_error ("FLAC: read past end");
-            if ((pos & 7) == 0 && d[byte] == 0) { zeros += 8; pos += 8; continue; }
-            if (bit()) return zeros;
-            ++zeros;
+            if (bits == 0) refill();
+            if (cache == 0)
+            {
+                zeros += (uint32_t) bits;
+                cache = 0; bits = 0;
+                if (bytePos > n + 8) throw std::runtime_error ("FLAC: read past end");
+                continue;
+            }
+            int lz = std::countl_zero (cache);
+            if (lz < bits)
+            {
+                zeros += (uint32_t) lz;
+                cache <<= (lz + 1);
+                bits -= lz + 1;
+                return zeros;
+            }
+            zeros += (uint32_t) bits;
+            cache = 0; bits = 0;
         }
     }
 
-    void align() { pos = (pos + 7) & ~(size_t) 7; }
+    void align() { int r = bits & 7; cache <<= r; bits -= r; }
 };
 
 void readResidual (BitReader& br, int blockSize, int order, int64_t* out)
 {
-    int method = (int) br.bits (2);
+    int method = (int) br.bitsN (2);
     if (method > 1) throw std::runtime_error ("FLAC: bad residual method");
     int paramBits = method == 0 ? 4 : 5;
     int escape = method == 0 ? 15 : 31;
-    int partOrder = (int) br.bits (4);
+    int partOrder = (int) br.bitsN (4);
     int parts = 1 << partOrder;
     int idx = 0;
 
     for (int p = 0; p < parts; ++p)
     {
         int count = (blockSize >> partOrder) - (p == 0 ? order : 0);
-        int k = (int) br.bits (paramBits);
+        int k = (int) br.bitsN (paramBits);
 
         if (k == escape)
         {
-            int nb = (int) br.bits (5);
+            int nb = (int) br.bitsN (5);
             for (int i = 0; i < count; ++i)
                 out[idx++] = br.sbits (nb);
         }
@@ -191,7 +213,7 @@ void readResidual (BitReader& br, int blockSize, int order, int64_t* out)
             for (int i = 0; i < count; ++i)
             {
                 uint64_t q = br.unary();
-                uint64_t v = (q << k) | br.bits (k);
+                uint64_t v = (q << k) | br.bitsN (k);
                 out[idx++] = (int64_t) (v >> 1) ^ -(int64_t) (v & 1);
             }
         }
@@ -201,7 +223,7 @@ void readResidual (BitReader& br, int blockSize, int order, int64_t* out)
 void readSubframe (BitReader& br, int blockSize, int bps, int64_t* s)
 {
     if (br.bit() != 0) throw std::runtime_error ("FLAC: bad subframe padding");
-    int type = (int) br.bits (6);
+    int type = (int) br.bitsN (6);
     int wasted = 0;
     if (br.bit())
         wasted = (int) br.unary() + 1;
@@ -238,7 +260,7 @@ void readSubframe (BitReader& br, int blockSize, int bps, int64_t* s)
     {
         int order = type - 31;
         for (int i = 0; i < order; ++i) s[i] = br.sbits (bps);
-        int precision = (int) br.bits (4) + 1;
+        int precision = (int) br.bitsN (4) + 1;
         if (precision == 16) throw std::runtime_error ("FLAC: bad LPC precision");
         int shift = (int) br.sbits (5);
         if (shift < 0) shift = 0;
@@ -288,11 +310,11 @@ bool decodeFlac (const uint8_t* d, size_t n, AudioData& out, std::string& err)
             if (type == 0 && len >= 34)
             {
                 BitReader br (d + pos, len);
-                br.bits (16); br.bits (16); br.bits (24); br.bits (24);
-                rate = (uint32_t) br.bits (20);
-                channels = (int) br.bits (3) + 1;
-                bps = (int) br.bits (5) + 1;
-                total = br.bits (36);
+                br.bitsN (16); br.bitsN (16); br.bitsN (24); br.bitsN (24);
+                rate = (uint32_t) br.bitsN (20);
+                channels = (int) br.bitsN (3) + 1;
+                bps = (int) br.bitsN (5) + 1;
+                total = br.bitsN (36);
             }
             pos += len;
         }
@@ -308,39 +330,40 @@ bool decodeFlac (const uint8_t* d, size_t n, AudioData& out, std::string& err)
         const float scale = 1.0f / (float) (1u << (bps - 1));
 
         BitReader br (d, n);
-        br.pos = pos * 8;
+        br.seekBits (pos * 8);
 
-        while ((br.pos >> 3) + 2 < n)
+        while ((br.pos() >> 3) + 2 < n)
         {
-            // 프레임 동기 찾기
-            size_t byte = br.pos >> 3;
+            // 프레임 동기 찾기 (보통 바로 이어지고, 어긋나면 한 바이트씩)
+            size_t at = br.pos();
+            size_t byte = at >> 3;
             if (! (d[byte] == 0xFF && (d[byte + 1] & 0xFE) == 0xF8))
             {
-                br.pos += 8;
+                br.seekBits (at + 8);
                 continue;
             }
-            br.bits (16);
-            int bsCode = (int) br.bits (4);
-            int srCode = (int) br.bits (4);
-            int chAssign = (int) br.bits (4);
-            int ssCode = (int) br.bits (3);
-            br.bits (1);
+            br.bitsN (16);
+            int bsCode = (int) br.bitsN (4);
+            int srCode = (int) br.bitsN (4);
+            int chAssign = (int) br.bitsN (4);
+            int ssCode = (int) br.bitsN (3);
+            br.bitsN (1);
             // UTF-8 식 프레임 번호
-            uint32_t first = (uint32_t) br.bits (8);
+            uint32_t first = (uint32_t) br.bitsN (8);
             int extra = 0;
             if (first & 0x80) { uint32_t m = 0x40; while (first & m) { ++extra; m >>= 1; } }
-            for (int i = 0; i < extra; ++i) br.bits (8);
+            for (int i = 0; i < extra; ++i) br.bitsN (8);
 
             int blockSize = 0;
             if (bsCode == 1) blockSize = 192;
             else if (bsCode >= 2 && bsCode <= 5) blockSize = 576 << (bsCode - 2);
-            else if (bsCode == 6) blockSize = (int) br.bits (8) + 1;
-            else if (bsCode == 7) blockSize = (int) br.bits (16) + 1;
+            else if (bsCode == 6) blockSize = (int) br.bitsN (8) + 1;
+            else if (bsCode == 7) blockSize = (int) br.bitsN (16) + 1;
             else if (bsCode >= 8) blockSize = 256 << (bsCode - 8);
             else throw std::runtime_error ("FLAC: reserved block size");
 
-            if (srCode == 12) br.bits (8);
-            else if (srCode == 13 || srCode == 14) br.bits (16);
+            if (srCode == 12) br.bitsN (8);
+            else if (srCode == 13 || srCode == 14) br.bitsN (16);
 
             int fbps = bps;
             switch (ssCode)
@@ -349,7 +372,7 @@ bool decodeFlac (const uint8_t* d, size_t n, AudioData& out, std::string& err)
                 case 5: fbps = 20; break; case 6: fbps = 24; break; case 7: fbps = 32; break;
                 default: break;
             }
-            br.bits (8);   // CRC-8
+            br.bitsN (8);   // CRC-8
 
             int nch = chAssign < 8 ? chAssign + 1 : 2;
             for (int c = 0; c < nch; ++c)
@@ -361,7 +384,7 @@ bool decodeFlac (const uint8_t* d, size_t n, AudioData& out, std::string& err)
                 readSubframe (br, blockSize, sbps, buf[c].data());
             }
             br.align();
-            br.bits (16);  // CRC-16
+            br.bitsN (16);  // CRC-16
 
             if (chAssign == 8)
                 for (int i = 0; i < blockSize; ++i) buf[1][i] = buf[0][i] - buf[1][i];

@@ -273,7 +273,7 @@ struct Builder
         static const std::pair<const char*, ModTarget> table[] = {
             { "amplitude", ModTarget::Amplitude }, { "volume", ModTarget::Volume }, { "gain", ModTarget::Volume },
             { "pan", ModTarget::Pan }, { "tune", ModTarget::Pitch }, { "pitch", ModTarget::Pitch },
-            { "offset", ModTarget::Offset }, { "delay", ModTarget::Count },
+            { "offset", ModTarget::Offset }, { "delay", ModTarget::Delay },
             { "ampeg_delay", ModTarget::EgDelay }, { "ampeg_attack", ModTarget::EgAttack },
             { "ampeg_hold", ModTarget::EgHold }, { "ampeg_decay", ModTarget::EgDecay },
             { "ampeg_sustain", ModTarget::EgSustain }, { "ampeg_release", ModTarget::EgRelease },
@@ -377,6 +377,9 @@ struct Builder
         if (n == "off_time") { r.offTime = F(); r.offMode = OffMode::Time; return; }
         if (n == "delay") { r.delay = F(); return; }
         if (n == "volume" || n == "gain") { r.volume = F(); return; }
+        if (n == "group_volume") { r.groupVolume = F(); return; }
+        if (n == "master_volume") { r.masterVolume = F(); return; }
+        if (n == "global_volume") { r.globalVolume = F(); return; }
         if (n == "amplitude") { r.amplitude = F(); return; }
         if (n == "pan") { r.pan = F(); return; }
         if (n == "width") { r.width = F(); return; }
