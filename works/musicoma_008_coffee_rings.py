@@ -152,14 +152,14 @@ if __name__ == "__main__":
     if step == "dry":
         sys.exit(0)
     root = Path(arrange.ROOT) / "projects" / NAME
-    if step in ("all", "inst"):
+    if step == "inst":                           # 반주만 들어 볼 때. all 은 건너뛴다 — 보컬은 가이드로 만들고 최종 빌드가 반주를 다시 짓는다(10-15 속도)
         s, rep = arrange.build(spec, label="inst")
         print("반주:", rep["file"], rep["loudness"]["lufs_integrated"])
     if step in ("all", "vocal"):
         guide = lego.render_guide(spec)
         caption = ("male rap vocals, english, upbeat jazz hip-hop, conversational storytelling flow, smooth and clear, "
                    "slightly behind the beat, warm mid-range voice")
-        vox, rep_v = lego.vocal_track(root / "renders" / f"{NAME}_inst.wav", rap_sections(), BPM, KEY, caption,
+        vox, rep_v = lego.vocal_track(guide, rap_sections(), BPM, KEY, caption,
                                       root / "vocals" / "rap_lego.wav", takes=10, guide_wav=guide, pass_wer=0.3, min_key_fit=0.0)
         for x in rep_v:
             print(x["section"], "seed", x["chosen"], "오류율", x["wer"], "유사도", x["voice_sim"])

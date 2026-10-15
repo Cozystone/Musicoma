@@ -242,12 +242,15 @@ class Song:
         report["render_ms"] = r.get("render_ms")
         return report
 
-    def render_stems(self, start=None, end=None):
-        """트랙마다 따로 렌더해 음량·대역을 잰다 → 어느 트랙이 어느 대역을 차지하는지(믹스 판단용)."""
+    def render_stems(self, start=None, end=None, only=None):
+        """트랙마다 따로 렌더해 음량·대역을 잰다 → 어느 트랙이 어느 대역을 차지하는지(믹스 판단용).
+        only = 트랙 이름 집합이면 그 트랙만(밸런스 2회차부터 — 움직인 트랙만 다시 잰다)."""
         info = self.e.call("edit.info")
         out_dir = self.dir / ".work/stems"          # 측정용 트랙별 렌더 — 중간 파일
         out_dir.mkdir(parents=True, exist_ok=True)
         for old in out_dir.glob("*.wav"):
+            if only is not None and old.stem.rsplit("_", 1)[0] not in only:
+                continue
             try:
                 old.unlink()
             except OSError:
@@ -255,7 +258,7 @@ class Song:
         stamp = time.strftime("%H%M%S")
         rows = []
         for t in info["tracks"]:
-            if t["mute"]:
+            if t["mute"] or (only is not None and t["name"] not in only):
                 continue
             params = {"tracks": [t["name"]], "tail": 1.5, "path": str(out_dir / f"{t['name']}_{stamp}.wav")}
             if start is not None:
@@ -276,15 +279,16 @@ class Song:
     def balance(self, targets=None, reference="drums", max_move_db=12.0, passes=3, tolerance_lu=0.7):
         """여러 번 재고 고친다 — 트랙 볼륨이 컴프레서 앞에 있으면 올린 만큼 안 올라가서(10-15 kanye 랩이 묻힌 원인),
         한 번에 맞추면 오차가 남는다. 매번 다시 렌더해 측정, 모두 tolerance 안이면 멈춘다."""
-        all_moves, res = [], None
+        all_moves, res, rows = [], None, None
         for i in range(passes):
-            res = self._balance_once(targets, reference, max_move_db, tolerance_lu)
+            res = self._balance_once(targets, reference, max_move_db, tolerance_lu, rows)
+            rows = res["rows"]
             all_moves += [{**m, "pass": i + 1} for m in res["moves"]]
             if not res["moves"]:
                 break
         return {"reference": res["reference"] if res else reference, "moves": all_moves}
 
-    def _balance_once(self, targets=None, reference="drums", max_move_db=12.0, tolerance_lu=0.5):
+    def _balance_once(self, targets=None, reference="drums", max_move_db=12.0, tolerance_lu=0.5, prev=None):
         """역할별 음량 비율 맞추기. targets = {트랙이름 또는 역할 키워드: 기준 대비 LU}.
 
         기준 트랙(reference) = 0. 예: {"drums": 0, "sample": -2, "bass": -3, "keys": -7}
@@ -294,7 +298,13 @@ class Song:
             targets = (self.style_card or {}).get("mix", {}).get("balance_lu")
         if not targets:
             raise ValueError("no balance targets (style card mix.balance_lu)")
-        rows = {r["track"]: r for r in self.render_stems() if r.get("lufs") is not None}
+        if prev is None:
+            rows = {r["track"]: r for r in self.render_stems() if r.get("lufs") is not None}
+        else:                                      # 지난 회차에 움직인 트랙만 다시 렌더(나머지 음량은 그대로 — 10-15 속도 개선)
+            moved = {n for n, r in prev.items() if r.get("moved")}
+            rows = {n: {k: v for k, v in r.items() if k != "moved"} for n, r in prev.items()}
+            if moved:
+                rows.update({r["track"]: r for r in self.render_stems(only=moved) if r.get("lufs") is not None})
         tracks_meta = self.meta.get("tracks", {})
 
         def target_for(name):
@@ -330,8 +340,9 @@ class Song:
                                                  "gain_db": round(c.get("gain_db", 0) + extra, 1)})
             moves.append({"track": name, "was_lu": round(r["lufs"] - ref_lufs, 1), "target_lu": tgt,
                           "volume_db": new_db, "moved_db": round(delta, 1)})
+            r["moved"] = True
         self.save()
-        return {"reference": ref_name, "moves": moves}
+        return {"reference": ref_name, "moves": moves, "rows": rows}
 
     def snapshot(self, label, note=""):
         """지금 상태를 버전으로 고정(.tracktionedit 복사 + 렌더)."""

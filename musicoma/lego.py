@@ -59,8 +59,15 @@ def render_guide(spec, roles=None):
     """가이드 wav — 가이드 설계서를 짓고 **트랙별로 렌더해 그냥 더한다(마스터 체인 없음)**.
     10-15 측정: 같은 가이드를 곡 전체 렌더(마스터·리미터 통과)로 주면 8/8 실패, 트랙 합으로 주면 4/8 성공(오류율 ≤ 0.23)."""
     import glob
+    import hashlib
     from . import arrange
-    s, _ = arrange.build(guide_spec(spec, roles), render=False, log=lambda m: None)
+    g = guide_spec(spec, roles)
+    digest = hashlib.sha1(json.dumps(g, sort_keys=True, default=str).encode()).hexdigest()
+    out = ROOT / "projects" / g["name"] / "guide_stems.wav"
+    stamp = out.with_suffix(".sha1")
+    if out.exists() and stamp.exists() and stamp.read_text() == digest:
+        return out                                   # 드럼·베이스·건반 파트가 그대로면 다시 짓지 않는다(믹스·가사만 고친 재생성 — 10-15 속도)
+    s, _ = arrange.build(g, render=False, log=lambda m: None)
     s.render_stems()
     mix, sr = None, 48000
     for p in glob.glob(str(Path(s.dir) / ".work" / "stems" / "*.wav")):
@@ -69,6 +76,7 @@ def render_guide(spec, roles=None):
     mix = mix / (np.abs(mix).max() + 1e-9) * 0.8
     out = Path(s.dir) / "guide_stems.wav"
     sf.write(str(out), mix, sr, subtype="PCM_24")
+    out.with_suffix(".sha1").write_text(digest)
     return out
 
 
@@ -113,23 +121,119 @@ def _sim(a, b):
     return float(np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b) + 1e-9))
 
 
-def _run_lego(req, work):
-    req_path = work / f"req_{req['tag']}.json"
-    req_path.write_text(json.dumps(req, ensure_ascii=False), encoding="utf-8")
-    env = {**os.environ, "PYTHONUTF8": "1", "PYTHONIOENCODING": "utf-8", "ACESTEP_GENERATION_TIMEOUT": "3600"}
-    r = subprocess.run([str(ACE / ".venv/Scripts/python.exe"), str(ACE / "musicoma_lego.py"), str(req_path)], cwd=ACE,
-                       env=env, capture_output=True, text=True, encoding="utf-8", errors="replace")
-    line = [l for l in r.stdout.splitlines() if l.startswith('{"files"')]
-    if r.returncode != 0 or not line:
-        raise RuntimeError((r.stdout[-1500:] + "\n" + r.stderr[-1500:]).strip())
-    return json.loads(line[-1])["files"]
+class _Server:
+    """ACE-Step 상주 프로세스(10-15 속도 개선). 모델은 한 번만 올리고 구간·테이크마다 요청만 보낸다(구간마다 23초 로드 → 0)."""
+
+    def __init__(self, cfg, work):
+        import queue
+        import threading
+        cfg_path = work / "server.json"
+        cfg_path.write_text(json.dumps(cfg), encoding="utf-8")
+        env = {**os.environ, "PYTHONUTF8": "1", "PYTHONIOENCODING": "utf-8", "ACESTEP_GENERATION_TIMEOUT": "3600"}
+        self.err = open(work / "server.log", "a", encoding="utf-8", errors="replace")
+        self.p = subprocess.Popen([str(ACE / ".venv/Scripts/python.exe"), str(ROOT / "musicoma" / "bridges" / "ace_lego.py"), "--serve", str(cfg_path)],
+                                  cwd=ACE, env=env, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=self.err,
+                                  text=True, encoding="utf-8", errors="replace", bufsize=1)
+        self.q = queue.Queue()
+
+        def pump():
+            for line in self.p.stdout:
+                if line.startswith("{"):
+                    try:
+                        self.q.put(json.loads(line))
+                    except ValueError:
+                        pass
+            self.q.put({"exit": self.p.poll()})
+        threading.Thread(target=pump, daemon=True).start()
+        msg = self._next(timeout=900)
+        if msg.get("init") is False or "exit" in msg:
+            raise RuntimeError(f"[lego] 모델 로드 실패: {msg} (로그 {work / 'server.log'})")
+        while "ready" not in msg:
+            msg = self._next(timeout=900)
+
+    def _next(self, timeout=1800):
+        import queue
+        try:
+            msg = self.q.get(timeout=timeout)
+        except queue.Empty:
+            raise RuntimeError("[lego] 응답 없음(시간 초과)")
+        if "exit" in msg:
+            raise RuntimeError(f"[lego] 상주 프로세스 종료({msg['exit']}) — {self.err.name}")
+        return msg
+
+    def submit(self, req):
+        self.p.stdin.write(json.dumps(req, ensure_ascii=False) + "\n")
+        self.p.stdin.flush()
+
+    def result(self):
+        while True:
+            msg = self._next()
+            if "files" in msg:
+                return msg["files"]
+
+    def alive(self):
+        return self.p.poll() is None
+
+    def close(self):
+        if self.err.closed:                          # 이미 닫음(직접 close 후 atexit 가 다시 부를 때)
+            return
+        try:
+            if self.alive():
+                self.p.stdin.write("quit\n")
+                self.p.stdin.flush()
+                self.p.wait(timeout=30)
+            self.p.stdin.close()
+        except Exception:
+            self.p.kill()
+        self.err.close()
+
+
+_SERVERS = {}
+
+
+def server(cfg, work):
+    key = json.dumps(cfg, sort_keys=True)
+    s = _SERVERS.get(key)
+    if s is None or not s.alive():
+        import atexit
+        s = _SERVERS[key] = _Server(cfg, work)
+        atexit.register(s.close)
+    return s
+
+
+_DEMUCS = None
+
+
+def vocals_only(path, out_path):
+    """demucs 보컬 분리를 이 프로세스 안에서(모델 상주). 예전엔 테이크마다 demucs 를 새로 띄워 2.8초 → 0.3초대."""
+    global _DEMUCS
+    import torch
+    from demucs.apply import apply_model
+    if _DEMUCS is None:
+        from demucs.pretrained import get_model
+        _DEMUCS = get_model("htdemucs").cuda().eval()
+    m = _DEMUCS
+    y, sr = sf.read(str(path), dtype="float32", always_2d=True)
+    if y.shape[1] == 1:
+        y = np.concatenate([y, y], 1)
+    if sr != m.samplerate:
+        y = librosa.resample(y.T, orig_sr=sr, target_sr=m.samplerate).T
+    wav = torch.from_numpy(np.ascontiguousarray(y[:, :2].T)).cuda()
+    ref = wav.mean(0)
+    mu, sd = ref.mean(), ref.std() + 1e-8
+    with torch.no_grad():
+        src = apply_model(m, ((wav - mu) / sd)[None], device="cuda", shifts=1, split=True, overlap=0.25, progress=False)[0]
+    v = (src[m.sources.index("vocals")] * sd + mu).cpu().numpy().T
+    sf.write(str(out_path), v, m.samplerate)
+    return str(Path(out_path).resolve())
 
 
 def vocal_track(beat_wav, sections, bpm, key, caption, out, takes=8, lang="en", reference=None, log=print,
-                pass_wer=0.2, track="vocals", guide_wav=None, min_key_fit=0.8):
+                pass_wer=0.2, track="vocals", guide_wav=None, min_key_fit=0.8, enough=3):
     """guide_wav: 보컬 생성에만 쓰는 '가벼운 반주'(드럼·베이스·건반만). 10-15 측정: 꽉 찬 편곡(브라스·스트링·기타)을 주면
     Lego 가 '이미 완성된 곡'으로 보고 보컬을 거의 안 얹는다(보컬 -45~-60dB) — 덜어 낸 반주에서는 노래가 나온다.
-    결과 보컬은 원래 반주(beat_wav) 위치에 놓인다. 노래는 랩보다 성공률이 낮아 takes 16~20 권장."""
+    결과 보컬은 원래 반주(beat_wav) 위치에 놓인다. 노래는 랩보다 성공률이 낮아 takes 16~20 권장.
+    takes 는 '최대'다 — 통과(오류율·조성·목소리) 테이크가 enough 개 모이면 그 구간은 멈춘다. enough=0 이면 끝까지."""
     out = Path(out).resolve()
     work = work_dir(out, "lego")
     from . import voice_design as vd
@@ -163,21 +267,36 @@ def vocal_track(beat_wav, sections, bpm, key, caption, out, takes=8, lang="en", 
         good = [r for r in report if r["wer"] <= pass_wer]                 # 통과한 테이크만 목소리 기준으로(실패작이 참조가 되면 뒤가 전부 무음 — 10-15)
         if reference or good:
             req["reference"] = str(Path(reference or good[0]["vox"]).resolve())
-        log(f"[lego] {sec['name']} {a:.1f}~{b:.1f}s · 테이크 {takes}")
-        files = _run_lego(req, work)
-        rows = []
-        for f in files:
+        log(f"[lego] {sec['name']} {a:.1f}~{b:.1f}s · 최대 {takes} 테이크(통과 {enough}개면 멈춤)")
+        srv = server({k: req[k] for k in ("model", "offload", "quantization")}, work)
+
+        def score(f):
             y, s2 = sf.read(f["path"], dtype="float32")
             cut = Path(f["path"]).with_name("section.wav")
             sf.write(str(cut), y[int(max(0, a - c0 - 0.3) * s2):int((b - c0 + 0.3) * s2)], s2)
-            st = crate.separate(str(cut), folder=str(Path(f["path"]).parent / "sep"))
-            st = {k: str(Path(v).resolve()) for k, v in st.items()}
-            hyp = " ".join(w["w"] for w in vd.words(st["vocals"], lang))
-            vp = _voiceprint(st["vocals"])
-            rows.append({"seed": f["seed"], "wer": round(_wer(sec["lyrics"], hyp), 3),
-                         "key_fit": round(key_fit(st["vocals"], sec.get("key", key)), 3),
-                         "voice_sim": round(_sim(vp, ref_print), 3) if ref_print is not None else None,
-                         "vox": st["vocals"], "heard": hyp[:160]})
+            vox = vocals_only(cut, cut.with_name("vocals.wav"))
+            hyp = " ".join(w["w"] for w in vd.words(vox, lang))
+            return {"seed": f["seed"], "wer": round(_wer(sec["lyrics"], hyp), 3),
+                    "key_fit": round(key_fit(vox, sec.get("key", key)), 3),
+                    "voice_sim": round(_sim(_voiceprint(vox), ref_print), 3) if ref_print is not None else None,
+                    "vox": vox, "heard": hyp[:160]}
+
+        def passes(r):
+            return r["wer"] <= pass_wer and r["key_fit"] >= min_key_fit and (r["voice_sim"] is None or r["voice_sim"] >= 0.95)
+
+        # 생성(ACE 프로세스)과 채점(이 프로세스)을 겹친다: 테이크 n 을 채점하는 동안 n+1 을 만든다. 통과가 enough 개면 멈춤
+        # (10-15 Coffee Rings 기록으로 모의: 70 → 37 테이크, 고른 테이크는 같거나 동급)
+        seeds = req["seeds"]
+        srv.submit({**req, "seeds": [seeds[0]]})
+        sent, in_flight, rows = 1, 1, []
+        while in_flight:
+            files = srv.result()
+            in_flight -= 1
+            if (not enough or sum(map(passes, rows)) < enough) and sent < len(seeds):
+                srv.submit({**req, "seeds": [seeds[sent]]})
+                sent += 1
+                in_flight += 1
+            rows += [score(f) for f in files]
         if not rows:
             raise RuntimeError(f"[lego] {sec['name']}: 생성된 테이크가 없음(요청 {work / ('req_' + req['tag'] + '.json')} 확인)")
         ok = [r for r in rows if r["wer"] <= pass_wer] or sorted(rows, key=lambda r: r["wer"])[:2]
