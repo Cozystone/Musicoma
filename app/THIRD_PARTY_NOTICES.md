@@ -100,7 +100,7 @@ Musicoma 엔진(`musicoma-engine.exe`)은 **Tracktion Engine (GPL-3.0)** 과 **J
 | uvicorn | 0.54.0 | BSD-3-Clause |
 | websockets | 14.1 | BSD-3-Clause |
 
-목록 재생성: `app\runtime\dist\python\python.exe -c "import importlib.metadata as m; ..."` (README 참고).
+목록 재생성: `app\runtime\dist\python\python.exe -c "import importlib.metadata as m; [print(d.metadata['Name'], d.version, d.metadata.get('License-Expression') or d.metadata.get('License')) for d in m.distributions()]"`
 
 ## 2. 첫 실행 때 받는 것 (설치 파일에 없음)
 정확한 URL·크기·해시는 `musicoma/setup_manifest.json`. 설치 후 `<root>/sounds/ATTRIBUTION.md` 가 자동으로 생긴다.
