@@ -1,0 +1,60 @@
+# 레퍼런스 카드 — 시티팝. 곡을 짓기 전 0단계(본인 10-15: "기존 곡의 레퍼런스·형식·스타일을 찾고 시작").
+# 음원은 받지 않는다. 형식·수치·장치만 배운다(선율·가사 인용 금지). measured = 본인 음원을 분석기로 실측한 것.
+# 출처 링크는 각 항목 sources. 수치가 출처마다 다르면 범위로 적는다.
+genre: city-pop
+collected: 2026-10-15
+songs:
+  - title: "Plastic Love"
+    artist: "Mariya Takeuchi"
+    year: 1984
+    key: "D minor (Hooktheory) — 절은 G minor 중심으로 읽히기도"
+    tempo: "미확인(출처 없음)"
+    harmony: "9·7화음 루프 — 절 Gm9 C7 Am7 Dm7, 인트로 Bbmaj7 Gm9 Eb7 Bbmaj7 Am7 D"
+    learn:
+      - "단조 9화음 루프 위의 댄스 그루브 — 슬픈데 춤추게(애수 + 리듬)"
+      - "주요 화음 i·iv·v 가 모두 단화음 — 밝은 장조 시티팝과 다른 색"
+    sources: ["https://hooktheory.com/theorytab/view/mariya-takeuchi/plastic-love", "https://ja.chordwiki.org/wiki/%E3%83%97%E3%83%A9%E3%82%B9%E3%83%86%E3%82%A3%E3%83%83%E3%82%AF%E3%83%BB%E3%83%A9%E3%83%96"]
+  - title: "Mayonaka no Door ~ Stay With Me"
+    artist: "Miki Matsubara"
+    year: 1979
+    key: "F major (탭 2곳) — 전조 여러 번(MIDI 표기)"
+    tempo: "109~130 (출처마다 다름, 109·112 가 다수)"
+    harmony: "후렴 Fmaj7 → Em7 → E7 → Am → Dm7 → G7sus4 → C (IVmaj7 → iii7 → III7 → vi 계열)"
+    learn:
+      - "IVmaj7 에서 시작해 III7 로 vi 를 끌어당기는 진행 — 시티팝 애수의 핵심"
+      - "영어 한 구절('Stay with me')이 일본어 곡의 훅이 된다 — 짧고 반복 가능한 영어 훅"
+    sources: ["https://en.wikipedia.org/wiki/Mayonaka_no_Door", "https://tabs.ultimate-guitar.com/tab/2534979", "https://www.midishow.com/en/midi/miki-matsubara-stay-with-me-midi-download-127766"]
+  - title: "Ride on Time"
+    artist: "Tatsuro Yamashita"
+    year: 1980
+    key: "E minor 쪽 화성(Em9 Bm7 F#m7 GM9 A9(13)) — 공식 표기 없음"
+    tempo: "약 121 (싱글, chordwiki) · 라이브 약 127"
+    form: "피아노+드럼만 → 기타 → 브라스·코러스가 차례로 쌓임. 피아노·보컬 듀엣 ↔ 펑크 섹션 전환을 곡 내내 되풀이. 색소폰 솔로"
+    learn:
+      - "더하기 편곡 — 악기가 하나씩 들어오며 쌓인다(처음부터 다 치지 않는다)"
+      - "성긴 구간과 꽉 찬 구간의 대비를 반복 — 곡의 호흡"
+      - "16분 포온더플로어 그루브 + 색소폰 솔로"
+    sources: ["https://en.wikipedia.org/wiki/Ride_on_Time_(Tatsuro_Yamashita_song)", "https://ja.chordwiki.org/wiki/RIDE+ON+TIME", "https://unfspinnaker.com/91341/features/album-review-ride-on-time-by-tatsuro-yamashita/"]
+  - title: "Midnight Pretenders"
+    artist: "Tomoko Aran"
+    year: 1983
+    key: "미확인"
+    tempo: "미확인"
+    form: "약 5:43 — 긴 곡(앨범 Fuyu-Kukan)"
+    learn:
+      - "느리고 긴 호흡의 미드템포 — 반복 속에서 분위기로 끌고 감(수치 미확인, 원리만)"
+    sources: ["https://en.wikipedia.org/wiki/Tomoko_Aran", "https://www.yokogaomag.com/editorial/tomoko-aran-city-pop"]
+  - title: "Flyday Chinatown"
+    artist: "Yasuha"
+    year: 1981
+    measured: "scratch/refs/yasuha-flyday-chinatown-musical-collection/report.json"
+    key: "F# minor(분석)"
+    tempo: "123 (분석)"
+    learn:
+      - "보컬 음절이 16분 격자 ±20ms 안 20% · 흔들림 ±38ms — 정박에 안 붙는다(측정)"
+      - "스윙 0.50 — 곧은 16비트(측정)"
+      - "구간 길이 2·3·7·9·13·16·22 마디 — 4의 배수만 쓰지 않음(자동 분할, 참고용)"
+summary:
+  tempo: "105~125 (다수 109~123)"
+  keys: "장조(F 등 IVmaj7 시작) 와 단조(D·F# minor) 모두 — 단조 9화음 루프가 '애수' 쪽"
+  devices: ["IVmaj7 → III7 → vi", "단조 9화음 루프", "더하기 편곡", "영어 짧은 훅", "색소폰 솔로", "16분 그루브(곧음)"]

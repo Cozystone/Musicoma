@@ -1,0 +1,89 @@
+{
+ "thesis": "끝나 가는 사랑을 고속도로 출구 하나만큼만 미루는 밤 — 슬픈데 춤춘다",
+ "arc": [
+  {
+   "section": "intro",
+   "intent": "빗속 차 안, 피아노와 드럼만",
+   "energy": 0.3
+  },
+  {
+   "section": "verse",
+   "intent": "기억을 세는 담담함",
+   "energy": 0.45
+  },
+  {
+   "section": "pre",
+   "intent": "끝을 미루는 부탁",
+   "energy": 0.6
+  },
+  {
+   "section": "chorus",
+   "intent": "한 마일만 더 — 들뜸과 애수",
+   "energy": 0.85
+  },
+  {
+   "section": "verse2",
+   "intent": "이야기가 빨라짐(6마디)",
+   "energy": 0.5
+  },
+  {
+   "section": "bridge",
+   "intent": "말 대신 색소폰",
+   "energy": 0.65
+  },
+  {
+   "section": "chorus_last",
+   "intent": "반음 올라 마지막 출구",
+   "energy": 1.0
+  },
+  {
+   "section": "outro",
+   "intent": "출구를 지나쳐 계속 달림",
+   "energy": 0.4
+  }
+ ],
+ "motif": {
+  "melody": "C5:.5 D5:.5 F5:1 E5:.5 D5:1.5",
+  "why": "'one more mile' — 올라갔다 한 칸 내려앉는 미련"
+ },
+ "collision": [
+  "80년대 도쿄 스튜디오 시티팝",
+  "미국 AOR 색소폰",
+  "빗속 드라이브의 정적"
+ ],
+ "constraints": [
+  "더하기 편곡 — 인트로는 CP80+드럼만, 악기는 하나씩 들어온다(Ride on Time)",
+  "후렴은 IVmaj7 → III7 → vi 로 끌어당김(Stay With Me)",
+  "절은 단조 9화음 쪽 색(Plastic Love)"
+ ],
+ "events": [
+  {
+   "section": "chorus_last",
+   "at": -1,
+   "length": 1,
+   "type": "stop",
+   "why": "마지막 출구 직전 숨"
+  }
+ ],
+ "irregular": [
+  {
+   "what": "2절 6마디",
+   "why": "이야기가 빨라짐 — 할 말 길이만큼"
+  },
+  {
+   "what": "마지막 후렴 반음 전조",
+   "why": "시티팝 관례 + 마지막 출구의 고양"
+  },
+  {
+   "what": "브리지는 가사 없이 색소폰",
+   "why": "말로 못 하는 부분"
+  }
+ ],
+ "references": "knowledge/references/city-pop.yaml — Plastic Love · Stay With Me · Ride on Time · Flyday Chinatown(실측)",
+ "not": [
+  "808",
+  "사이드체인",
+  "단순 3화음",
+  "같은 4마디 복사"
+ ]
+}

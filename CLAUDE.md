@@ -20,6 +20,9 @@
 파이썬은 `D:/0.Musicoma/.venv/Scripts/python.exe` (PYTHONIOENCODING=utf-8).
 
 ## 작곡 = 맥락 (본인 10-15: "맥락 있게 작곡하는 게 가장 중요, AI 슬롭 같지 않게")
+0. **레퍼런스 먼저**(MCP `references`, 본인 10-15: "기존 곡의 레퍼런스·형식·스타일을 찾고 시작. 사용자도 그렇게"): 장르 대표곡 3~5개의
+   템포·키·구조·편곡 장치·배울 점(출처 포함). 카드가 없거나 얇으면 WebSearch 로 조사해 `knowledge/references/<장르>.yaml` 로 저장.
+   본인 음원 폴더에 있으면 `analyze_ref` 로 실측. 형식·장치만 배우고 선율·가사는 가져오지 않는다. 콘셉트의 references 에 인용.
 1. **콘셉트 먼저**(MCP `concept`): thesis 한 문장 · arc(섹션별 의도·에너지) · motif · collision(먼 재료 2~3) · constraints · events. 노트는 그다음.
 2. **동기 전개**(`motif_develop`): 선율은 동기의 변형에서. 같은 4마디 복사 금지. 강박 음은 화음 음으로(자동 fit).
 3. **사건**: 곡마다 '그 순간' 최소 하나 — 설계서 `events`(stop / filter). 본인 기준곡: Nujabes「Luv(sic)」(장르 발명) · 이찬혁「멸종위기사랑」(들어본 적 없는 진행) · Kanye「On Sight」(비트 체인지).

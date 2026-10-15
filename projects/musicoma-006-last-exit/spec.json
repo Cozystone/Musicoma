@@ -1,0 +1,698 @@
+{
+ "name": "musicoma-006-last-exit",
+ "bpm": 112,
+ "key": "F major",
+ "style": "city-pop",
+ "feel": "straight",
+ "intensity": 0.7,
+ "brief": "「Last Exit」 시티팝 · 영어 가사 · 반주 조건 생성 보컬",
+ "sections": [
+  {
+   "name": "intro",
+   "bars": 4
+  },
+  {
+   "name": "verse",
+   "bars": 8
+  },
+  {
+   "name": "pre",
+   "bars": 4
+  },
+  {
+   "name": "chorus",
+   "bars": 8
+  },
+  {
+   "name": "verse2",
+   "bars": 6
+  },
+  {
+   "name": "pre",
+   "bars": 4
+  },
+  {
+   "name": "chorus",
+   "bars": 8
+  },
+  {
+   "name": "bridge",
+   "bars": 8
+  },
+  {
+   "name": "chorus_last",
+   "bars": 8,
+   "transpose": 1
+  },
+  {
+   "name": "outro",
+   "bars": 4
+  }
+ ],
+ "tracks": {
+  "Drums": {
+   "preset": "drums/live_room",
+   "role": "drums",
+   "sends": {
+    "0": -24
+   }
+  },
+  "Bass": {
+   "preset": "bass/picked",
+   "role": "bass"
+  },
+  "CP80": {
+   "preset": "keys/cp80",
+   "role": "keys",
+   "pan": -0.2,
+   "sends": {
+    "0": -12
+   }
+  },
+  "Guitar": {
+   "preset": "guitar/archtop",
+   "role": "guitar",
+   "pan": 0.35,
+   "sends": {
+    "0": -16
+   }
+  },
+  "Strings": {
+   "preset": "strings/ensemble",
+   "role": "strings",
+   "pan": -0.1,
+   "sends": {
+    "0": -8
+   }
+  },
+  "Brass": {
+   "preset": "brass/synth_80s",
+   "role": "brass",
+   "pan": 0.15,
+   "sends": {
+    "0": -12
+   }
+  },
+  "Sax": {
+   "preset": "lead/alto_sax",
+   "role": "lead",
+   "sends": {
+    "0": -10
+   }
+  },
+  "Vox": {
+   "role": "lead vocal (generated over the arrangement)",
+   "sends": {
+    "0": -10
+   },
+   "fx": [
+    {
+     "device": "eq",
+     "params": {
+      "Low-pass freq": 140,
+      "Low-pass gain": -6,
+      "Mid freq 2": 3500,
+      "Mid gain 2": 1.5
+     }
+    },
+    {
+     "device": "compressor",
+     "params": {
+      "threshold": -20,
+      "ratio": 3,
+      "attack": 8,
+      "release": 120
+     }
+    }
+   ]
+  }
+ },
+ "buses": [
+  {
+   "name": "Plate",
+   "bus": 0,
+   "device": "Dragonfly Plate Reverb",
+   "volume_db": -5
+  }
+ ],
+ "parts": [
+  {
+   "track": "Drums",
+   "in": [
+    "intro",
+    "verse",
+    "verse2",
+    "outro"
+   ],
+   "drums": {
+    "pattern": {
+     "kick": "x.....x.x.......",
+     "snare": "....x.......x...",
+     "hat": "xxxxxxxxxxxxxxxx",
+     "open_hat": "..............x."
+    },
+    "swing": 0.5,
+    "humanize_ms": 5,
+    "humanize_vel": 8,
+    "fill": {
+     "kick": "x.......",
+     "snare": "....x.xxoxoxXXXX"
+    }
+   }
+  },
+  {
+   "track": "Drums",
+   "in": [
+    "pre",
+    "bridge"
+   ],
+   "drums": {
+    "pattern": {
+     "kick": "x..x..x...x..x..",
+     "snare": "....x.......x..o",
+     "hat": "x-x-x-x-x-x-x-x-"
+    },
+    "swing": 0.5,
+    "humanize_ms": 5,
+    "humanize_vel": 8,
+    "fill": {
+     "kick": "x.......",
+     "snare": "....x.xxoxoxXXXX"
+    }
+   }
+  },
+  {
+   "track": "Drums",
+   "in": [
+    "chorus",
+    "chorus_last"
+   ],
+   "drums": {
+    "pattern": {
+     "kick": "x.....x.x.......",
+     "snare": "....x.......x...",
+     "hat": "xxxxxxxxxxxxxxxx",
+     "open_hat": "..............x."
+    },
+    "swing": 0.5,
+    "humanize_ms": 5,
+    "humanize_vel": 8,
+    "fill": {
+     "kick": "x.......",
+     "snare": "....x.xxoxoxXXXX"
+    }
+   }
+  },
+  {
+   "track": "CP80",
+   "in": [
+    "intro",
+    "verse",
+    "verse2"
+   ],
+   "chords": {
+    "progression": "vi9 ii9 V13 Imaj7",
+    "beats_per_chord": 4,
+    "voicing": "rhodes",
+    "rhythm": [
+     [
+      0,
+      0.5,
+      1.0
+     ],
+     [
+      0.75,
+      0.5,
+      0.8
+     ],
+     [
+      1.5,
+      0.25,
+      0.7
+     ],
+     [
+      2.5,
+      0.5,
+      0.9
+     ],
+     [
+      3.25,
+      0.5,
+      0.8
+     ]
+    ],
+    "velocity": 72
+   }
+  },
+  {
+   "track": "CP80",
+   "in": [
+    "pre"
+   ],
+   "chords": {
+    "progression": "IVmaj7 V7sus4 iii7 vi7",
+    "beats_per_chord": 4,
+    "voicing": "rhodes",
+    "rhythm": [
+     [
+      0,
+      1.5,
+      1.0
+     ],
+     [
+      2,
+      1.5,
+      0.85
+     ]
+    ],
+    "velocity": 70
+   }
+  },
+  {
+   "track": "CP80",
+   "in": [
+    "chorus",
+    "chorus_last",
+    "outro"
+   ],
+   "chords": {
+    "progression": "IVmaj7 III7 vi7 I7",
+    "beats_per_chord": 4,
+    "voicing": "rhodes",
+    "rhythm": [
+     [
+      0,
+      0.5,
+      1.0
+     ],
+     [
+      0.75,
+      0.5,
+      0.8
+     ],
+     [
+      1.5,
+      0.25,
+      0.7
+     ],
+     [
+      2.5,
+      0.5,
+      0.9
+     ],
+     [
+      3.25,
+      0.5,
+      0.8
+     ]
+    ],
+    "velocity": 76
+   }
+  },
+  {
+   "track": "CP80",
+   "in": [
+    "bridge"
+   ],
+   "chords": {
+    "progression": "bVImaj7 bVII7 Imaj7 vi9",
+    "beats_per_chord": 4,
+    "voicing": "rhodes",
+    "rhythm": [
+     [
+      0,
+      2,
+      1.0
+     ],
+     [
+      2.5,
+      1.5,
+      0.8
+     ]
+    ],
+    "velocity": 66
+   }
+  },
+  {
+   "track": "Bass",
+   "in": [
+    "verse",
+    "verse2"
+   ],
+   "bass": {
+    "progression": "vi9 ii9 V13 Imaj7",
+    "beats_per_chord": 4,
+    "low": 29,
+    "high": 50,
+    "pattern": [
+     [
+      0,
+      0.5,
+      0
+     ],
+     [
+      0.75,
+      0.25,
+      12
+     ],
+     [
+      1.5,
+      0.5,
+      0
+     ],
+     [
+      2,
+      0.5,
+      7
+     ],
+     [
+      2.75,
+      0.25,
+      12
+     ],
+     [
+      3.5,
+      0.5,
+      10
+     ]
+    ]
+   }
+  },
+  {
+   "track": "Bass",
+   "in": [
+    "pre"
+   ],
+   "bass": {
+    "progression": "IVmaj7 V7sus4 iii7 vi7",
+    "beats_per_chord": 4,
+    "low": 29,
+    "high": 50,
+    "pattern": [
+     [
+      0,
+      1.5,
+      0
+     ],
+     [
+      1.5,
+      0.5,
+      7
+     ],
+     [
+      2,
+      1.5,
+      0
+     ],
+     [
+      3.5,
+      0.5,
+      12
+     ]
+    ]
+   }
+  },
+  {
+   "track": "Bass",
+   "in": [
+    "chorus",
+    "chorus_last"
+   ],
+   "bass": {
+    "progression": "IVmaj7 III7 vi7 I7",
+    "beats_per_chord": 4,
+    "low": 29,
+    "high": 50,
+    "pattern": [
+     [
+      0,
+      0.5,
+      0
+     ],
+     [
+      0.5,
+      0.25,
+      12
+     ],
+     [
+      0.75,
+      0.25,
+      0
+     ],
+     [
+      1.5,
+      0.5,
+      7
+     ],
+     [
+      2,
+      0.5,
+      0
+     ],
+     [
+      2.75,
+      0.25,
+      12
+     ],
+     [
+      3.25,
+      0.25,
+      10
+     ],
+     [
+      3.5,
+      0.5,
+      7
+     ]
+    ]
+   }
+  },
+  {
+   "track": "Bass",
+   "in": [
+    "bridge"
+   ],
+   "bass": {
+    "progression": "bVImaj7 bVII7 Imaj7 vi9",
+    "beats_per_chord": 4,
+    "low": 29,
+    "high": 50,
+    "pattern": [
+     [
+      0,
+      1.5,
+      0
+     ],
+     [
+      1.5,
+      0.5,
+      7
+     ],
+     [
+      2.5,
+      1,
+      12
+     ],
+     [
+      3.5,
+      0.5,
+      7
+     ]
+    ]
+   }
+  },
+  {
+   "track": "Guitar",
+   "in": [
+    "verse",
+    "verse2"
+   ],
+   "chords": {
+    "progression": "vi9 ii9 V13 Imaj7",
+    "beats_per_chord": 4,
+    "voicing": "guitar",
+    "rhythm": [
+     [
+      1,
+      0.25,
+      1.0
+     ],
+     [
+      1.75,
+      0.125,
+      0.6
+     ],
+     [
+      3,
+      0.25,
+      1.0
+     ],
+     [
+      3.75,
+      0.125,
+      0.6
+     ]
+    ],
+    "velocity": 70
+   }
+  },
+  {
+   "track": "Guitar",
+   "in": [
+    "chorus",
+    "chorus_last"
+   ],
+   "chords": {
+    "progression": "IVmaj7 III7 vi7 I7",
+    "beats_per_chord": 4,
+    "voicing": "guitar",
+    "rhythm": [
+     [
+      1,
+      0.25,
+      1.0
+     ],
+     [
+      1.75,
+      0.125,
+      0.6
+     ],
+     [
+      3,
+      0.25,
+      1.0
+     ],
+     [
+      3.75,
+      0.125,
+      0.6
+     ]
+    ],
+    "velocity": 74
+   }
+  },
+  {
+   "track": "Strings",
+   "in": [
+    "pre"
+   ],
+   "chords": {
+    "progression": "IVmaj7 V7sus4 iii7 vi7",
+    "beats_per_chord": 4,
+    "voicing": "pad",
+    "velocity": 64,
+    "legato": 1.0
+   }
+  },
+  {
+   "track": "Strings",
+   "in": [
+    "chorus",
+    "chorus_last"
+   ],
+   "chords": {
+    "progression": "IVmaj7 III7 vi7 I7",
+    "beats_per_chord": 4,
+    "voicing": "pad",
+    "velocity": 72,
+    "legato": 1.0
+   }
+  },
+  {
+   "track": "Brass",
+   "in": [
+    "chorus",
+    "chorus_last"
+   ],
+   "chords": {
+    "progression": "IVmaj7 III7 vi7 I7",
+    "beats_per_chord": 4,
+    "voicing": "stab",
+    "rhythm": [
+     [
+      0,
+      0.25,
+      1.0
+     ],
+     [
+      0.5,
+      0.25,
+      0.85
+     ],
+     [
+      3.5,
+      0.5,
+      1.0
+     ]
+    ],
+    "velocity": 92
+   }
+  },
+  {
+   "track": "Brass",
+   "in": [
+    "pre"
+   ],
+   "melody": {
+    "text": "r:12 Bb4:0.5 D5:0.5 F5:1 D5:0.5 D5:1.5",
+    "velocity": 96,
+    "repeat": false
+   }
+  },
+  {
+   "track": "Sax",
+   "in": [
+    "bridge"
+   ],
+   "melody": {
+    "text": "C4:0.5 D4:0.5 F4:1 Db4:0.5 Db4:1.5 Db4:0.5 E4:0.5 G4:1 Eb4:0.5 Eb4:1.5 E4:0.5 F4:0.5 A4:1 F4:0.5 F4:1.5 C4:0.5 D4:0.5 F4:1 E4:0.5 F4:1.5 C4:0.25 D4:0.25 F4:0.5 D4:0.25 E4:0.25 G4:0.75 r:1.75 Eb4:0.25 F4:0.25 A4:0.5 G4:0.25 Eb4:2.625 r:0.125 C4:0.25 D4:0.25 F4:0.5 E4:0.25 F4:2.625 r:0.125 C4:0.25 D4:0.25 F4:0.5 E4:0.25 F4:1.75 r:1",
+    "velocity": 96,
+    "repeat": false
+   }
+  },
+  {
+   "track": "Sax",
+   "in": [
+    "outro"
+   ],
+   "melody": {
+    "text": "Bb3:1 D4:1 F4:2 E4:1 Db4:3 r:8",
+    "velocity": 84,
+    "repeat": false
+   }
+  },
+  {
+   "track": "Vox",
+   "in": [
+    "intro"
+   ],
+   "audio": {
+    "path": "D:\\0.Musicoma\\projects\\musicoma-006-last-exit\\vocals\\vox_lego_v3.wav",
+    "length": 248
+   }
+  }
+ ],
+ "events": [
+  {
+   "section": "chorus_last",
+   "at": -1,
+   "length": 1,
+   "type": "stop",
+   "why": "마지막 출구 직전 숨"
+  }
+ ],
+ "mix": {
+  "balance": true,
+  "target_lufs": -12,
+  "balance_lu": {
+   "drums": 0,
+   "bass": -1,
+   "cp80": -2.5,
+   "guitar": -6,
+   "strings": -6,
+   "brass": -4,
+   "sax": -1,
+   "vox": 2.5
+  }
+ }
+}

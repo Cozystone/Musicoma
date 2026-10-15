@@ -368,6 +368,25 @@ def sing_svc(voice: str, lyrics: str, bpm: float, melody: str, out: str, lang: s
 
 
 @mcp.tool()
+def references(genre: str) -> dict:
+    """STEP 0 of every new song: existing reference songs for the genre — form, tempo, key, harmony, devices to learn,
+    with sources (knowledge/references/<genre>.yaml) + any of the user's own songs measured by the analyzer
+    (scratch/refs) + genre human-priors (timing/form numbers). If no card exists or it is thin, WebSearch 3-5 canonical
+    songs (tempo/key/structure/arrangement from chord sites, wikis, reviews — never download audio), write a new card,
+    then cite them in concept.references. Learn forms/devices only; never copy melodies or lyrics."""
+    import yaml
+    from musicoma import corpus
+    base = Path(__file__).resolve().parent / "knowledge" / "references"
+    card = None
+    for f in base.glob("*.yaml"):
+        d = yaml.safe_load(f.read_text(encoding="utf-8"))
+        if genre.lower().replace(" ", "-") in (f.stem, d.get("genre", "")):
+            card = d
+    g = {"city-pop": "citypop", "hip-hop": "hiphop", "boom-bap": "hiphop", "chipmunk-soul": "hiphop"}.get(genre, genre)
+    return {"card": card, "measured_priors": corpus.priors(g), "note": None if card else "카드 없음 — WebSearch 로 대표곡 3~5개를 조사해 knowledge/references/<genre>.yaml 로 저장"}
+
+
+@mcp.tool()
 def concept(song: str, data: dict | None = None) -> dict:
     """STEP 1 of every new song (before any notes): the concept doc — thesis, arc[{section,intent,energy}],
     motif{melody,why}, collision[2-3 distant materials], constraints, events[{section,at,length,type: stop|filter}],
