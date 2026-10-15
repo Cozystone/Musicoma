@@ -1,0 +1,530 @@
+{
+ "name": "musicoma-008-coffee-rings",
+ "bpm": 92,
+ "key": "D minor",
+ "style": "lofi-hiphop",
+ "feel": "laid_back",
+ "intensity": 0.75,
+ "brief": "「Coffee Rings」 재즈힙합 · 영어 랩 · Claude 기획",
+ "sections": [
+  {
+   "name": "intro",
+   "bars": 4
+  },
+  {
+   "name": "verse",
+   "bars": 12
+  },
+  {
+   "name": "hook",
+   "bars": 8
+  },
+  {
+   "name": "verse2",
+   "bars": 14
+  },
+  {
+   "name": "hook",
+   "bars": 8
+  },
+  {
+   "name": "bridge",
+   "bars": 4
+  },
+  {
+   "name": "hook_last",
+   "bars": 8
+  },
+  {
+   "name": "outro",
+   "bars": 8
+  }
+ ],
+ "tracks": {
+  "Drums": {
+   "preset": "drums/rusty",
+   "role": "drums",
+   "sends": {
+    "0": -24
+   },
+   "sound": "drums_rusty",
+   "fx": [
+    {
+     "device": "eq",
+     "params": {
+      "Low-pass freq": 70,
+      "Low-pass gain": 2.5,
+      "Mid freq 1": 400,
+      "Mid gain 1": -2.5,
+      "Mid freq 2": 5000,
+      "Mid gain 2": 2
+     }
+    },
+    {
+     "device": "compressor",
+     "params": {
+      "threshold": -20,
+      "ratio": 4,
+      "attack": 25,
+      "release": 90,
+      "output gain": 3
+     }
+    }
+   ],
+   "perform_role": "drums",
+   "perform": {
+    "feel": "laid_back"
+   }
+  },
+  "Bass": {
+   "preset": "bass/upright_real",
+   "role": "bass",
+   "sound": "upright_bass",
+   "fx": [],
+   "perform_role": "bass",
+   "perform": {
+    "feel": "laid_back"
+   }
+  },
+  "Piano": {
+   "preset": "piano/grand_warm",
+   "role": "piano",
+   "pan": -0.15,
+   "sends": {
+    "0": -14
+   },
+   "sound": "piano_grand",
+   "fx": [
+    {
+     "device": "eq",
+     "params": {
+      "High-pass gain": -3,
+      "High-pass freq": 7000,
+      "Low-pass gain": 1.5,
+      "Low-pass freq": 200
+     }
+    }
+   ],
+   "perform_role": "piano",
+   "perform": {
+    "intensity": 0.6
+   }
+  },
+  "Rhodes": {
+   "preset": "keys/rhodes_classic",
+   "role": "keys",
+   "pan": 0.25,
+   "sends": {
+    "0": -12
+   },
+   "fx": [
+    {
+     "device": "chorus"
+    }
+   ],
+   "sound": "Keys/EP 1",
+   "perform_role": "keys",
+   "perform": {}
+  },
+  "Flute": {
+   "preset": "lead/flute",
+   "role": "lead",
+   "pan": 0.1,
+   "sends": {
+    "0": -8
+   },
+   "sound": "flute",
+   "fx": [],
+   "perform_role": "lead",
+   "perform": {}
+  },
+  "Sax": {
+   "preset": "lead/alto_sax",
+   "role": "lead",
+   "pan": -0.2,
+   "sends": {
+    "0": -10
+   },
+   "sound": "alto_sax",
+   "fx": [],
+   "perform_role": "lead",
+   "perform": {}
+  },
+  "Strings": {
+   "preset": "strings/ensemble",
+   "role": "strings",
+   "sends": {
+    "0": -6
+   },
+   "sound": "strings_violins",
+   "fx": [],
+   "perform_role": "strings",
+   "perform": {}
+  },
+  "Rap": {
+   "role": "rap vocal (generated over the arrangement)",
+   "sends": {
+    "0": -20
+   },
+   "fx": [
+    {
+     "device": "eq",
+     "params": {
+      "Low-pass freq": 110,
+      "Low-pass gain": -6,
+      "Mid freq 2": 3200,
+      "Mid gain 2": 1.5
+     }
+    },
+    {
+     "device": "compressor",
+     "params": {
+      "threshold": -20,
+      "ratio": 3,
+      "attack": 8,
+      "release": 100
+     }
+    }
+   ]
+  }
+ },
+ "buses": [
+  {
+   "name": "Room",
+   "bus": 0,
+   "device": "Dragonfly Plate Reverb",
+   "volume_db": -6
+  }
+ ],
+ "parts": [
+  {
+   "track": "Drums",
+   "in": [
+    "verse",
+    "hook",
+    "verse2",
+    "hook_last",
+    "outro"
+   ],
+   "drums": {
+    "pattern": {
+     "kick": "x.....x...x..x..",
+     "snare": "....x.......x...",
+     "hat": "x-x-x-x-x-x-x-xx"
+    },
+    "swing": 0.57,
+    "humanize_ms": 8,
+    "humanize_vel": 10,
+    "fill": {
+     "kick": "x.....x.",
+     "snare": "....x..xoxo.x.xx"
+    }
+   }
+  },
+  {
+   "track": "Drums",
+   "in": [
+    "intro"
+   ],
+   "drums": {
+    "pattern": {
+     "hat": "x-x-x-x-x-x-x-xx"
+    },
+    "swing": 0.57,
+    "humanize_ms": 8
+   }
+  },
+  {
+   "track": "Bass",
+   "in": [
+    "verse",
+    "verse2",
+    "outro"
+   ],
+   "bass": {
+    "progression": "i9 iv9 VII7 IIImaj7",
+    "beats_per_chord": 4,
+    "low": 28,
+    "high": 50,
+    "pattern": [
+     [
+      0,
+      1.5,
+      0
+     ],
+     [
+      1.75,
+      0.5,
+      7
+     ],
+     [
+      2.5,
+      1,
+      0
+     ],
+     [
+      3.5,
+      0.5,
+      10
+     ]
+    ]
+   }
+  },
+  {
+   "track": "Bass",
+   "in": [
+    "hook",
+    "hook_last"
+   ],
+   "bass": {
+    "progression": "VImaj7 VII7 i9 i9",
+    "beats_per_chord": 4,
+    "low": 28,
+    "high": 50,
+    "pattern": [
+     [
+      0,
+      1,
+      0
+     ],
+     [
+      1,
+      0.5,
+      7
+     ],
+     [
+      1.75,
+      0.75,
+      12
+     ],
+     [
+      2.5,
+      1,
+      0
+     ],
+     [
+      3.5,
+      0.5,
+      7
+     ]
+    ]
+   }
+  },
+  {
+   "track": "Piano",
+   "in": [
+    "intro",
+    "verse",
+    "verse2",
+    "outro"
+   ],
+   "chords": {
+    "progression": "i9 iv9 VII7 IIImaj7",
+    "beats_per_chord": 4,
+    "voicing": "piano",
+    "rhythm": [
+     [
+      0,
+      1.5,
+      1.0
+     ],
+     [
+      1.75,
+      0.5,
+      0.7
+     ],
+     [
+      2.5,
+      1.25,
+      0.85
+     ]
+    ],
+    "velocity": 70
+   }
+  },
+  {
+   "track": "Piano",
+   "in": [
+    "hook",
+    "hook_last"
+   ],
+   "chords": {
+    "progression": "VImaj7 VII7 i9 i9",
+    "beats_per_chord": 4,
+    "voicing": "piano",
+    "rhythm": [
+     [
+      0,
+      0.75,
+      1.0
+     ],
+     [
+      0.75,
+      0.75,
+      0.8
+     ],
+     [
+      2,
+      1.5,
+      0.9
+     ]
+    ],
+    "velocity": 74
+   }
+  },
+  {
+   "track": "Rhodes",
+   "in": [
+    "bridge"
+   ],
+   "chords": {
+    "progression": "VImaj7 v7 iv9 VII7",
+    "beats_per_chord": 4,
+    "voicing": "rhodes",
+    "rhythm": [
+     [
+      0,
+      2,
+      1.0
+     ],
+     [
+      2.5,
+      1.5,
+      0.8
+     ]
+    ],
+    "velocity": 66
+   }
+  },
+  {
+   "track": "Rhodes",
+   "in": [
+    "hook",
+    "hook_last"
+   ],
+   "chords": {
+    "progression": "VImaj7 VII7 i9 i9",
+    "beats_per_chord": 4,
+    "voicing": "rhodes",
+    "rhythm": [
+     [
+      1,
+      0.5,
+      0.8
+     ],
+     [
+      3,
+      0.5,
+      0.8
+     ]
+    ],
+    "velocity": 60
+   }
+  },
+  {
+   "track": "Strings",
+   "in": [
+    "hook",
+    "hook_last",
+    "outro"
+   ],
+   "chords": {
+    "progression": "VImaj7 VII7 i9 i9",
+    "beats_per_chord": 4,
+    "voicing": "pad",
+    "velocity": 58,
+    "legato": 1.0
+   }
+  },
+  {
+   "track": "Flute",
+   "in": [
+    "intro"
+   ],
+   "melody": {
+    "text": "A4:0.5 C5:0.5 D5:0.5 F5:1 E5:0.5 D5:1.5 r:3.5 Bb4:0.5 C5:0.5 D5:0.5 E5:1 E5:0.5 C5:1 r:4",
+    "velocity": 84,
+    "repeat": false
+   }
+  },
+  {
+   "track": "Flute",
+   "in": [
+    "hook",
+    "hook_last"
+   ],
+   "melody": {
+    "text": "A5:0.5 C6:0.5 D6:0.5 F6:1 E6:0.5 D6:1 Bb5:0.5 D6:0.5 E6:0.5 G6:1 F6:0.5 E6:1 C6:0.5 E6:0.5 F6:0.5 A6:1 G6:0.5 F6:1 A5:0.5 C6:0.5 D6:0.5 F6:1 E6:0.5 D6:1",
+    "velocity": 72,
+    "repeat": true
+   }
+  },
+  {
+   "track": "Flute",
+   "in": [
+    "bridge"
+   ],
+   "melody": {
+    "text": "A4:1 Bb4:1 D5:1 F5:2 E5:1 C5:2 A4:1 Bb4:1 D5:1 F5:2 E5:1 E5:2",
+    "velocity": 90,
+    "repeat": false
+   }
+  },
+  {
+   "track": "Sax",
+   "in": [
+    "verse2"
+   ],
+   "offset": 32,
+   "melody": {
+    "text": "A3:0.75 C4:0.25 D4:0.5 Bb3:0.75 D4:0.25 E4:0.75 r:0.75 Bb3:0.75 D4:0.25 E4:0.5 G4:1 F4:0.5 D4:1 C4:0.75 E4:0.25 F4:0.5 Bb4:1 G4:0.5 E4:1 A3:0.75 C4:0.25 D4:0.5 F4:1 E4:0.5 C4:1",
+    "velocity": 76,
+    "repeat": false
+   }
+  },
+  {
+   "track": "Flute",
+   "in": [
+    "outro"
+   ],
+   "melody": {
+    "text": "A4:0.5 C5:0.5 D5:0.5 F5:1 E5:0.5 D5:1.5 r:3.5 Bb4:0.5 C5:0.5 D5:0.5 E5:1 E5:0.5 C5:1 r:4",
+    "velocity": 76,
+    "repeat": true
+   }
+  },
+  {
+   "track": "Rap",
+   "in": [
+    "intro"
+   ],
+   "audio": {
+    "path": "D:\\0.Musicoma\\projects\\musicoma-008-coffee-rings\\vocals\\rap_lego.wav",
+    "length": 264
+   }
+  }
+ ],
+ "events": [
+  {
+   "section": "hook_last",
+   "at": -1,
+   "length": 1,
+   "type": "stop",
+   "why": "돌아오기 직전 숨"
+  }
+ ],
+ "mix": {
+  "balance": true,
+  "target_lufs": -12,
+  "balance_lu": {
+   "drums": 0,
+   "bass": -2,
+   "piano": -3,
+   "rhodes": -7,
+   "flute": -5,
+   "sax": -6,
+   "strings": -9,
+   "rap": 2.5
+  }
+ }
+}

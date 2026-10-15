@@ -1,0 +1,51 @@
+# 레퍼런스 카드 — 재즈힙합(누자베스 계열). 0단계(본인 10-15: "누자베스 느낌의 재즈힙합, Luv(sic) 바이브, 영어, 신나는 랩").
+# 음원은 받지 않는다. 형식·장치만 배운다(선율·가사·샘플 인용 금지). 수치 출처가 없으면 '미확인'.
+genre: jazz-hop
+collected: 2026-10-15
+songs:
+  - title: "Luv(sic) Hexalogy (Pt.1~Grand Finale)"
+    artist: "Nujabes feat. Shing02"
+    year: "2001~2008"
+    tempo: "미확인(출처 없음) — 재즈힙합 일반 85~95"
+    form: "6부작 — 드럼 틀은 시리즈 내내 일정, 화음·샘플이 이야기(사랑의 단계)에 따라 바뀜. Pt.3 약 6:14, Grand Finale 약 5:16"
+    production: "라틴 재즈·소울 샘플을 음을 낮추고 템포를 올려 씀(Pt.2: 'Qualquer Dia'). DJ 스크래치. 래퍼가 가사·보컬"
+    learn:
+      - "일정한 드럼 + 이야기에 따라 변하는 화음 — 반복이지만 이야기가 진행된다"
+      - "랩은 대화하듯 이야기, 훅도 랩 톤(멜로딕) — 신나지만 서두르지 않음"
+      - "스크래치·샘플 조각이 장(章) 사이 전환 장치"
+    sources: ["https://en.wikipedia.org/wiki/Luv(Sic)_Hexalogy", "https://warmpathways.substack.com/p/the-luvsic-hexalogy", "https://www.kexp.org/podcasts/50-years-of-hip-hop/2023/5/3/2005-luvsic-pt-3-by-nujabes/"]
+  - title: "Aruarian Dance"
+    artist: "Nujabes"
+    year: 2004
+    tempo: "미확인"
+    learn: ["피아노·플루트 중심 서정 루프 — 랩 없이도 이야기가 되는 멜로디"]
+    sources: ["https://www.stereofox.com/nujabes-aruarian-dance/"]
+  - title: "Feather"
+    artist: "Nujabes feat. Cise Starr & Akin"
+    year: 2005
+    tempo: "미확인"
+    learn: ["밝은 재즈 코드 위의 경쾌한 랩 — '신나는 재즈힙합'의 대표형"]
+    sources: ["https://www.weareresonate.com/2016/09/feature-top-10-nujabes-songs", "https://cornellsun.com/article/2025/03/nujabes-artistry-a-musical-snapshot-of-his-seminal-tracks"]
+summary:
+  tempo: "85~95 (일반값 — 위 곡들의 실측 없음)"
+  harmony: "단조 9화음·장7화음, ii-V 계열, 피아노 루프 4~8마디"
+  devices: ["일정한 드럼 + 변하는 화음", "피아노 루프 + 플루트/색소폰 선율", "MPC 스윙(엇16분 늦게)", "비닐 질감", "스크래치 전환", "대화체 랩"]
+palette:
+  - era: "재즈 피아노 루프(따뜻, 약간 먹먹)"
+    ours: "piano/grand_warm 또는 piano/upright_lofi"
+  - era: "로즈(코러스·트레몰로)"
+    ours: "keys/rhodes_classic (Surge) · keys/wurlitzer"
+  - era: "더스티 붐뱁 드럼(MPC 스윙)"
+    ours: "drums/rusty (Big Rusty CC0) — swing 0.56~0.58"
+  - era: "업라이트·우드 베이스"
+    ours: "bass/upright_real (Meatbass CC0)"
+  - era: "플루트 선율"
+    ours: "lead/flute (VSCO2)"
+  - era: "알토 색소폰"
+    ours: "lead/alto_sax (Weresax CC0)"
+  - era: "스트링 패드(먼 곳에서)"
+    ours: "strings/ensemble"
+  - era: "턴테이블 스크래치"
+    gap: "스크래치 소리 없음 — 다음에 합성(샘플 조각을 피치 커브로 앞뒤로)"
+  - era: "비닐 크래클"
+    ours: "crate.age('vinyl') (오디오 트랙용) — 곡 전체 질감은 미연결"

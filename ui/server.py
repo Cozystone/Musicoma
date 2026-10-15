@@ -13,6 +13,7 @@ import json
 import shutil
 import sys
 import threading
+import time
 from pathlib import Path
 from urllib.parse import unquote
 
@@ -144,6 +145,37 @@ class Api(http.server.SimpleHTTPRequestHandler):
             self.wfile.write(data)
             return
         return super().do_GET()
+
+    def do_POST(self):
+        """화면 마이크 흥얼거림 업로드 → sounds/inbox/hum_<시각>.wav → 알아듣기(hum.listen). 곡의 BPM·조성 기준."""
+        if not self.path.startswith("/api/hum"):
+            self.send_error(404)
+            return
+        from urllib.parse import parse_qs, urlparse
+        a = {k: v[0] for k, v in parse_qs(urlparse(self.path).query).items()}
+        n = int(self.headers.get("Content-Length", "0"))
+        if n <= 0 or n > 50_000_000:
+            return self._json({"error": "녹음이 비었거나 너무 큼"})
+        raw = self.rfile.read(n)
+        inbox = ROOT / "sounds" / "inbox"
+        inbox.mkdir(parents=True, exist_ok=True)
+        stamp = time.strftime("%Y%m%d-%H%M%S")
+        src = inbox / f"hum_{stamp}.webm"
+        src.write_bytes(raw)
+        try:
+            from musicoma import hum, theory, importer
+            wav = importer.to_wav(src, out_dir=inbox)
+            song = {}
+            f = ROOT / "projects" / a.get("song", "") / "song.json"
+            if a.get("song") and f.exists():
+                song = json.loads(f.read_text(encoding="utf-8"))
+            r = hum.listen(wav, float(song.get("bpm") or a.get("bpm") or 90), song.get("key") or "C major")
+            r["path"] = wav
+            r["heard"] = [theory.note_name(x["pitch"]) for x in r["notes"]] if r["mode"] == "melody" else \
+                [{36: "킥", 38: "스네어", 42: "햇"}.get(x["pitch"], "?") for x in r["notes"]]
+            return self._json(r)
+        except Exception as ex:
+            return self._json({"error": f"{type(ex).__name__}: {ex}"})
 
     def _json(self, data):
         body = json.dumps(data, ensure_ascii=False).encode("utf-8")

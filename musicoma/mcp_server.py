@@ -368,6 +368,28 @@ def sing_svc(voice: str, lyrics: str, bpm: float, melody: str, out: str, lang: s
 
 
 @mcp.tool()
+def hum_listen(path: str, bpm: float, key: str = "C major", mode: str = "auto") -> dict:
+    """Understand something the user hummed/sang/beatboxed ("동딩띵!") — even if sloppy. Returns notes snapped to the
+    song's grid (keeps a little human feel) and key/scale (melody mode) or kick/snare/hat (drums mode, auto-detected).
+    Show the user what you heard (note names/rhythm) before placing. Recordings from the UI mic land in sounds/inbox/hum_*."""
+    from musicoma import hum, theory
+    r = hum.listen(path, bpm, key, mode)
+    r["heard_names"] = [theory.note_name(n["pitch"]) for n in r["notes"]] if r["mode"] == "melody" else         [{36: "kick", 38: "snare", 42: "hat"}.get(n["pitch"], n["pitch"]) for n in r["notes"]]
+    return r
+
+
+@mcp.tool()
+def hum_place(song: str, path: str, at: str = "0", repeat: int = 1, track: str = "Hum", sound: str = "",
+              key: str = "", mode: str = "auto") -> dict:
+    """Put a hummed idea into the song: at = '1:20' (min:sec) / '80s' / 'bar 33' (snapped to the bar), repeated `repeat`
+    times on `track` with `sound` (e.g. 'dexed:city_bell', 'rhodes', 'flute', a drum kit). Becomes an editable MIDI clip."""
+    from musicoma import hum
+    s = _song(song)
+    r = hum.listen(path, s.bpm, key or s.meta.get("key") or "C major", mode)
+    return hum.place(s, r, track=track, at=at, repeat=repeat, sound=sound or None)
+
+
+@mcp.tool()
 def references(genre: str) -> dict:
     """STEP 0 of every new song: existing reference songs for the genre — form, tempo, key, harmony, devices to learn,
     with sources (knowledge/references/<genre>.yaml) + any of the user's own songs measured by the analyzer

@@ -686,6 +686,35 @@ async function exportAudio() {
 }
 $("#export").onclick = exportAudio;
 
+// ---------------------------------------------------------------- 흥얼거리기(마이크) → 알아듣기 → 넣을 곳을 AI 에게
+let humRec = null;
+async function hum() {
+  const btn = $("#hum");
+  if (humRec) { humRec.stop(); return; }
+  let stream;
+  try { stream = await navigator.mediaDevices.getUserMedia({ audio: true }); }
+  catch (e) { status("마이크를 쓸 수 없어요: " + e.message); return; }
+  const chunks = [];
+  humRec = new MediaRecorder(stream);
+  humRec.ondataavailable = (e) => e.data.size && chunks.push(e.data);
+  humRec.onstop = async () => {
+    stream.getTracks().forEach((t) => t.stop());
+    btn.classList.remove("on"); humRec = null;
+    status("알아듣는 중…");
+    const blob = new Blob(chunks, { type: "audio/webm" });
+    const name = $("#project").value;
+    const r = await (await fetch(`/api/hum?song=${encodeURIComponent(name === "__new" ? "" : name)}`, { method: "POST", body: blob })).json();
+    if (r.error) { status("못 알아들었어요: " + r.error); return; }
+    const heard = r.heard.join(" ");
+    feedMsg("tool", `🎤 들은 것(${r.mode === "melody" ? "멜로디" : "비트박스"}, ${r.bars}마디): ${heard}`);
+    $("#ask").value = `방금 흥얼거린 거(${r.path}) — 어디에 넣을까: 예) 1:20 부터 4번 반복, 플루트로`;
+    $("#ask").focus();
+    status("들은 것을 프로듀서 패널에 적었어요. 넣을 위치·반복·악기를 말해 주세요.");
+  };
+  humRec.start(); btn.classList.add("on"); status("부르세요… 다시 누르면 끝");
+}
+$("#hum").onclick = hum;
+
 // ---------------------------------------------------------------- 세션 뷰(섹션 = 씬, 트랙 × 섹션 = 슬롯)
 function setView(v) {
   const ses = v === "session";

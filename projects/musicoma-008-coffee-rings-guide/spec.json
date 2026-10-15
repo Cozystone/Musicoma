@@ -1,0 +1,240 @@
+{
+ "name": "musicoma-008-coffee-rings-guide",
+ "bpm": 92,
+ "key": "D minor",
+ "style": "lofi-hiphop",
+ "feel": "laid_back",
+ "intensity": 0.75,
+ "brief": "「Coffee Rings」 재즈힙합 · 영어 랩 · Claude 기획",
+ "sections": [
+  {
+   "name": "intro",
+   "bars": 4
+  },
+  {
+   "name": "verse",
+   "bars": 12
+  },
+  {
+   "name": "hook",
+   "bars": 8
+  },
+  {
+   "name": "verse2",
+   "bars": 14
+  },
+  {
+   "name": "hook",
+   "bars": 8
+  },
+  {
+   "name": "bridge",
+   "bars": 4
+  },
+  {
+   "name": "hook_last",
+   "bars": 8
+  },
+  {
+   "name": "outro",
+   "bars": 8
+  }
+ ],
+ "tracks": {
+  "Drums": {
+   "preset": "drums/live_room",
+   "role": "drums"
+  },
+  "Bass": {
+   "preset": "bass/picked",
+   "role": "bass"
+  },
+  "Piano": {
+   "preset": "keys/cp80",
+   "role": "keys"
+  }
+ },
+ "buses": [],
+ "parts": [
+  {
+   "track": "Drums",
+   "in": [
+    "verse",
+    "hook",
+    "verse2",
+    "hook_last",
+    "outro"
+   ],
+   "drums": {
+    "pattern": {
+     "kick": "x.....x...x..x..",
+     "snare": "....x.......x...",
+     "hat": "x-x-x-x-x-x-x-xx"
+    },
+    "swing": 0.57,
+    "humanize_ms": 8,
+    "humanize_vel": 10,
+    "fill": {
+     "kick": "x.....x.",
+     "snare": "....x..xoxo.x.xx"
+    }
+   }
+  },
+  {
+   "track": "Drums",
+   "in": [
+    "intro"
+   ],
+   "drums": {
+    "pattern": {
+     "hat": "x-x-x-x-x-x-x-xx"
+    },
+    "swing": 0.57,
+    "humanize_ms": 8
+   }
+  },
+  {
+   "track": "Bass",
+   "in": [
+    "verse",
+    "verse2",
+    "outro"
+   ],
+   "bass": {
+    "progression": "i9 iv9 VII7 IIImaj7",
+    "beats_per_chord": 4,
+    "low": 28,
+    "high": 50,
+    "pattern": [
+     [
+      0,
+      1.5,
+      0
+     ],
+     [
+      1.75,
+      0.5,
+      7
+     ],
+     [
+      2.5,
+      1,
+      0
+     ],
+     [
+      3.5,
+      0.5,
+      10
+     ]
+    ]
+   }
+  },
+  {
+   "track": "Bass",
+   "in": [
+    "hook",
+    "hook_last"
+   ],
+   "bass": {
+    "progression": "VImaj7 VII7 i9 i9",
+    "beats_per_chord": 4,
+    "low": 28,
+    "high": 50,
+    "pattern": [
+     [
+      0,
+      1,
+      0
+     ],
+     [
+      1,
+      0.5,
+      7
+     ],
+     [
+      1.75,
+      0.75,
+      12
+     ],
+     [
+      2.5,
+      1,
+      0
+     ],
+     [
+      3.5,
+      0.5,
+      7
+     ]
+    ]
+   }
+  },
+  {
+   "track": "Piano",
+   "in": [
+    "intro",
+    "verse",
+    "verse2",
+    "outro"
+   ],
+   "chords": {
+    "progression": "i9 iv9 VII7 IIImaj7",
+    "beats_per_chord": 4,
+    "voicing": "piano",
+    "rhythm": [
+     [
+      0,
+      1.5,
+      1.0
+     ],
+     [
+      1.75,
+      0.5,
+      0.7
+     ],
+     [
+      2.5,
+      1.25,
+      0.85
+     ]
+    ],
+    "velocity": 70
+   }
+  },
+  {
+   "track": "Piano",
+   "in": [
+    "hook",
+    "hook_last"
+   ],
+   "chords": {
+    "progression": "VImaj7 VII7 i9 i9",
+    "beats_per_chord": 4,
+    "voicing": "piano",
+    "rhythm": [
+     [
+      0,
+      0.75,
+      1.0
+     ],
+     [
+      0.75,
+      0.75,
+      0.8
+     ],
+     [
+      2,
+      1.5,
+      0.9
+     ]
+    ],
+    "velocity": 74
+   }
+  }
+ ],
+ "events": [],
+ "mix": {
+  "balance": false
+ },
+ "automation": []
+}

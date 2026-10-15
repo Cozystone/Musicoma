@@ -6,17 +6,20 @@
 - 구성: intro(4) → verse(8) → pre(4) → chorus(8) → verse2(6) → pre(4) → chorus(8) → bridge(8) → chorus_last(8) → outro(4)
 
 ## 들어볼 것
-- **최신**: `renders/musicoma-006-last-exit_v2.wav`
+- **최신**: `renders/musicoma-006-last-exit_v3.wav`
+- `renders/musicoma-006-last-exit_v2.wav`
 - `renders/musicoma-006-last-exit_inst.wav`
 - `renders/musicoma-006-last-exit_v1.wav`
 
 ## 보컬
+- `vocals/vox_last_retake.wav`
 - `vocals/vox_lego.wav`
 - `vocals/vox_lego_v2.wav`
 - `vocals/vox_lego_v3.wav`
 - `vocals/vox_lego_v4.wav`
 - `vocals/vox_lego_v5.wav`
 - `vocals/vox_lego_v6.wav`
+- `vocals/vox_lego_v7.wav`
 - `vocals/vox_v1retake.wav`
 - `vocals/vox_verse2_retake.wav`
 - `vocals/vox_verse2_split.wav`

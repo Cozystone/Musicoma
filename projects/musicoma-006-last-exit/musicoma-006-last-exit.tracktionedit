@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<EDIT appVersion="Unknown" projectID="0/3e19a53" creationTime="1792056631498"
-      modifiedBy="anseo" lastSignificantChange="1a13ee87270">
+<EDIT appVersion="Unknown" projectID="0/12ac462" creationTime="1792065192637"
+      modifiedBy="anseo" lastSignificantChange="1a13f6b0a09">
   <TRANSPORT start="0.0" loopPoint1="0.0" loopPoint2="0.0"/>
   <PITCHSEQUENCE>
     <PITCH startBeat="0.0" pitch="60"/>
@@ -10825,16 +10825,16 @@
   <TRACK id="1048" name="Vox">
     <MODIFIERS/>
     <CLIPSLOTS/>
-    <AUDIOCLIP name="vox_lego_v6" start="0.0" length="106.6071428571428" offset="0.0"
-               id="1067" source="vocals\vox_lego_v6.wav" sync="0" elastiqueMode="0"
+    <AUDIOCLIP name="vox_lego_v7" start="0.0" length="106.6071428571428" offset="0.0"
+               id="1067" source="vocals\vox_lego_v7.wav" sync="0" elastiqueMode="0"
                pan="0.0" colour="ff5500ff" proxyAllowed="1" resamplingQuality="lagrange"
                autoTempo="0" autoPitch="0">
       <LOOPINFO rootNote="-1" numBeats="250.8000055555556" oneShot="0" denominator="4"
                 numerator="4" bpm="0.0" inMarker="0" outMarker="-1"/>
       <AUTOMATIONCURVES/>
     </AUDIOCLIP>
-    <AUDIOCLIP name="vox_lego_v6" start="107.1428571428571" length="25.71428571428572"
-               offset="107.1428571428571" id="1093" source="vocals\vox_lego_v6.wav"
+    <AUDIOCLIP name="vox_lego_v7" start="107.1428571428571" length="25.71428571428572"
+               offset="107.1428571428571" id="1093" source="vocals\vox_lego_v7.wav"
                sync="0" elastiqueMode="0" pan="0.0" colour="ff5500ff" proxyAllowed="1"
                resamplingQuality="lagrange" autoTempo="0" autoPitch="0">
       <LOOPINFO rootNote="-1" numBeats="250.8000055555556" oneShot="0" denominator="4"

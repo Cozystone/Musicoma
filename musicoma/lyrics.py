@@ -56,12 +56,17 @@ def _tail_vowels(line, lang):
     w = words[-1].rstrip("'").replace("qu", "kw")
     w = w[0] + re.sub(r"(?<=[^aeiou])y(?=[^aeiou]|$)", "i", w[1:]) if len(w) > 1 else w    # rhyme→rhime
     # 철자 → 소리(대략): 같은 소리 다른 철자를 하나로(repeat/sweet, coast/most, night/bite, soprano/tokyo)
+    SPECIAL = {"you": "oo", "through": "oo", "who": "oo", "to": "oo", "do": "oo", "true": "oo", "blue": "oo", "new": "oo",
+               "door": "or", "more": "or", "four": "or", "floor": "or", "your": "or", "pour": "or"}
+    if w in SPECIAL:
+        return SPECIAL[w]
     for a, b in (("igh", "ai"), ("eigh", "ei"), ("ea", "ee"), ("ie", "ee"), ("ei", "ee"), ("oa", "o"), ("ow", "o"),
-                 ("oe", "o"), ("ue", "oo"), ("ew", "oo"), ("ou", "ow"), ("ay", "ei"), ("ey", "ee"), ("ph", "f"), ("ck", "k")):
+                 ("oe", "o"), ("ue", "oo"), ("ew", "oo"), ("ou", "ow"), ("ay", "ei"), ("ai", "ei"), ("ey", "ee"), ("ph", "f"), ("ck", "k"),
+                 ("oor", "or")):
         w = w.replace(a, b)
     if w.endswith("y") and len(w) > 2 and w[-2] not in "aeiou":
         w = w[:-1] + "ee"
-    if w.endswith("e") and len(w) > 3 and w[-2] not in "aeiou" and w[-3] in "aeiou":   # 묵음 e: bite→bait 소리
+    if w.endswith("e") and len(w) >= 3 and w[-2] not in "aeiou" and w[-3] in "aeiou":  # 묵음 e: bite→bait 소리
         w = w[:-3] + {"a": "ei", "i": "ai", "o": "o", "u": "oo", "e": "ee"}[w[-3]] + w[-2]
     v = re.findall(r"[aeiou]+[^aeiou]*$", w)
     tail = v[0] if v else w[-2:]

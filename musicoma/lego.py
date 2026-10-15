@@ -89,6 +89,26 @@ def _voiceprint(path):
     return np.concatenate([m.mean(1), m.std(1)])
 
 
+_NAMES = {"C": 0, "C#": 1, "Db": 1, "D": 2, "D#": 3, "Eb": 3, "E": 4, "F": 5, "F#": 6, "Gb": 6, "G": 7, "G#": 8, "Ab": 8,
+          "A": 9, "A#": 10, "Bb": 10, "B": 11}
+
+
+def key_fit(path, key):
+    """노래가 그 구간 조성의 음계 안에 머무는 비율(0~1). 전조 구간에서 옛 조로 부르는 테이크를 거른다(10-15 '마지막에 길을 잃음')."""
+    import pyworld as pw
+    tonic, _, mode = key.partition(" ")
+    t = _NAMES.get(tonic, 0)
+    scale = np.array([0, 2, 3, 5, 7, 8, 10] if mode.lower().startswith("min") else [0, 2, 4, 5, 7, 9, 11])
+    v, sr = sf.read(str(path), dtype="float64")
+    v = v.mean(1) if v.ndim > 1 else v
+    f0, _ = pw.harvest(v, sr, frame_period=10, f0_floor=80, f0_ceil=1000)
+    f = f0[f0 > 0]
+    if len(f) < 50:
+        return 0.0
+    pc = np.round(69 + 12 * np.log2(f / 440)).astype(int) % 12
+    return float(np.isin(pc, (scale + t) % 12).mean())
+
+
 def _sim(a, b):
     return float(np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b) + 1e-9))
 
@@ -106,7 +126,7 @@ def _run_lego(req, work):
 
 
 def vocal_track(beat_wav, sections, bpm, key, caption, out, takes=8, lang="en", reference=None, log=print,
-                pass_wer=0.2, track="vocals", guide_wav=None):
+                pass_wer=0.2, track="vocals", guide_wav=None, min_key_fit=0.8):
     """guide_wav: 보컬 생성에만 쓰는 '가벼운 반주'(드럼·베이스·건반만). 10-15 측정: 꽉 찬 편곡(브라스·스트링·기타)을 주면
     Lego 가 '이미 완성된 곡'으로 보고 보컬을 거의 안 얹는다(보컬 -45~-60dB) — 덜어 낸 반주에서는 노래가 나온다.
     결과 보컬은 원래 반주(beat_wav) 위치에 놓인다. 노래는 랩보다 성공률이 낮아 takes 16~20 권장."""
@@ -155,12 +175,15 @@ def vocal_track(beat_wav, sections, bpm, key, caption, out, takes=8, lang="en", 
             hyp = " ".join(w["w"] for w in vd.words(st["vocals"], lang))
             vp = _voiceprint(st["vocals"])
             rows.append({"seed": f["seed"], "wer": round(_wer(sec["lyrics"], hyp), 3),
+                         "key_fit": round(key_fit(st["vocals"], sec.get("key", key)), 3),
                          "voice_sim": round(_sim(vp, ref_print), 3) if ref_print is not None else None,
                          "vox": st["vocals"], "heard": hyp[:160]})
         if not rows:
             raise RuntimeError(f"[lego] {sec['name']}: 생성된 테이크가 없음(요청 {work / ('req_' + req['tag'] + '.json')} 확인)")
         ok = [r for r in rows if r["wer"] <= pass_wer] or sorted(rows, key=lambda r: r["wer"])[:2]
-        best = max(ok, key=lambda r: (r["voice_sim"] or 0) - 0.5 * r["wer"]) if ref_print is not None else min(ok, key=lambda r: r["wer"])
+        in_key = [r for r in ok if r["key_fit"] >= min_key_fit]
+        ok = in_key or ok                                    # 조성 적합도 통과 테이크 우선
+        best = max(ok, key=lambda r: (r["voice_sim"] or 0) - 0.5 * r["wer"] + 0.5 * r["key_fit"]) if ref_print is not None             else max(ok, key=lambda r: r["key_fit"] - r["wer"])
         if ref_print is None and best["wer"] <= pass_wer:     # 처음 통과한 구간의 목소리가 이후 구간의 기준
             ref_print = _voiceprint(best["vox"])
         v, s3 = sf.read(best["vox"], dtype="float32")
@@ -176,8 +199,9 @@ def vocal_track(beat_wav, sections, bpm, key, caption, out, takes=8, lang="en", 
         i = int(max(0, a - 0.15) * sr)
         full[i:i + len(v)] += v[:len(full) - i]
         report.append({"section": sec["name"], "start": a, "end": b, "chosen": best["seed"], "wer": best["wer"],
+                       "key_fit": best["key_fit"],
                        "voice_sim": best["voice_sim"], "vox": best["vox"], "takes": rows})
-        log(f"[lego] {sec['name']}: seed {best['seed']} · 오류율 {best['wer']} · 유사도 {best['voice_sim']}")
+        log(f"[lego] {sec['name']}: seed {best['seed']} · 오류율 {best['wer']} · 유사도 {best['voice_sim']} · 조성 {best['key_fit']}")
     try:
         sf.write(str(out), full, sr, subtype="PCM_24")
     except Exception:                                # 엔진이 이전 파일을 열고 있으면 새 이름으로(10-15 잠금 사고)

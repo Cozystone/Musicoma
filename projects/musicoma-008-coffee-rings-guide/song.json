@@ -1,0 +1,69 @@
+{
+ "name": "musicoma-008-coffee-rings-guide",
+ "bpm": 92,
+ "key": "D minor",
+ "style": "lofi-hiphop",
+ "time_sig": "4/4",
+ "brief": "「Coffee Rings」 재즈힙합 · 영어 랩 · Claude 기획",
+ "created": "2026-10-15 21:04",
+ "tracks": {
+  "Drums": {
+   "sound": "drums_acoustic_full",
+   "role": "drums"
+  },
+  "Bass": {
+   "sound": "bass_picked",
+   "role": "bass"
+  },
+  "Piano": {
+   "sound": "cp80",
+   "role": "keys"
+  }
+ },
+ "sections": [
+  {
+   "name": "intro",
+   "start_bar": 0,
+   "bars": 4
+  },
+  {
+   "name": "verse",
+   "start_bar": 4,
+   "bars": 12
+  },
+  {
+   "name": "hook",
+   "start_bar": 16,
+   "bars": 8
+  },
+  {
+   "name": "verse2",
+   "start_bar": 24,
+   "bars": 14
+  },
+  {
+   "name": "hook",
+   "start_bar": 38,
+   "bars": 8
+  },
+  {
+   "name": "bridge",
+   "start_bar": 46,
+   "bars": 4
+  },
+  {
+   "name": "hook_last",
+   "start_bar": 50,
+   "bars": 8
+  },
+  {
+   "name": "outro",
+   "start_bar": 58,
+   "bars": 8
+  }
+ ],
+ "sources": [],
+ "history": [],
+ "versions": [],
+ "spec": "D:\\0.Musicoma\\projects\\musicoma-008-coffee-rings-guide\\spec.json"
+}

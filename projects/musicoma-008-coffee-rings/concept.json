@@ -1,0 +1,84 @@
+{
+ "thesis": "아침 커피 자국처럼 하루하루가 남기는 작은 원들 — 샘플을 뒤집듯 삶을 다시 틀어 보는, 들뜨지만 서두르지 않는 고백",
+ "arc": [
+  {
+   "section": "intro",
+   "intent": "피아노 루프와 플루트, 아침 공기",
+   "energy": 0.3
+  },
+  {
+   "section": "verse",
+   "intent": "도시를 걸으며 이야기 — 가볍게 신남",
+   "energy": 0.6
+  },
+  {
+   "section": "hook",
+   "intent": "커피 자국 = 반복되는 날들, 함께 흥얼거림",
+   "energy": 0.8
+  },
+  {
+   "section": "verse2",
+   "intent": "해 질 녘 옥상, 친구와 음악",
+   "energy": 0.65
+  },
+  {
+   "section": "bridge",
+   "intent": "비트가 빠지고 플루트·로즈만 — 숨",
+   "energy": 0.3
+  },
+  {
+   "section": "hook_last",
+   "intent": "다시 돌아온 그루브, 약속",
+   "energy": 0.9
+  },
+  {
+   "section": "outro",
+   "intent": "루프는 계속 돈다",
+   "energy": 0.4
+  }
+ ],
+ "motif": {
+  "melody": "A4:.5 C5:.5 D5:.5 F5:1 E5:.5 D5:1",
+  "why": "커피잔 가장자리를 도는 원 — 올라갔다 제자리로"
+ },
+ "collision": [
+  "90년대 일본 재즈힙합 피아노 루프",
+  "라틴 재즈 플루트",
+  "동네 아침 시장의 리듬"
+ ],
+ "constraints": [
+  "드럼 틀은 곡 내내 같다 — 화음과 악기만 장마다 바뀐다(Luv(sic))",
+  "MPC 스윙 0.57",
+  "훅도 랩 톤(멜로딕 랩)"
+ ],
+ "events": [
+  {
+   "section": "hook_last",
+   "at": -1,
+   "length": 1,
+   "type": "stop",
+   "why": "돌아오기 직전 숨"
+  }
+ ],
+ "irregular": [
+  {
+   "what": "벌스 12·14마디",
+   "why": "이야기 길이만큼"
+  },
+  {
+   "what": "브리지 비트 체인지 — 드럼·베이스가 빠지고 플루트·로즈만",
+   "why": "On Sight 의 세계 전환"
+  },
+  {
+   "what": "마지막 훅 직전 1박 정지",
+   "why": "돌아오는 순간을 크게"
+  }
+ ],
+ "references": "knowledge/references/jazz-hop.yaml",
+ "not": [
+  "808",
+  "트랩 하이햇",
+  "기계적으로 곧은 리듬",
+  "같은 4마디 복사"
+ ]
+}

@@ -180,6 +180,6 @@ if __name__ == "__main__":
                                  "fx": [{"device": "eq", "params": {"Low-pass freq": 140, "Low-pass gain": -6, "Mid freq 2": 3500, "Mid gain 2": 1.5}},
                                         {"device": "compressor", "params": {"threshold": -20, "ratio": 3, "attack": 8, "release": 120}}]}
         total_beats = sum(x["bars"] for x in SECTIONS) * 4
-        spec["parts"].append({"track": "Vox", "in": ["intro"], "audio": {"path": str(root / "vocals" / "vox_lego_v6.wav"), "length": total_beats}})
+        spec["parts"].append({"track": "Vox", "in": ["intro"], "audio": {"path": str(root / "vocals" / "vox_lego_v7.wav"), "length": total_beats}})
         s, rep = arrange.build(spec, label=sys.argv[2] if len(sys.argv) > 2 else "v2")
         print(json.dumps({k: rep[k] for k in ("file", "loudness", "bands_db", "issues")}, ensure_ascii=False, default=str))
