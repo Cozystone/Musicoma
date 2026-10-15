@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<EDIT appVersion="Unknown" projectID="0/2eb0429" creationTime="1792051666299"
-      modifiedBy="anseo" lastSignificantChange="1a13e9d3b85">
+<EDIT appVersion="Unknown" projectID="0/3e19a53" creationTime="1792056631498"
+      modifiedBy="anseo" lastSignificantChange="1a13ee87270">
   <TRANSPORT start="0.0" loopPoint1="0.0" loopPoint2="0.0"/>
   <PITCHSEQUENCE>
     <PITCH startBeat="0.0" pitch="60"/>
@@ -10825,19 +10825,19 @@
   <TRACK id="1048" name="Vox">
     <MODIFIERS/>
     <CLIPSLOTS/>
-    <AUDIOCLIP name="vox_lego_v4" start="0.0" length="106.6071428571428" offset="0.0"
-               id="1067" source="vocals\vox_lego_v4.wav" sync="0" elastiqueMode="0"
+    <AUDIOCLIP name="vox_lego_v6" start="0.0" length="106.6071428571428" offset="0.0"
+               id="1067" source="vocals\vox_lego_v6.wav" sync="0" elastiqueMode="0"
                pan="0.0" colour="ff5500ff" proxyAllowed="1" resamplingQuality="lagrange"
                autoTempo="0" autoPitch="0">
-      <LOOPINFO rootNote="-1" numBeats="252.6666722222222" oneShot="0" denominator="4"
+      <LOOPINFO rootNote="-1" numBeats="250.8000055555556" oneShot="0" denominator="4"
                 numerator="4" bpm="0.0" inMarker="0" outMarker="-1"/>
       <AUTOMATIONCURVES/>
     </AUDIOCLIP>
-    <AUDIOCLIP name="vox_lego_v4" start="107.1428571428571" length="25.71428571428572"
-               offset="107.1428571428571" id="1093" source="vocals\vox_lego_v4.wav"
+    <AUDIOCLIP name="vox_lego_v6" start="107.1428571428571" length="25.71428571428572"
+               offset="107.1428571428571" id="1093" source="vocals\vox_lego_v6.wav"
                sync="0" elastiqueMode="0" pan="0.0" colour="ff5500ff" proxyAllowed="1"
                resamplingQuality="lagrange" autoTempo="0" autoPitch="0">
-      <LOOPINFO rootNote="-1" numBeats="252.6666722222222" oneShot="0" denominator="4"
+      <LOOPINFO rootNote="-1" numBeats="250.8000055555556" oneShot="0" denominator="4"
                 numerator="4" bpm="0.0" inMarker="0" outMarker="-1"/>
       <AUTOMATIONCURVES/>
     </AUDIOCLIP>
@@ -10854,7 +10854,7 @@
             remapOnTempoChange="1" busNum="0" auxSendSliderPos="0.4493289589881897">
       <MODIFIERASSIGNMENTS/>
     </PLUGIN>
-    <PLUGIN type="volume" id="1049" enabled="1" remapOnTempoChange="1" volume="0.5915553569793701">
+    <PLUGIN type="volume" id="1049" enabled="1" remapOnTempoChange="1" volume="0.5543272495269775">
       <MODIFIERASSIGNMENTS/>
     </PLUGIN>
     <PLUGIN type="level" id="1050" enabled="1"/>

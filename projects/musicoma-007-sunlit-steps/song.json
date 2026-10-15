@@ -4,28 +4,20 @@
  "key": "A minor",
  "style": "chipmunk-soul",
  "time_sig": "4/4",
- "brief": "Original soul-sample-inspired boom-bap instrumental with an upper-register refrain, dry punchy drums, warm bass, and restrained strings.",
- "created": "2026-10-15 17:27",
+ "brief": "Original darker chipmunk-soul boom-bap reconstruction: tense A-minor stuttered piano, dry hard drums, and dark root-locked bass. English rap vocal requested but not included because the Musicoma vocal service timed out; no artist imitation.",
+ "created": "2026-10-15 18:08",
  "tracks": {
   "Drums": {
    "sound": "drums_acoustic_basic",
    "role": "drums"
   },
   "Bass": {
-   "sound": "bass_hollow_finger",
+   "sound": "bass_sub",
    "role": "bass"
   },
-  "Soul Piano": {
-   "sound": "upright_piano",
+  "Stutter Piano": {
+   "sound": "rhodes",
    "role": "keys"
-  },
-  "High Refrain": {
-   "sound": "wurlitzer",
-   "role": "lead"
-  },
-  "Strings": {
-   "sound": "strings_violins",
-   "role": "strings"
   }
  },
  "sections": [
@@ -61,6 +53,13 @@
   }
  ],
  "sources": [],
- "history": [],
- "versions": []
+ "history": [
+  {
+   "t": "10-15 18:11",
+   "request": "너무 감미로워. through the wire 같은 느낌의 독창적인 걸 원해. 그리고 보컬도 얹어줘. 랩으로. 영어로",
+   "did": "기존 곡을 덜 감미로운 독창적 칩멍크 소울 붐뱁으로 재구성: 드라이 드럼 848노트, 다크 베이스 144노트, 긴장감 있는 피아노 스탭 610노트, 56마디/224비트. 실존 아티스트의 멜로디·가사·보컬은 모사하지 않았다. 영어 랩 보컬은 새 보이스 생성과 16마디·4마디 랩 합성이 각각 300초 시간초과로 실패하여 삽입하지 못했다. 최종 렌더: -12.3 LUFS, -1.0 dBTP, 155.23초; 전환부 4곳에 짧은 데드 에어 경고."
+  }
+ ],
+ "versions": [],
+ "spec": "D:\\0.Musicoma\\projects\\musicoma-007-sunlit-steps\\spec.json"
 }

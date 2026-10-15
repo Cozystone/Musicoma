@@ -15,6 +15,9 @@
 - `vocals/vox_lego_v2.wav`
 - `vocals/vox_lego_v3.wav`
 - `vocals/vox_lego_v4.wav`
+- `vocals/vox_lego_v5.wav`
+- `vocals/vox_lego_v6.wav`
+- `vocals/vox_v1retake.wav`
 - `vocals/vox_verse2_retake.wav`
 - `vocals/vox_verse2_split.wav`
 

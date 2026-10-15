@@ -116,12 +116,8 @@ def vocal_track(beat_wav, sections, bpm, key, caption, out, takes=8, lang="en", 
     beat, sr = sf.read(str(guide_wav or beat_wav), dtype="float32")
     if beat.ndim == 1:
         beat = np.stack([beat, beat], 1)
-    mel_notes = [n for sec in sections for n in (sec.get("melody_notes") or [])]
-    if mel_notes:                                     # 멜로디 가이드(최종 믹스엔 안 들어감)
-        from .vocal_melody import synth
-        m = synth(mel_notes, bpm, sr, len(beat)) * 0.35
-        beat = beat + m[:, None]
-        beat = beat / (np.abs(beat).max() + 1e-9) * 0.85
+    from .vocal_melody import synth
+    beat = beat / (np.abs(beat).max() + 1e-9) * 0.8
     full = np.zeros_like(beat)
     ref_print = _voiceprint(reference) if reference else None
     report = []
@@ -132,7 +128,13 @@ def vocal_track(beat_wav, sections, bpm, key, caption, out, takes=8, lang="en", 
         if b > c1:                                   # 구간이 길면 문맥을 줄인다
             c0, c1 = max(0.0, a - 2.0), min(len(beat) / sr, b + 2.0)
         crop = work / f"{si:02d}_{sec['name']}_beat.wav"
-        sf.write(str(crop), beat[int(c0 * sr):int(c1 * sr)], sr, subtype="PCM_24")
+        seg = beat[int(c0 * sr):int(c1 * sr)].copy()
+        if sec.get("melody_notes"):
+            # 가이드 멜로디는 '이 구간 안에만'. 문맥(앞뒤)에 멜로디 악기가 들리면 모델이 '악기가 노래하는 곡'으로 보고 보컬을 안 얹는다(10-15: 8/8 실패 → 5/8 성공)
+            m = synth(sec["melody_notes"], bpm, sr, len(beat))[int(c0 * sr):int(c1 * sr)] * 0.35
+            seg = seg + m[:, None]
+            seg = seg / (np.abs(seg).max() + 1e-9) * 0.85
+        sf.write(str(crop), seg, sr, subtype="PCM_24")
         req = {"tag": f"{si:02d}_{sec['name']}", "beat": str(crop), "lyrics": f"[{sec.get('tag', 'Verse')}]\n{sec['lyrics']}",
                "caption": caption, "bpm": int(round(bpm)), "key": sec.get("key", key), "start": round(a - c0, 3), "end": round(b - c0, 3),
                "seeds": list(range(1 + si * 100, 1 + si * 100 + takes)), "out_dir": str(work / f"{si:02d}_{sec['name']}"),
