@@ -298,9 +298,9 @@ def _take_section(si, sec, st, ref_print, reference, log, takes, enough, seed0):
 
     def score(f):
         y, s2 = sf.read(f["path"], dtype="float32")
-        cut = Path(f["path"]).with_name("section.wav")
+        cut = Path(f["path"]).with_name(f"section_{f['seed']}.wav")             # 한 묶음 3테이크가 같은 폴더 — 시드별 이름(10-16 덮어쓰기 버그)
         sf.write(str(cut), y[int(max(0, a - c0 - 0.3) * s2):int((b - c0 + 0.3) * s2)], s2)
-        vox = vocals_only(cut, cut.with_name("vocals.wav"))
+        vox = vocals_only(cut, cut.with_name(f"vocals_{f['seed']}.wav"))
         hyp = " ".join(w["w"] for w in vd.words(vox, lang))
         return {"seed": f["seed"], "wer": round(_wer(sec["lyrics"], hyp), 3),
                 "key_fit": round(key_fit(vox, sec.get("key", key)), 3),
@@ -336,7 +336,7 @@ def _pick(rows, st, has_ref):
 def _write(st, out_json):
     """구간별 '녹음 파일' + 대안 테이크 + 전체 보컬 + 상태(json). 진짜 가수 녹음처럼: 구간 = 클립 하나, NG 면 그 구간만 다시."""
     sr, n = st["sr"], st["length"]
-    base = Path(out_json).with_suffix("")
+    base = Path(out_json).resolve().with_suffix("")   # 엔진이 읽으니 절대경로
     d = base.parent / base.name                 # vocals/<이름>/
     (d / "takes").mkdir(parents=True, exist_ok=True)
     full = np.zeros((n, 2), np.float32)
@@ -344,9 +344,9 @@ def _write(st, out_json):
         a, b = float(sec["start"]), float(sec["end"])
         for r in sec["takes"]:
             if (r.get("pass") or r["seed"] == sec["chosen"]) and not (r.get("file") and Path(r["file"]).exists()):
-                r["file"] = str(_safe_write(d / "takes" / f"{si:02d}_{sec['name']}_seed{r['seed']}.wav", _cut(r["vox"], a, b, sr), sr))
-        best = next(r for r in sec["takes"] if r["seed"] == sec["chosen"])
-        v = _cut(best["vox"], a, b, sr)
+                tag = f"_from_{r['from']}" if r.get("from") else ""
+                r["file"] = str(_safe_write(d / "takes" / f"{si:02d}_{sec['name']}_seed{r['seed']}{tag}.wav", _cut(r["vox"], a, b, sr), sr))
+        v = _cut(sec["vox"], a, b, sr)              # 고른 테이크(다른 구간에서 빌려 온 것일 수도 — borrow)
         sec["file"] = str(_safe_write(d / f"{si:02d}_{sec['name']}.wav", v, sr))
         sec["place_s"] = round(max(0.0, a - 0.15), 4)
         i = int(sec["place_s"] * sr)
@@ -394,7 +394,7 @@ def vocal_track(beat_wav, sections, bpm, key, caption, out, takes=8, lang="en", 
 
 
 def _load(state):
-    p = Path(state)
+    p = Path(state).resolve()
     if p.suffix != ".json":
         p = p.with_suffix(".json")
     return p, json.loads(p.read_text(encoding="utf-8"))
@@ -466,3 +466,21 @@ def from_legacy(old_json, sections, guide, out_json, pass_wer=0.3, min_key_fit=0
                                "voice_sim": x["voice_sim"], "vox": best["vox"], "takes": x["takes"]})
     st["ref_vox"] = next((x["vox"] for x in st["sections"] if x["wer"] <= pass_wer), None)
     return _write(st, out_json)
+
+
+def borrow(state, section, from_section, seed):
+    """같은 가사·코드·길이의 다른 구간에서 잘 부른 테이크를 가져온다(가수가 후렴을 여러 번 불러 두고 골라 쓰듯).
+    10-16 「Half Past Three」: chorus1 은 24테이크 모두 노래를 안 함(받아쓰기가 무음에서 문장을 지어냄), 같은 후렴 chorus_last 는 6중 4 통과."""
+    p, st = _load(state)
+    _, dst = _find(st, section)
+    _, src = _find(st, from_section)
+    if abs((dst["end"] - dst["start"]) - (src["end"] - src["start"])) > 0.05:
+        raise ValueError(f"길이가 다름: {section} {dst['end'] - dst['start']:.2f}s vs {from_section} {src['end'] - src['start']:.2f}s")
+    r = next((r for r in src["takes"] if r["seed"] == int(seed)), None)
+    if r is None:
+        raise KeyError(f"{from_section} 에 seed {seed} 없음")
+    row = {**{k: v for k, v in r.items() if k != "file"}, "from": from_section}
+    dst["takes"] = [x for x in dst["takes"] if not (x["seed"] == row["seed"] and x.get("from") == from_section)] + [row]
+    dst.update({"chosen": row["seed"], "wer": row["wer"], "key_fit": row["key_fit"], "voice_sim": row["voice_sim"], "vox": row["vox"]})
+    _write(st, p)
+    return {"section": section, "from": from_section, "chosen": row["seed"], "wer": row["wer"], "file": dst["file"]}

@@ -1,0 +1,56 @@
+# 레퍼런스 카드 — 네오소울(90s~ 소울쿼리언스 계열 + 2010s 후계). 0단계(10-16, musicoma-009 기획 — 본인 "새 곡으로").
+# 음원은 받지 않는다. 형식·장치만 배운다(선율·가사·샘플 인용 금지). 수치는 도구마다 달라 '대략'으로만.
+genre: neo-soul
+collected: 2026-10-16
+songs:
+  - title: "Untitled (How Does It Feel)"
+    artist: "D'Angelo"
+    year: 2000
+    tempo: "미확인(믿을 만한 출처 없음)"
+    key: "미확인"
+    form: "7분 — 정형 구조를 벗어난 발라드. 에너지가 오르내리다 끝에 '소리의 벽'까지 쌓이고 갑자기 끊긴다"
+    production: "일렉트릭 레이디 스튜디오 라이브 밴드. 로이 하그로브 호른이 공간감, 프레이즈 뒤에 슬쩍 들어오는 피아노"
+    learn:
+      - "곡 전체가 한 번의 긴 상승 — 마지막에 가득 쌓았다가 '뚝' 끊는 끝(사건)"
+      - "호른은 선율보다 '공기'(뒤에서 길게)"
+      - "보컬 프레이즈 뒤 빈자리에 건반이 짧게 대답"
+    sources: ["https://www.clashmusic.com/features/honouring-dangelo-15-best-songs/", "https://mtsusidelines.com/2025/10/22/remembering-dangelo-through-five-essential-tracks/", "https://classapps.chass.ncsu.edu/com304/?p=2461"]
+  - title: "On & On"
+    artist: "Erykah Badu"
+    year: 1997
+    tempo: "약 80 (도구 74~93 불일치)"
+    key: "E단조가 가장 많음(B단조 보고도 있음)"
+    learn: ["두 화음 사이를 오가는 최소 진행 위에서 말하듯 노래 — 화성보다 그루브와 말투"]
+    sources: ["https://jamzone.musicwill.org/songs/on-on", "https://www.cs.ubc.ca/%7Edavet/music/track/HOTTRACK_038/HOTTRACK_038-12.html", "https://www.audiokeychain.com/track/bWU/erykah-badu-on-and-on"]
+  - title: "Get You"
+    artist: "Daniel Caesar feat. Kali Uchis"
+    year: 2016
+    tempo: "약 74 (72~74 다수)"
+    key: "E단조 또는 B단조(출처 엇갈림) — Em · F#m7 · Bm · A7 중심"
+    learn: ["느린 템포 단조 반복 진행, 다리(bridge)에 이름 붙이기 어려운 화음 하나로 색을 바꿈", "남자 팔세토 리드"]
+    sources: ["https://www.musicgateway.com/song-key-bpm/daniel-caesar/get-you-feat-kali-uchis", "https://tabs.ultimate-guitar.com/d/daniel_caesar/get_you_crd.htm"]
+  - title: "Ex-Factor"
+    artist: "Lauryn Hill"
+    year: 1998
+    tempo: "악보 ♩=88 (도구 80)"
+    key: "악보 F장조(출처 엇갈림)"
+    learn: ["오래된 재료를 다시 짜서 새 곡으로(샘플의 샘플) — 브리지가 따로 떨어져 나가 다른 곡들의 재료가 될 만큼 강함"]
+    sources: ["https://www.musicnotes.com/sheetmusic/lauryn-hill/ex-factor/MN0065734_D2", "https://musicologynow.org/?p=167"]
+summary:
+  tempo: "72~88"
+  harmony: "단조 9·11화음, i9 ↔ IV13(도리안 색), 장7·13sus4 로 미끄러지기. 진행은 짧게 반복하고 색은 보이싱으로"
+  devices: ["늦게 끌리는 스네어(딜라 타이밍)", "프레이즈 뒤 건반 대답", "호른은 공기처럼", "마지막에 쌓고 뚝 끊기", "팔세토 리드"]
+palette:
+  - era: "부를리처·로즈 일렉트릭 피아노"
+    ours: "keys/wurlitzer (실제 샘플, CC-BY Greg Sullivan) — 실제 로즈 샘플은 없음(gap)"
+  - era: "오르간(뒤에서 길게)"
+    ours: "keys/organ (Surge) — 작게"
+  - era: "라이브 드럼(퀘스트러브)"
+    ours: "drums/rusty (Big Rusty CC0) — swing 0.58~0.62, 스네어 늦게"
+  - era: "핑거 베이스(피노 팔라디노)"
+    ours: "bass/hollow_finger"
+  - era: "클린 일렉 기타 짧은 필"
+    ours: "guitar/archtop"
+  - era: "뮤트 트럼펫(로이 하그로브)"
+    ours: "brass/trumpet (VSCO2) — 하몬 뮤트 샘플은 alt 에만"
+gaps: ["실제 로즈 샘플", "콩가"]

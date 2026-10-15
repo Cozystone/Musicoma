@@ -61,6 +61,20 @@ def pattern_notes(pattern, bars=1, steps_per_bar=16, beats_per_bar=4, swing=0.5,
     return sorted(notes, key=lambda n: n["start"])
 
 
+def _tile(hits, d):
+    """한 마디(4박)짜리 리듬을 그보다 긴 화음 안에서 마디마다 되풀이(10-16 「Half Past Three」: 8박 화음에 4박 리듬 →
+    화음 뒤 절반이 통째로 비었다). 리듬이 이미 화음 길이를 덮으면 그대로."""
+    span = 4.0 * max(1, -(-max(h[0] for h in hits) // 4) if max(h[0] for h in hits) > 0 else 1)
+    span = max(span, 4.0)
+    if span >= d:
+        return list(hits)
+    out, k = [], 0.0
+    while k < d - 1e-6:
+        out += [(off + k, ln, x) for (off, ln, x) in hits if off + k < d]
+        k += span
+    return out
+
+
 def chord_notes(voicings, durations, start=0.0, velocity=82, strum=0.0, humanize_vel=6, seed=0, legato=0.98,
                 rhythm=None):
     """보이싱 묶음 → 노트. durations: 코드마다 박 수 (숫자 하나면 전부 같게).
@@ -72,7 +86,7 @@ def chord_notes(voicings, durations, start=0.0, velocity=82, strum=0.0, humanize
         durations = [durations] * len(voicings)
     notes, t = [], start
     for v, d in zip(voicings, durations):
-        hits = rhythm or [(0.0, d, 1.0)]
+        hits = _tile(rhythm, d) if rhythm else [(0.0, d, 1.0)]
         for (off, ln, vm) in hits:
             if off >= d:
                 continue
@@ -91,7 +105,7 @@ def bass_line(roots, durations, start=0.0, pattern=None, velocity=100, octave_ju
         durations = [durations] * len(roots)
     notes, t = [], start
     for r, d in zip(roots, durations):
-        hits = pattern or [(0.0, d * 0.95, 0)]
+        hits = _tile(pattern, d) if pattern else [(0.0, d * 0.95, 0)]
         for (off, ln, semi) in hits:
             if off >= d:
                 continue
