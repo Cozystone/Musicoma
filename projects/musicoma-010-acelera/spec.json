@@ -1,0 +1,605 @@
+{
+ "name": "musicoma-010-acelera",
+ "bpm": 130,
+ "key": "A minor",
+ "style": "brazilian-phonk",
+ "feel": "tight",
+ "intensity": 0.9,
+ "brief": "「Acelera」 브라질리언 퐁크 · 포르투갈어 구호 · 자체 합성 카우벨·808",
+ "sections": [
+  {
+   "name": "intro",
+   "bars": 8
+  },
+  {
+   "name": "drop",
+   "bars": 8
+  },
+  {
+   "name": "drop_b",
+   "bars": 8
+  },
+  {
+   "name": "break",
+   "bars": 8
+  },
+  {
+   "name": "build",
+   "bars": 3
+  },
+  {
+   "name": "gap",
+   "bars": 1
+  },
+  {
+   "name": "drop2",
+   "bars": 8
+  },
+  {
+   "name": "drop2_b",
+   "bars": 8
+  },
+  {
+   "name": "outro",
+   "bars": 4
+  }
+ ],
+ "tracks": {
+  "Drums": {
+   "preset": "drums/phonk",
+   "role": "drums"
+  },
+  "Bass808": {
+   "preset": "bass/808_dist",
+   "role": "bass"
+  },
+  "Cowbell": {
+   "preset": "lead/cowbell",
+   "role": "lead",
+   "perform_role": "pluck",
+   "sends": {
+    "0": -18
+   },
+   "fx": [
+    {
+     "device": "compressor",
+     "params": {
+      "threshold": -22,
+      "ratio": 4,
+      "attack": 1,
+      "release": 80,
+      "output gain": 6
+     }
+    }
+   ]
+  },
+  "Pad": {
+   "preset": "pad/warm",
+   "role": "pad",
+   "fx": [
+    {
+     "device": "lowpass",
+     "params": {
+      "frequency": 1800
+     }
+    }
+   ],
+   "sends": {
+    "0": -8
+   }
+  },
+  "Vox": {
+   "role": "vocal chant (generated over the beat)",
+   "sends": {
+    "0": -16
+   },
+   "fx": [
+    {
+     "device": "eq",
+     "params": {
+      "Low-pass freq": 160,
+      "Low-pass gain": -8,
+      "Mid freq 2": 2500,
+      "Mid gain 2": 3
+     }
+    },
+    {
+     "device": "compressor",
+     "params": {
+      "threshold": -24,
+      "ratio": 6,
+      "attack": 3,
+      "release": 60,
+      "output gain": 3
+     }
+    }
+   ]
+  },
+  "Chop": {
+   "role": "vocal chops (montagem)",
+   "fx": [
+    {
+     "device": "compressor",
+     "params": {
+      "threshold": -20,
+      "ratio": 4,
+      "attack": 2,
+      "release": 50
+     }
+    }
+   ]
+  }
+ },
+ "buses": [
+  {
+   "name": "Room",
+   "bus": 0,
+   "device": "Dragonfly Room Reverb",
+   "volume_db": -8
+  }
+ ],
+ "parts": [
+  {
+   "track": "Drums",
+   "in": [
+    "intro"
+   ],
+   "drums": {
+    "pattern": {
+     "rim": "..x..x....x..x.x",
+     "hat": "x.x.x.x.x.x.x.x.",
+     "kick": "x...............|................"
+    },
+    "swing": 0.5,
+    "humanize_ms": 2,
+    "humanize_vel": 6
+   }
+  },
+  {
+   "track": "Drums",
+   "in": [
+    "drop"
+   ],
+   "drums": {
+    "pattern": {
+     "kick": "x..x..x...x..x..",
+     "clap": "....x.......x...",
+     "rim": "..x..x....x..x.x",
+     "hat": "x.x.x.x.x.x.x.x."
+    },
+    "swing": 0.5,
+    "humanize_ms": 2,
+    "humanize_vel": 6,
+    "fill": {
+     "kick": "x..x..x.",
+     "clap": "....x.xxxxxxXXXX"
+    }
+   }
+  },
+  {
+   "track": "Drums",
+   "in": [
+    "drop_b"
+   ],
+   "drums": {
+    "pattern": {
+     "kick": "x..x..x...x..x..",
+     "clap": "....x.......x...",
+     "rim": "x.xx.x....x.xx.x",
+     "hat": "x.x.x.x.x.x.x.x.",
+     "tamb": "..x...x...x...x."
+    },
+    "swing": 0.5,
+    "humanize_ms": 2,
+    "humanize_vel": 6,
+    "fill": {
+     "kick": "x..x..x.",
+     "clap": "....x.xxxxxxXXXX"
+    }
+   }
+  },
+  {
+   "track": "Drums",
+   "in": [
+    "break"
+   ],
+   "drums": {
+    "pattern": {
+     "kick": "x...............",
+     "clap": "............x...",
+     "hat": "x...x...x...x..."
+    },
+    "swing": 0.5,
+    "humanize_ms": 2,
+    "humanize_vel": 6
+   }
+  },
+  {
+   "track": "Drums",
+   "in": [
+    "build"
+   ],
+   "drums": {
+    "pattern": {
+     "kick": "x...x...x...x...",
+     "clap": "x.x.x.x.xxxxxxxx",
+     "hat": "xxxxxxxxxxxxxxxx"
+    },
+    "swing": 0.5,
+    "humanize_ms": 2,
+    "humanize_vel": 6
+   }
+  },
+  {
+   "track": "Drums",
+   "in": [
+    "drop2"
+   ],
+   "drums": {
+    "pattern": {
+     "kick": "x..x..x.x..x..x.",
+     "clap": "....x.......x...",
+     "rim": "x.xx.x.xx.x.x.xx",
+     "hat": "xxxxxxxxxxxxxxxx",
+     "tamb": "..x...x...x...x."
+    },
+    "swing": 0.5,
+    "humanize_ms": 2,
+    "humanize_vel": 6,
+    "fill": {
+     "kick": "x..x..x.",
+     "clap": "....x.xxxxxxXXXX"
+    }
+   }
+  },
+  {
+   "track": "Drums",
+   "in": [
+    "drop2_b"
+   ],
+   "drums": {
+    "pattern": {
+     "kick": "x..x..x.x..x..x.",
+     "clap": "....x..x....x...",
+     "rim": "x.xx.x.xx.x.x.xx",
+     "hat": "xxxxxxxxxxxxxxxx",
+     "open_hat": "......x.......x.",
+     "tamb": "..x...x...x...x."
+    },
+    "swing": 0.5,
+    "humanize_ms": 2,
+    "humanize_vel": 6,
+    "fill": {
+     "kick": "x..x..x.",
+     "clap": "....x.xxxxxxXXXX"
+    }
+   }
+  },
+  {
+   "track": "Cowbell",
+   "in": [
+    "intro",
+    "drop"
+   ],
+   "melody": {
+    "text": "A5:.75@118 A5:.75@96 C6:.5@110 A5:.75@118 A5:.75@96 Bb5:.5@112 A5:.75@118 A5:.75@96 C6:.5@110 E6:.75@120 D6:.75@100 Bb5:.5@112 Bb5:.75@118 Bb5:.75@96 D6:.5@110 Bb5:.75@118 Bb5:.75@96 A5:.5@112 A5:.75@118 A5:.75@96 C6:.5@110 E6:.5@124 r:.25 E6:.5@110 G5:.5@100 r:.25",
+    "velocity": 100
+   }
+  },
+  {
+   "track": "Cowbell",
+   "in": [
+    "drop_b"
+   ],
+   "melody": {
+    "text": "A5:0.75 A5:0.75 F5:0.5 A5:0.75 A5:0.75 Ab5:0.5 C6:0.75 C6:0.75 E6:0.5 C6:0.75 C6:0.75 Db6:0.5 Bb5:.75@118 Bb5:.75@96 D6:.5@110 Bb5:.75@118 Bb5:.75@96 A5:.5@112 Bb5:0.5 A5:0.75 A5:0.75 C6:0.5 A5:0.75 A5:0.75",
+    "velocity": 102
+   }
+  },
+  {
+   "track": "Cowbell",
+   "in": [
+    "build"
+   ],
+   "melody": {
+    "text": "A5:0.75 A5:0.75 r:2 B5:0.75 B5:0.75 D6:0.5 B5:0.75 B5:0.75 C6:0.5 C6:0.75 C6:0.75 E6:0.5 C6:0.75 C6:0.75 Db6:0.5",
+    "velocity": 92,
+    "repeat": false
+   }
+  },
+  {
+   "track": "Cowbell",
+   "in": [
+    "drop2"
+   ],
+   "transpose": 12,
+   "melody": {
+    "text": "A5:.75@118 A5:.75@96 C6:.5@110 A5:.75@118 A5:.75@96 Bb5:.5@112 A5:.75@118 A5:.75@96 C6:.5@110 E6:.75@120 D6:.75@100 Bb5:.5@112 Bb5:.75@118 Bb5:.75@96 D6:.5@110 Bb5:.75@118 Bb5:.75@96 A5:.5@112 A5:.75@118 A5:.75@96 C6:.5@110 E6:.5@124 r:.25 E6:.5@110 G5:.5@100 r:.25",
+    "velocity": 106
+   }
+  },
+  {
+   "track": "Cowbell",
+   "in": [
+    "drop2_b"
+   ],
+   "transpose": 12,
+   "melody": {
+    "text": "A5:0.75 A5:0.75 F5:0.5 A5:0.75 A5:0.75 Ab5:0.5 C6:0.75 C6:0.75 E6:0.5 C6:0.75 C6:0.75 Db6:0.5 Bb5:.75@118 Bb5:.75@96 D6:.5@110 Bb5:.75@118 Bb5:.75@96 A5:.5@112 Bb5:0.5 A5:0.75 A5:0.75 C6:0.5 A5:0.75 A5:0.75",
+    "velocity": 108
+   }
+  },
+  {
+   "track": "Cowbell",
+   "in": [
+    "outro"
+   ],
+   "melody": {
+    "text": "A5:.75@118 A5:.75@96 C6:.5@110 A5:.75@118 A5:.75@96 Bb5:.5@112 A5:.75@118 A5:.75@96 C6:.5@110 E6:.75@120 D6:.75@100 Bb5:.5@112 Bb5:.75@118 Bb5:.75@96 D6:.5@110 Bb5:.75@118 Bb5:.75@96 A5:.5@112 A5:.75@118 A5:.75@96 C6:.5@110 E6:.5@124 r:.25 E6:.5@110 G5:.5@100 r:.25",
+    "velocity": 96,
+    "repeat": false
+   }
+  },
+  {
+   "track": "Bass808",
+   "in": [
+    "drop"
+   ],
+   "bass": {
+    "progression": "i i bII i",
+    "beats_per_chord": 4,
+    "low": 33,
+    "high": 48,
+    "pattern": [
+     [
+      0,
+      0.7,
+      0
+     ],
+     [
+      0.75,
+      0.7,
+      0
+     ],
+     [
+      1.5,
+      0.95,
+      12
+     ],
+     [
+      2.5,
+      0.7,
+      0
+     ],
+     [
+      3.25,
+      0.7,
+      -2
+     ]
+    ],
+    "velocity": 100
+   }
+  },
+  {
+   "track": "Bass808",
+   "in": [
+    "drop_b"
+   ],
+   "bass": {
+    "progression": "i i bII i",
+    "beats_per_chord": 4,
+    "low": 33,
+    "high": 48,
+    "pattern": [
+     [
+      0,
+      0.7,
+      0
+     ],
+     [
+      0.75,
+      0.45,
+      12
+     ],
+     [
+      1.25,
+      0.25,
+      0
+     ],
+     [
+      1.5,
+      0.95,
+      12
+     ],
+     [
+      2.5,
+      0.7,
+      0
+     ],
+     [
+      3.25,
+      0.25,
+      7
+     ],
+     [
+      3.5,
+      0.5,
+      10
+     ]
+    ],
+    "velocity": 104
+   }
+  },
+  {
+   "track": "Bass808",
+   "in": [
+    "drop2"
+   ],
+   "bass": {
+    "progression": "i i bII i",
+    "beats_per_chord": 4,
+    "low": 33,
+    "high": 48,
+    "pattern": [
+     [
+      0,
+      0.7,
+      0
+     ],
+     [
+      0.75,
+      0.7,
+      0
+     ],
+     [
+      1.5,
+      0.95,
+      12
+     ],
+     [
+      2.5,
+      0.7,
+      0
+     ],
+     [
+      3.25,
+      0.7,
+      -2
+     ]
+    ],
+    "velocity": 118
+   }
+  },
+  {
+   "track": "Bass808",
+   "in": [
+    "drop2_b"
+   ],
+   "bass": {
+    "progression": "i i bII i",
+    "beats_per_chord": 4,
+    "low": 33,
+    "high": 48,
+    "pattern": [
+     [
+      0,
+      0.7,
+      0
+     ],
+     [
+      0.75,
+      0.45,
+      12
+     ],
+     [
+      1.25,
+      0.25,
+      0
+     ],
+     [
+      1.5,
+      0.95,
+      12
+     ],
+     [
+      2.5,
+      0.7,
+      0
+     ],
+     [
+      3.25,
+      0.25,
+      7
+     ],
+     [
+      3.5,
+      0.5,
+      10
+     ]
+    ],
+    "velocity": 122
+   }
+  },
+  {
+   "track": "Bass808",
+   "in": [
+    "build"
+   ],
+   "bass": {
+    "progression": "i",
+    "beats_per_chord": 4,
+    "low": 33,
+    "high": 48,
+    "pattern": [
+     [
+      0,
+      3.5,
+      0
+     ]
+    ],
+    "velocity": 90
+   }
+  },
+  {
+   "track": "Pad",
+   "in": [
+    "intro"
+   ],
+   "chords": {
+    "progression": "i i bII i",
+    "beats_per_chord": 4,
+    "voicing": "pad",
+    "velocity": 56,
+    "legato": 1.0
+   }
+  },
+  {
+   "track": "Pad",
+   "in": [
+    "break"
+   ],
+   "chords": {
+    "progression": "bVI bII bVI bVII",
+    "beats_per_chord": 8,
+    "voicing": "pad",
+    "velocity": 64,
+    "legato": 1.0
+   }
+  },
+  {
+   "track": "Vox",
+   "vocal_sections": "D:\\0.Musicoma\\projects\\musicoma-010-acelera\\vocals\\chant.json"
+  },
+  {
+   "track": "Chop",
+   "in": [
+    "intro"
+   ],
+   "audio": {
+    "path": "D:\\0.Musicoma\\projects\\musicoma-010-acelera\\vocals\\chops.wav",
+    "length": 224
+   }
+  }
+ ],
+ "events": [
+  {
+   "section": "outro",
+   "at": 7,
+   "length": 1,
+   "type": "stop",
+   "why": "끝을 말하지 않고 뚝"
+  }
+ ],
+ "mix": {
+  "balance": true,
+  "target_lufs": -8,
+  "balance_lu": {
+   "drums": 0,
+   "bass808": 0,
+   "cowbell": -2,
+   "pad": -12,
+   "vox": -1,
+   "chop": -3
+  }
+ }
+}

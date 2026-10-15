@@ -113,6 +113,7 @@ Musicoma 엔진(`musicoma-engine.exe`)은 **Tracktion Engine (GPL-3.0)** 과 **J
 | Virtuosity Drums 0.925 (sfzinstruments) | CC0-1.0 | 불필요 |
 | VS Chamber Orchestra CE 1.1.0 (Versilian Studios) | CC0-1.0 | 불필요 |
 | Karoryfer Big Rusty Drums · Black And Blue Basses · Meatbass · Shinyguitar · Weresax | CC0-1.0 | 불필요 |
+| Musicoma 자체 합성 퐁크 킷(808 킷·카우벨·808 베이스, `musicoma/kits.py` 가 처음 쓸 때 생성) | CC0-1.0 | 불필요 |
 
 CC-BY 음원으로 만든 곡을 공개할 때는 설명란 등에 위 표기를 넣는다.
 
@@ -130,6 +131,8 @@ CC-BY 음원으로 만든 곡을 공개할 때는 설명란 등에 위 표기를
 | PyTorch / torchaudio (cu128) | BSD-3-Clause (CUDA 런타임 DLL 은 NVIDIA EULA) |
 | faster-whisper (+ CTranslate2) | MIT |
 | demucs | MIT |
+| ACE-Step 1.5 (코드·가중치 — 주 보컬 엔진, xl-base·VAE·Qwen3-Embedding-0.6B) | MIT (Qwen3-Embedding: Apache-2.0) |
+| htdemucs 가중치 | MIT |
 | SoulX-Singer (코드·가중치) | Apache-2.0 |
 | VoxCPM2 (코드·가중치) | Apache-2.0 |
 | Whisper "small" 모델 (faster-whisper 가 처음 쓸 때 받음) | MIT |

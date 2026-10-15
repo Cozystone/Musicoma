@@ -77,7 +77,11 @@ def resolve_sound(name):
     cat = sounds()
     if name in cat["sfz"]:
         e = cat["sfz"][name]
-        return {"device": "sfz", "sfz": str(ROOT / e["path"]), "map": e.get("map")}
+        p = ROOT / e["path"]
+        if not p.exists() and "musicoma-phonk" in e["path"]:     # 자체 합성 소리 — 받을 필요 없이 처음 쓸 때 만든다(설치판 첫 사용)
+            from .. import kits
+            kits.make_phonk(ROOT / "sounds" / "sfz" / "musicoma-phonk")
+        return {"device": "sfz", "sfz": str(p), "map": e.get("map")}
     sx = cat["surge_xt"]
     if name in sx and name != "root":
         return {"device": "Surge XT", "patch": str(ROOT / sx["root"] / sx[name][0]), "alternatives": sx[name][1:]}

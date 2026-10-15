@@ -1,0 +1,93 @@
+{
+ "thesis": "새벽 세 시 반, 보낼 말을 썼다 지웠다 — 망설임이 그루브가 된다(스네어가 늦게 끌린다)",
+ "arc": [
+  {
+   "section": "intro",
+   "intent": "파란 방, 부를리처와 드럼만 · 트럼펫은 공기처럼",
+   "energy": 0.3
+  },
+  {
+   "section": "verse",
+   "intent": "두 화음 사이를 오가며 말하듯(On & On)",
+   "energy": 0.4
+  },
+  {
+   "section": "chorus",
+   "intent": "삼키는 말 — 팔세토로 올라갔다 내려앉음",
+   "energy": 0.65
+  },
+  {
+   "section": "verse2",
+   "intent": "용기 내기 직전, 이야기가 빨라짐(6마디)",
+   "energy": 0.5
+  },
+  {
+   "section": "bridge",
+   "intent": "이름 없는 화음 하나(Fmaj7#11) — 문 두드리기",
+   "energy": 0.55
+  },
+  {
+   "section": "chorus_last",
+   "intent": "다 쌓는다 — 오르간·트럼펫·기타",
+   "energy": 1.0
+  },
+  {
+   "section": "outro",
+   "intent": "소리의 벽 → 뚝(보냈는지 안 보냈는지 모른 채)",
+   "energy": 0.9
+  }
+ ],
+ "motif": {
+  "melody": "B4:.5 D5:.5 E5:1 D5:.5 B4:1.5",
+  "why": "'hold it in' — 올라갔다가 말을 삼키듯 제자리"
+ },
+ "collision": [
+  "90s 소울쿼리언스 라이브 밴드",
+  "로이 하그로브식 뮤트 트럼펫의 공기",
+  "새벽 휴대폰 불빛의 정적"
+ ],
+ "constraints": [
+  "절은 두 화음(i9 ↔ IV13)만 — 색은 보이싱과 그루브로(On & On)",
+  "브리지에 이름 붙이기 어려운 화음 하나(Get You)",
+  "끝은 쌓고 뚝(Untitled)",
+  "트럼펫은 선율보다 길게 뒤에서"
+ ],
+ "events": [
+  {
+   "section": "chorus_last",
+   "at": -1,
+   "length": 1,
+   "type": "stop",
+   "why": "보내기 버튼 앞 숨"
+  },
+  {
+   "section": "outro",
+   "at": 15,
+   "length": 1,
+   "type": "stop",
+   "why": "소리의 벽이 갑자기 끊김 — 결말을 말하지 않음"
+  }
+ ],
+ "irregular": [
+  {
+   "what": "2절 6마디",
+   "why": "용기 내기 직전 — 할 말 길이만큼"
+  },
+  {
+   "what": "브리지 4마디, 이름 없는 화음으로 시작",
+   "why": "문 앞의 낯선 순간"
+  },
+  {
+   "what": "끝 박에서 뚝",
+   "why": "보냈는지 모른 채"
+  }
+ ],
+ "references": "knowledge/references/neo-soul.yaml — Untitled(How Does It Feel) · On & On · Get You · Ex-Factor",
+ "not": [
+  "808",
+  "사이드체인",
+  "꽉 찬 스트링",
+  "같은 4마디 복사",
+  "정박 스네어"
+ ]
+}

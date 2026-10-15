@@ -1,0 +1,475 @@
+{
+ "name": "musicoma-009-half-past-three-guide",
+ "bpm": 76,
+ "key": "E minor",
+ "style": "neo-soul",
+ "feel": "laid_back",
+ "intensity": 0.65,
+ "brief": "「Half Past Three」 네오소울 · 영어 노래 · 구간별 보컬 녹음(새 흐름 첫 곡)",
+ "sections": [
+  {
+   "name": "intro",
+   "bars": 4
+  },
+  {
+   "name": "verse",
+   "bars": 8
+  },
+  {
+   "name": "chorus",
+   "bars": 8
+  },
+  {
+   "name": "verse2",
+   "bars": 6
+  },
+  {
+   "name": "chorus",
+   "bars": 8
+  },
+  {
+   "name": "bridge",
+   "bars": 4
+  },
+  {
+   "name": "chorus_last",
+   "bars": 8
+  },
+  {
+   "name": "outro",
+   "bars": 4
+  }
+ ],
+ "tracks": {
+  "Drums": {
+   "preset": "drums/live_room",
+   "role": "drums"
+  },
+  "Bass": {
+   "preset": "bass/picked",
+   "role": "bass"
+  },
+  "Wurli": {
+   "preset": "keys/cp80",
+   "role": "keys"
+  }
+ },
+ "buses": [],
+ "parts": [
+  {
+   "track": "Drums",
+   "in": [
+    "intro",
+    "verse",
+    "verse2",
+    "chorus"
+   ],
+   "drums": {
+    "pattern": {
+     "kick": "x.......x..x....",
+     "snare": "....x.......x...",
+     "hat": "x.xox.x.x.xox.x."
+    },
+    "swing": 0.6,
+    "humanize_ms": 7,
+    "humanize_vel": 10,
+    "fill": {
+     "kick": "x.......",
+     "snare": "....x.xxoxoxXXXX"
+    }
+   }
+  },
+  {
+   "track": "Drums",
+   "in": [
+    "chorus_last"
+   ],
+   "drums": {
+    "pattern": {
+     "kick": "x.....x.x..x..x.",
+     "snare": "....x..o....x.o.",
+     "hat": "xxoxxxoxxxoxxxox"
+    },
+    "swing": 0.6,
+    "humanize_ms": 7,
+    "humanize_vel": 10,
+    "fill": {
+     "kick": "x.......",
+     "snare": "....x.xxoxoxXXXX"
+    }
+   }
+  },
+  {
+   "track": "Drums",
+   "in": [
+    "outro"
+   ],
+   "drums": {
+    "pattern": {
+     "kick": "x.x...x.x.x...x.",
+     "snare": "....x..x....x.xx",
+     "hat": "xxxxxxxxxxxxxxxx"
+    },
+    "swing": 0.6,
+    "humanize_ms": 7,
+    "humanize_vel": 10
+   }
+  },
+  {
+   "track": "Drums",
+   "in": [
+    "bridge"
+   ],
+   "drums": {
+    "pattern": {
+     "kick": "x.........x.....",
+     "snare": "........x.......",
+     "hat": "x...x...x...x..."
+    },
+    "swing": 0.6,
+    "humanize_ms": 7,
+    "humanize_vel": 10
+   }
+  },
+  {
+   "track": "Wurli",
+   "in": [
+    "intro",
+    "verse",
+    "verse2"
+   ],
+   "chords": {
+    "progression": "i9 IV13",
+    "beats_per_chord": 8,
+    "voicing": "rhodes",
+    "rhythm": [
+     [
+      0,
+      1.5,
+      1.0
+     ],
+     [
+      1.75,
+      0.25,
+      0.7
+     ],
+     [
+      2.5,
+      1.5,
+      0.85
+     ]
+    ],
+    "velocity": 70
+   }
+  },
+  {
+   "track": "Wurli",
+   "in": [
+    "chorus"
+   ],
+   "chords": {
+    "progression": "bVImaj7 bVII13sus4 i9 v9",
+    "beats_per_chord": 4,
+    "voicing": "rhodes",
+    "rhythm": [
+     [
+      0,
+      1.5,
+      1.0
+     ],
+     [
+      1.75,
+      0.25,
+      0.7
+     ],
+     [
+      2.5,
+      1.5,
+      0.85
+     ]
+    ],
+    "velocity": 74
+   }
+  },
+  {
+   "track": "Wurli",
+   "in": [
+    "chorus_last"
+   ],
+   "chords": {
+    "progression": "bVImaj7 bVII13sus4 i9 v9",
+    "beats_per_chord": 4,
+    "voicing": "rhodes",
+    "rhythm": [
+     [
+      0,
+      1.5,
+      1.0
+     ],
+     [
+      1.75,
+      0.25,
+      0.7
+     ],
+     [
+      2.5,
+      1.5,
+      0.85
+     ],
+     [
+      3.25,
+      0.25,
+      0.6
+     ],
+     [
+      3.75,
+      0.25,
+      0.7
+     ]
+    ],
+    "velocity": 84
+   }
+  },
+  {
+   "track": "Wurli",
+   "in": [
+    "bridge"
+   ],
+   "chords": {
+    "progression": "bIImaj7#11 bVImaj7 iv9 V7#9",
+    "beats_per_chord": 4,
+    "voicing": "rhodes",
+    "rhythm": [
+     [
+      0,
+      3,
+      1.0
+     ],
+     [
+      3.5,
+      0.5,
+      0.7
+     ]
+    ],
+    "velocity": 68
+   }
+  },
+  {
+   "track": "Bass",
+   "in": [
+    "verse",
+    "verse2"
+   ],
+   "bass": {
+    "progression": "i9 IV13",
+    "beats_per_chord": 8,
+    "low": 28,
+    "high": 50,
+    "pattern": [
+     [
+      0,
+      1.5,
+      0
+     ],
+     [
+      1.75,
+      0.25,
+      12
+     ],
+     [
+      2,
+      0.75,
+      10
+     ],
+     [
+      3,
+      0.5,
+      7
+     ],
+     [
+      3.5,
+      0.5,
+      5
+     ]
+    ]
+   }
+  },
+  {
+   "track": "Bass",
+   "in": [
+    "chorus",
+    "chorus_last"
+   ],
+   "bass": {
+    "progression": "bVImaj7 bVII13sus4 i9 v9",
+    "beats_per_chord": 4,
+    "low": 28,
+    "high": 50,
+    "pattern": [
+     [
+      0,
+      1.25,
+      0
+     ],
+     [
+      1.5,
+      0.5,
+      7
+     ],
+     [
+      2,
+      1,
+      0
+     ],
+     [
+      3.25,
+      0.25,
+      12
+     ],
+     [
+      3.5,
+      0.5,
+      10
+     ]
+    ]
+   }
+  },
+  {
+   "track": "Bass",
+   "in": [
+    "bridge"
+   ],
+   "bass": {
+    "progression": "bIImaj7#11 bVImaj7 iv9 V7#9",
+    "beats_per_chord": 4,
+    "low": 28,
+    "high": 50,
+    "pattern": [
+     [
+      0,
+      2.5,
+      0
+     ],
+     [
+      3,
+      1,
+      7
+     ]
+    ]
+   }
+  },
+  {
+   "track": "Wurli",
+   "in": [
+    "outro"
+   ],
+   "chords": {
+    "progression": "i9 IV13",
+    "beats_per_chord": 8,
+    "voicing": "rhodes",
+    "rhythm": [
+     [
+      0,
+      0.5,
+      1.0
+     ],
+     [
+      0.5,
+      0.25,
+      0.7
+     ],
+     [
+      0.75,
+      0.25,
+      0.8
+     ],
+     [
+      1.5,
+      0.5,
+      0.9
+     ],
+     [
+      2,
+      0.25,
+      0.7
+     ],
+     [
+      2.5,
+      0.5,
+      1.0
+     ],
+     [
+      3,
+      0.25,
+      0.8
+     ],
+     [
+      3.25,
+      0.75,
+      0.9
+     ]
+    ],
+    "velocity": 100
+   }
+  },
+  {
+   "track": "Bass",
+   "in": [
+    "outro"
+   ],
+   "bass": {
+    "progression": "i9 IV13",
+    "beats_per_chord": 8,
+    "low": 28,
+    "high": 52,
+    "pattern": [
+     [
+      0,
+      0.5,
+      0
+     ],
+     [
+      0.5,
+      0.25,
+      12
+     ],
+     [
+      0.75,
+      0.5,
+      10
+     ],
+     [
+      1.5,
+      0.5,
+      7
+     ],
+     [
+      2,
+      0.5,
+      0
+     ],
+     [
+      2.5,
+      0.5,
+      12
+     ],
+     [
+      3,
+      0.5,
+      14
+     ],
+     [
+      3.5,
+      0.5,
+      15
+     ]
+    ]
+   }
+  }
+ ],
+ "events": [],
+ "mix": {
+  "balance": false
+ },
+ "automation": []
+}

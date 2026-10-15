@@ -1,361 +1,384 @@
 {
-  "version": 1,
-  "verified": "2026-10-15 (URLs checked with gh api / HEAD; sizes = GitHub release asset sizes or local archive sizes)",
-  "notes": "Sound pack and optional AI modules fetched on first run by `python -m musicoma.setup_assets`. Nothing here is bundled in the installer. dest is relative to the Musicoma root. 'strip' drops leading path components inside the archive; 'include' keeps only entries under these prefixes (after strip). 'markers' must exist afterwards (relative to dest).",
-  "packs": {
-    "core": "Every instrument/effect referenced by musicoma/knowledge/sounds.yaml (all catalog roles resolve).",
-    "full": "core + extras not referenced by the catalog (Dexed)."
+ "version": 1,
+ "verified": "2026-10-15 (URLs checked with gh api / HEAD; sizes = GitHub release asset sizes or local archive sizes)",
+ "notes": "Sound pack and optional AI modules fetched on first run by `python -m musicoma.setup_assets`. Nothing here is bundled in the installer. dest is relative to the Musicoma root. 'strip' drops leading path components inside the archive; 'include' keeps only entries under these prefixes (after strip). 'markers' must exist afterwards (relative to dest).",
+ "packs": {
+  "core": "Every instrument/effect referenced by musicoma/knowledge/sounds.yaml (all catalog roles resolve).",
+  "full": "core + extras not referenced by the catalog (Dexed)."
+ },
+ "sounds": [
+  {
+   "id": "salamander-grand-piano",
+   "name": "Salamander Grand Piano V3 (SFZ)",
+   "pack": "core",
+   "url": "https://codeload.github.com/sfzinstruments/SalamanderGrandPiano/zip/3382bf9496bba2486f5ab0de55a264d1dfc38404",
+   "homepage": "https://github.com/sfzinstruments/SalamanderGrandPiano",
+   "size": 748476973,
+   "size_exact": false,
+   "unpacked_mb": 714,
+   "dest": "sounds/sfz/salamander-grand-piano",
+   "strip": 1,
+   "markers": [
+    "Salamander Grand Piano V3.sfz",
+    "LICENSE"
+   ],
+   "license": "CC-BY-3.0",
+   "author": "Alexander Holm (SFZ mapping: kinwie / sfzinstruments)",
+   "attribution": "Salamander Grand Piano V3 by Alexander Holm, licensed under CC BY 3.0 (https://creativecommons.org/licenses/by/3.0/). SFZ mapping by kinwie (sfzinstruments). Source: https://archive.org/details/SalamanderGrandPianoV3"
   },
-  "sounds": [
-    {
-      "id": "salamander-grand-piano",
-      "name": "Salamander Grand Piano V3 (SFZ)",
-      "pack": "core",
-      "url": "https://codeload.github.com/sfzinstruments/SalamanderGrandPiano/zip/3382bf9496bba2486f5ab0de55a264d1dfc38404",
-      "homepage": "https://github.com/sfzinstruments/SalamanderGrandPiano",
-      "size": 748476973,
-      "size_exact": false,
-      "unpacked_mb": 714,
-      "dest": "sounds/sfz/salamander-grand-piano",
-      "strip": 1,
-      "markers": [
-        "Salamander Grand Piano V3.sfz",
-        "LICENSE"
-      ],
-      "license": "CC-BY-3.0",
-      "author": "Alexander Holm (SFZ mapping: kinwie / sfzinstruments)",
-      "attribution": "Salamander Grand Piano V3 by Alexander Holm, licensed under CC BY 3.0 (https://creativecommons.org/licenses/by/3.0/). SFZ mapping by kinwie (sfzinstruments). Source: https://archive.org/details/SalamanderGrandPianoV3"
-    },
-    {
-      "id": "virtuosity-drums",
-      "name": "Virtuosity Drums v0.925 (SFZ)",
-      "pack": "core",
-      "url": "https://github.com/sfzinstruments/virtuosity_drums/releases/download/v0.925/Virtuosity_Drums_v0.925.zip",
-      "homepage": "https://github.com/sfzinstruments/virtuosity_drums",
-      "size": 1227151376,
-      "size_exact": true,
-      "unpacked_mb": 1420,
-      "dest": "sounds/sfz/virtuosity-drums",
-      "strip": 0,
-      "markers": [
-        "Programs/01-basic-kit.sfz",
-        "Programs/02-full-kit.sfz",
-        "Programs/08-vintage-mic.sfz"
-      ],
-      "license": "CC0-1.0",
-      "author": "sfzinstruments; recorded at Virtuosity Musical Instruments (Boston), drummer Austin McMahon",
-      "attribution": "Virtuosity Drums (sfzinstruments), CC0 1.0 — no attribution required."
-    },
-    {
-      "id": "vsco2-ce",
-      "name": "VS Chamber Orchestra: Community Edition 1.1.0 (SFZ)",
-      "pack": "core",
-      "url": "https://codeload.github.com/sgossner/VSCO-2-CE/zip/refs/tags/1.1.0",
-      "homepage": "https://github.com/sgossner/VSCO-2-CE",
-      "size": 2297598334,
-      "size_exact": false,
-      "unpacked_mb": 3088,
-      "dest": "sounds/sfz/vsco2-ce",
-      "strip": 1,
-      "markers": [
-        "ViolinEnsSusVib.sfz",
-        "UprightPiano.sfz",
-        "Timpani.sfz"
-      ],
-      "license": "CC0-1.0",
-      "author": "Versilian Studios — Sam Gossner & Simon Dalzell (sample cutting: Elan Hickler/Soundemote)",
-      "attribution": "VSCO 2 Community Edition by Versilian Studios, CC0 1.0 — no attribution required."
-    },
-    {
-      "id": "karoryfer-big-rusty-drums",
-      "name": "Karoryfer Big Rusty Drums 1.100",
-      "pack": "core",
-      "url": "https://github.com/sfzinstruments/karoryfer.big-rusty-drums/releases/download/v1.100/Big_Rusty_Drums_1100.zip",
-      "homepage": "https://github.com/sfzinstruments/karoryfer.big-rusty-drums",
-      "size": 619600370,
-      "size_exact": true,
-      "unpacked_mb": 697,
-      "dest": "sounds/sfz/karoryfer-big-rusty-drums",
-      "strip": 0,
-      "markers": [
-        "Programs/01-full.sfz",
-        "Programs/02-basic.sfz"
-      ],
-      "license": "CC0-1.0",
-      "author": "Karoryfer Samples",
-      "attribution": "Big Rusty Drums by Karoryfer Samples, CC0 1.0 — no attribution required."
-    },
-    {
-      "id": "karoryfer-black-and-blue-basses",
-      "name": "Karoryfer Black And Blue Basses 1.002",
-      "pack": "core",
-      "url": "https://github.com/sfzinstruments/karoryfer.black-and-blue-basses/releases/download/v1.002/Black_And_Blue_Basses_1002.zip",
-      "homepage": "https://github.com/sfzinstruments/karoryfer.black-and-blue-basses",
-      "size": 1008690586,
-      "size_exact": true,
-      "unpacked_mb": 1082,
-      "dest": "sounds/sfz/karoryfer-black-and-blue-basses",
-      "strip": 0,
-      "markers": [
-        "Programs/04-babyblue_warm.sfz",
-        "Programs/06-darkblack_pluck_warm.sfz"
-      ],
-      "license": "CC0-1.0",
-      "author": "Karoryfer Samples",
-      "attribution": "Black And Blue Basses by Karoryfer Samples, CC0 1.0 — no attribution required."
-    },
-    {
-      "id": "karoryfer-meatbass",
-      "name": "Karoryfer Meatbass 1.001",
-      "pack": "core",
-      "url": "https://github.com/sfzinstruments/karoryfer.meatbass/releases/download/v1.001/Karoryfer.Meatbass.v1.001.zip",
-      "homepage": "https://github.com/sfzinstruments/karoryfer.meatbass",
-      "size": 255425351,
-      "size_exact": true,
-      "unpacked_mb": 283,
-      "dest": "sounds/sfz/karoryfer-meatbass",
-      "strip": 0,
-      "markers": [
-        "Meatbass/Programs/04_pizz.sfz"
-      ],
-      "license": "CC0-1.0",
-      "author": "Karoryfer Samples",
-      "attribution": "Meatbass by Karoryfer Samples, CC0 1.0 — no attribution required."
-    },
-    {
-      "id": "karoryfer-shinyguitar",
-      "name": "Karoryfer Shinyguitar 1.002",
-      "pack": "core",
-      "url": "https://github.com/sfzinstruments/karoryfer.shinyguitar/releases/download/v1.002/Karoryfer.Shinyguitar.v1.002.zip",
-      "homepage": "https://github.com/sfzinstruments/karoryfer.shinyguitar",
-      "size": 368411844,
-      "size_exact": true,
-      "unpacked_mb": 439,
-      "dest": "sounds/sfz/karoryfer-shinyguitar",
-      "strip": 0,
-      "markers": [
-        "Shinyguitar/Programs/main.sfz"
-      ],
-      "license": "CC0-1.0",
-      "author": "Karoryfer Samples",
-      "attribution": "Shinyguitar by Karoryfer Samples, CC0 1.0 — no attribution required."
-    },
-    {
-      "id": "karoryfer-weresax",
-      "name": "Karoryfer Weresax 1.003",
-      "pack": "core",
-      "url": "https://github.com/sfzinstruments/karoryfer.weresax/releases/download/v1.003/Karoryfer.Weresax.v.1.003.zip",
-      "homepage": "https://github.com/sfzinstruments/karoryfer.weresax",
-      "size": 197565664,
-      "size_exact": true,
-      "unpacked_mb": 194,
-      "dest": "sounds/sfz/karoryfer-weresax",
-      "strip": 0,
-      "markers": [
-        "Weresax/Programs/alto_map_forte_condenser.sfz"
-      ],
-      "license": "CC0-1.0",
-      "author": "Karoryfer Samples",
-      "attribution": "Weresax by Karoryfer Samples, CC0 1.0 — no attribution required."
-    },
-    {
-      "id": "gregsullivan-epianos",
-      "name": "Greg Sullivan E-Pianos (CP80, Pianet T, Wurlitzer EP200)",
-      "pack": "core",
-      "url": "https://codeload.github.com/sfzinstruments/GregSullivan.E-Pianos/zip/8c3e581acda3594b553948ff0222d4f84a698376",
-      "homepage": "https://github.com/sfzinstruments/GregSullivan.E-Pianos",
-      "size": 19000000,
-      "size_exact": false,
-      "unpacked_mb": 20,
-      "dest": "sounds/sfz/gregsullivan-epianos",
-      "strip": 1,
-      "markers": [
-        "CP80/CP80.sfz",
-        "Wurlitzer EP200/Wurlitzer EP200.sfz",
-        "LICENSE"
-      ],
-      "license": "CC-BY-3.0",
-      "author": "Greg Sullivan (SFZ mapping: kinwie / sfzinstruments)",
-      "attribution": "E-Pianos (Yamaha CP80, Hohner Pianet T, Wurlitzer EP200) by Greg Sullivan (http://www.sullivang.net/), licensed under CC BY 3.0 (https://creativecommons.org/licenses/by/3.0/). SFZ mapping by kinwie (sfzinstruments)."
-    },
-    {
-      "id": "surge-xt",
-      "name": "Surge XT 1.3.4 (VST3 + factory data)",
-      "pack": "core",
-      "url": "https://github.com/surge-synthesizer/releases-xt/releases/download/1.3.4/surge-xt-win64-1.3.4-portable-install.zip",
-      "homepage": "https://surge-synthesizer.github.io/",
-      "size": 301759660,
-      "size_exact": true,
-      "unpacked_mb": 396,
-      "dest": "sounds/plugins/vst3",
-      "strip": 0,
-      "include": [
-        "Surge Synth Team/Surge XT.vst3/",
-        "Surge Synth Team/Surge XT Effects.vst3/",
-        "Surge Synth Team/SurgeXTData/"
-      ],
-      "markers": [
-        "Surge Synth Team/Surge XT.vst3",
-        "Surge Synth Team/SurgeXTData/patches_factory/Keys/EP 1.fxp"
-      ],
-      "license": "GPL-3.0-or-later",
-      "author": "Surge Synth Team",
-      "attribution": "Surge XT by the Surge Synth Team, GPL-3.0. Source: https://github.com/surge-synthesizer/surge"
-    },
-    {
-      "id": "dragonfly-reverb",
-      "name": "Dragonfly Reverb 3.2.10 (VST3)",
-      "pack": "core",
-      "url": "https://github.com/michaelwillis/dragonfly-reverb/releases/download/3.2.10/dragonfly-reverb-3.2.10-win64.zip",
-      "homepage": "https://michaelwillis.github.io/dragonfly-reverb/",
-      "size": 22447365,
-      "size_exact": true,
-      "unpacked_mb": 13,
-      "dest": "sounds/plugins/vst3",
-      "strip": 1,
-      "include": [
-        "DragonflyEarlyReflections.vst3/",
-        "DragonflyHallReverb.vst3/",
-        "DragonflyPlateReverb.vst3/",
-        "DragonflyRoomReverb.vst3/"
-      ],
-      "markers": [
-        "DragonflyHallReverb.vst3",
-        "DragonflyRoomReverb.vst3",
-        "DragonflyPlateReverb.vst3",
-        "DragonflyEarlyReflections.vst3"
-      ],
-      "license": "GPL-3.0-or-later",
-      "author": "Michael Willis, Rob van den Berg",
-      "attribution": "Dragonfly Reverb by Michael Willis and Rob van den Berg, GPL-3.0. Source: https://github.com/michaelwillis/dragonfly-reverb"
-    },
-    {
-      "id": "airwindows-consolidated",
-      "name": "Airwindows Consolidated (VST3)",
-      "pack": "core",
-      "url": "https://github.com/baconpaul/airwin2rack/releases/download/DAWPlugin/AirwindowsConsolidated-2026-10-11-8a67b80-Windows.zip",
-      "github_release": {
-        "repo": "baconpaul/airwin2rack",
-        "tag": "DAWPlugin",
-        "asset_regex": "^AirwindowsConsolidated-.*-Windows\\.zip$"
-      },
-      "homepage": "https://github.com/baconpaul/airwin2rack",
-      "size": 13481313,
-      "size_exact": true,
-      "sha256": "dfd3059eef8b2541926d82155dbb1ffed5c9e7d86a1b08c033968d31af28f873",
-      "unpacked_mb": 12,
-      "dest": "sounds/plugins/vst3",
-      "strip": 0,
-      "include": [
-        "Airwindows Consolidated.vst3/"
-      ],
-      "markers": [
-        "Airwindows Consolidated.vst3"
-      ],
-      "license": "GPL-3.0 (plugin wrapper; Airwindows DSP code is MIT)",
-      "author": "Chris Johnson (Airwindows), Paul Walker (consolidation)",
-      "attribution": "Airwindows by Chris Johnson (MIT); Airwindows Consolidated plugin by Paul Walker / baconpaul, GPL-3.0. The DAWPlugin release is rolling: if the pinned asset disappears, the newest matching asset of the same release is used."
-    },
-    {
-      "id": "dexed",
-      "name": "Dexed 1.0.1 (VST3, DX7 FM synth)",
-      "pack": "full",
-      "url": "https://github.com/asb2m10/dexed/releases/download/v1.0.1/Dexed-1.0.1-win.zip",
-      "homepage": "https://asb2m10.github.io/dexed/",
-      "size": 9742538,
-      "size_exact": true,
-      "sha256": "1f118445f2c5c411636bb41ddf8b456db09af74cd38f9ede8a93a01020505f05",
-      "unpacked_mb": 7,
-      "dest": "sounds/plugins/vst3",
-      "strip": 0,
-      "include": [
-        "Dexed.vst3/"
-      ],
-      "markers": [
-        "Dexed.vst3"
-      ],
-      "license": "GPL-3.0",
-      "author": "Pascal Gauthier (asb2m10) and contributors",
-      "attribution": "Dexed by Pascal Gauthier and contributors, GPL-3.0. Source: https://github.com/asb2m10/dexed"
-    }
-  ],
-  "overlays": [
-    {
-      "note": "Musicoma-authored wrapper sfz files (not in upstream). Copied from musicoma/sfz_overlays after extraction.",
-      "src": "musicoma/sfz_overlays/karoryfer-shinyguitar",
-      "dest": "sounds/sfz/karoryfer-shinyguitar",
-      "after": "karoryfer-shinyguitar"
-    }
-  ],
-  "ai": {
-    "note": "Optional, NVIDIA GPU (CUDA 12.8 capable driver) required. Installed with the bundled uv.exe. Paths 'glue'/'requirements' are relative to the setup bundle dir (dev: app/runtime, installed: resources/musicoma/setup).",
-    "runtime": {
-      "torch_index": "https://download.pytorch.org/whl/cu128",
-      "torch": [
-        "torch==2.11.0",
-        "torchaudio==2.11.0"
-      ],
-      "requirements": "requirements-ai.txt",
-      "approx_disk_mb": 5000,
-      "venv": "python-ai"
-    },
-    "venvs": [
-      {
-        "id": "soulx-singer",
-        "name": "SoulX-Singer (singing voice synthesis)",
-        "dir": "third_party/soulx-singer",
-        "python": "3.10",
-        "source_zip": "https://codeload.github.com/Soul-AILab/SoulX-Singer/zip/81aeb3ae772c70093c3de74dc23c92d983801ae4",
-        "source_strip": 1,
-        "glue": "ai/soulx-singer",
-        "torch": [
-          "torch==2.7.1",
-          "torchaudio==2.7.1"
-        ],
-        "requirements": "ai/soulx-singer/req-portable.txt",
-        "models": [
-          {
-            "repo": "Soul-AILab/SoulX-Singer",
-            "local_dir": "pretrained_models/SoulX-Singer",
-            "revision": "40493ad90286056c7a9095035164434a79daa8c9"
-          },
-          {
-            "repo": "Soul-AILab/SoulX-Singer-Preprocess",
-            "local_dir": "pretrained_models/SoulX-Singer-Preprocess",
-            "revision": "83dc50289d22a81b1e9998f5b9e111aef7c1fdcd"
-          }
-        ],
-        "license": "Apache-2.0 (code and model weights)",
-        "approx_disk_mb": 18400,
-        "markers": [
-          "soulxsinger",
-          "cli"
-        ]
-      },
-      {
-        "id": "voxcpm",
-        "name": "VoxCPM2 (voice design / TTS)",
-        "dir": "third_party/voxcpm",
-        "python": "3.11",
-        "glue": "ai/voxcpm",
-        "torch": [
-          "torch==2.11.0",
-          "torchaudio==2.11.0"
-        ],
-        "packages": [
-          "voxcpm==2.0.3",
-          "soundfile",
-          "huggingface_hub"
-        ],
-        "models": [
-          {
-            "repo": "openbmb/VoxCPM2",
-            "hf_home": "hf"
-          }
-        ],
-        "license": "Apache-2.0 (code and model weights)",
-        "approx_disk_mb": 9800
-      }
-    ]
+  {
+   "id": "virtuosity-drums",
+   "name": "Virtuosity Drums v0.925 (SFZ)",
+   "pack": "core",
+   "url": "https://github.com/sfzinstruments/virtuosity_drums/releases/download/v0.925/Virtuosity_Drums_v0.925.zip",
+   "homepage": "https://github.com/sfzinstruments/virtuosity_drums",
+   "size": 1227151376,
+   "size_exact": true,
+   "unpacked_mb": 1420,
+   "dest": "sounds/sfz/virtuosity-drums",
+   "strip": 0,
+   "markers": [
+    "Programs/01-basic-kit.sfz",
+    "Programs/02-full-kit.sfz",
+    "Programs/08-vintage-mic.sfz"
+   ],
+   "license": "CC0-1.0",
+   "author": "sfzinstruments; recorded at Virtuosity Musical Instruments (Boston), drummer Austin McMahon",
+   "attribution": "Virtuosity Drums (sfzinstruments), CC0 1.0 — no attribution required."
+  },
+  {
+   "id": "vsco2-ce",
+   "name": "VS Chamber Orchestra: Community Edition 1.1.0 (SFZ)",
+   "pack": "core",
+   "url": "https://codeload.github.com/sgossner/VSCO-2-CE/zip/refs/tags/1.1.0",
+   "homepage": "https://github.com/sgossner/VSCO-2-CE",
+   "size": 2297598334,
+   "size_exact": false,
+   "unpacked_mb": 3088,
+   "dest": "sounds/sfz/vsco2-ce",
+   "strip": 1,
+   "markers": [
+    "ViolinEnsSusVib.sfz",
+    "UprightPiano.sfz",
+    "Timpani.sfz"
+   ],
+   "license": "CC0-1.0",
+   "author": "Versilian Studios — Sam Gossner & Simon Dalzell (sample cutting: Elan Hickler/Soundemote)",
+   "attribution": "VSCO 2 Community Edition by Versilian Studios, CC0 1.0 — no attribution required."
+  },
+  {
+   "id": "karoryfer-big-rusty-drums",
+   "name": "Karoryfer Big Rusty Drums 1.100",
+   "pack": "core",
+   "url": "https://github.com/sfzinstruments/karoryfer.big-rusty-drums/releases/download/v1.100/Big_Rusty_Drums_1100.zip",
+   "homepage": "https://github.com/sfzinstruments/karoryfer.big-rusty-drums",
+   "size": 619600370,
+   "size_exact": true,
+   "unpacked_mb": 697,
+   "dest": "sounds/sfz/karoryfer-big-rusty-drums",
+   "strip": 0,
+   "markers": [
+    "Programs/01-full.sfz",
+    "Programs/02-basic.sfz"
+   ],
+   "license": "CC0-1.0",
+   "author": "Karoryfer Samples",
+   "attribution": "Big Rusty Drums by Karoryfer Samples, CC0 1.0 — no attribution required."
+  },
+  {
+   "id": "karoryfer-black-and-blue-basses",
+   "name": "Karoryfer Black And Blue Basses 1.002",
+   "pack": "core",
+   "url": "https://github.com/sfzinstruments/karoryfer.black-and-blue-basses/releases/download/v1.002/Black_And_Blue_Basses_1002.zip",
+   "homepage": "https://github.com/sfzinstruments/karoryfer.black-and-blue-basses",
+   "size": 1008690586,
+   "size_exact": true,
+   "unpacked_mb": 1082,
+   "dest": "sounds/sfz/karoryfer-black-and-blue-basses",
+   "strip": 0,
+   "markers": [
+    "Programs/04-babyblue_warm.sfz",
+    "Programs/06-darkblack_pluck_warm.sfz"
+   ],
+   "license": "CC0-1.0",
+   "author": "Karoryfer Samples",
+   "attribution": "Black And Blue Basses by Karoryfer Samples, CC0 1.0 — no attribution required."
+  },
+  {
+   "id": "karoryfer-meatbass",
+   "name": "Karoryfer Meatbass 1.001",
+   "pack": "core",
+   "url": "https://github.com/sfzinstruments/karoryfer.meatbass/releases/download/v1.001/Karoryfer.Meatbass.v1.001.zip",
+   "homepage": "https://github.com/sfzinstruments/karoryfer.meatbass",
+   "size": 255425351,
+   "size_exact": true,
+   "unpacked_mb": 283,
+   "dest": "sounds/sfz/karoryfer-meatbass",
+   "strip": 0,
+   "markers": [
+    "Meatbass/Programs/04_pizz.sfz"
+   ],
+   "license": "CC0-1.0",
+   "author": "Karoryfer Samples",
+   "attribution": "Meatbass by Karoryfer Samples, CC0 1.0 — no attribution required."
+  },
+  {
+   "id": "karoryfer-shinyguitar",
+   "name": "Karoryfer Shinyguitar 1.002",
+   "pack": "core",
+   "url": "https://github.com/sfzinstruments/karoryfer.shinyguitar/releases/download/v1.002/Karoryfer.Shinyguitar.v1.002.zip",
+   "homepage": "https://github.com/sfzinstruments/karoryfer.shinyguitar",
+   "size": 368411844,
+   "size_exact": true,
+   "unpacked_mb": 439,
+   "dest": "sounds/sfz/karoryfer-shinyguitar",
+   "strip": 0,
+   "markers": [
+    "Shinyguitar/Programs/main.sfz"
+   ],
+   "license": "CC0-1.0",
+   "author": "Karoryfer Samples",
+   "attribution": "Shinyguitar by Karoryfer Samples, CC0 1.0 — no attribution required."
+  },
+  {
+   "id": "karoryfer-weresax",
+   "name": "Karoryfer Weresax 1.003",
+   "pack": "core",
+   "url": "https://github.com/sfzinstruments/karoryfer.weresax/releases/download/v1.003/Karoryfer.Weresax.v.1.003.zip",
+   "homepage": "https://github.com/sfzinstruments/karoryfer.weresax",
+   "size": 197565664,
+   "size_exact": true,
+   "unpacked_mb": 194,
+   "dest": "sounds/sfz/karoryfer-weresax",
+   "strip": 0,
+   "markers": [
+    "Weresax/Programs/alto_map_forte_condenser.sfz"
+   ],
+   "license": "CC0-1.0",
+   "author": "Karoryfer Samples",
+   "attribution": "Weresax by Karoryfer Samples, CC0 1.0 — no attribution required."
+  },
+  {
+   "id": "gregsullivan-epianos",
+   "name": "Greg Sullivan E-Pianos (CP80, Pianet T, Wurlitzer EP200)",
+   "pack": "core",
+   "url": "https://codeload.github.com/sfzinstruments/GregSullivan.E-Pianos/zip/8c3e581acda3594b553948ff0222d4f84a698376",
+   "homepage": "https://github.com/sfzinstruments/GregSullivan.E-Pianos",
+   "size": 19000000,
+   "size_exact": false,
+   "unpacked_mb": 20,
+   "dest": "sounds/sfz/gregsullivan-epianos",
+   "strip": 1,
+   "markers": [
+    "CP80/CP80.sfz",
+    "Wurlitzer EP200/Wurlitzer EP200.sfz",
+    "LICENSE"
+   ],
+   "license": "CC-BY-3.0",
+   "author": "Greg Sullivan (SFZ mapping: kinwie / sfzinstruments)",
+   "attribution": "E-Pianos (Yamaha CP80, Hohner Pianet T, Wurlitzer EP200) by Greg Sullivan (http://www.sullivang.net/), licensed under CC BY 3.0 (https://creativecommons.org/licenses/by/3.0/). SFZ mapping by kinwie (sfzinstruments)."
+  },
+  {
+   "id": "surge-xt",
+   "name": "Surge XT 1.3.4 (VST3 + factory data)",
+   "pack": "core",
+   "url": "https://github.com/surge-synthesizer/releases-xt/releases/download/1.3.4/surge-xt-win64-1.3.4-portable-install.zip",
+   "homepage": "https://surge-synthesizer.github.io/",
+   "size": 301759660,
+   "size_exact": true,
+   "unpacked_mb": 396,
+   "dest": "sounds/plugins/vst3",
+   "strip": 0,
+   "include": [
+    "Surge Synth Team/Surge XT.vst3/",
+    "Surge Synth Team/Surge XT Effects.vst3/",
+    "Surge Synth Team/SurgeXTData/"
+   ],
+   "markers": [
+    "Surge Synth Team/Surge XT.vst3",
+    "Surge Synth Team/SurgeXTData/patches_factory/Keys/EP 1.fxp"
+   ],
+   "license": "GPL-3.0-or-later",
+   "author": "Surge Synth Team",
+   "attribution": "Surge XT by the Surge Synth Team, GPL-3.0. Source: https://github.com/surge-synthesizer/surge"
+  },
+  {
+   "id": "dragonfly-reverb",
+   "name": "Dragonfly Reverb 3.2.10 (VST3)",
+   "pack": "core",
+   "url": "https://github.com/michaelwillis/dragonfly-reverb/releases/download/3.2.10/dragonfly-reverb-3.2.10-win64.zip",
+   "homepage": "https://michaelwillis.github.io/dragonfly-reverb/",
+   "size": 22447365,
+   "size_exact": true,
+   "unpacked_mb": 13,
+   "dest": "sounds/plugins/vst3",
+   "strip": 1,
+   "include": [
+    "DragonflyEarlyReflections.vst3/",
+    "DragonflyHallReverb.vst3/",
+    "DragonflyPlateReverb.vst3/",
+    "DragonflyRoomReverb.vst3/"
+   ],
+   "markers": [
+    "DragonflyHallReverb.vst3",
+    "DragonflyRoomReverb.vst3",
+    "DragonflyPlateReverb.vst3",
+    "DragonflyEarlyReflections.vst3"
+   ],
+   "license": "GPL-3.0-or-later",
+   "author": "Michael Willis, Rob van den Berg",
+   "attribution": "Dragonfly Reverb by Michael Willis and Rob van den Berg, GPL-3.0. Source: https://github.com/michaelwillis/dragonfly-reverb"
+  },
+  {
+   "id": "airwindows-consolidated",
+   "name": "Airwindows Consolidated (VST3)",
+   "pack": "core",
+   "url": "https://github.com/baconpaul/airwin2rack/releases/download/DAWPlugin/AirwindowsConsolidated-2026-10-11-8a67b80-Windows.zip",
+   "github_release": {
+    "repo": "baconpaul/airwin2rack",
+    "tag": "DAWPlugin",
+    "asset_regex": "^AirwindowsConsolidated-.*-Windows\\.zip$"
+   },
+   "homepage": "https://github.com/baconpaul/airwin2rack",
+   "size": 13481313,
+   "size_exact": true,
+   "sha256": "dfd3059eef8b2541926d82155dbb1ffed5c9e7d86a1b08c033968d31af28f873",
+   "unpacked_mb": 12,
+   "dest": "sounds/plugins/vst3",
+   "strip": 0,
+   "include": [
+    "Airwindows Consolidated.vst3/"
+   ],
+   "markers": [
+    "Airwindows Consolidated.vst3"
+   ],
+   "license": "GPL-3.0 (plugin wrapper; Airwindows DSP code is MIT)",
+   "author": "Chris Johnson (Airwindows), Paul Walker (consolidation)",
+   "attribution": "Airwindows by Chris Johnson (MIT); Airwindows Consolidated plugin by Paul Walker / baconpaul, GPL-3.0. The DAWPlugin release is rolling: if the pinned asset disappears, the newest matching asset of the same release is used."
+  },
+  {
+   "id": "dexed",
+   "name": "Dexed 1.0.1 (VST3, DX7 FM synth)",
+   "pack": "full",
+   "url": "https://github.com/asb2m10/dexed/releases/download/v1.0.1/Dexed-1.0.1-win.zip",
+   "homepage": "https://asb2m10.github.io/dexed/",
+   "size": 9742538,
+   "size_exact": true,
+   "sha256": "1f118445f2c5c411636bb41ddf8b456db09af74cd38f9ede8a93a01020505f05",
+   "unpacked_mb": 7,
+   "dest": "sounds/plugins/vst3",
+   "strip": 0,
+   "include": [
+    "Dexed.vst3/"
+   ],
+   "markers": [
+    "Dexed.vst3"
+   ],
+   "license": "GPL-3.0",
+   "author": "Pascal Gauthier (asb2m10) and contributors",
+   "attribution": "Dexed by Pascal Gauthier and contributors, GPL-3.0. Source: https://github.com/asb2m10/dexed"
   }
+ ],
+ "overlays": [
+  {
+   "note": "Musicoma-authored wrapper sfz files (not in upstream). Copied from musicoma/sfz_overlays after extraction.",
+   "src": "musicoma/sfz_overlays/karoryfer-shinyguitar",
+   "dest": "sounds/sfz/karoryfer-shinyguitar",
+   "after": "karoryfer-shinyguitar"
+  }
+ ],
+ "ai": {
+  "note": "Optional, NVIDIA GPU (CUDA 12.8 capable driver) required. Installed with the bundled uv.exe. Paths 'glue'/'requirements' are relative to the setup bundle dir (dev: app/runtime, installed: resources/musicoma/setup).",
+  "runtime": {
+   "torch_index": "https://download.pytorch.org/whl/cu128",
+   "torch": [
+    "torch==2.11.0",
+    "torchaudio==2.11.0"
+   ],
+   "requirements": "requirements-ai.txt",
+   "approx_disk_mb": 5000,
+   "venv": "python-ai"
+  },
+  "venvs": [
+   {
+    "id": "ace-step-15",
+    "name": "ACE-Step 1.5 XL (vocals that listen to the beat — main vocal engine)",
+    "dir": "third_party/ace-step-15",
+    "python": "3.11",
+    "source_zip": "https://codeload.github.com/ace-step/ACE-Step-1.5/zip/ca1e85fe9430179831e6bc6be790c332190a3866",
+    "source_strip": 1,
+    "glue": "ai/ace-step-15",
+    "torch": [],
+    "source_requirements": "requirements.txt",
+    "models": [
+     {
+      "name": "ACE-Step/Ace-Step1.5 + ACE-Step/acestep-v15-xl-base",
+      "code": "from acestep.model_downloader import download_main_model as m, download_submodel as s; print(m('checkpoints')); print(s('acestep-v15-xl-base', 'checkpoints'))"
+     }
+    ],
+    "license": "MIT (code and model weights)",
+    "approx_disk_mb": 42000,
+    "markers": [
+     "acestep",
+     "pyproject.toml"
+    ]
+   },
+   {
+    "id": "soulx-singer",
+    "name": "SoulX-Singer (singing voice synthesis)",
+    "dir": "third_party/soulx-singer",
+    "python": "3.10",
+    "source_zip": "https://codeload.github.com/Soul-AILab/SoulX-Singer/zip/81aeb3ae772c70093c3de74dc23c92d983801ae4",
+    "source_strip": 1,
+    "glue": "ai/soulx-singer",
+    "torch": [
+     "torch==2.7.1",
+     "torchaudio==2.7.1"
+    ],
+    "requirements": "ai/soulx-singer/req-portable.txt",
+    "models": [
+     {
+      "repo": "Soul-AILab/SoulX-Singer",
+      "local_dir": "pretrained_models/SoulX-Singer",
+      "revision": "40493ad90286056c7a9095035164434a79daa8c9"
+     },
+     {
+      "repo": "Soul-AILab/SoulX-Singer-Preprocess",
+      "local_dir": "pretrained_models/SoulX-Singer-Preprocess",
+      "revision": "83dc50289d22a81b1e9998f5b9e111aef7c1fdcd"
+     }
+    ],
+    "license": "Apache-2.0 (code and model weights)",
+    "approx_disk_mb": 18400,
+    "markers": [
+     "soulxsinger",
+     "cli"
+    ]
+   },
+   {
+    "id": "voxcpm",
+    "name": "VoxCPM2 (voice design / TTS)",
+    "dir": "third_party/voxcpm",
+    "python": "3.11",
+    "glue": "ai/voxcpm",
+    "torch": [
+     "torch==2.11.0",
+     "torchaudio==2.11.0"
+    ],
+    "packages": [
+     "voxcpm==2.0.3",
+     "soundfile",
+     "huggingface_hub"
+    ],
+    "models": [
+     {
+      "repo": "openbmb/VoxCPM2",
+      "hf_home": "hf"
+     }
+    ],
+    "license": "Apache-2.0 (code and model weights)",
+    "approx_disk_mb": 9800
+   }
+  ]
+ }
 }

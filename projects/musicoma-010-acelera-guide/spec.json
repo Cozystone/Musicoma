@@ -1,0 +1,401 @@
+{
+ "name": "musicoma-010-acelera-guide",
+ "bpm": 130,
+ "key": "A minor",
+ "style": "brazilian-phonk",
+ "feel": "tight",
+ "intensity": 0.9,
+ "brief": "「Acelera」 브라질리언 퐁크 · 포르투갈어 구호 · 자체 합성 카우벨·808",
+ "sections": [
+  {
+   "name": "intro",
+   "bars": 8
+  },
+  {
+   "name": "drop",
+   "bars": 8
+  },
+  {
+   "name": "drop_b",
+   "bars": 8
+  },
+  {
+   "name": "break",
+   "bars": 8
+  },
+  {
+   "name": "build",
+   "bars": 3
+  },
+  {
+   "name": "gap",
+   "bars": 1
+  },
+  {
+   "name": "drop2",
+   "bars": 8
+  },
+  {
+   "name": "drop2_b",
+   "bars": 8
+  },
+  {
+   "name": "outro",
+   "bars": 4
+  }
+ ],
+ "tracks": {
+  "Drums": {
+   "preset": "drums/live_room",
+   "role": "drums"
+  },
+  "Bass808": {
+   "preset": "bass/picked",
+   "role": "bass"
+  }
+ },
+ "buses": [],
+ "parts": [
+  {
+   "track": "Drums",
+   "in": [
+    "intro"
+   ],
+   "drums": {
+    "pattern": {
+     "rim": "..x..x....x..x.x",
+     "hat": "x.x.x.x.x.x.x.x.",
+     "kick": "x...............|................"
+    },
+    "swing": 0.5,
+    "humanize_ms": 2,
+    "humanize_vel": 6
+   }
+  },
+  {
+   "track": "Drums",
+   "in": [
+    "drop"
+   ],
+   "drums": {
+    "pattern": {
+     "kick": "x..x..x...x..x..",
+     "clap": "....x.......x...",
+     "rim": "..x..x....x..x.x",
+     "hat": "x.x.x.x.x.x.x.x."
+    },
+    "swing": 0.5,
+    "humanize_ms": 2,
+    "humanize_vel": 6,
+    "fill": {
+     "kick": "x..x..x.",
+     "clap": "....x.xxxxxxXXXX"
+    }
+   }
+  },
+  {
+   "track": "Drums",
+   "in": [
+    "drop_b"
+   ],
+   "drums": {
+    "pattern": {
+     "kick": "x..x..x...x..x..",
+     "clap": "....x.......x...",
+     "rim": "x.xx.x....x.xx.x",
+     "hat": "x.x.x.x.x.x.x.x.",
+     "tamb": "..x...x...x...x."
+    },
+    "swing": 0.5,
+    "humanize_ms": 2,
+    "humanize_vel": 6,
+    "fill": {
+     "kick": "x..x..x.",
+     "clap": "....x.xxxxxxXXXX"
+    }
+   }
+  },
+  {
+   "track": "Drums",
+   "in": [
+    "break"
+   ],
+   "drums": {
+    "pattern": {
+     "kick": "x...............",
+     "clap": "............x...",
+     "hat": "x...x...x...x..."
+    },
+    "swing": 0.5,
+    "humanize_ms": 2,
+    "humanize_vel": 6
+   }
+  },
+  {
+   "track": "Drums",
+   "in": [
+    "build"
+   ],
+   "drums": {
+    "pattern": {
+     "kick": "x...x...x...x...",
+     "clap": "x.x.x.x.xxxxxxxx",
+     "hat": "xxxxxxxxxxxxxxxx"
+    },
+    "swing": 0.5,
+    "humanize_ms": 2,
+    "humanize_vel": 6
+   }
+  },
+  {
+   "track": "Drums",
+   "in": [
+    "drop2"
+   ],
+   "drums": {
+    "pattern": {
+     "kick": "x..x..x.x..x..x.",
+     "clap": "....x.......x...",
+     "rim": "x.xx.x.xx.x.x.xx",
+     "hat": "xxxxxxxxxxxxxxxx",
+     "tamb": "..x...x...x...x."
+    },
+    "swing": 0.5,
+    "humanize_ms": 2,
+    "humanize_vel": 6,
+    "fill": {
+     "kick": "x..x..x.",
+     "clap": "....x.xxxxxxXXXX"
+    }
+   }
+  },
+  {
+   "track": "Drums",
+   "in": [
+    "drop2_b"
+   ],
+   "drums": {
+    "pattern": {
+     "kick": "x..x..x.x..x..x.",
+     "clap": "....x..x....x...",
+     "rim": "x.xx.x.xx.x.x.xx",
+     "hat": "xxxxxxxxxxxxxxxx",
+     "open_hat": "......x.......x.",
+     "tamb": "..x...x...x...x."
+    },
+    "swing": 0.5,
+    "humanize_ms": 2,
+    "humanize_vel": 6,
+    "fill": {
+     "kick": "x..x..x.",
+     "clap": "....x.xxxxxxXXXX"
+    }
+   }
+  },
+  {
+   "track": "Bass808",
+   "in": [
+    "drop"
+   ],
+   "bass": {
+    "progression": "i i bII i",
+    "beats_per_chord": 4,
+    "low": 33,
+    "high": 48,
+    "pattern": [
+     [
+      0,
+      0.7,
+      0
+     ],
+     [
+      0.75,
+      0.7,
+      0
+     ],
+     [
+      1.5,
+      0.95,
+      12
+     ],
+     [
+      2.5,
+      0.7,
+      0
+     ],
+     [
+      3.25,
+      0.7,
+      -2
+     ]
+    ],
+    "velocity": 100
+   }
+  },
+  {
+   "track": "Bass808",
+   "in": [
+    "drop_b"
+   ],
+   "bass": {
+    "progression": "i i bII i",
+    "beats_per_chord": 4,
+    "low": 33,
+    "high": 48,
+    "pattern": [
+     [
+      0,
+      0.7,
+      0
+     ],
+     [
+      0.75,
+      0.45,
+      12
+     ],
+     [
+      1.25,
+      0.25,
+      0
+     ],
+     [
+      1.5,
+      0.95,
+      12
+     ],
+     [
+      2.5,
+      0.7,
+      0
+     ],
+     [
+      3.25,
+      0.25,
+      7
+     ],
+     [
+      3.5,
+      0.5,
+      10
+     ]
+    ],
+    "velocity": 104
+   }
+  },
+  {
+   "track": "Bass808",
+   "in": [
+    "drop2"
+   ],
+   "bass": {
+    "progression": "i i bII i",
+    "beats_per_chord": 4,
+    "low": 33,
+    "high": 48,
+    "pattern": [
+     [
+      0,
+      0.7,
+      0
+     ],
+     [
+      0.75,
+      0.7,
+      0
+     ],
+     [
+      1.5,
+      0.95,
+      12
+     ],
+     [
+      2.5,
+      0.7,
+      0
+     ],
+     [
+      3.25,
+      0.7,
+      -2
+     ]
+    ],
+    "velocity": 118
+   }
+  },
+  {
+   "track": "Bass808",
+   "in": [
+    "drop2_b"
+   ],
+   "bass": {
+    "progression": "i i bII i",
+    "beats_per_chord": 4,
+    "low": 33,
+    "high": 48,
+    "pattern": [
+     [
+      0,
+      0.7,
+      0
+     ],
+     [
+      0.75,
+      0.45,
+      12
+     ],
+     [
+      1.25,
+      0.25,
+      0
+     ],
+     [
+      1.5,
+      0.95,
+      12
+     ],
+     [
+      2.5,
+      0.7,
+      0
+     ],
+     [
+      3.25,
+      0.25,
+      7
+     ],
+     [
+      3.5,
+      0.5,
+      10
+     ]
+    ],
+    "velocity": 122
+   }
+  },
+  {
+   "track": "Bass808",
+   "in": [
+    "build"
+   ],
+   "bass": {
+    "progression": "i",
+    "beats_per_chord": 4,
+    "low": 33,
+    "high": 48,
+    "pattern": [
+     [
+      0,
+      3.5,
+      0
+     ]
+    ],
+    "velocity": 90
+   }
+  }
+ ],
+ "events": [],
+ "mix": {
+  "balance": false
+ },
+ "automation": []
+}

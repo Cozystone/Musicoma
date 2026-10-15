@@ -1,0 +1,69 @@
+{
+ "name": "musicoma-009-half-past-three-guide",
+ "bpm": 76,
+ "key": "E minor",
+ "style": "neo-soul",
+ "time_sig": "4/4",
+ "brief": "「Half Past Three」 네오소울 · 영어 노래 · 구간별 보컬 녹음(새 흐름 첫 곡)",
+ "created": "2026-10-16 00:17",
+ "tracks": {
+  "Drums": {
+   "sound": "drums_acoustic_full",
+   "role": "drums"
+  },
+  "Bass": {
+   "sound": "bass_picked",
+   "role": "bass"
+  },
+  "Wurli": {
+   "sound": "cp80",
+   "role": "keys"
+  }
+ },
+ "sections": [
+  {
+   "name": "intro",
+   "start_bar": 0,
+   "bars": 4
+  },
+  {
+   "name": "verse",
+   "start_bar": 4,
+   "bars": 8
+  },
+  {
+   "name": "chorus",
+   "start_bar": 12,
+   "bars": 8
+  },
+  {
+   "name": "verse2",
+   "start_bar": 20,
+   "bars": 6
+  },
+  {
+   "name": "chorus",
+   "start_bar": 26,
+   "bars": 8
+  },
+  {
+   "name": "bridge",
+   "start_bar": 34,
+   "bars": 4
+  },
+  {
+   "name": "chorus_last",
+   "start_bar": 38,
+   "bars": 8
+  },
+  {
+   "name": "outro",
+   "start_bar": 46,
+   "bars": 4
+  }
+ ],
+ "sources": [],
+ "history": [],
+ "versions": [],
+ "spec": "D:\\0.Musicoma\\projects\\musicoma-009-half-past-three-guide\\spec.json"
+}

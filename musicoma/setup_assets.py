@@ -6,7 +6,8 @@
   크기·SHA256 을 확인하고 <root>/sounds/sfz/<dir> (플러그인은 sounds/plugins/vst3) 에 푼다.
   이미 설치된 항목(표식 파일이 다 있음)은 건너뛴다. 끝나면 sounds/ATTRIBUTION.md 를 쓴다.
 - AI(--ai): 번들 uv.exe 로 ① <root>/python-ai (런타임 위 가상환경) 에 torch(cu128)·faster-whisper·demucs,
-  ② third_party/soulx-singer/.venv (Py 3.10), ③ third_party/voxcpm/.venv (Py 3.11) 를 만들고 모델을 받는다.
+  ② third_party/ace-step-15/.venv (Py 3.11, 주 보컬 엔진 — 반주를 듣고 부름, 모델 ~28GB),
+  ③ third_party/soulx-singer/.venv (Py 3.10), ④ third_party/voxcpm/.venv (Py 3.11) 를 만들고 모델을 받는다.
 - 진행 상황은 표준출력에 한 줄 JSON 으로 낸다(셸이 읽어 화면에 표시). 표준 라이브러리만 쓴다.
 """
 from __future__ import annotations
@@ -414,9 +415,14 @@ def run_ai(manifest, root: Path, python: str, uv: str | None, dry):
                 _run([uv, "venv", vdir / ".venv", "--python", v["python"]], dry, uv_env, step=vid)
             pkgs = list(v["torch"]) + list(v.get("packages", []))
             req = ["-r", bdir / v["requirements"]] if v.get("requirements") else []
+            if v.get("source_requirements"):                     # 받은 소스 안의 requirements(ACE-Step 은 자기 torch·인덱스를 고정)
+                req += ["-r", vdir / v["source_requirements"]]
             _run([uv, "pip", "install", "--python", vpy, *torch_idx, *pkgs, *req], dry, uv_env, step=vid)
             for m in v.get("models", []):
                 env = dict(uv_env)
+                if m.get("code"):                                 # 모듈 자체 다운로더(파일 배치·코드 동기화까지 그쪽 규칙대로)
+                    _run([vpy, "-c", m["code"]], dry, env, cwd=vdir, step=f"{vid}:model:{m.get('name', 'code')}")
+                    continue
                 if m.get("hf_home"):
                     env["HF_HOME"] = str(vdir / m["hf_home"])
                     code = f"from huggingface_hub import snapshot_download as s; print(s({m['repo']!r}))"

@@ -37,3 +37,5 @@ projects/ableton-demo-import/
 works/*.log
 scratch/
 **/.work/
+# 스키마 실험(비공개)
+projects/scratch-spec-schema-probe/
