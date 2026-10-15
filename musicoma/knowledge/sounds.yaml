@@ -41,6 +41,10 @@ sfz:
   alto_sax: {path: sounds/sfz/karoryfer-weresax/Weresax/Programs/alto_map_forte_condenser.sfz, note: "알토 색소폰. CC0"}
   wurlitzer: {path: "sounds/sfz/gregsullivan-epianos/Wurlitzer EP200/Wurlitzer EP200.sfz", note: "부를리처 EP200 — 소울·로파이. CC-BY 3.0 Greg Sullivan"}
   cp80: {path: sounds/sfz/gregsullivan-epianos/CP80/CP80.sfz, note: "야마하 CP80 — 80s 시티팝. CC-BY 3.0 Greg Sullivan"}
+  # 10-16 자체 합성(musicoma/kits.py, CC0) — 브라질리언 퐁크
+  drums_phonk: {path: sounds/sfz/musicoma-phonk/phonk_kit.sfz, map: gm, note: "808 식 킥·클랩·림·햇·탬버린·카우벨(56) — 퐁크·바일리 펑크·트랩"}
+  cowbell_808: {path: sounds/sfz/musicoma-phonk/cowbell.sfz, note: "TR-808 식 카우벨을 음높이로 — 퐁크 선율 악기"}
+  bass_808_dist: {path: sounds/sfz/musicoma-phonk/808.sfz, range: [24, 60], note: "디스토션을 구운 808 — 세기 70 이하 약, 71~105 중, 106~ 강"}
 
 surge_xt:   # device: "Surge XT", 패치: device.load_file
   root: "sounds/plugins/vst3/Surge Synth Team/SurgeXTData/patches_factory"

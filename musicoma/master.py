@@ -32,8 +32,10 @@ def master(path, lufs=-12.0, ceiling=-1.0, glue=True, out=None, tone=None):
 
     gain = lufs - meter.integrated_loudness(pre)
     z = pre
-    for _ in range(4):
-        z = Pedalboard([Gain(gain), Limiter(threshold_db=ceiling - 0.3, release_ms=120)])(pre.T, sr).T
+    up = resample_poly(pre, 4, 1, axis=0).astype(np.float32)      # 리미터를 4배 오버샘플에서(10-16 퐁크: 1배 리미터는 모서리를 만들어
+    for _ in range(4):                                             # 트루피크가 샘플 피크보다 4.5dB 높아져 곡 전체가 그만큼 작아졌다 -10 LUFS)
+        zu = Pedalboard([Gain(gain), Limiter(threshold_db=ceiling - 0.5, release_ms=120)])(up.T, sr * 4).T
+        z = resample_poly(zu, 1, 4, axis=0).astype(np.float32)
         z = z * min(1.0, 10 ** ((ceiling - _tp(z)) / 20))      # 오버샘플 피크 안전장치
         got = meter.integrated_loudness(z)
         if abs(got - lufs) < 0.2:

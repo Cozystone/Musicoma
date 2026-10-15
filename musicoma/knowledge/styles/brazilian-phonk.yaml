@@ -1,0 +1,20 @@
+id: brazilian-phonk
+name: Brazilian Phonk (funk carioca × Memphis phonk)
+aliases: [브라질리언 퐁크, 브라질 퐁크, 브라질리안 퐁크, brazilian phonk, funk phonk, 퐁크, phonk, 바일리 펑크, baile funk, funk carioca, montagem, 몬타젱, automotivo]
+essence: "바일리 펑크의 3+3+2 북소리(탐보르장) 위에 808 카우벨 선율, 터질 듯 찌그러진 808, 짧게 잘라 되풀이하는 포르투갈어 구호. 짧고 세게."
+sources: "knowledge/references/brazilian-phonk.yaml"
+tempo: {range: [125, 135], sweet_spot: 130, note: "샘플 팩·제작 안내 125~150. 일부 빠른 변종은 더 빠름(미확인)"}
+swing: {amount: 0.5, unit: 16, note: "정박 그대로 — 사람 느낌은 세기로"}
+harmony: {typical: ["i bII i bVII", "i bVI bVII i", "i iv bII i"], mode: "minor / phrygian — 카우벨이 선율, 화음은 거의 없음"}
+drums:
+  patterns:
+    tamborzao: {kick: "x..x..x...x..x..", clap: "....x.......x...", rim: "..x..x....x..x.x", hat: "x.x.x.x.x.x.x.x.", note: "3+3+2 킥(바일리 펑크) + 백비트 클랩"}
+    drop: {kick: "x..x..x.x..x..x.", clap: "....x.......x...", rim: "x.xx.x.xx.x.x.xx", hat: "xxxxxxxxxxxxxxxx", tamb: "..x...x...x...x."}
+    break: {kick: "x...............", clap: "............x...", hat: "x...x...x...x..."}
+  sounds: "자체 합성 808 킷(drums/phonk) — 킥은 짧고 단단, 클랩 크게"
+bass: {sound: "bass/808_dist (디스토션을 구운 808)", pattern: "킥 자리를 따라 길게, 세기 높을수록 더 찌그러짐"}
+lead: {sound: "lead/cowbell (808 카우벨을 음높이로)", pattern: "16분 2~4음 짧은 리프, 3+3+2 강세, 4마디마다 끝을 비틀기"}
+vocals: "포르투갈어 MC 구호를 짧게 잘라(찹) 되풀이 · 디스토션. 긴 노래 대신 2~4마디 구호 — 가사는 새로 쓴다(원곡 구호 인용 금지)"
+form: "짧게(2분 안팎). 인트로 → 드롭 → 브레이크 → 드롭2(더 세게) → 끝. 드롭 직전 정적·구호"
+mix: {target_lufs: -8, balance_lu: {drums: 0, bass: 0, cowbell: -2, vox: -1, pad: -10}, character: "크고 거칠게 — 808·클랩·카우벨이 앞, 공간은 좁게"}
+dont: ["스윙", "라이브 킷", "긴 화음 패드 위주", "깨끗한 마스터"]

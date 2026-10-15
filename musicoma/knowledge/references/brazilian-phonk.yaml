@@ -1,0 +1,33 @@
+# 레퍼런스 카드 — 브라질리언 퐁크. 0단계(10-16 본인: "새로운 장르인 브라질리언 퐁크로, 완성까지").
+# 음원은 받지 않는다(본인 폴더에도 없음). 형식·장치만. 정확한 곡별 템포·구조 출처는 못 찾음 → '미확인'.
+genre: brazilian-phonk
+collected: 2026-10-16
+what: "Memphis 퐁크 + 브라질 펑크(funk carioca). 카우벨이 상징, 찌그러진 808, 포르투갈어 구호 찹, 일부러 거친 소리"
+songs:
+  - title: "SLAY!"
+    artist: "Eternxlkz (카자흐스탄 프로듀서)"
+    year: "2020년대"
+    tempo: "미확인"
+    learn: ["틱톡에서 퍼진 대표형 — 짧은 구호 + 카우벨 리프 반복으로 '한 번 들으면 기억'"]
+    sources: ["https://music.apple.com/artist/1659063962"]
+  - title: "Montagem 계열(몬타젱)"
+    artist: "여러 프로듀서"
+    tempo: "미확인"
+    learn: ["'몬타젱' = 샘플을 잘라 붙여 만든 브라질 펑크 트랙의 통칭으로 쓰임(출처에서 확정 못 함)", "'Automotivo' = 차 오디오용 펑크 포맷 명칭"]
+    sources: ["https://soundtrap.com/content/blog/guide-to-brazilian-phonk"]
+summary:
+  tempo: "125~135(샘플 팩), 제작 안내 130~150 — 130 으로 시작"
+  devices: ["808 식 카우벨 선율(상징)", "디스토션 808 — '디스토션이 없으면 퐁크가 아니다'", "포르투갈어 구호를 잘라 되풀이 + 디스토션",
+            "바일리 펑크의 싱코페이션(탐보르장 3+3+2)", "탬버린·아고고 같은 브라질 타악", "크게·과하게(퍼커션)", "짧게"]
+  sources: ["https://soundtrap.com/content/blog/guide-to-brazilian-phonk", "https://samplefocus.com/blog/make-brazilian-phonk-fl-studio/",
+            "https://www.loopmasters.com/products/17315", "https://www.loopcloud.com/cloud/blog/5293-How-to-Make-Brazilian-Funk"]
+palette:
+  - era: "808 카우벨"
+    ours: "lead/cowbell — 자체 합성(musicoma/kits.py)"
+  - era: "찌그러진 808"
+    ours: "bass/808_dist — 디스토션을 샘플에 구움(엔진 내장 이펙트에 디스토션 없음)"
+  - era: "808 킷·클랩·림·탬버린"
+    ours: "drums/phonk — 자체 합성"
+  - era: "포르투갈어 MC 구호"
+    ours: "ACE-Step Lego 로 반주를 듣고 생성(포르투갈어) → 잘라서 되풀이 + 디스토션(파이썬)"
+gaps: ["아고고 벨", "실제 MC 녹음(본인 녹음이 있으면 교체)"]
