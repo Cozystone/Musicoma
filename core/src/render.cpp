@@ -21,9 +21,13 @@ bool applyTuning (Tuning& t, const std::string& k, double v)
     else if (k == "deferReleaseOnPedal") t.deferReleaseOnPedal = v != 0;
     else if (k == "defaultCc7") t.defaultCc7 = v != 0;
     else if (k == "defaultCc10") t.defaultCc10 = v != 0;
+    else if (k == "defaultCc11") t.defaultCc11 = (int) v;
     else if (k == "offsetCurveLinear") t.offsetCurveLinear = v != 0;
     else if (k == "eventDelay") t.eventDelay = (int) v;
     else if (k == "seqMode") t.seqMode = (int) v;
+    else if (k == "bendSmoothMs") t.bendSmoothMs = v;
+    else if (k == "bendBlock") t.bendBlock = (int) v;
+    else if (k == "bendOffset") t.bendOffset = (int) v;
     else if (k == "filterQBase") t.filterQBase = v;
     else if (k == "polyCountsReleased") t.polyCountsReleased = v != 0;
     else return false;
@@ -129,7 +133,7 @@ std::vector<MidiEv> buildEvents (Ctx& c, const Json& track)
         {
             double b = x.num ("beat", 0);
             if (b < 0 || b >= len) continue;
-            ev.push_back ({ c.secToFrame (c.beatToSec (sb + b)), MidiEv::Bend, 0, (float) clampv (x.num ("value", 0), -1.0, 1.0) });
+            ev.push_back ({ c.secToFrame (c.beatToSec (sb + b)) + c.tuning.bendOffset, MidiEv::Bend, 0, (float) clampv (x.num ("value", 0), -1.0, 1.0) });
         }
     }
     // 시작 전 이벤트는 0 으로(상태만 반영), 같은 시점이면 CC·벤드 → 노트오프 → 노트온

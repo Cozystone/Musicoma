@@ -35,9 +35,13 @@ struct Tuning
     bool deferReleaseOnPedal = true;
     double rtDecayFromRelease = 1; // rt_decay 기준 시간: 1 = 노트온~릴리스 트리거 시점
     bool defaultCc7 = true;        // SFZ 가 CC7 을 안 쓰면 amplitude_oncc7=100 (x² 곡선) 을 기본으로 (sfizz 와 같게)
+    int defaultCc11 = 4;           // SFZ 가 CC11 을 안 쓰면 amplitude_oncc11=100 (이 곡선 번호, -1 = 끔)
     bool defaultCc10 = true;       // SFZ 가 CC10 을 안 쓰면 pan_oncc10=100 (양극 곡선)
     bool offsetCurveLinear = true; // offset_curveccN 무시(선형) — sfizz 동작
     int eventDelay = 1;            // MIDI 이벤트를 몇 샘플 늦게 (엔진 측정: 1)
+    double bendSmoothMs = 0.0;
+    int bendOffset = -170;         // 벤드 이벤트를 몇 샘플 옮기나 (엔진 측정: 약 3.5 ms 일찍)
+    int bendBlock = 0;             // >0: 벤드를 이 블록 격자에 맞춰 적용 (음수 = 다음 경계)     // 피치 벤드 변화 매끄럽게 (1극, ms)
     int seqMode = 1;               // 라운드로빈 카운터 규칙 (seqStep 참고) — 엔진 측정: 1 (건반 범위만 맞으면 센다)
     bool polyCountsReleased = false; // (note_)polyphony 에 놓인(릴리스 중) 보이스도 세나
     double filterQBase = 1.0;      // SFZ 필터 Q = base · 10^(resonance/20)
@@ -75,9 +79,11 @@ private:
 
     std::vector<Voice> voices;
     std::vector<int> seqCounter;           // 리전별 라운드로빈 카운터
-    std::vector<char> def7, def10;         // 리전별: 기본 CC7/CC10 모듈레이션을 붙이나
+    std::vector<char> def7, def10, def11;         // 리전별: 기본 CC7/CC10 모듈레이션을 붙이나
     std::array<float, 128> cc {};
     float bend = 0;
+    double bendSmoothed = 0;
+    std::vector<std::pair<int64_t, float>> pendingBends;
     int currentSw = -1;
     bool held[128] {};
     float noteVel[128] {};

@@ -60,16 +60,19 @@ SfzSynth::SfzSynth (std::shared_ptr<const Instrument> i, SamplePool& p, double s
     seqCounter.assign (inst->regions.size(), 0);
     def7.assign (inst->regions.size(), 0);
     def10.assign (inst->regions.size(), 0);
+    def11.assign (inst->regions.size(), 0);
     for (auto& r : inst->regions)
     {
-        bool has7 = false, has10 = false;
+        bool has7 = false, has10 = false, has11 = false;
         for (auto& m : r.mods)
         {
             if (m.cc == 7 && (m.target == ModTarget::Amplitude || m.target == ModTarget::Volume)) has7 = true;
             if (m.cc == 10 && m.target == ModTarget::Pan) has10 = true;
+            if (m.cc == 11 && (m.target == ModTarget::Amplitude || m.target == ModTarget::Volume)) has11 = true;
         }
         def7[(size_t) r.index] = tune.defaultCc7 && ! has7;
         def10[(size_t) r.index] = tune.defaultCc10 && ! has10;
+        def11[(size_t) r.index] = tune.defaultCc11 >= 0 && ! has11;
     }
     cc = inst->defaultCc;
     currentSw = inst->swDefault;
@@ -384,6 +387,7 @@ void SfzSynth::updateDynamic (Voice& v, bool snap)
     }
     if (def7[(size_t) r.index]) amp *= inst->curve (4).eval (cc[7]);
     if (def10[(size_t) r.index]) pan += 100.0f * inst->curve (1).eval (cc[10]);
+    if (def11[(size_t) r.index]) amp *= inst->curve (tune.defaultCc11).eval (cc[11]);
     g *= dbToGain (volDb) * (tune.ampModMultiply ? amp : std::max (0.0f, 1.0f + ampAdd));
 
     auto xfcc = [&] (const std::vector<CcRange>& list, bool in)
@@ -410,7 +414,7 @@ void SfzSynth::updateDynamic (Voice& v, bool snap)
     v.tgR = g * pr;
     if (snap) { v.gL = v.tgL; v.gR = v.tgR; }
 
-    double bc = bend >= 0 ? bend * r.bendUp : -bend * r.bendDown;
+    double bc = bendSmoothed >= 0 ? bendSmoothed * r.bendUp : -bendSmoothed * r.bendDown;
     v.step = v.stepBase * std::pow (2.0, bc / 1200.0);
 }
 
@@ -635,6 +639,12 @@ void SfzSynth::process (const std::vector<MidiEv>& events, int64_t n, float* L, 
     int64_t f = renderPos;
     while (f < end)
     {
+        if (tune.bendBlock > 0 && f % tune.bendBlock == 0)
+        {
+            // 블록 시작: 이 블록 안의 마지막 벤드 값을 블록 전체에 (블록 단위 처리 흉내)
+            for (size_t k = eventPos; k < events.size() && events[k].frame + tune.eventDelay < f + tune.bendBlock; ++k)
+                if (events[k].kind == MidiEv::Bend) bend = events[k].v;
+        }
         while (eventPos < events.size() && events[eventPos].frame + tune.eventDelay <= f)
         {
             const auto& e = events[eventPos++];
@@ -644,10 +654,37 @@ void SfzSynth::process (const std::vector<MidiEv>& events, int64_t n, float* L, 
                 case MidiEv::NoteOn:  noteOn (e.a, e.v); break;
                 case MidiEv::NoteOff: noteOff (e.a); break;
                 case MidiEv::CC:      controlChange (e.a, e.v); break;
-                case MidiEv::Bend:    bend = e.v; break;
+                case MidiEv::Bend:
+                    if (tune.bendBlock == 0) bend = e.v;
+                    else if (tune.bendBlock < 0) pendingBends.push_back ({ e.frame + tune.eventDelay, e.v });
+                    break;
+            }
+        }
+        if (! pendingBends.empty())
+        {
+            // 블록 격자: 이벤트가 든 블록의 시작(+N) 또는 끝(-N) 에서 적용
+            const int64_t B = std::abs (tune.bendBlock);
+            while (! pendingBends.empty())
+            {
+                int64_t at = tune.bendBlock > 0 ? (pendingBends.front().first / B) * B : (pendingBends.front().first / B + 1) * B;
+                if (at > f) break;
+                bend = pendingBends.front().second;
+                pendingBends.erase (pendingBends.begin());
             }
         }
         int64_t next = std::min (end, f + block);
+        if (tune.bendBlock != 0)
+        {
+            const int64_t B = std::abs (tune.bendBlock);
+            next = std::min (next, (f / B + 1) * B);
+        }
+        if (tune.bendSmoothMs > 0)
+        {
+            double a = 1.0 - std::exp (-(double) block / (tune.bendSmoothMs * 0.001 * sr));
+            bendSmoothed += (bend - bendSmoothed) * a;
+        }
+        else
+            bendSmoothed = bend;
         if (eventPos < events.size()) next = std::min (next, std::max (f + 1, events[eventPos].frame + tune.eventDelay));
         for (auto& v : voices)
             if (v.active)

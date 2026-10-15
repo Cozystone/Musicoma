@@ -152,7 +152,7 @@ def _device(e, track_ref, d, xml_plugin):
 
 
 # ---------------------------------------------------------------------------- 클립
-def _audio_clip(c_info, xml_clip, bpm):
+def _audio_clip(c_info, xml_clip, bpm, edit_dir=None):
     spb = 60.0 / bpm
     out = {"index": c_info["clip"], "name": c_info.get("name"), "start_beat": c_info["start"],
            "end_beat": c_info["end"], "start_sec": c_info["start"] * spb,
@@ -160,7 +160,10 @@ def _audio_clip(c_info, xml_clip, bpm):
     if xml_clip is None:
         out["error"] = "no XML for audio clip (save the edit first)"
         return out
-    out.update(file=xml_clip.get("source"), offset_sec=_f(xml_clip, "offset"), gain_db=_f(xml_clip, "gain"),
+    src = xml_clip.get("source") or ""
+    if src and edit_dir is not None and not Path(src).is_absolute():
+        src = str(Path(edit_dir) / src)          # 곡 폴더 기준 상대 경로(예: vocals\x.wav)
+    out.update(file=src, offset_sec=_f(xml_clip, "offset"), gain_db=_f(xml_clip, "gain"),
                pan=_f(xml_clip, "pan"), fade_in_sec=_f(xml_clip, "fadeIn"), fade_out_sec=_f(xml_clip, "fadeOut"),
                reverse=xml_clip.get("isReversed", "0") in ("1", "true"),
                mute=xml_clip.get("mute", "0") in ("1", "true"))
@@ -219,7 +222,7 @@ def export_plan(e=None, project=None, path=None, start_beat=None, end_beat=None,
             if c.get("type") == "midi":
                 midi.append(_midi_clip(e, ti, c, xc))
             else:
-                audio.append(_audio_clip(c, xc, bpm))
+                audio.append(_audio_clip(c, xc, bpm, Path(info.get("path", ".")).parent))
         tracks.append({"index": ti, "name": t["name"], "volume_db": float(t.get("volume_db", 0.0)),
                        "pan": float(t.get("pan", 0.0)), "mute": bool(t.get("mute")), "solo": bool(t.get("solo")),
                        "chain": chain, "midi_clips": midi, "audio_clips": audio})

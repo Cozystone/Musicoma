@@ -5,7 +5,11 @@
 각 곡: edit.new zz-core-<이름> → 트랙/SFZ/MIDI → edit.save scratch/core/<이름>/<이름>.tracktionedit
        → plan.json(core_export) → (엔진) render → scratch/core/<이름>/engine.wav → 임시 projects/zz-core-* 폴더는 지운다.
 마스터 이펙트·리버브 센드 없음.
+
+공용 엔진(47800)은 쓰지 않는다 — 다른 작업과 열린 곡이 엉킨다. 기본은 따로 띄운 엔진 47810
+(MUSICOMA_CORE_ENGINE_PORT 로 바꿈): musicoma-engine.exe --port 47810 --root D:/0.Musicoma
 """
+import os
 import json
 import shutil
 import sys
@@ -186,7 +190,10 @@ def build(e, name, fn, render=True):
 
 if __name__ == "__main__":
     names = sys.argv[1:] or [k for k in ALL if k not in ("cal-cc", "cal-audio")]
-    e = connect("core-null")
+    port = int(os.environ.get("MUSICOMA_CORE_ENGINE_PORT", "47810"))
+    if port == 47800:
+        raise SystemExit("47800 은 공용 엔진 — 널 테스트는 따로 띄운 엔진(예: 47810)에서")
+    e = connect("core-null", port=port)
     for nm in names:
         t0 = time.time()
         print(nm, build(e, nm, ALL[nm]), f"{time.time() - t0:.1f}s", flush=True)

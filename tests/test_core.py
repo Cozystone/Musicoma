@@ -194,8 +194,9 @@ def null_tests_info():
     if rows:
         print("\n  null test vs current engine (informational):")
         print("  " + f"{'song':<12}{'LU diff':>9}{'residual dB':>13}{'core x RT':>11}")
+        notes = {"cal-audio": "  (engine renders the reversed clip silent; track A alone: -60 dB)"}
         for r in rows:
-            print("  " + f"{r[0]:<12}{r[1]!s:>9}{r[2]!s:>13}{r[3]!s:>11}")
+            print("  " + f"{r[0]:<12}{r[1]!s:>9}{r[2]!s:>13}{r[3]!s:>11}" + notes.get(r[0], ""))
     return rows
 
 
