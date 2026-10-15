@@ -669,6 +669,8 @@ juce::var Session::describeTrack (te::AudioTrack& t, int index)
         else
         {
             co->setProperty ("type", "audio");
+            if (auto* ac = dynamic_cast<te::AudioClipBase*> (c))
+                co->setProperty ("gain_db", ac->getGainDB());
         }
 
         clips.add (juce::var (co.get()));

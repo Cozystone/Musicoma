@@ -1,12 +1,16 @@
 # kanye-citypop-02-final
 
-kanye-citypop-02 v1 비트(그대로) + 하이톤 노래 훅(인트로 티저·훅) → 남자 랩(더블) · 벌스2 듀엣
+kanye-citypop-02 v1 비트(그대로) · 인트로 비움 → 랩(ACE-Step 이 비트를 듣고 생성, 벌스1 seed5·벌스2 seed4 참조) → 하이톤 노래 훅 ×2
 
 - 템포 88 BPM · 키 A major · 스타일 chipmunk-soul
 - 구성: intro(4) → verse(8) → hook(8) → verse2(8) → hook(8) → outro(4)
 
 ## 들어볼 것
-- **최신**: `renders/kanye-citypop-02-final_v4.wav`
+- **최신**: `renders/kanye-citypop-02-final_v6b.wav`
+- `renders/kanye-citypop-02-final_v6.wav`
+- `renders/kanye-citypop-02-final_v5b.wav`
+- `renders/kanye-citypop-02-final_v5.wav`
+- `renders/kanye-citypop-02-final_v4.wav`
 - `renders/kanye-citypop-02-final_v3.wav`
 - `renders/kanye-citypop-02-final_v2.wav`
 - `renders/kanye-citypop-02-final_v1.wav`
@@ -27,6 +31,7 @@ kanye-citypop-02 v1 비트(그대로) + 하이톤 노래 훅(인트로 티저·�
 - `vocals/rap-a_verse_rap.wav`
 - `vocals/rap-c_verse2-b3_rap.wav`
 - `vocals/rap-c_verse2-b7_rap.wav`
+- `vocals/rap_lego_full.wav`
 
 ## 파일
 - `spec.json` 설계서(이걸 고쳐 다시 지으면 곡이 바뀜) · `song.json` 요청·조치 기록

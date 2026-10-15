@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<EDIT appVersion="Unknown" projectID="0/2b271a5" creationTime="1792026798353"
-      modifiedBy="anseo" lastSignificantChange="1a13d2303a1">
+<EDIT appVersion="Unknown" projectID="0/2d2ddd8" creationTime="1792034857507"
+      modifiedBy="anseo" lastSignificantChange="1a13d9c57bf">
   <TRANSPORT start="0.0" loopPoint1="0.0" loopPoint2="0.0"/>
   <PITCHSEQUENCE>
     <PITCH startBeat="0.0" pitch="60"/>
@@ -19,7 +19,9 @@
   </MASTERVOLUME>
   <RACKS/>
   <MASTERPLUGINS>
-    <PLUGIN type="level" id="1010" enabled="1" remapOnTempoChange="1"/>
+    <PLUGIN type="level" id="1010" enabled="1" remapOnTempoChange="1">
+      <MODIFIERASSIGNMENTS/>
+    </PLUGIN>
   </MASTERPLUGINS>
   <INPUTDEVICES>
     <INPUTDEVICE deviceID="all_midi_in" name="All MIDI Ins"/>
@@ -39,7 +41,7 @@
     <MODIFIERS/>
     <CLIPSLOTS/>
     <AUDIOCLIP name="kanye-citypop-02_v1" start="0.0" length="111.6136363636363"
-               offset="0.0" id="1045" source="..\kanye-citypop-02\renders\kanye-citypop-02_v1.wav"
+               offset="0.0" id="1033" source="..\kanye-citypop-02\renders\kanye-citypop-02_v1.wav"
                sync="0" elastiqueMode="0" pan="0.0" colour="ff55ff00" proxyAllowed="1"
                resamplingQuality="lagrange" autoTempo="0" autoPitch="0">
       <LOOPINFO rootNote="-1" numBeats="163.6666777777778" oneShot="0" denominator="4"
@@ -53,214 +55,127 @@
     <PLUGIN type="volume" id="1012" enabled="1" remapOnTempoChange="1">
       <MODIFIERASSIGNMENTS/>
     </PLUGIN>
-    <PLUGIN type="level" id="1013" enabled="1"/>
+    <PLUGIN type="level" id="1013" enabled="1">
+      <MODIFIERASSIGNMENTS/>
+    </PLUGIN>
     <OUTPUTDEVICES>
       <DEVICE name="(default audio output)"/>
     </OUTPUTDEVICES>
   </TRACK>
-  <TRACK id="1015" name="Rap A">
+  <TRACK id="1015" name="Rap">
     <MODIFIERS/>
     <CLIPSLOTS/>
-    <AUDIOCLIP name="rap-a_verse_rap" start="10.90909090909091" length="22.56383333333333"
-               offset="0.0" id="1047" source="vocals\rap-a_verse_rap.wav" sync="0"
-               elastiqueMode="0" pan="0.0" colour="ff00ff00" proxyAllowed="1"
-               resamplingQuality="lagrange" autoTempo="0" autoPitch="0" gain="0.0">
-      <LOOPINFO rootNote="-1" numBeats="33.09362222222222" oneShot="0" denominator="4"
+    <AUDIOCLIP name="rap_lego_full" start="0.0" length="111.6136363636363" offset="0.0"
+               id="1035" source="vocals\rap_lego_full.wav" sync="0" elastiqueMode="0"
+               pan="0.0" colour="ff00ff00" proxyAllowed="1" resamplingQuality="lagrange"
+               autoTempo="0" autoPitch="0" gain="4.5">
+      <LOOPINFO rootNote="-1" numBeats="163.6666777777778" oneShot="0" denominator="4"
                 numerator="4" bpm="0.0" inMarker="0" outMarker="-1"/>
       <AUTOMATIONCURVES/>
     </AUDIOCLIP>
-    <AUDIOCLIP name="rap-a_verse2_rap" start="54.54545454545454" length="6.454520833333333"
-               offset="0.0" id="1061" source="vocals\rap-a_verse2_rap.wav" sync="0"
-               elastiqueMode="0" pan="0.0" colour="ff00ff00" proxyAllowed="1"
-               resamplingQuality="lagrange" autoTempo="0" autoPitch="0" gain="0.0">
-      <LOOPINFO rootNote="-1" numBeats="9.466630555555556" oneShot="0" denominator="4"
-                numerator="4" bpm="0.0" inMarker="0" outMarker="-1"/>
-      <AUTOMATIONCURVES/>
-    </AUDIOCLIP>
-    <AUDIOCLIP name="rap-a_verse2-b5_rap" start="65.45454545454545" length="6.454541666666671"
-               offset="0.0" id="1065" source="vocals\rap-a_verse2-b5_rap.wav"
-               sync="0" elastiqueMode="0" pan="0.0" colour="ff00ff00" proxyAllowed="1"
-               resamplingQuality="lagrange" autoTempo="0" autoPitch="0" gain="0.0">
-      <LOOPINFO rootNote="-1" numBeats="9.46666111111111" oneShot="0" denominator="4"
-                numerator="4" bpm="0.0" inMarker="0" outMarker="-1"/>
-      <AUTOMATIONCURVES/>
-    </AUDIOCLIP>
-    <PLUGIN type="4bandEq" id="1018" enabled="1" remapOnTempoChange="1" loFreq="120.0"
-            loGain="-8.0" midFreq2="3200.0" midGain2="3.5" hiFreq="9000.0"
-            hiGain="2.5">
+    <PLUGIN type="4bandEq" id="1018" enabled="1" remapOnTempoChange="1" loFreq="110.0"
+            loGain="-6.0" midFreq2="3200.0" midGain2="1.5">
       <MODIFIERASSIGNMENTS/>
     </PLUGIN>
     <PLUGIN type="compressor" id="1019" enabled="1" remapOnTempoChange="1"
-            threshold="0.1000000014901161" ratio="0.25" attack="8.0" release="90.0">
+            threshold="0.07943282276391983" ratio="0.3333333432674408" attack="10.0"
+            release="100.0">
       <MODIFIERASSIGNMENTS/>
     </PLUGIN>
-    <PLUGIN type="auxsend" id="1040" enabled="1" quickParamName="send level"
-            remapOnTempoChange="1" busNum="0" auxSendSliderPos="0.2725317776203156">
+    <PLUGIN type="auxsend" id="1030" enabled="1" quickParamName="send level"
+            remapOnTempoChange="1" busNum="0" auxSendSliderPos="0.2465969771146774">
       <MODIFIERASSIGNMENTS/>
     </PLUGIN>
-    <PLUGIN type="volume" id="1016" enabled="1" remapOnTempoChange="1" volume="1.0">
+    <PLUGIN type="volume" id="1016" enabled="1" remapOnTempoChange="1" volume="0.9277434945106506">
       <MODIFIERASSIGNMENTS/>
     </PLUGIN>
-    <PLUGIN type="level" id="1017" enabled="1"/>
+    <PLUGIN type="level" id="1017" enabled="1">
+      <MODIFIERASSIGNMENTS/>
+    </PLUGIN>
     <OUTPUTDEVICES>
       <DEVICE name="(default audio output)"/>
     </OUTPUTDEVICES>
   </TRACK>
-  <TRACK id="1020" name="Rap C">
+  <TRACK id="1020" name="Sung">
     <MODIFIERS/>
     <CLIPSLOTS/>
-    <AUDIOCLIP name="rap-c_verse2-b3_rap" start="59.99999999999999" length="6.454520833333341"
-               offset="0.0" id="1063" source="vocals\rap-c_verse2-b3_rap.wav"
-               sync="0" elastiqueMode="0" pan="0.0" colour="ff00ff55" proxyAllowed="1"
-               resamplingQuality="lagrange" autoTempo="0" autoPitch="0" gain="0.0">
-      <LOOPINFO rootNote="-1" numBeats="9.466630555555556" oneShot="0" denominator="4"
-                numerator="4" bpm="0.0" inMarker="0" outMarker="-1"/>
-      <AUTOMATIONCURVES/>
-    </AUDIOCLIP>
-    <AUDIOCLIP name="rap-c_verse2-b7_rap" start="70.90909090909091" length="6.454499999999996"
-               offset="0.0" id="1067" source="vocals\rap-c_verse2-b7_rap.wav"
-               sync="0" elastiqueMode="0" pan="0.0" colour="ff00ff55" proxyAllowed="1"
-               resamplingQuality="lagrange" autoTempo="0" autoPitch="0" gain="0.0">
-      <LOOPINFO rootNote="-1" numBeats="9.4666" oneShot="0" denominator="4" numerator="4"
-                bpm="0.0" inMarker="0" outMarker="-1"/>
-      <AUTOMATIONCURVES/>
-    </AUDIOCLIP>
-    <PLUGIN type="4bandEq" id="1023" enabled="1" remapOnTempoChange="1" loFreq="120.0"
-            loGain="-8.0" midFreq2="3200.0" midGain2="3.5" hiFreq="9000.0"
-            hiGain="2.5">
-      <MODIFIERASSIGNMENTS/>
-    </PLUGIN>
-    <PLUGIN type="compressor" id="1024" enabled="1" remapOnTempoChange="1"
-            threshold="0.1000000014901161" ratio="0.25" attack="8.0" release="90.0">
-      <MODIFIERASSIGNMENTS/>
-    </PLUGIN>
-    <PLUGIN type="auxsend" id="1041" enabled="1" quickParamName="send level"
-            remapOnTempoChange="1" busNum="0" auxSendSliderPos="0.2725317776203156">
-      <MODIFIERASSIGNMENTS/>
-    </PLUGIN>
-    <PLUGIN type="volume" id="1021" enabled="1" remapOnTempoChange="1" volume="0.9139311909675598">
-      <MODIFIERASSIGNMENTS/>
-    </PLUGIN>
-    <PLUGIN type="level" id="1022" enabled="1"/>
-    <OUTPUTDEVICES>
-      <DEVICE name="(default audio output)"/>
-    </OUTPUTDEVICES>
-  </TRACK>
-  <TRACK id="1025" name="Sung">
-    <MODIFIERS/>
-    <CLIPSLOTS/>
-    <AUDIOCLIP name="hook_A_human" start="0.0" length="10.90909090909091" offset="0.0"
-               id="1049" source="..\kanye-citypop-02\vocals\hook_A_human.wav"
-               sync="0" elastiqueMode="0" pan="0.0" colour="ff00ffaa" proxyAllowed="1"
-               resamplingQuality="lagrange" autoTempo="0" autoPitch="0" gain="-3.0">
-      <LOOPINFO rootNote="-1" numBeats="16.43986666666666" oneShot="0" denominator="4"
-                numerator="4" bpm="0.0" inMarker="0" outMarker="-1"/>
-      <AUTOMATIONCURVES/>
-    </AUDIOCLIP>
     <AUDIOCLIP name="hook_A_human" start="32.72727272727273" length="10.90909090909091"
-               offset="0.0" id="1051" source="..\kanye-citypop-02\vocals\hook_A_human.wav"
-               sync="0" elastiqueMode="0" pan="0.0" colour="ff00ffaa" proxyAllowed="1"
+               offset="0.0" id="1037" source="..\kanye-citypop-02\vocals\hook_A_human.wav"
+               sync="0" elastiqueMode="0" pan="0.0" colour="ff00ff55" proxyAllowed="1"
                resamplingQuality="lagrange" autoTempo="0" autoPitch="0">
       <LOOPINFO rootNote="-1" numBeats="16.43986666666666" oneShot="0" denominator="4"
                 numerator="4" bpm="0.0" inMarker="0" outMarker="-1"/>
       <AUTOMATIONCURVES/>
     </AUDIOCLIP>
     <AUDIOCLIP name="hook_A_human" start="43.63636363636363" length="10.90909090909091"
-               offset="0.0" id="1055" source="..\kanye-citypop-02\vocals\hook_A_human.wav"
-               sync="0" elastiqueMode="0" pan="0.0" colour="ff00ffaa" proxyAllowed="1"
+               offset="0.0" id="1041" source="..\kanye-citypop-02\vocals\hook_A_human.wav"
+               sync="0" elastiqueMode="0" pan="0.0" colour="ff00ff55" proxyAllowed="1"
                resamplingQuality="lagrange" autoTempo="0" autoPitch="0">
       <LOOPINFO rootNote="-1" numBeats="16.43986666666666" oneShot="0" denominator="4"
                 numerator="4" bpm="0.0" inMarker="0" outMarker="-1"/>
       <AUTOMATIONCURVES/>
     </AUDIOCLIP>
     <AUDIOCLIP name="hook_A_human" start="76.36363636363636" length="10.90909090909091"
-               offset="0.0" id="1053" source="..\kanye-citypop-02\vocals\hook_A_human.wav"
-               sync="0" elastiqueMode="0" pan="0.0" colour="ff00ffaa" proxyAllowed="1"
+               offset="0.0" id="1039" source="..\kanye-citypop-02\vocals\hook_A_human.wav"
+               sync="0" elastiqueMode="0" pan="0.0" colour="ff00ff55" proxyAllowed="1"
                resamplingQuality="lagrange" autoTempo="0" autoPitch="0">
       <LOOPINFO rootNote="-1" numBeats="16.43986666666666" oneShot="0" denominator="4"
                 numerator="4" bpm="0.0" inMarker="0" outMarker="-1"/>
       <AUTOMATIONCURVES/>
     </AUDIOCLIP>
     <AUDIOCLIP name="hook_A_human" start="87.27272727272727" length="10.90909090909091"
-               offset="0.0" id="1057" source="..\kanye-citypop-02\vocals\hook_A_human.wav"
-               sync="0" elastiqueMode="0" pan="0.0" colour="ff00ffaa" proxyAllowed="1"
+               offset="0.0" id="1043" source="..\kanye-citypop-02\vocals\hook_A_human.wav"
+               sync="0" elastiqueMode="0" pan="0.0" colour="ff00ff55" proxyAllowed="1"
                resamplingQuality="lagrange" autoTempo="0" autoPitch="0">
       <LOOPINFO rootNote="-1" numBeats="16.43986666666666" oneShot="0" denominator="4"
                 numerator="4" bpm="0.0" inMarker="0" outMarker="-1"/>
       <AUTOMATIONCURVES/>
     </AUDIOCLIP>
-    <PLUGIN type="4bandEq" id="1028" enabled="1" remapOnTempoChange="1" loFreq="160.0"
+    <PLUGIN type="4bandEq" id="1023" enabled="1" remapOnTempoChange="1" loFreq="160.0"
             loGain="-6.0" midFreq1="320.0" midGain1="-2.5" midQ1="1.0" midFreq2="6500.0"
             midGain2="-2.0" midQ2="2.0" hiFreq="11000.0" hiGain="1.5">
       <MODIFIERASSIGNMENTS/>
     </PLUGIN>
-    <PLUGIN type="compressor" id="1029" enabled="1" remapOnTempoChange="1"
+    <PLUGIN type="compressor" id="1024" enabled="1" remapOnTempoChange="1"
             threshold="0.1000000014901161" ratio="0.3333333432674408" attack="12.0"
             release="140.0">
       <MODIFIERASSIGNMENTS/>
     </PLUGIN>
-    <PLUGIN type="auxsend" id="1042" enabled="1" quickParamName="send level"
+    <PLUGIN type="auxsend" id="1031" enabled="1" quickParamName="send level"
             remapOnTempoChange="1" busNum="0" auxSendSliderPos="0.4493289589881897">
       <MODIFIERASSIGNMENTS/>
     </PLUGIN>
-    <PLUGIN type="volume" id="1026" enabled="1" remapOnTempoChange="1" volume="0.8913661241531372">
+    <PLUGIN type="volume" id="1021" enabled="1" remapOnTempoChange="1" volume="0.8564151525497437">
       <MODIFIERASSIGNMENTS/>
     </PLUGIN>
-    <PLUGIN type="level" id="1027" enabled="1"/>
+    <PLUGIN type="level" id="1022" enabled="1">
+      <MODIFIERASSIGNMENTS/>
+    </PLUGIN>
     <OUTPUTDEVICES>
       <DEVICE name="(default audio output)"/>
     </OUTPUTDEVICES>
   </TRACK>
-  <TRACK id="1030" name="Rap A dbl">
+  <TRACK id="1025" name="Verb">
     <MODIFIERS/>
     <CLIPSLOTS/>
-    <AUDIOCLIP name="rap-a-dbl_verse_rap" start="10.90909090909091" length="22.2293125"
-               offset="0.0" id="1059" source="vocals\rap-a-dbl_verse_rap.wav"
-               sync="0" elastiqueMode="0" pan="0.0" colour="ff00ffff" proxyAllowed="1"
-               resamplingQuality="lagrange" autoTempo="0" autoPitch="0" gain="-4.0">
-      <LOOPINFO rootNote="-1" numBeats="32.60299166666666" oneShot="0" denominator="4"
-                numerator="4" bpm="0.0" inMarker="0" outMarker="-1"/>
-      <AUTOMATIONCURVES/>
-    </AUDIOCLIP>
-    <PLUGIN type="4bandEq" id="1033" enabled="1" remapOnTempoChange="1" loFreq="120.0"
-            loGain="-8.0" midFreq2="3200.0" midGain2="3.5" hiFreq="9000.0"
-            hiGain="2.5">
+    <PLUGIN type="auxreturn" id="1028" enabled="1" remapOnTempoChange="1"
+            busNum="0">
       <MODIFIERASSIGNMENTS/>
     </PLUGIN>
-    <PLUGIN type="compressor" id="1034" enabled="1" remapOnTempoChange="1"
-            threshold="0.1000000014901161" ratio="0.25" attack="8.0" release="90.0">
-      <MODIFIERASSIGNMENTS/>
-    </PLUGIN>
-    <PLUGIN type="auxsend" id="1043" enabled="1" quickParamName="send level"
-            remapOnTempoChange="1" busNum="0" auxSendSliderPos="0.2231301665306091">
-      <MODIFIERASSIGNMENTS/>
-    </PLUGIN>
-    <PLUGIN type="volume" id="1031" enabled="1" remapOnTempoChange="1" pan="0.3499999940395355"
-            volume="0.9753099083900452">
-      <MODIFIERASSIGNMENTS/>
-    </PLUGIN>
-    <PLUGIN type="level" id="1032" enabled="1"/>
-    <OUTPUTDEVICES>
-      <DEVICE name="(default audio output)"/>
-    </OUTPUTDEVICES>
-  </TRACK>
-  <TRACK id="1035" name="Verb">
-    <MODIFIERS/>
-    <OUTPUTDEVICES>
-      <DEVICE name="(default audio output)"/>
-    </OUTPUTDEVICES>
-    <CLIPSLOTS/>
-    <PLUGIN type="auxreturn" id="1038" enabled="1" remapOnTempoChange="1"
-            busNum="0"/>
     <PLUGIN type="vst" uniqueId="c6552468" uid="83648b7a" filename="D:\0.Musicoma\sounds\plugins\vst3\DragonflyPlateReverb.vst3\Contents\x86_64-win\DragonflyPlateReverb.vst3"
-            name="Dragonfly Plate Reverb" manufacturer="Michael Willis" id="1039"
+            name="Dragonfly Plate Reverb" manufacturer="Michael Willis" id="1029"
             enabled="1" remapOnTempoChange="1" state="422.VMjLgzY....O+fWarAhckI2bo8la8HRLt.iHfTlai8FYo41Y8HRUTYTK3HxO9.BOVMEUy.Ea0cVZtMEcgQWY9vSRC8Vav8lak4Fc9HyLx3RY3TTV1kULWkWTWgkdUEyUnUULY8FMwbUYA4hX3UULhsVTG4xP2YUVmkzQHA0cVgkdUYjKkgSQYYWVwbUdQcEV5UULWsFMFkUY3TjKkgSQYYWVwbkcEwlXmAiUYoWUrIVd3rFVqMlUZQGNvbkKPwlXzfSQgsVVWkkbA4hS14BTYcVRGEFM3TTXqk0UYIWPlwjct.EVxMVLgg2ZFMlavXjK24hci8VTFMlaAAES14xPtXWRWkkZUYTXms1QtXmKtj0ZMYEVzDjKLQGTCwjctLDS14xPLAiZo0jK1ESXxfCLXASTG4BdtLDStXlUZ01YwbUZUczXtPTZMYmKCwjKTYEV3cmUjUVTVg0bAcjK2wzPLYmKC4RY3TTV1kULWYWQrI1YvXUV5UEahkGNUkEcQEyUkEjYq3hK77RRC8Vav8lak4Fc9vyKVMEUy.Ea0cVZtMEcgQWY9.."
             base64:layout="99.LETVOUEU..P.BjjSPUEUSA..ADfPUME.AHPZtQVY3AP.ED......rEVduUGc.DPAEvDHRA..OUEUPUEUSA..ADfPUME.AHPZtQVY3AP.ED......rEVduUGc.DPAEvDHRA..">
       <MODIFIERASSIGNMENTS/>
     </PLUGIN>
-    <PLUGIN type="volume" id="1036" enabled="1" remapOnTempoChange="1" volume="0.5488116145133972">
+    <PLUGIN type="volume" id="1026" enabled="1" remapOnTempoChange="1" volume="0.5488116145133972">
       <MODIFIERASSIGNMENTS/>
     </PLUGIN>
-    <PLUGIN type="level" id="1037" enabled="1"/>
+    <PLUGIN type="level" id="1027" enabled="1">
+      <MODIFIERASSIGNMENTS/>
+    </PLUGIN>
+    <OUTPUTDEVICES>
+      <DEVICE name="(default audio output)"/>
+    </OUTPUTDEVICES>
   </TRACK>
 </EDIT>

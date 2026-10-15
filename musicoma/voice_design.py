@@ -12,6 +12,7 @@ Claude 가 느낌을 조정 = 설명을 고쳐 쓰거나(새 목소리) voice_ch
 import json
 import os
 import random
+import re
 import subprocess
 from pathlib import Path
 
@@ -228,4 +229,67 @@ def rap(voice, lines, bpm, out, start_beat=0.0, beats_per_line=4, style="confide
     meta = {"voice": voice, "voice_info": info(voice), "bpm": bpm, "start_beat": 0, "style": style, "lock": lock,
             "seed": seed, "lines": report}
     out.with_suffix(".json").write_text(json.dumps(meta, ensure_ascii=False, indent=1), encoding="utf-8")
+    return str(out), report
+
+
+
+def _clean(t):
+    return re.sub(r"[^a-z0-9]", "", t.lower())
+
+
+def rap_pairs(voice, lines, bpm, out, beats_per_line=4, spoken=None, style="", lock=0.8, seed=0, lang="en",
+              squeeze=(0.85, 1.15)):
+    """두 줄씩 이어 말하게 해서(한 줄씩 끊으면 '낭독'이 된다) 박자에 붙인다. 10-15 본인 "중얼거림/내레이션" 대응.
+    spoken = 실제로 말하게 할 표기(쉼표·대시·느낌표로 끊어 읽기와 강세를 적은 것). 없으면 lines 그대로.
+    정렬: 받아쓰기 단어 시각 → 글자 수 누적으로 두 줄 경계 찾기 → 줄마다 flow()·warp() 로 beats_per_line 박에."""
+    out = Path(out).resolve()
+    from .layout import work_dir
+    work = work_dir(out, "pairs")
+    spoken = spoken or lines
+    pairs = [(i, spoken[i:i + 2], lines[i:i + 2]) for i in range(0, len(lines), 2)]
+    raws = [work / f"pair_{k:02d}.wav" for k in range(len(pairs))]
+    speak_many(voice, [" ".join(sp) for _, sp, _ in pairs], raws, style=style, seed=seed)
+    spb = 60.0 / bpm
+    placed, report = [], []
+    for (i, sp, ln), rp in zip(pairs, raws):
+        y, sr = sf.read(str(rp), dtype="float32")
+        y = y.mean(1) if y.ndim > 1 else y
+        if sr != SR:
+            y = librosa.resample(y, orig_sr=sr, target_sr=SR)
+        y, _ = _trim(y, SR)
+        tmp = work / f"trim_{i:02d}.wav"
+        sf.write(str(tmp), y, SR)
+        ws = words(tmp, lang)
+        # 두 줄 경계: 첫 줄 글자 수만큼 단어를 채운 지점
+        target = len(_clean(ln[0]))
+        acc, k = 0, 0
+        for k, w in enumerate(ws):
+            acc += len(_clean(w["w"]))
+            if acc >= target - 1:
+                break
+        cut = (ws[k]["e"] + ws[k + 1]["s"]) / 2 if k + 1 < len(ws) else len(y) / SR
+        segs = [(0.0, cut, ws[:k + 1])] + ([(cut, len(y) / SR, ws[k + 1:])] if len(ln) > 1 else [])
+        for j, (a, b, wl) in enumerate(segs):
+            seg = y[int(a * SR): int(b * SR)]
+            seg, off = _trim(seg, SR, 45)
+            wl = [{**w, "s": max(0.0, w["s"] - a - off), "e": w["e"] - a - off} for w in wl]
+            ms, md = flow(wl, len(seg) / SR, bpm, beats_per_line, lock=lock, squeeze=squeeze)
+            z = warp(seg, SR, ms, md)
+            f = int(0.006 * SR)
+            if len(z) > 2 * f:
+                z[:f] *= np.linspace(0, 1, f)
+                z[-f:] *= np.linspace(1, 0, f)
+            placed.append(((i + j) * beats_per_line, z))
+            report.append({"line": ln[j], "spoken": sp[j] if j < len(sp) else "", "start_beat": (i + j) * beats_per_line,
+                           "stretch": round(md[-1] / max(ms[-1], 1e-3), 3)})
+    end = max(int(b * spb * SR) + len(z) for b, z in placed)
+    mix = np.zeros(end + SR, np.float32)
+    for b, z in placed:
+        s0 = int(b * spb * SR)
+        mix[s0: s0 + len(z)] += z
+    mix = mix / (np.abs(mix).max() + 1e-9) * 0.89
+    sf.write(str(out), np.stack([mix, mix], 1), SR, subtype="PCM_24")
+    out.with_suffix(".json").write_text(json.dumps({"voice": voice, "mode": "pairs", "bpm": bpm, "style": style,
+                                                    "lock": lock, "seed": seed, "lines": report},
+                                                   ensure_ascii=False, indent=1), encoding="utf-8")
     return str(out), report

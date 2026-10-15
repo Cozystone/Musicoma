@@ -189,7 +189,7 @@ def score_take(path, lyrics, lang):
 
 
 def sing_svc(voice, lyrics, bpm, melody=None, notes=None, out=None, lang="ko", seed=0, humanize=None,
-             n_steps=32, cfg=5.0, sample_rate=48000, takes=3):
+             n_steps=32, cfg=5.0, sample_rate=48000, takes=3, prosody=0.0):
     """takes 개를 불러 받아쓰기로 가장 또렷한 것을 고른다(녹음실의 테이크 고르기). 점수는 .json 에 남긴다."""
     import pyworld as pw
     from .arrange import melody as parse_melody
@@ -207,6 +207,18 @@ def sing_svc(voice, lyrics, bpm, melody=None, notes=None, out=None, lang="ko", s
     n = int(np.ceil(len(g) / (SR / FPS)))
     f0 = np.pad(f0, (0, max(0, n - len(f0))))[:n]
     gf0 = np.pad(gf0, (0, max(0, n - len(gf0))))[:n]
+    if prosody > 0:
+        # 말소리의 잔 억양(0.3초 이동 중앙값 대비 굴곡)을 악보 음높이에 섞는다 — 악보만 따르면 오토튠처럼 들림
+        from scipy.ndimage import median_filter
+        lg = np.where(gf0 > 0, np.log(np.maximum(gf0, 1e-3)), np.nan)
+        base = np.copy(lg)
+        idx = np.where(~np.isnan(lg))[0]
+        if len(idx) > 5:
+            base[np.isnan(base)] = np.interp(np.where(np.isnan(base))[0], idx, lg[idx])
+            dev = lg - median_filter(base, size=15)
+            dev = np.nan_to_num(dev)
+            ok = (f0 > 0) & (gf0 > 0)
+            f0[ok] = f0[ok] * np.exp(prosody * np.clip(dev[ok], -0.35, 0.35))
     f0[gf0 <= 0] = 0.0
     f0 = _fill_short_gaps(f0)
     prompt = vd.VOICES / voice / "design.wav"

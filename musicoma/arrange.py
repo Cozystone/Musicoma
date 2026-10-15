@@ -354,7 +354,7 @@ def build(spec, render=True, balance=None, label=None, log=print):
         targets = mix.get("balance_lu") or (load_style(spec["style"]).get("mix", {}).get("balance_lu") if spec.get("style") else None)
         if targets:
             r = s.balance(targets)
-            log("balance: " + ", ".join(f"{m['track']} {m['moved_db']:+.1f}" for m in r["moves"]))
+            log("balance: " + ", ".join(f"{m['track']} {m['moved_db']:+.1f}(p{m.get('pass', 1)})" for m in r["moves"]))
     report = s.render(lufs=mix.get("target_lufs"), label=label) if render else None
     try:
         from .layout import write_readme

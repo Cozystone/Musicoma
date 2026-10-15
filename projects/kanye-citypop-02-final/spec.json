@@ -3,7 +3,7 @@
  "bpm": 88,
  "key": "A major",
  "style": "chipmunk-soul",
- "brief": "kanye-citypop-02 v1 비트(그대로) + 하이톤 노래 훅(인트로 티저·훅) → 남자 랩(더블) · 벌스2 듀엣",
+ "brief": "kanye-citypop-02 v1 비트(그대로) · 인트로 비움 → 랩(ACE-Step 이 비트를 듣고 생성, 벌스1 seed5·벌스2 seed4 참조) → 하이톤 노래 훅 ×2",
  "sections": [
   {
    "name": "intro",
@@ -44,58 +44,28 @@
     }
    ]
   },
-  "Rap A": {
-   "role": "rap vocal A",
+  "Rap": {
+   "role": "rap vocal (ACE-Step lego, generated over the beat)",
    "sends": {
-    "0": -20
+    "0": -22
    },
    "fx": [
     {
      "device": "eq",
      "params": {
-      "Low-pass freq": 120,
-      "Low-pass gain": -8,
+      "Low-pass freq": 110,
+      "Low-pass gain": -6,
       "Mid freq 2": 3200,
-      "Mid gain 2": 3.5,
-      "High-pass freq": 9000,
-      "High-pass gain": 2.5
+      "Mid gain 2": 1.5
      }
     },
     {
      "device": "compressor",
      "params": {
-      "threshold": -20,
-      "ratio": 4,
-      "attack": 8,
-      "release": 90
-     }
-    }
-   ]
-  },
-  "Rap C": {
-   "role": "rap vocal C",
-   "sends": {
-    "0": -20
-   },
-   "fx": [
-    {
-     "device": "eq",
-     "params": {
-      "Low-pass freq": 120,
-      "Low-pass gain": -8,
-      "Mid freq 2": 3200,
-      "Mid gain 2": 3.5,
-      "High-pass freq": 9000,
-      "High-pass gain": 2.5
-     }
-    },
-    {
-     "device": "compressor",
-     "params": {
-      "threshold": -20,
-      "ratio": 4,
-      "attack": 8,
-      "release": 90
+      "threshold": -22,
+      "ratio": 3,
+      "attack": 10,
+      "release": 100
      }
     }
    ]
@@ -131,35 +101,6 @@
      }
     }
    ]
-  },
-  "Rap A dbl": {
-   "role": "rap double A",
-   "pan": 0.35,
-   "sends": {
-    "0": -24
-   },
-   "fx": [
-    {
-     "device": "eq",
-     "params": {
-      "Low-pass freq": 120,
-      "Low-pass gain": -8,
-      "Mid freq 2": 3200,
-      "Mid gain 2": 3.5,
-      "High-pass freq": 9000,
-      "High-pass gain": 2.5
-     }
-    },
-    {
-     "device": "compressor",
-     "params": {
-      "threshold": -20,
-      "ratio": 4,
-      "attack": 8,
-      "release": 90
-     }
-    }
-   ]
   }
  },
  "buses": [
@@ -182,36 +123,13 @@
    }
   },
   {
-   "track": "Rap A",
-   "in": [
-    "verse"
-   ],
-   "rap": {
-    "voice": "gen-rapper-a",
-    "lines": [
-     "Woke up in the city with the vinyl on repeat",
-     "Mama in the kitchen humming something kind of sweet",
-     "Dusty little record from a summer in Tokyo",
-     "Speed it up a little now the angels sing soprano",
-     "I was in the basement with a sampler and a dream",
-     "Everybody laughing saying that is not a team",
-     "Now I got the strings and I got the horns on top",
-     "Turn the city pop into a hip-hop shop"
-    ],
-    "beats_per_line": 4,
-    "seed": 11,
-    "lock": 0.88
-   }
-  },
-  {
-   "track": "Sung",
+   "track": "Rap",
    "in": [
     "intro"
    ],
    "audio": {
-    "path": "D:\\0.Musicoma\\projects\\kanye-citypop-02\\vocals\\hook_A_human.wav",
-    "gain_db": -3,
-    "length": 16
+    "path": "D:\\0.Musicoma\\projects\\kanye-citypop-02-final\\vocals\\rap_lego_full.wav",
+    "length": 163.7
    }
   },
   {
@@ -233,98 +151,6 @@
    "audio": {
     "path": "D:\\0.Musicoma\\projects\\kanye-citypop-02\\vocals\\hook_A_human.wav",
     "length": 16
-   }
-  },
-  {
-   "track": "Rap A dbl",
-   "in": [
-    "verse"
-   ],
-   "rap": {
-    "voice": "gen-rapper-a",
-    "lines": [
-     "Woke up in the city with the vinyl on repeat",
-     "Mama in the kitchen humming something kind of sweet",
-     "Dusty little record from a summer in Tokyo",
-     "Speed it up a little now the angels sing soprano",
-     "I was in the basement with a sampler and a dream",
-     "Everybody laughing saying that is not a team",
-     "Now I got the strings and I got the horns on top",
-     "Turn the city pop into a hip-hop shop"
-    ],
-    "beats_per_line": 4,
-    "seed": 12,
-    "lock": 0.88,
-    "gain_db": -4,
-    "tail_words": 2
-   }
-  },
-  {
-   "track": "Rap A",
-   "in": [
-    "verse2"
-   ],
-   "offset": 0,
-   "rap": {
-    "voice": "gen-rapper-a",
-    "lines": [
-     "Back then I was broke with a keyboard and a hope",
-     "Writing on a napkin with a pencil and a quote"
-    ],
-    "beats_per_line": 4,
-    "seed": 31,
-    "lock": 0.88
-   }
-  },
-  {
-   "track": "Rap C",
-   "in": [
-    "verse2"
-   ],
-   "offset": 8,
-   "rap": {
-    "voice": "gen-rapper-c",
-    "lines": [
-     "Yo I am the new kid with the old soul in the bag",
-     "Pitch it up a third and let the chorus wave a flag"
-    ],
-    "beats_per_line": 4,
-    "seed": 32,
-    "lock": 0.88
-   }
-  },
-  {
-   "track": "Rap A",
-   "in": [
-    "verse2"
-   ],
-   "offset": 16,
-   "rap": {
-    "voice": "gen-rapper-a",
-    "lines": [
-     "Now the lights are blinking from the Shibuya to the coast",
-     "So I raise a glass to the ones who matter most"
-    ],
-    "beats_per_line": 4,
-    "seed": 33,
-    "lock": 0.88
-   }
-  },
-  {
-   "track": "Rap C",
-   "in": [
-    "verse2"
-   ],
-   "offset": 24,
-   "rap": {
-    "voice": "gen-rapper-c",
-    "lines": [
-     "Midnight in the city and we running out of time",
-     "Speed it up and slow it down and let the city shine"
-    ],
-    "beats_per_line": 4,
-    "seed": 34,
-    "lock": 0.88
    }
   }
  ],
@@ -333,10 +159,8 @@
   "target_lufs": -10.5,
   "balance_lu": {
    "beat": 0,
-   "rap a dbl": -4.0,
-   "rap a": 3.0,
-   "rap c": 3.0,
-   "sung": 2.0
+   "rap": 3.0,
+   "sung": 1.5
   }
  }
 }

@@ -1,0 +1,371 @@
+{
+ "hiphop": {
+  "songs": [
+   "through-the-wire-kanye-west"
+  ],
+  "tempo": {
+   "median": 83.35,
+   "min": 83.35,
+   "max": 83.35,
+   "n": 1
+  },
+  "vocal_offset_ms": {
+   "median": 7.1,
+   "min": 7.1,
+   "max": 7.1,
+   "n": 1
+  },
+  "vocal_std_ms": {
+   "median": 48.1,
+   "min": 48.1,
+   "max": 48.1,
+   "n": 1
+  },
+  "vocal_on_grid": {
+   "median": 0.19,
+   "min": 0.19,
+   "max": 0.19,
+   "n": 1
+  },
+  "syllables_per_sec_verse": {
+   "median": 3.86,
+   "min": 3.86,
+   "max": 3.86,
+   "n": 1
+  },
+  "syllables_per_sec_hook": {
+   "median": 1.18,
+   "min": 1.18,
+   "max": 1.18,
+   "n": 1
+  },
+  "bars_multiple_of_4": {
+   "median": 0.1,
+   "min": 0.1,
+   "max": 0.1,
+   "n": 1
+  },
+  "transition_share": {
+   "median": 0.38,
+   "min": 0.38,
+   "max": 0.38,
+   "n": 1
+  },
+  "swing": {
+   "median": 0.48,
+   "min": 0.48,
+   "max": 0.48,
+   "n": 1
+  },
+  "section_bars_seen": [
+   1,
+   4,
+   10,
+   15,
+   23
+  ],
+  "vocal_change_at_boundaries_db": {
+   "p10": -6.4,
+   "p90": 1.9
+  }
+ },
+ "all": {
+  "songs": [
+   "through-the-wire-kanye-west",
+   "1985-이문세-빗속에서-싱크가사-lyric-video-디스크맨-discman",
+   "yasuha-flyday-chinatown-musical-collection",
+   "이젠-잊기로-해요-kim-wan-sun"
+  ],
+  "tempo": {
+   "median": 91.36,
+   "min": 66.26,
+   "max": 123.05,
+   "n": 4
+  },
+  "vocal_offset_ms": {
+   "median": 0.75,
+   "min": -10.1,
+   "max": 7.1,
+   "n": 4
+  },
+  "vocal_std_ms": {
+   "median": 45.35,
+   "min": 38.4,
+   "max": 65.0,
+   "n": 4
+  },
+  "vocal_on_grid": {
+   "median": 0.18,
+   "min": 0.11,
+   "max": 0.2,
+   "n": 4
+  },
+  "syllables_per_sec_verse": {
+   "median": 2.28,
+   "min": 0.79,
+   "max": 3.86,
+   "n": 4
+  },
+  "syllables_per_sec_hook": {
+   "median": 0.85,
+   "min": 0.52,
+   "max": 1.38,
+   "n": 4
+  },
+  "bars_multiple_of_4": {
+   "median": 0.2,
+   "min": 0.1,
+   "max": 0.4,
+   "n": 4
+  },
+  "transition_share": {
+   "median": 0.32,
+   "min": 0.12,
+   "max": 0.38,
+   "n": 4
+  },
+  "swing": {
+   "median": 0.52,
+   "min": 0.48,
+   "max": 0.58,
+   "n": 4
+  },
+  "section_bars_seen": [
+   1,
+   2,
+   3,
+   4,
+   6,
+   7,
+   8,
+   9,
+   10,
+   12,
+   13,
+   15,
+   16,
+   18,
+   19,
+   22,
+   23,
+   28
+  ],
+  "vocal_change_at_boundaries_db": {
+   "p10": -5.9,
+   "p90": 9.2
+  }
+ },
+ "kballad": {
+  "songs": [
+   "1985-이문세-빗속에서-싱크가사-lyric-video-디스크맨-discman"
+  ],
+  "tempo": {
+   "median": 66.26,
+   "min": 66.26,
+   "max": 66.26,
+   "n": 1
+  },
+  "vocal_offset_ms": {
+   "median": 0.1,
+   "min": 0.1,
+   "max": 0.1,
+   "n": 1
+  },
+  "vocal_std_ms": {
+   "median": 65.0,
+   "min": 65.0,
+   "max": 65.0,
+   "n": 1
+  },
+  "vocal_on_grid": {
+   "median": 0.11,
+   "min": 0.11,
+   "max": 0.11,
+   "n": 1
+  },
+  "syllables_per_sec_verse": {
+   "median": 0.79,
+   "min": 0.79,
+   "max": 0.79,
+   "n": 1
+  },
+  "syllables_per_sec_hook": {
+   "median": 0.52,
+   "min": 0.52,
+   "max": 0.52,
+   "n": 1
+  },
+  "bars_multiple_of_4": {
+   "median": 0.2,
+   "min": 0.2,
+   "max": 0.2,
+   "n": 1
+  },
+  "transition_share": {
+   "median": 0.25,
+   "min": 0.25,
+   "max": 0.25,
+   "n": 1
+  },
+  "swing": {
+   "median": 0.58,
+   "min": 0.58,
+   "max": 0.58,
+   "n": 1
+  },
+  "section_bars_seen": [
+   1,
+   2,
+   6,
+   8,
+   19
+  ],
+  "vocal_change_at_boundaries_db": {
+   "p10": -3.2,
+   "p90": 6.1
+  }
+ },
+ "citypop": {
+  "songs": [
+   "yasuha-flyday-chinatown-musical-collection"
+  ],
+  "tempo": {
+   "median": 123.05,
+   "min": 123.05,
+   "max": 123.05,
+   "n": 1
+  },
+  "vocal_offset_ms": {
+   "median": 1.4,
+   "min": 1.4,
+   "max": 1.4,
+   "n": 1
+  },
+  "vocal_std_ms": {
+   "median": 38.4,
+   "min": 38.4,
+   "max": 38.4,
+   "n": 1
+  },
+  "vocal_on_grid": {
+   "median": 0.2,
+   "min": 0.2,
+   "max": 0.2,
+   "n": 1
+  },
+  "syllables_per_sec_verse": {
+   "median": 3.06,
+   "min": 3.06,
+   "max": 3.06,
+   "n": 1
+  },
+  "syllables_per_sec_hook": {
+   "median": 1.38,
+   "min": 1.38,
+   "max": 1.38,
+   "n": 1
+  },
+  "bars_multiple_of_4": {
+   "median": 0.2,
+   "min": 0.2,
+   "max": 0.2,
+   "n": 1
+  },
+  "transition_share": {
+   "median": 0.12,
+   "min": 0.12,
+   "max": 0.12,
+   "n": 1
+  },
+  "swing": {
+   "median": 0.5,
+   "min": 0.5,
+   "max": 0.5,
+   "n": 1
+  },
+  "section_bars_seen": [
+   2,
+   3,
+   7,
+   9,
+   13,
+   16,
+   22
+  ],
+  "vocal_change_at_boundaries_db": {
+   "p10": -16.5,
+   "p90": 37.2
+  }
+ },
+ "kdance80s": {
+  "songs": [
+   "이젠-잊기로-해요-kim-wan-sun"
+  ],
+  "tempo": {
+   "median": 99.38,
+   "min": 99.38,
+   "max": 99.38,
+   "n": 1
+  },
+  "vocal_offset_ms": {
+   "median": -10.1,
+   "min": -10.1,
+   "max": -10.1,
+   "n": 1
+  },
+  "vocal_std_ms": {
+   "median": 42.6,
+   "min": 42.6,
+   "max": 42.6,
+   "n": 1
+  },
+  "vocal_on_grid": {
+   "median": 0.18,
+   "min": 0.18,
+   "max": 0.18,
+   "n": 1
+  },
+  "syllables_per_sec_verse": {
+   "median": 1.5,
+   "min": 1.5,
+   "max": 1.5,
+   "n": 1
+  },
+  "syllables_per_sec_hook": {
+   "median": 0.52,
+   "min": 0.52,
+   "max": 0.52,
+   "n": 1
+  },
+  "bars_multiple_of_4": {
+   "median": 0.4,
+   "min": 0.4,
+   "max": 0.4,
+   "n": 1
+  },
+  "transition_share": {
+   "median": 0.38,
+   "min": 0.38,
+   "max": 0.38,
+   "n": 1
+  },
+  "swing": {
+   "median": 0.54,
+   "min": 0.54,
+   "max": 0.54,
+   "n": 1
+  },
+  "section_bars_seen": [
+   1,
+   2,
+   12,
+   18,
+   19,
+   28
+  ],
+  "vocal_change_at_boundaries_db": {
+   "p10": 1.8,
+   "p90": 8.8
+  }
+ }
+}

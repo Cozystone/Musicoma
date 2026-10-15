@@ -219,6 +219,32 @@ def events_of(spec):
     return ev
 
 
+def regularity(spec, concept=None):
+    """정형성 검사 — '틀에 너무 맞는' 곡을 잡는다(10-15 본인: "칸예 곡은 정형적이지 않고 그게 매력").
+    무작위로 흩뜨리라는 게 아니라, 콘셉트에 근거한 비정형 결정이 최소 하나는 있어야 한다는 것."""
+    concept = concept or {}
+    secs = spec.get("sections", [])
+    issues, notes = [], []
+    bars = [s["bars"] for s in secs]
+    if secs and all(b % 4 == 0 for b in bars) and len(secs) >= 4:
+        issues.append("정형: 모든 구간이 4의 배수 마디 — 이야기 길이에 맞춘 구간(예 15·23마디)이나 1마디 전환이 없다")
+    by_name = defaultdict(list)
+    for s in secs:
+        by_name[s["name"]].append(s["bars"])
+    same = [n for n, v in by_name.items() if len(v) >= 2 and len(set(v)) == 1]
+    if len(same) >= 2 and not spec.get("events"):
+        notes.append(f"반복 구간({', '.join(same)})이 길이·사건 모두 같다")
+    locks = [p["rap"].get("lock", 0.75) for p in spec.get("parts", []) if "rap" in p]
+    if locks and min(locks) > 0.6:
+        issues.append(f"정형: 랩을 박자 격자에 {int(min(locks) * 100)}% 이상 당긴다 — 사람 래퍼는 ±20ms 안이 약 20%뿐"
+                      "(Through The Wire 분석). 생성 보컬(비트 조건)을 쓰거나 lock ≤ 0.4")
+    irr = concept.get("irregular") or []
+    if concept and not irr:
+        issues.append("정형: 콘셉트에 '비정형 결정'(irregular: [{what, why}])이 하나도 없다 — 예: 벌스를 이야기 길이만큼, "
+                      "훅 앞 1마디 전환, 비트 체인지, 마지막 훅만 다르게")
+    return {"issues": issues, "notes": notes, "section_bars": bars}
+
+
 def critique(spec, concept=None):
     concept = concept or spec.get("concept") or {}
     tl = timeline(spec)
@@ -243,6 +269,8 @@ def critique(spec, concept=None):
         issues.append("동기: 원형 그대로만 반복 — 변형(리듬·전위·재화성)이 없다")
     if not ev:
         issues.append("사건: 정지·비트 체인지·필터 드롭·조바꿈 같은 '그 순간'이 하나도 없다")
+    reg = regularity(spec, concept)
+    issues += reg["issues"]
     score = max(0, 100 - 12 * len(issues))
     return {"score": score, "issues": issues, "repetition": rep, "contrast": con, "clashes": cl, "motif": mot,
             "events": ev, "questions": QUESTIONS}

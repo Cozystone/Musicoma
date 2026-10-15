@@ -271,7 +271,18 @@ class Song:
                          "width": rep["stereo"]["width_side_to_mid_db"]})
         return rows
 
-    def balance(self, targets=None, reference="drums", max_move_db=12.0):
+    def balance(self, targets=None, reference="drums", max_move_db=12.0, passes=3, tolerance_lu=0.7):
+        """여러 번 재고 고친다 — 트랙 볼륨이 컴프레서 앞에 있으면 올린 만큼 안 올라가서(10-15 kanye 랩이 묻힌 원인),
+        한 번에 맞추면 오차가 남는다. 매번 다시 렌더해 측정, 모두 tolerance 안이면 멈춘다."""
+        all_moves, res = [], None
+        for i in range(passes):
+            res = self._balance_once(targets, reference, max_move_db, tolerance_lu)
+            all_moves += [{**m, "pass": i + 1} for m in res["moves"]]
+            if not res["moves"]:
+                break
+        return {"reference": res["reference"] if res else reference, "moves": all_moves}
+
+    def _balance_once(self, targets=None, reference="drums", max_move_db=12.0, tolerance_lu=0.5):
         """역할별 음량 비율 맞추기. targets = {트랙이름 또는 역할 키워드: 기준 대비 LU}.
 
         기준 트랙(reference) = 0. 예: {"drums": 0, "sample": -2, "bass": -3, "keys": -7}
@@ -304,10 +315,17 @@ class Song:
             if tgt is None or name == ref_name:
                 continue
             delta = max(-max_move_db, min(max_move_db, (ref_lufs + tgt) - r["lufs"]))
-            if abs(delta) < 0.5:
+            if abs(delta) < tolerance_lu:
                 continue
-            new_db = round(info[name].get("volume_db", 0) + delta, 1)
+            want = round(info[name].get("volume_db", 0) + delta, 1)
+            new_db = min(want, 6.0)                    # 트랙 페이더 최대 +6dB — 넘치는 만큼은 오디오 클립 게인으로
             self.e.call("track.set", {"track": name, "volume_db": new_db})
+            extra = round(want - new_db, 1)
+            if extra > 0.05:
+                for c in self.e.call("clip.list", {"track": name}):
+                    if c.get("type") == "audio":
+                        self.e.call("clip.set", {"track": name, "clip": c["clip"],
+                                                 "gain_db": round(c.get("gain_db", 0) + extra, 1)})
             moves.append({"track": name, "was_lu": round(r["lufs"] - ref_lufs, 1), "target_lu": tgt,
                           "volume_db": new_db, "moved_db": round(delta, 1)})
         self.save()

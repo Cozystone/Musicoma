@@ -74,3 +74,25 @@ def template(thesis="", genre_hint=""):
     """빈 콘셉트 + 원리 목록. Claude 가 채운다."""
     return {"thesis": thesis, "arc": [], "motif": {"melody": "", "why": ""}, "collision": [], "constraints": [],
             "events": [], "references": PRINCIPLES, "taste": [], "not": [], "genre_hint": genre_hint}
+
+
+
+def form_from_story(concept, beats_per_line=4, intro_bars=2, outro_bars=4, transition_bars=1):
+    """이야기(story)에서 구조를 만든다 — 틀(8·16마디)이 아니라 할 말의 길이로.
+    concept["story"] = [{"section": "verse", "lines": 15, "energy": 0.6, "into": "hook"}, ...]
+    한 줄 = beats_per_line 박. 에너지가 크게 뛰는 곳(≥0.3) 앞에는 1마디 전환을 넣는다(Through The Wire: 훅 앞 1마디).
+    반환: 설계서 sections 목록."""
+    story = concept.get("story") or []
+    secs = [{"name": "intro", "bars": intro_bars}] if intro_bars else []
+    prev_e = 0.0
+    for i, ch in enumerate(story):
+        bars = max(1, int(round(ch.get("lines", 8) * beats_per_line / 4)))
+        e = ch.get("energy", 0.5)
+        if transition_bars and i > 0 and e - prev_e >= 0.3:
+            secs.append({"name": f"turn{i}", "bars": transition_bars})
+        name = ch["section"]
+        secs.append({"name": name, "bars": bars})
+        prev_e = e
+    if outro_bars:
+        secs.append({"name": "outro", "bars": outro_bars})
+    return secs

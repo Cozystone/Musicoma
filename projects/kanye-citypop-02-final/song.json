@@ -4,28 +4,20 @@
  "key": "A major",
  "style": "chipmunk-soul",
  "time_sig": "4/4",
- "brief": "kanye-citypop-02 v1 비트(그대로) + 하이톤 노래 훅(인트로 티저·훅) → 남자 랩(더블) · 벌스2 듀엣",
- "created": "2026-10-15 10:13",
+ "brief": "kanye-citypop-02 v1 비트(그대로) · 인트로 비움 → 랩(ACE-Step 이 비트를 듣고 생성, 벌스1 seed5·벌스2 seed4 참조) → 하이톤 노래 훅 ×2",
+ "created": "2026-10-15 12:27",
  "tracks": {
   "Beat": {
    "sound": null,
    "role": "beat (kanye-citypop-02 v1, untouched)"
   },
-  "Rap A": {
+  "Rap": {
    "sound": null,
-   "role": "rap vocal A"
-  },
-  "Rap C": {
-   "sound": null,
-   "role": "rap vocal C"
+   "role": "rap vocal (ACE-Step lego, generated over the beat)"
   },
   "Sung": {
    "sound": null,
    "role": "sung hook vocal (high, kanye-citypop-02 v2 A_human)"
-  },
-  "Rap A dbl": {
-   "sound": null,
-   "role": "rap double A"
   },
   "Verb": {
    "sound": null,
