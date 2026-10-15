@@ -35,3 +35,5 @@ engine/scan_dead_mans_pedal.txt
 *.log
 projects/ableton-demo-import/
 works/*.log
+scratch/
+**/.work/

@@ -1,0 +1,3 @@
+// Musicoma 래퍼 — 원본 main.sfz 의 $sample_dir 을 정의(샘플은 ../Samples)
+#define $sample_dir ../Samples
+#include "main.sfz"

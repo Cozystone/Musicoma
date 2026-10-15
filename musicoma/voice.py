@@ -168,7 +168,7 @@ def tokens_from(melody_notes, lyrics, bpm):
             toks.append({"word": "<SP>", "pitch": 0, "seconds": (n["start"] - t) * spb, "type": 1})
         if wi >= len(words):
             raise ValueError(f"lyrics ran out at note {len(toks)} (notes need {len(melody_notes)} tokens)")
-        w = words[wi].strip(",.!?")
+        w = words[wi].strip(",.!?") or words[wi]
         wi += 1
         if w in ("+", "~", "-"):
             if last_word is None:
@@ -185,18 +185,24 @@ def tokens_from(melody_notes, lyrics, bpm):
     return toks
 
 
-def sing(voice, lyrics, bpm, melody=None, notes=None, out=None, language="English", control="melody",
-         humanize=None, seed=0, sample_rate=48000):
-    """멜로디(표기 또는 노트) + 가사 → 보컬 WAV. control='melody' 는 사람같은 f0 곡선을 쓴다(권장)."""
+def sing(voice, lyrics, bpm, melody=None, notes=None, out=None, language="English", control="score",
+         humanize=None, seed=0, sample_rate=48000, syllabify=True, preroll=False):
+    """멜로디(표기 또는 노트) + 가사 → 보컬 WAV.
+    control='score'(기본): 악보로 부름 — 가사가 또렷(SoulX 메인테이너 권장, 이슈 #33).
+    control='melody': 사람같은 f0 곡선을 강제 — 긴 음 위주 발라드에서만.
+    가사: 한 토큰 = 한 음표. 여러 음표에 걸친 단어는 'beau- ti- ful' 처럼 하이픈으로 음절을 나눈다.
+    syllabify: 음절별 음소 배치(기본). preroll: 자음을 박 앞에 — 10-15 A/B 에서 오히려 나빠서 기본 끔.
+    측정(100BPM 16분음, 3시드 평균 WER): 옛 방식 0.63 · score+단어 0.10 · score+음절 0.00 · +preroll 0.17."""
     from .arrange import melody as parse_melody
     if notes is None:
         notes, _ = parse_melody(melody, legato=1.0)
     toks = tokens_from(notes, lyrics, bpm)
     prompt_wav, prompt_json = _prompt_files(voice)
     out = (Path(out) if out else ROOT / "sounds/vocals" / f"{voice}_{abs(hash(lyrics)) % 10**6}.wav").resolve()
-    work = out.parent / (out.stem + "_soulx")
+    from .layout import work_dir
+    work = work_dir(out, "soulx")
     req = {"prompt_wav": str(prompt_wav), "prompt_json": str(prompt_json), "save_dir": str(work),
-           "language": language, "control": control, "tokens": toks}
+           "language": language, "control": control, "tokens": toks, "syllabify": syllabify, "preroll": preroll}
     if control == "melody":
         req["f0"] = human_f0(toks, seed=seed, **(humanize or {}))
     work.mkdir(parents=True, exist_ok=True)

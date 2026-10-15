@@ -178,7 +178,8 @@ def rap(voice, lines, bpm, out, start_beat=0.0, beats_per_line=4, style="confide
     """가사 줄들 → 한 개의 보컬 WAV(곡 박 0 기준으로 start_beat 에 놓임). 각 줄 = beats_per_line 박.
     lines 원소는 문자열 또는 {"text", "beats"}."""
     out = Path(out).resolve()
-    work = out.parent / (out.stem + "_lines")
+    from .layout import work_dir
+    work = work_dir(out, "lines")
     work.mkdir(parents=True, exist_ok=True)
     items = [l if isinstance(l, dict) else {"text": l} for l in lines]
     raws = [work / f"raw_{i:02d}.wav" for i in range(len(items))]

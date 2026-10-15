@@ -19,6 +19,13 @@
 
 파이썬은 `D:/0.Musicoma/.venv/Scripts/python.exe` (PYTHONIOENCODING=utf-8).
 
+## 파일 저장 규칙 (본인 10-15: "외부 공개 시 쓸데없는 파일이 섞여 알아보기 어렵지 않게")
+- 곡 폴더 `projects/<곡>/` 에 보이는 것 = `README.md`(자동) · `spec.json` · `song.json` · 편집 파일 · `renders/`(결과 wav+png) · `vocals/`(최종 보컬) · `versions/`.
+- 중간 파일(줄별 랩 원본·가이드·테이크·SoulX/SVC 작업·측정 스템·로그)은 **반드시 `.work/`** — 코드에서는 `musicoma.layout.work_dir(out, kind)`.
+- 테스트·실험·A/B 는 곡이 아니다 → `scratch/`(`layout.scratch(...)`). `projects/` 에 zz-* 를 새로 만들지 말 것.
+- 작업을 마치면 `tidy`(MCP) 로 정리 + README 갱신. 지우지 않고 옮기기만 한다.
+- 새 곡 스크립트는 `works/<곡>.py` 하나(설계서를 만들고 짓는 코드). 일회성 측정 코드는 `works/tests/`.
+
 ## 일하는 순서
 1. 요청 → `knowledge_style` 로 카드 찾기(여러 장르 섞임이면 둘 다 읽기). 이어지는 요청이면 `song_status` 먼저.
 2. 설계서(spec) 작성 → `build_spec`. 위치는 박(4/4: n마디 = 4n박), 섹션 기준.

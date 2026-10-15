@@ -1,0 +1,72 @@
+{
+ "name": "kanye-citypop-02-final",
+ "bpm": 88,
+ "key": "A major",
+ "style": "chipmunk-soul",
+ "time_sig": "4/4",
+ "brief": "kanye-citypop-02 v1 비트(그대로) + 생성 래퍼 2명 랩",
+ "created": "2026-10-15 09:27",
+ "tracks": {
+  "Beat": {
+   "sound": null,
+   "role": "beat (kanye-citypop-02 v1, untouched)"
+  },
+  "Rap A": {
+   "sound": null,
+   "role": "rap vocal A"
+  },
+  "Rap C": {
+   "sound": null,
+   "role": "rap vocal C"
+  },
+  "Hook A": {
+   "sound": null,
+   "role": "hook vocal A"
+  },
+  "Hook C": {
+   "sound": null,
+   "role": "hook double C"
+  },
+  "Verb": {
+   "sound": null,
+   "role": "return bus 0",
+   "bus": 0
+  }
+ },
+ "sections": [
+  {
+   "name": "intro",
+   "start_bar": 0,
+   "bars": 4
+  },
+  {
+   "name": "verse",
+   "start_bar": 4,
+   "bars": 8
+  },
+  {
+   "name": "hook",
+   "start_bar": 12,
+   "bars": 8
+  },
+  {
+   "name": "verse2",
+   "start_bar": 20,
+   "bars": 8
+  },
+  {
+   "name": "hook",
+   "start_bar": 28,
+   "bars": 8
+  },
+  {
+   "name": "outro",
+   "start_bar": 36,
+   "bars": 4
+  }
+ ],
+ "sources": [],
+ "history": [],
+ "versions": [],
+ "spec": "D:\\0.Musicoma\\projects\\kanye-citypop-02-final\\spec.json"
+}

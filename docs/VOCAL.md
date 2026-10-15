@@ -73,3 +73,18 @@
 - DiffSinger(MIT 원본, OpenVPI Apache-2.0 포크): sourceforge.net/projects/diffsinger.mirror
 - CSD(KAIST, CC BY-NC-SA 4.0): program.ismir2020.net/lbd_435.html · zenodo.org/record/4785016
 - 비상업 가중치 주의 예(Fish Speech): forasoft.com/blog/article/voice-cloning-synthesis
+
+## 10-15 오후 — 노래 품질 개선(측정)
+받아쓰기 오류율(낮을수록 또렷)로 비교. 노래 = 생성 목소리 gen-singer-b.
+
+| 방식 | 조건 | 오류율 |
+|---|---|---|
+| 옛 방식(SVS melody 모드, 단어 단위) | 영어 16분음 100BPM, 3시드 | 0.63 |
+| SVS score 모드 + 음절 나누기(`ev- ery`) | 같은 조건 | **0.00** |
+| + 자음 앞당기기(preroll) | 같은 조건 | 0.17 → 기본 끔 |
+| 한국어 SVC 경로(말소리 가이드 → 음표 정렬 → SoulX-SVC, cfg 5, 3테이크 중 최선) | 8분음 86BPM | **0.14** (도시의→도시에 = 같은 발음, 불→물 1글자) |
+| 한국어 16분음(0.17초/음절) | 86BPM | 가이드부터 0.33 — 너무 빠름. 한국어는 8분음 이상 권장 |
+
+- 원인(조사): SoulX melody 모드는 가사를 바꾸면 발음이 망가짐(메인테이너 이슈 #33) · 영어 단어 음소를 프레임에 반복 배치해서 짧은 음표면 음소가 통째로 빠짐 · 하이픈 음절이 쉼으로 바뀜.
+- 결정: 영어 = SVS score + 음절(`voice.sing`), 한국어·그 밖 = SVC 경로(`sing_svc`), 테이크 3개 중 받아쓰기로 고름(녹음실 방식). 설계서 `vocal` 파트는 가사에 한글이 있으면 자동으로 SVC.
+- 제외(라이선스): Vevo2(CC-BY-NC-ND), YingMusic v1(NC), DiffSinger 커뮤니티 보코더(NC-SA), TechSinger(불명).

@@ -15,6 +15,8 @@ keys:
   dx_ep:          {name: "DX 일렉피아노(80s)", sound: "Keys/DX EP", fx: [{device: chorus}], perform: {role: keys}}
   suitcase:       {name: "수트케이스", sound: "Keys/Soft Suitcase", perform: {role: keys}}
   organ:          {name: "오르간", sound: "Keys/Organ 2", perform: {role: keys, intensity: 0.5}}
+  wurlitzer:      {name: "부를리처 (실제 샘플)", sound: wurlitzer, fx: [{device: compressor, params: {threshold: -18, ratio: 2.5, attack: 15, release: 120}}], perform: {role: keys}}
+  cp80:           {name: "CP80 (80s 시티팝, 실제 샘플)", sound: cp80, fx: [{device: chorus}], perform: {role: keys}}
 
 bass:
   sub:        {name: "서브 (힙합·트랩)", sound: bass_sub, fx: [{device: lowpass, params: {frequency: 600}}], perform: {role: bass}}
@@ -23,11 +25,15 @@ bass:
   upright:    {name: "업라이트 (재즈)", sound: contrabass, perform: {role: bass, feel: laid_back}}
   synth_rubber: {name: "신스 · 러버 (하우스)", sound: "Basses/Rubber Bass", perform: {role: bass, feel: tight}}
   reese:      {name: "신스 · 와이드", sound: "Basses/Wide Bassline", perform: {role: bass, feel: tight}}
+  hollow_finger: {name: "핑거 베이스 (실제 샘플)", sound: bass_hollow_finger, fx: [{device: compressor, params: {threshold: -20, ratio: 3, attack: 20, release: 100}}], perform: {role: bass}}
+  picked:     {name: "피크 베이스 (실제 샘플)", sound: bass_picked, perform: {role: bass}}
+  upright_real: {name: "업라이트 피치카토 (실제 샘플)", sound: upright_bass, perform: {role: bass, feel: laid_back}}
 
 drums:
   boombap:    {name: "붐뱁 (건조·펀치)", sound: drums_acoustic_basic, fx: [{device: eq, params: {"Low-pass freq": 60, "Low-pass gain": 3, "Mid freq 1": 350, "Mid gain 1": -3, "Mid freq 2": 4500, "Mid gain 2": 2.5}}, {device: compressor, params: {threshold: -20, ratio: 4, attack: 20, release: 80, "output gain": 3}}], perform: {role: drums, feel: laid_back}}
   live_room:  {name: "라이브 · 룸", sound: drums_acoustic_full, fx: [{device: compressor, params: {threshold: -14, ratio: 2, attack: 30, release: 150}}], perform: {role: drums, feel: straight}}
   vintage:    {name: "빈티지 (60~70s)", sound: drums_vintage, fx: [{device: lowpass, params: {frequency: 9000}}], perform: {role: drums, feel: loose}}
+  rusty:      {name: "러스티 킷 (빈티지 실제 샘플 · 붐뱁)", sound: drums_rusty, fx: [{device: eq, params: {"Low-pass freq": 70, "Low-pass gain": 2.5, "Mid freq 1": 400, "Mid gain 1": -2.5, "Mid freq 2": 5000, "Mid gain 2": 2}}, {device: compressor, params: {threshold: -20, ratio: 4, attack: 25, release: 90, "output gain": 3}}], perform: {role: drums, feel: laid_back}}
   tight_pop:  {name: "타이트 팝", sound: drums_acoustic_basic, fx: [{device: compressor, params: {threshold: -18, ratio: 6, attack: 3, release: 50}}], perform: {role: drums, feel: tight}}
 
 strings:
@@ -52,10 +58,13 @@ lead:
   synth_lead: {name: "신스 리드", sound: "Leads/Classic Lead 1", perform: {role: lead}}
   saw_lead:   {name: "쏘우 리드", sound: "Leads/Moogy Saw", perform: {role: lead, feel: tight}}
   bell:       {name: "벨", sound: glockenspiel, perform: {role: pluck}}
+  alto_sax:   {name: "알토 색소폰 (실제 샘플)", sound: alto_sax, perform: {role: lead}}
 
 guitar:
   clean:      {name: "클린 기타", sound: "Plucks/Clean", perform: {role: guitar}}
   electric:   {name: "일렉 기타", sound: "Plucks/E-Guitar", perform: {role: guitar}}
+  archtop:    {name: "아치톱 클린 (실제 샘플)", sound: guitar_archtop, perform: {role: guitar}}
+  archtop_mic: {name: "아치톱 마이크 (실제 샘플)", sound: guitar_archtop_mic, perform: {role: guitar}}
 
 pluck:
   marimba:    {name: "마림바", sound: marimba, perform: {role: pluck}}

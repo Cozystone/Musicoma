@@ -29,6 +29,17 @@ sfz:
   upright_piano: {path: sounds/sfz/vsco2-ce/UprightPiano.sfz, note: "낡은 업라이트 — 로파이·소울에 좋음"}
   church_organ: {path: sounds/sfz/vsco2-ce/OrganQuiet.sfz}
   orchestral_perc: {path: sounds/sfz/vsco2-ce/GM-StylePerc.sfz, map: gm}
+  # 10-15 추가 — Karoryfer(CC0-1.0, GitHub sfzinstruments 확인) · Greg Sullivan EP(CC-BY 3.0, 출처 표기 필요)
+  drums_rusty: {path: sounds/sfz/karoryfer-big-rusty-drums/Programs/02-basic.sfz, map: gm, note: "거칠고 빈티지한 킷(스틱) — 붐뱁·소울 1순위. CC0"}
+  drums_rusty_full: {path: sounds/sfz/karoryfer-big-rusty-drums/Programs/01-full.sfz, map: gm, note: "브러시·말렛 포함 전체. CC0"}
+  bass_hollow_finger: {path: sounds/sfz/karoryfer-black-and-blue-basses/Programs/04-babyblue_warm.sfz, note: "할로우바디 핑거 베이스(따뜻) — 소울·시티팝·네오소울. CC0"}
+  bass_picked: {path: sounds/sfz/karoryfer-black-and-blue-basses/Programs/06-darkblack_pluck_warm.sfz, note: "솔리드바디 피크 베이스. CC0"}
+  upright_bass: {path: sounds/sfz/karoryfer-meatbass/Meatbass/Programs/04_pizz.sfz, note: "1958 더블베이스 피치카토 — 재즈·로파이. CC0"}
+  guitar_archtop: {path: sounds/sfz/karoryfer-shinyguitar/Shinyguitar/Programs/musicoma_electric.sfz, note: "할로우 아치톱 픽업 — 재즈·소울·시티팝 클린. CC0"}
+  guitar_archtop_mic: {path: sounds/sfz/karoryfer-shinyguitar/Shinyguitar/Programs/musicoma_mic.sfz, note: "같은 기타 마이크 녹음. CC0"}
+  alto_sax: {path: sounds/sfz/karoryfer-weresax/Weresax/Programs/alto_map_forte_condenser.sfz, note: "알토 색소폰. CC0"}
+  wurlitzer: {path: "sounds/sfz/gregsullivan-epianos/Wurlitzer EP200/Wurlitzer EP200.sfz", note: "부를리처 EP200 — 소울·로파이. CC-BY 3.0 Greg Sullivan"}
+  cp80: {path: sounds/sfz/gregsullivan-epianos/CP80/CP80.sfz, note: "야마하 CP80 — 80s 시티팝. CC-BY 3.0 Greg Sullivan"}
 
 surge_xt:   # device: "Surge XT", 패치: device.load_file
   root: "sounds/plugins/vst3/Surge Synth Team/SurgeXTData/patches_factory"

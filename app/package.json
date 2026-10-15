@@ -1,14 +1,16 @@
 {
   "name": "musicoma",
   "productName": "Musicoma",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Musicoma DAW desktop shell",
   "author": "Musicoma",
   "private": true,
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "dist": "electron-builder --win nsis"
+    "dist": "electron-builder --win nsis",
+    "build:runtime": "powershell -NoProfile -ExecutionPolicy Bypass -File runtime/build_runtime.ps1",
+    "dist:full": "npm run build:runtime && npm run dist"
   },
   "devDependencies": {
     "electron": "44.4.5",
@@ -24,6 +26,8 @@
     "files": [
       "main.js",
       "splash.html",
+      "firstrun.html",
+      "firstrun-preload.js",
       "build/icon.ico",
       "package.json"
     ],
@@ -43,7 +47,64 @@
       "shortcutName": "Musicoma",
       "installerIcon": "build/icon.ico",
       "uninstallerIcon": "build/icon.ico",
-      "artifactName": "Musicoma Setup ${version}.exe"
-    }
+      "artifactName": "Musicoma Setup ${version}.exe",
+      "include": "build/installer.nsh"
+    },
+    "extraResources": [
+      {
+        "from": "../musicoma",
+        "to": "musicoma/musicoma",
+        "filter": [
+          "**/*",
+          "!**/__pycache__",
+          "!**/__pycache__/**",
+          "!**/*.pyc",
+          "!_mc_old.py"
+        ]
+      },
+      {
+        "from": "../ui",
+        "to": "musicoma/ui",
+        "filter": [
+          "**/*",
+          "!**/__pycache__",
+          "!**/__pycache__/**",
+          "!**/*.pyc"
+        ]
+      },
+      {
+        "from": "../engine/build/musicoma_engine_artefacts/Release",
+        "to": "musicoma/engine/build/musicoma_engine_artefacts/Release",
+        "filter": [
+          "musicoma-engine.exe",
+          "sfizz.dll"
+        ]
+      },
+      {
+        "from": "runtime",
+        "to": "musicoma/setup",
+        "filter": [
+          "requirements-core.txt",
+          "requirements-ai.txt",
+          "ai/**/*"
+        ]
+      },
+      {
+        "from": "THIRD_PARTY_NOTICES.md",
+        "to": "musicoma/THIRD_PARTY_NOTICES.md"
+      },
+      {
+        "from": "runtime/dist/python",
+        "to": "runtime/python",
+        "filter": [
+          "**/*"
+        ]
+      },
+      {
+        "from": "runtime/dist/uv.exe",
+        "to": "runtime/uv.exe"
+      }
+    ],
+    "compression": "normal"
   }
 }

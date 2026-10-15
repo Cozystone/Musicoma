@@ -1,0 +1,329 @@
+{
+ "name": "kanye-citypop-02-final",
+ "bpm": 88,
+ "key": "A major",
+ "style": "chipmunk-soul",
+ "brief": "kanye-citypop-02 v1 비트(그대로) + 생성 래퍼 2명 랩",
+ "sections": [
+  {
+   "name": "intro",
+   "bars": 4
+  },
+  {
+   "name": "verse",
+   "bars": 8
+  },
+  {
+   "name": "hook",
+   "bars": 8
+  },
+  {
+   "name": "verse2",
+   "bars": 8
+  },
+  {
+   "name": "hook",
+   "bars": 8
+  },
+  {
+   "name": "outro",
+   "bars": 4
+  }
+ ],
+ "tracks": {
+  "Beat": {
+   "role": "beat (kanye-citypop-02 v1, untouched)"
+  },
+  "Rap A": {
+   "role": "rap vocal A",
+   "sends": {
+    "0": -20
+   },
+   "fx": [
+    {
+     "device": "eq",
+     "params": {
+      "Low-pass freq": 120,
+      "Low-pass gain": -8,
+      "Mid freq 2": 3200,
+      "Mid gain 2": 3.5,
+      "High-pass freq": 9000,
+      "High-pass gain": 2.5
+     }
+    },
+    {
+     "device": "compressor",
+     "params": {
+      "threshold": -20,
+      "ratio": 4,
+      "attack": 8,
+      "release": 90
+     }
+    }
+   ]
+  },
+  "Rap C": {
+   "role": "rap vocal C",
+   "sends": {
+    "0": -20
+   },
+   "fx": [
+    {
+     "device": "eq",
+     "params": {
+      "Low-pass freq": 120,
+      "Low-pass gain": -8,
+      "Mid freq 2": 3200,
+      "Mid gain 2": 3.5,
+      "High-pass freq": 9000,
+      "High-pass gain": 2.5
+     }
+    },
+    {
+     "device": "compressor",
+     "params": {
+      "threshold": -20,
+      "ratio": 4,
+      "attack": 8,
+      "release": 90
+     }
+    }
+   ]
+  },
+  "Hook A": {
+   "role": "hook vocal A",
+   "pan": -0.12,
+   "sends": {
+    "0": -16
+   },
+   "fx": [
+    {
+     "device": "eq",
+     "params": {
+      "Low-pass freq": 120,
+      "Low-pass gain": -8,
+      "Mid freq 2": 3200,
+      "Mid gain 2": 3.5,
+      "High-pass freq": 9000,
+      "High-pass gain": 2.5
+     }
+    },
+    {
+     "device": "compressor",
+     "params": {
+      "threshold": -20,
+      "ratio": 4,
+      "attack": 8,
+      "release": 90
+     }
+    }
+   ]
+  },
+  "Hook C": {
+   "role": "hook double C",
+   "pan": 0.12,
+   "sends": {
+    "0": -16
+   },
+   "fx": [
+    {
+     "device": "eq",
+     "params": {
+      "Low-pass freq": 120,
+      "Low-pass gain": -8,
+      "Mid freq 2": 3200,
+      "Mid gain 2": 3.5,
+      "High-pass freq": 9000,
+      "High-pass gain": 2.5
+     }
+    },
+    {
+     "device": "compressor",
+     "params": {
+      "threshold": -20,
+      "ratio": 4,
+      "attack": 8,
+      "release": 90
+     }
+    }
+   ]
+  }
+ },
+ "buses": [
+  {
+   "name": "Verb",
+   "bus": 0,
+   "device": "Dragonfly Plate Reverb",
+   "volume_db": -6
+  }
+ ],
+ "parts": [
+  {
+   "track": "Beat",
+   "in": [
+    "intro"
+   ],
+   "audio": {
+    "path": "D:\\0.Musicoma\\projects\\kanye-citypop-02\\renders\\kanye-citypop-02_v1.wav",
+    "length": 163.7
+   }
+  },
+  {
+   "track": "Rap A",
+   "in": [
+    "verse"
+   ],
+   "rap": {
+    "voice": "gen-rapper-a",
+    "lines": [
+     "Woke up in the city with the vinyl on repeat",
+     "Mama in the kitchen humming something kind of sweet",
+     "Dusty little record from a summer in Tokyo",
+     "Speed it up a little now the angels sing soprano",
+     "I was in the basement with a sampler and a dream",
+     "Everybody laughing saying that is not a team",
+     "Now I got the strings and I got the horns on top",
+     "Turn the city pop into a hip-hop shop"
+    ],
+    "beats_per_line": 4,
+    "seed": 11
+   }
+  },
+  {
+   "track": "Hook A",
+   "in": [
+    "hook"
+   ],
+   "rap": {
+    "voice": "gen-rapper-a",
+    "lines": [
+     {
+      "text": "City lights, city lights, take me higher",
+      "beats": 8
+     },
+     {
+      "text": "Chipmunk soul and a midnight fire",
+      "beats": 8
+     },
+     {
+      "text": "City lights, city lights, never tired",
+      "beats": 8
+     },
+     {
+      "text": "Play it back till the night retires",
+      "beats": 8
+     }
+    ],
+    "style": "chanting a catchy hip-hop hook, rhythmic, energetic",
+    "lock": 0.9,
+    "seed": 21
+   }
+  },
+  {
+   "track": "Hook C",
+   "in": [
+    "hook"
+   ],
+   "rap": {
+    "voice": "gen-rapper-c",
+    "lines": [
+     {
+      "text": "City lights, city lights, take me higher",
+      "beats": 8
+     },
+     {
+      "text": "Chipmunk soul and a midnight fire",
+      "beats": 8
+     },
+     {
+      "text": "City lights, city lights, never tired",
+      "beats": 8
+     },
+     {
+      "text": "Play it back till the night retires",
+      "beats": 8
+     }
+    ],
+    "style": "chanting a catchy hip-hop hook, rhythmic, energetic",
+    "lock": 0.9,
+    "seed": 22,
+    "gain_db": -4
+   }
+  },
+  {
+   "track": "Rap A",
+   "in": [
+    "verse2"
+   ],
+   "offset": 0,
+   "rap": {
+    "voice": "gen-rapper-a",
+    "lines": [
+     "Back then I was broke with a keyboard and a hope",
+     "Writing on a napkin with a pencil and a quote"
+    ],
+    "beats_per_line": 4,
+    "seed": 31
+   }
+  },
+  {
+   "track": "Rap C",
+   "in": [
+    "verse2"
+   ],
+   "offset": 8,
+   "rap": {
+    "voice": "gen-rapper-c",
+    "lines": [
+     "Yo I am the new kid with the old soul in the bag",
+     "Pitch it up a third and let the chorus wave a flag"
+    ],
+    "beats_per_line": 4,
+    "seed": 32
+   }
+  },
+  {
+   "track": "Rap A",
+   "in": [
+    "verse2"
+   ],
+   "offset": 16,
+   "rap": {
+    "voice": "gen-rapper-a",
+    "lines": [
+     "Now the lights are blinking from the Shibuya to the coast",
+     "And I raise a little glass to the ones who matter most"
+    ],
+    "beats_per_line": 4,
+    "seed": 33
+   }
+  },
+  {
+   "track": "Rap C",
+   "in": [
+    "verse2"
+   ],
+   "offset": 24,
+   "rap": {
+    "voice": "gen-rapper-c",
+    "lines": [
+     "Midnight in the city and we running out of time",
+     "Speed it up and slow it down and let the city shine"
+    ],
+    "beats_per_line": 4,
+    "seed": 34
+   }
+  }
+ ],
+ "mix": {
+  "balance": true,
+  "target_lufs": -10.5,
+  "balance_lu": {
+   "beat": 0,
+   "rap a": 1.0,
+   "rap c": 1.0,
+   "hook a": 0.5,
+   "hook c": -3.5
+  }
+ }
+}

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <EDIT appVersion="Unknown" projectID="0/35cff50" creationTime="1792021327034"
-      modifiedBy="anseo" lastSignificantChange="1a13ccb6eb3">
+      modifiedBy="anseo" lastSignificantChange="1a13ccc2952">
   <TRANSPORT start="0.0" loopPoint1="0.0" loopPoint2="0.0"/>
   <PITCHSEQUENCE>
     <PITCH startBeat="0.0" pitch="60"/>
@@ -897,7 +897,8 @@
             remapOnTempoChange="1" busNum="0" auxSendSliderPos="0.6065306663513184">
       <MODIFIERASSIGNMENTS/>
     </PLUGIN>
-    <PLUGIN type="volume" id="1016" enabled="1" remapOnTempoChange="1" pan="0.1000000014901161">
+    <PLUGIN type="volume" id="1016" enabled="1" remapOnTempoChange="1" pan="0.1000000014901161"
+            volume="0.5945205688476562">
       <MODIFIERASSIGNMENTS/>
     </PLUGIN>
     <PLUGIN type="level" id="1017" enabled="1"/>
@@ -1569,7 +1570,8 @@
             remapOnTempoChange="1" busNum="0" auxSendSliderPos="0.6065306663513184">
       <MODIFIERASSIGNMENTS/>
     </PLUGIN>
-    <PLUGIN type="volume" id="1020" enabled="1" remapOnTempoChange="1" pan="0.3499999940395355">
+    <PLUGIN type="volume" id="1020" enabled="1" remapOnTempoChange="1" pan="0.3499999940395355"
+            volume="0.5246625542640686">
       <MODIFIERASSIGNMENTS/>
     </PLUGIN>
     <PLUGIN type="level" id="1021" enabled="1"/>
@@ -1836,7 +1838,8 @@
             remapOnTempoChange="1" busNum="0" auxSendSliderPos="0.6065306663513184">
       <MODIFIERASSIGNMENTS/>
     </PLUGIN>
-    <PLUGIN type="volume" id="1024" enabled="1" remapOnTempoChange="1" pan="0.449999988079071">
+    <PLUGIN type="volume" id="1024" enabled="1" remapOnTempoChange="1" pan="0.449999988079071"
+            volume="0.8228346705436707">
       <MODIFIERASSIGNMENTS/>
     </PLUGIN>
     <PLUGIN type="level" id="1025" enabled="1"/>
@@ -2095,7 +2098,8 @@
             remapOnTempoChange="1" busNum="0" auxSendSliderPos="0.6065306663513184">
       <MODIFIERASSIGNMENTS/>
     </PLUGIN>
-    <PLUGIN type="volume" id="1028" enabled="1" remapOnTempoChange="1" pan="-0.1500000059604645">
+    <PLUGIN type="volume" id="1028" enabled="1" remapOnTempoChange="1" pan="-0.1500000059604645"
+            volume="0.4382349848747253">
       <MODIFIERASSIGNMENTS/>
     </PLUGIN>
     <PLUGIN type="level" id="1029" enabled="1"/>
@@ -2282,7 +2286,8 @@
             remapOnTempoChange="1" busNum="0" auxSendSliderPos="0.6065306663513184">
       <MODIFIERASSIGNMENTS/>
     </PLUGIN>
-    <PLUGIN type="volume" id="1032" enabled="1" remapOnTempoChange="1" pan="0.1500000059604645">
+    <PLUGIN type="volume" id="1032" enabled="1" remapOnTempoChange="1" pan="0.1500000059604645"
+            volume="0.6218850612640381">
       <MODIFIERASSIGNMENTS/>
     </PLUGIN>
     <PLUGIN type="level" id="1033" enabled="1"/>
@@ -2389,7 +2394,8 @@
             remapOnTempoChange="1" busNum="0" auxSendSliderPos="0.6065306663513184">
       <MODIFIERASSIGNMENTS/>
     </PLUGIN>
-    <PLUGIN type="volume" id="1036" enabled="1" remapOnTempoChange="1" pan="0.25">
+    <PLUGIN type="volume" id="1036" enabled="1" remapOnTempoChange="1" pan="0.25"
+            volume="0.5798417925834656">
       <MODIFIERASSIGNMENTS/>
     </PLUGIN>
     <PLUGIN type="level" id="1037" enabled="1"/>
@@ -2466,7 +2472,8 @@
             remapOnTempoChange="1" busNum="0" auxSendSliderPos="0.6065306663513184">
       <MODIFIERASSIGNMENTS/>
     </PLUGIN>
-    <PLUGIN type="volume" id="1040" enabled="1" remapOnTempoChange="1" pan="-0.1000000014901161">
+    <PLUGIN type="volume" id="1040" enabled="1" remapOnTempoChange="1" pan="-0.1000000014901161"
+            volume="0.4538447856903076">
       <MODIFIERASSIGNMENTS/>
     </PLUGIN>
     <PLUGIN type="level" id="1041" enabled="1"/>
@@ -2525,7 +2532,8 @@
             remapOnTempoChange="1" busNum="0" auxSendSliderPos="0.6065306663513184">
       <MODIFIERASSIGNMENTS/>
     </PLUGIN>
-    <PLUGIN type="volume" id="1044" enabled="1" remapOnTempoChange="1" pan="0.0">
+    <PLUGIN type="volume" id="1044" enabled="1" remapOnTempoChange="1" pan="0.0"
+            volume="0.9323937892913818">
       <MODIFIERASSIGNMENTS/>
     </PLUGIN>
     <PLUGIN type="level" id="1045" enabled="1"/>

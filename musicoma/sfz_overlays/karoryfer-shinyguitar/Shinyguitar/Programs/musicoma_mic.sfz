@@ -1,0 +1,5 @@
+// Musicoma 래퍼 — 마이크 녹음 쪽(Blend cc100=127)
+#define $sample_dir ../Samples
+#include "main.sfz"
+<control>
+set_cc100=127

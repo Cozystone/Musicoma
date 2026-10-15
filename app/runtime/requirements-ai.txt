@@ -1,0 +1,7 @@
+# Optional AI modules installed by `setup_assets --ai` into <root>/python-ai (a venv layered on the runtime).
+# torch/torchaudio come from the PyTorch cu128 index (see setup_manifest.json -> ai.runtime).
+faster-whisper==1.2.1
+demucs==4.1.0
+# keep the core pins so the overlay venv never shadows the runtime's versions
+numpy==2.4.6
+scipy==1.17.1

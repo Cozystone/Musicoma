@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'">
+<title>Musicoma — 처음 설정</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #1e1e1e; color: #ddd;
+    font-family: "Segoe UI", "Malgun Gothic", sans-serif; font-size: 14px; user-select: none; }
+  .wrap { padding: 28px 34px; box-sizing: border-box; height: 100%; display: flex; flex-direction: column; }
+  .logo { font-size: 26px; font-weight: 700; color: #eee; }
+  .logo b { color: #e6a31a; }
+  p.lead { color: #aaa; margin: 8px 0 18px; line-height: 1.5; }
+  label.opt { display: flex; gap: 12px; padding: 12px 14px; border: 1px solid #333; border-radius: 6px; margin-bottom: 10px; cursor: pointer; }
+  label.opt:hover { border-color: #555; }
+  label.opt input { margin-top: 3px; accent-color: #e6a31a; }
+  .t { font-weight: 600; color: #eee; }
+  .d { color: #999; font-size: 12.5px; margin-top: 3px; line-height: 1.45; }
+  .warn { color: #e0a85a; }
+  .row { display: flex; align-items: center; gap: 10px; margin-top: auto; }
+  .row .sp { flex: 1; }
+  button { background: #2c2c2c; color: #ddd; border: 1px solid #444; border-radius: 5px; padding: 8px 16px; font: inherit; cursor: pointer; }
+  button.primary { background: #e6a31a; color: #1e1e1e; border-color: #e6a31a; font-weight: 600; }
+  button:disabled { opacity: .45; cursor: default; }
+  .small { color: #888; font-size: 12px; display: flex; align-items: center; gap: 6px; }
+  #prog { display: none; flex-direction: column; gap: 8px; }
+  .bar { height: 6px; background: #2c2c2c; border-radius: 3px; overflow: hidden; }
+  .bar > div { height: 100%; width: 0; background: #e6a31a; transition: width .3s; }
+  #cur { color: #eee; font-weight: 600; }
+  #detail, #logline { color: #999; font-size: 12.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  #errors { color: #e06c5a; font-size: 12.5px; max-height: 90px; overflow: auto; white-space: pre-wrap; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="logo">Musicoma<b>.</b> 처음 설정</div>
+  <p class="lead">악기 음원이 아직 없습니다. 공식 배포처(GitHub sfzinstruments · Surge 등)에서 받아 설치합니다.<br>
+    중간에 끊겨도 다음에 이어서 받습니다. 지금 건너뛰고 나중에 해도 됩니다.</p>
+
+  <div id="choose">
+    <label class="opt"><input type="checkbox" id="sounds" checked>
+      <div><div class="t" id="soundsT">기본 음원 받기</div>
+        <div class="d" id="soundsD">피아노 · 드럼 · 베이스 · 기타 · 색소폰 · 전자피아노 · 오케스트라(VSCO2) + Surge XT · Dragonfly · Airwindows</div></div></label>
+    <label class="opt"><input type="checkbox" id="ai">
+      <div><div class="t" id="aiT">AI 모듈 설치 (선택)</div>
+        <div class="d">보컬 합성(SoulX-Singer) · 목소리 설계(VoxCPM2) · 채보(faster-whisper) · 음원 분리(demucs).<br>
+          <span id="aiWarn" class="warn">NVIDIA GPU 가 필요합니다.</span></div></div></label>
+  </div>
+
+  <div id="prog">
+    <div id="cur">준비 중…</div>
+    <div class="bar"><div id="fill"></div></div>
+    <div id="detail"></div>
+    <div id="logline"></div>
+    <div id="errors"></div>
+  </div>
+
+  <div class="row">
+    <label class="small" id="dontAskL"><input type="checkbox" id="dontAsk">다시 묻지 않기</label>
+    <div class="sp"></div>
+    <button id="skip">건너뛰기</button>
+    <button id="go" class="primary">설치 시작</button>
+  </div>
+</div>
+<script>
+  const $ = (id) => document.getElementById(id);
+  const gb = (b) => (b / 1e9).toFixed(1) + ' GB';
+  let count = 0, index = 0, failed = 0;
+
+  window.musicoma.info().then((i) => {
+    $('soundsT').textContent = `기본 음원 받기 (약 ${i.coreDownloadGB} GB 다운로드 · 설치 후 ${i.coreDiskGB} GB)`;
+    $('aiT').textContent = `AI 모듈 설치 (선택, 약 ${i.aiDiskGB} GB, NVIDIA GPU 필요)`;
+    if (!i.nvidia) $('aiWarn').textContent = 'NVIDIA GPU 를 찾지 못했습니다 — 이 PC 에서는 AI 모듈이 동작하지 않습니다.';
+    else $('aiWarn').textContent = 'NVIDIA GPU 확인됨. 시간이 오래 걸립니다(모델 수십 GB).';
+    if (!i.hasUv) { $('ai').disabled = true; $('aiWarn').textContent += ' (uv.exe 가 없어 설치할 수 없음)'; }
+  });
+
+  $('skip').onclick = () => window.musicoma.skip({ dontAsk: $('dontAsk').checked });
+  $('go').onclick = () => {
+    const opts = { sounds: $('sounds').checked, ai: $('ai').checked };
+    if (!opts.sounds && !opts.ai) { window.musicoma.skip({ dontAsk: $('dontAsk').checked }); return; }
+    $('choose').style.display = 'none';
+    $('dontAskL').style.visibility = 'hidden';
+    $('prog').style.display = 'flex';
+    $('go').disabled = true;
+    $('skip').textContent = '중단하고 건너뛰기';
+    window.musicoma.start(opts);
+  };
+
+  window.musicoma.onEvent((e) => {
+    switch (e.event) {
+      case 'plan':
+        if (e.kind === 'sounds') {
+          count = e.items.filter((x) => x.state !== 'installed').length;
+          $('detail').textContent = `받을 양 ${gb(e.download_bytes)} · 남은 공간 ${gb(e.free_bytes)}`;
+        }
+        break;
+      case 'start':
+        index = e.index || index;
+        $('cur').textContent = (e.count ? `(${e.index}/${e.count}) ` : '') + (e.name || e.id);
+        $('fill').style.width = '0%';
+        break;
+      case 'progress':
+        if (e.phase === 'download') {
+          if (e.pct != null) $('fill').style.width = e.pct + '%';
+          $('detail').textContent = `받는 중 ${gb(e.bytes)}${e.total ? ' / ' + gb(e.total) : ''} · ${e.speed_mbps} MB/s`;
+        } else if (e.phase === 'extract') {
+          $('fill').style.width = (e.pct || 0) + '%';
+          $('detail').textContent = `푸는 중 ${e.pct}%`;
+        } else if (e.phase === 'verify') {
+          $('detail').textContent = '확인 중…';
+        }
+        break;
+      case 'log':
+        if (e.text) $('logline').textContent = e.text;
+        break;
+      case 'done':
+        $('fill').style.width = '100%';
+        break;
+      case 'error':
+        failed++;
+        $('errors').textContent += `${e.id || e.kind || ''}: ${e.message}\n`;
+        break;
+      case 'finish':
+      case 'exit':
+        if (e.event === 'finish' || e.code !== 0) {
+          $('cur').textContent = failed || (e.code && e.code !== 0)
+            ? '일부를 설치하지 못했습니다 — 다음 실행 때 이어서 받을 수 있습니다.'
+            : '설치가 끝났습니다.';
+          $('go').disabled = false;
+          $('go').textContent = '계속';
+          $('go').onclick = () => window.musicoma.done();
+          $('skip').style.display = 'none';
+        }
+        break;
+    }
+  });
+</script>
+</body>
+</html>

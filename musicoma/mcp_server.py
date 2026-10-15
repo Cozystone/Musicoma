@@ -305,8 +305,9 @@ def voice_add(name: str, wav: str, language: str = "English", vocal_sep: bool = 
 @mcp.tool()
 def sing(voice: str, lyrics: str, bpm: float, melody: str, out: str = "", language: str = "English",
          seed: int = 0, humanize: dict | None = None) -> dict:
-    """Have a prepared voice sing Musicoma's melody (notation 'E4:1 G4:.5 r:1 ...') with lyrics (one word per note,
-    '+' = hold previous word over the next note; rests take no word). Languages: English/Mandarin/Cantonese.
+    """Have a prepared voice sing Musicoma's melody (notation 'E4:1 G4:.5 r:1 ...') with lyrics (one token per note:
+    split multi-note words into syllables with hyphens 'ev- ery ci- ty' (best intelligibility on fast notes),
+    '+' = hold previous syllable over the next note; rests take no token). Uses score mode (clearest lyrics). Languages: English/Mandarin/Cantonese.
     humanize: {vibrato_cents, vibrato_hz, vibrato_delay, glide_ms, scoop_cents, fall_cents, drift_cents}.
     Returns a 48k wav. In a spec, use a part {"track": "Vox", "in": [...], "vocal": {voice, melody, lyrics}}."""
     from musicoma import voice as v
@@ -351,6 +352,29 @@ def voice_character(path: str, out: str, description: str = "", pitch_st: float 
                                   vibrato=vibrato, age=age).items() if v is not None}
     p, k = vc.character(path, out, description, **over)
     return {"wav": p, "knobs": k}
+
+
+@mcp.tool()
+def sing_svc(voice: str, lyrics: str, bpm: float, melody: str, out: str, lang: str = "ko", takes: int = 3,
+             seed: int = 0) -> dict:
+    """Sing via the clear-speech → note-aligned guide → SoulX-SVC path. Use for Korean (and other non-English) lyrics:
+    one note = one syllable (Korean: one Hangul char per note; '+' holds the previous syllable). Sings `takes` takes
+    and keeps the one speech recognition hears most clearly (scores saved in <out>.json). English: prefer sing()."""
+    from musicoma import sing_svc as sv
+    import json as _json
+    p = sv.sing_svc(voice, lyrics, bpm, melody=melody, out=out, lang=lang, takes=takes, seed=seed)
+    meta = _json.loads(Path(p).with_suffix(".json").read_text(encoding="utf-8"))
+    return {"wav": p, "chosen": meta["chosen"], "takes": [{k: t[k] for k in ("take", "error", "heard")} for t in meta["takes"]]}
+
+
+@mcp.tool()
+def tidy(project: str = "", dry_run: bool = False) -> dict:
+    """Keep files readable: move intermediate files (per-line rap takes, guides, SVC takes, SoulX work, measurement
+    stems, logs) of a song folder into projects/<song>/.work/ and refresh projects/<song>/README.md. Never deletes.
+    project='' tidies every song. Put experiments/tests under scratch/ (musicoma.layout.scratch()), not in projects/."""
+    from musicoma import layout
+    names = [project] if project else [p.name for p in layout.PROJECTS.iterdir() if p.is_dir()]
+    return {n: layout.tidy(n, dry_run=dry_run) for n in names}
 
 
 @mcp.tool()

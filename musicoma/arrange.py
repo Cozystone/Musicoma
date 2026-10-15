@@ -134,6 +134,14 @@ def _fill(notes_fn, length_beats, cycle_beats):
     return out
 
 
+def _vocal_name(part, sec, kind):
+    """보컬 파일 이름: <트랙>_<섹션>[-<마디>]_<rap|sing>.wav — 폴더만 봐도 어디에 쓰인 건지 알게."""
+    slug = lambda t: re.sub(r"[^a-z0-9]+", "-", str(t).lower()).strip("-") or "x"
+    off = part.get("offset", 0)
+    where = slug(sec["name"]) + (f"-b{int(off // 4) + 1}" if off else "")
+    return f"{slug(part['track'])}_{where}_{kind}.wav"
+
+
 def part_notes(part, sec, spec):
     """파트 하나가 섹션 하나에서 내는 노트(섹션 시작 기준)."""
     L = sec["bars"] * 4
@@ -253,11 +261,20 @@ def build(spec, render=True, balance=None, label=None, log=print):
                 key_ = json.dumps([v.get("voice"), v.get("melody"), v.get("lyrics"), spec["bpm"], v.get("seed", 0)])
                 cache = per_track.setdefault("__vocal_cache", {})
                 if key_ not in cache:
-                    out = ROOT / "projects" / spec["name"] / "vocals" / f"{part['track']}_{len(cache)}.wav"
+                    out = ROOT / "projects" / spec["name"] / "vocals" / _vocal_name(part, sec, "sing")
+                    lang = v.get("lang") or ("ko" if any("가" <= ch <= "힣" for ch in v["lyrics"]) else "en")
+                    if v.get("engine", "svc" if lang != "en" else "svs") == "svc":
+                        from . import sing_svc
+                        cache[key_] = sing_svc.sing_svc(v["voice"], v["lyrics"], spec["bpm"], melody=v["melody"], out=out,
+                                                        lang=lang, seed=v.get("seed", 0), humanize=v.get("humanize"),
+                                                        takes=v.get("takes", 3))
+                        log(f"{part['track']}: sang(svc, {lang}) {cache[key_]}")
+                        s[part["track"]].audio(cache[key_], start=b0, gain_db=v.get("gain_db", 0))
+                        continue
                     cache[key_] = voice_mod.sing(v["voice"], v["lyrics"], spec["bpm"], melody=v["melody"], out=out,
                                                  language=v.get("language", "English"),
                                                  humanize=v.get("humanize"), seed=v.get("seed", 0),
-                                                 control=v.get("control", "melody"))
+                                                 control=v.get("control", "score"))
                     log(f"{part['track']}: sang {cache[key_]}")
                 s[part["track"]].audio(cache[key_], start=b0, gain_db=v.get("gain_db", 0))
                 continue
@@ -268,7 +285,7 @@ def build(spec, render=True, balance=None, label=None, log=print):
                 key_ = json.dumps(["rap", v.get("voice"), v.get("lines"), spec["bpm"], v.get("seed", 0), v.get("lock")])
                 cache = per_track.setdefault("__vocal_cache", {})
                 if key_ not in cache:
-                    out = ROOT / "projects" / spec["name"] / "vocals" / f"{part['track']}_rap_{len(cache)}.wav"
+                    out = ROOT / "projects" / spec["name"] / "vocals" / _vocal_name(part, sec, "rap")
                     cache[key_], _ = vd.rap(v["voice"], v["lines"], spec["bpm"], out,
                                             beats_per_line=v.get("beats_per_line", 4),
                                             style=v.get("style", "confident rhythmic hip-hop rap delivery"),
@@ -283,7 +300,7 @@ def build(spec, render=True, balance=None, label=None, log=print):
                 L = sec["bars"] * 4
                 t = 0
                 while t < L - 1e-6:
-                    ln = min(every or L, L - t)
+                    ln = a.get("length") or min(every or L, L - t)      # length: 섹션을 넘어 이어지는 긴 오디오(완성 비트 등)
                     s[part["track"]].audio(path, start=b0 + t, length=ln,
                                            **{k: a[k] for k in ("gain_db", "pan", "fade_in", "fade_out", "offset", "reverse")
                                               if k in a})
@@ -335,6 +352,11 @@ def build(spec, render=True, balance=None, label=None, log=print):
             r = s.balance(targets)
             log("balance: " + ", ".join(f"{m['track']} {m['moved_db']:+.1f}" for m in r["moves"]))
     report = s.render(lufs=mix.get("target_lufs"), label=label) if render else None
+    try:
+        from .layout import write_readme
+        write_readme(spec["name"])                     # 곡 폴더 안내서 갱신(무엇을 들으면 되는지)
+    except Exception:
+        pass
     return s, report
 
 

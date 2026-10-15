@@ -1,0 +1,66 @@
+{
+ "name": "musicoma-005-kr-hook",
+ "bpm": 86,
+ "key": "A major",
+ "style": "neo-soul",
+ "time_sig": "4/4",
+ "brief": "",
+ "created": "2026-10-15 09:23",
+ "tracks": {
+  "Drums": {
+   "sound": "drums_rusty",
+   "role": "drums"
+  },
+  "Bass": {
+   "sound": "bass_hollow_finger",
+   "role": "bass"
+  },
+  "Keys": {
+   "sound": "wurlitzer",
+   "role": "keys"
+  },
+  "Guitar": {
+   "sound": "guitar_archtop",
+   "role": "guitar"
+  },
+  "Rap": {
+   "sound": null,
+   "role": "rap vocal"
+  },
+  "Vox": {
+   "sound": null,
+   "role": "sung hook vocal (Korean)"
+  },
+  "Verb": {
+   "sound": null,
+   "role": "return bus 0",
+   "bus": 0
+  }
+ },
+ "sections": [
+  {
+   "name": "intro",
+   "start_bar": 0,
+   "bars": 2
+  },
+  {
+   "name": "verse",
+   "start_bar": 2,
+   "bars": 8
+  },
+  {
+   "name": "hook",
+   "start_bar": 10,
+   "bars": 8
+  },
+  {
+   "name": "outro",
+   "start_bar": 18,
+   "bars": 2
+  }
+ ],
+ "sources": [],
+ "history": [],
+ "versions": [],
+ "spec": "D:\\0.Musicoma\\projects\\musicoma-005-kr-hook\\spec.json"
+}

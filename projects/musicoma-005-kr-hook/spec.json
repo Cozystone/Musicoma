@@ -1,0 +1,262 @@
+{
+ "name": "musicoma-005-kr-hook",
+ "bpm": 86,
+ "key": "A major",
+ "style": "neo-soul",
+ "feel": "laid_back",
+ "intensity": 0.75,
+ "sections": [
+  {
+   "name": "intro",
+   "bars": 2
+  },
+  {
+   "name": "verse",
+   "bars": 8
+  },
+  {
+   "name": "hook",
+   "bars": 8
+  },
+  {
+   "name": "outro",
+   "bars": 2
+  }
+ ],
+ "tracks": {
+  "Drums": {
+   "preset": "drums/rusty",
+   "role": "drums",
+   "sends": {
+    "0": -22
+   }
+  },
+  "Bass": {
+   "preset": "bass/hollow_finger",
+   "role": "bass"
+  },
+  "Keys": {
+   "preset": "keys/wurlitzer",
+   "role": "keys",
+   "pan": -0.2,
+   "sends": {
+    "0": -10
+   }
+  },
+  "Guitar": {
+   "preset": "guitar/archtop",
+   "role": "guitar",
+   "pan": 0.3,
+   "sends": {
+    "0": -12
+   }
+  },
+  "Rap": {
+   "role": "rap vocal",
+   "sends": {
+    "0": -20
+   },
+   "fx": [
+    {
+     "device": "eq",
+     "params": {
+      "Low-pass freq": 120,
+      "Low-pass gain": -8,
+      "Mid freq 2": 3200,
+      "Mid gain 2": 3
+     }
+    },
+    {
+     "device": "compressor",
+     "params": {
+      "threshold": -20,
+      "ratio": 4,
+      "attack": 8,
+      "release": 90
+     }
+    }
+   ]
+  },
+  "Vox": {
+   "role": "sung hook vocal (Korean)",
+   "sends": {
+    "0": -12
+   },
+   "fx": [
+    {
+     "device": "eq",
+     "params": {
+      "Low-pass freq": 150,
+      "Low-pass gain": -6,
+      "Mid freq 2": 3500,
+      "Mid gain 2": 2.5
+     }
+    },
+    {
+     "device": "compressor",
+     "params": {
+      "threshold": -18,
+      "ratio": 3,
+      "attack": 10,
+      "release": 120
+     }
+    }
+   ]
+  }
+ },
+ "buses": [
+  {
+   "name": "Verb",
+   "bus": 0,
+   "device": "Dragonfly Plate Reverb",
+   "volume_db": -4
+  }
+ ],
+ "parts": [
+  {
+   "track": "Drums",
+   "in": [
+    "verse",
+    "hook"
+   ],
+   "drums": {
+    "pattern": {
+     "kick": "x.....x...x.....",
+     "snare": "....x.......x...",
+     "hat": "x-x-x-x-x-x-x-x-"
+    },
+    "swing": 0.58,
+    "humanize_ms": 6,
+    "humanize_vel": 8
+   }
+  },
+  {
+   "track": "Bass",
+   "in": [
+    "verse",
+    "hook"
+   ],
+   "bass": {
+    "progression": "ii9 V13sus4 Imaj9 vi9",
+    "beats_per_chord": 4,
+    "low": 28,
+    "high": 50,
+    "pattern": [
+     [
+      0,
+      1.5,
+      0
+     ],
+     [
+      1.75,
+      0.5,
+      7
+     ],
+     [
+      2.5,
+      1,
+      0
+     ],
+     [
+      3.5,
+      0.5,
+      12
+     ]
+    ]
+   }
+  },
+  {
+   "track": "Keys",
+   "in": "all",
+   "chords": {
+    "progression": "ii9 V13sus4 Imaj9 vi9",
+    "beats_per_chord": 4,
+    "voicing": "rhodes",
+    "rhythm": [
+     [
+      0,
+      1.5,
+      1.0
+     ],
+     [
+      2.5,
+      1.0,
+      0.8
+     ]
+    ],
+    "velocity": 72
+   }
+  },
+  {
+   "track": "Guitar",
+   "in": [
+    "hook"
+   ],
+   "chords": {
+    "progression": "ii9 V13sus4 Imaj9 vi9",
+    "beats_per_chord": 4,
+    "voicing": "guitar",
+    "rhythm": [
+     [
+      1,
+      0.25,
+      0.8
+     ],
+     [
+      3,
+      0.25,
+      0.8
+     ]
+    ],
+    "velocity": 66
+   }
+  },
+  {
+   "track": "Rap",
+   "in": [
+    "verse"
+   ],
+   "rap": {
+    "voice": "gen-rapper-a",
+    "lines": [
+     "Woke up in the city with the vinyl on repeat",
+     "Mama in the kitchen humming something kind of sweet",
+     "Dusty little record from a summer in Tokyo",
+     "Speed it up a little now the angels sing soprano",
+     "I was in the basement with a sampler and a dream",
+     "Everybody laughing saying that is not a team",
+     "Now I got the strings and I got the horns on top",
+     "Turn the city pop into a hip-hop shop"
+    ],
+    "beats_per_line": 4,
+    "seed": 11
+   }
+  },
+  {
+   "track": "Vox",
+   "in": [
+    "hook"
+   ],
+   "vocal": {
+    "voice": "gen-singer-b",
+    "melody": "E4:.5 F#4:.5 A4:1 r:.5 B4:.5 A4:.5 F#4:.5 E4:.5 F#4:.5 A4:1 r:.5 B4:.5 C#5:.5 B4:.5 A4:.5 A4:1.5 r:4 E4:.5 F#4:.5 A4:1 r:.5 B4:.5 A4:.5 F#4:.5 E4:.5 F#4:.5 A4:1 r:.5 C#5:.5 B4:.5 A4:.5 F#4:.5 E4:1.5 r:4",
+    "lyrics": "오늘 밤 도시의 불빛이 나를 부르네 + 너와 나 둘이서 이 밤을 걸어가 +",
+    "lang": "ko",
+    "takes": 3,
+    "seed": 5
+   }
+  }
+ ],
+ "mix": {
+  "balance": true,
+  "target_lufs": -12,
+  "balance_lu": {
+   "drums": 0,
+   "rap": 1.5,
+   "vox": 1.5,
+   "bass": -2,
+   "keys": -5,
+   "guitar": -8
+  }
+ }
+}

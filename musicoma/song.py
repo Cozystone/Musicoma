@@ -243,7 +243,7 @@ class Song:
     def render_stems(self, start=None, end=None):
         """트랙마다 따로 렌더해 음량·대역을 잰다 → 어느 트랙이 어느 대역을 차지하는지(믹스 판단용)."""
         info = self.e.call("edit.info")
-        out_dir = self.dir / "renders/stems"
+        out_dir = self.dir / ".work/stems"          # 측정용 트랙별 렌더 — 중간 파일
         out_dir.mkdir(parents=True, exist_ok=True)
         for old in out_dir.glob("*.wav"):
             try:
