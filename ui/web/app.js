@@ -705,13 +705,22 @@ async function hum() {
     const name = $("#project").value;
     const r = await (await fetch(`/api/hum?song=${encodeURIComponent(name === "__new" ? "" : name)}`, { method: "POST", body: blob })).json();
     if (r.error) { status("못 알아들었어요: " + r.error); return; }
-    const heard = r.heard.join(" ");
-    feedMsg("tool", `🎤 들은 것(${r.mode === "melody" ? "멜로디" : "비트박스"}, ${r.bars}마디): ${heard}`);
-    $("#ask").value = `방금 흥얼거린 거(${r.path}) — 어디에 넣을까: 예) 1:20 부터 4번 반복, 플루트로`;
-    $("#ask").focus();
-    status("들은 것을 프로듀서 패널에 적었어요. 넣을 위치·반복·악기를 말해 주세요.");
+    // 말과 흥얼거림을 나눠 들었다(10-15). 말로 지시까지 했으면 바로 프로듀서에게 보낸다 — 음성 대화로 만드는 첫 단계
+    const parts = r.music.map((m, i) => `흥얼거림${r.music.length > 1 ? i + 1 : ""}(${m.mode === "melody" ? "멜로디" : "비트박스"}, ${m.bars}마디, 녹음 템포 ${m.recording_bpm}): ${m.heard.join(" ")} — 파일 ${m.path}`);
+    if (r.said) feedMsg("tool", `🎤 들은 말: “${r.said}”`);
+    parts.forEach((p) => feedMsg("tool", "🎤 " + p));
+    const where = r.place && Object.keys(r.place).length ? ` · 말에서 찾은 배치 ${JSON.stringify(r.place)}` : "";
+    if (r.said && r.music.length) {
+      ask(r.said, parts.join(" / ") + where + " · hum_listen 결과를 hum_place 로 넣기");
+    } else if (r.said) {
+      ask(r.said);
+    } else {
+      $("#ask").value = `방금 흥얼거린 거(${r.music[0].path}) — 어디에 넣을까: 예) 1:20 부터 4번 반복, 플루트로`;
+      $("#ask").focus();
+      status("들은 것을 프로듀서 패널에 적었어요. 넣을 위치·반복·악기를 말해 주세요.");
+    }
   };
-  humRec.start(); btn.classList.add("on"); status("부르세요… 다시 누르면 끝");
+  humRec.start(); btn.classList.add("on"); status("말하거나 부르세요(섞어도 돼요)… 다시 누르면 끝");
 }
 $("#hum").onclick = hum;
 

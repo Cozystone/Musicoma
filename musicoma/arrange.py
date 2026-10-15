@@ -205,8 +205,10 @@ def part_notes(part, sec, spec):
     return []
 
 
-def build(spec, render=True, balance=None, label=None, log=print):
-    """설계서대로 곡을 새로 짓는다(같은 이름이면 덮어씀). 돌려줌: (Song, report|None)"""
+def build(spec, render=True, balance=None, label=None, log=print, later=None):
+    """설계서대로 곡을 새로 짓는다(같은 이름이면 덮어씀). 돌려줌: (Song, report|None)
+    later = {트랙: 함수} — 그 트랙의 파트(오디오·vocal_sections)는 함수가 돌려줄 때 넣는다(10-15 속도: 보컬을 생성하는 동안
+    반주를 짓고 밸런스까지 맞춰 두고, 보컬이 오면 그 트랙만 재서 맞춘다). 함수는 파트 dict 또는 list 를 돌려준다."""
     spec = Spec(spec)
     spec.save()
     sections, total_bars = _sections(spec)
@@ -294,6 +296,18 @@ def build(spec, render=True, balance=None, label=None, log=print):
                     log(f"{part['track']}: rapped {cache[key_]}")
                 s[part["track"]].audio(cache[key_], start=b0, gain_db=v.get("gain_db", 0))
                 continue
+            if "vocal_sections" in part:
+                # 구간별 보컬 녹음(lego.vocal_track 의 json) → 구간마다 클립 하나(이름 = 구간). NG 구간만 lego.retake 로 다시(10-15)
+                done = per_track.setdefault("__vocal_cache", {})
+                key_ = ("sections", part["track"], part["vocal_sections"])
+                if key_ not in done:
+                    vp = Path(part["vocal_sections"])
+                    vst = json.loads((vp if vp.is_absolute() else ROOT / vp).read_text(encoding="utf-8"))
+                    for vsec in vst["sections"]:
+                        s[part["track"]].audio(vsec["file"], start=round(vsec["place_s"] * spec["bpm"] / 60.0, 4),
+                                               name=vsec["name"], gain_db=part.get("gain_db", 0))
+                    done[key_] = True
+                continue
             if "audio" in part:
                 a = part["audio"]
                 path = a["path"] if Path(a["path"]).is_absolute() else str(ROOT / a["path"])
@@ -350,11 +364,34 @@ def build(spec, render=True, balance=None, label=None, log=print):
 
     mix = spec.get("mix", {})
     do_balance = balance if balance is not None else mix.get("balance", False)
+    targets = None
     if do_balance:
         targets = mix.get("balance_lu") or (load_style(spec["style"]).get("mix", {}).get("balance_lu") if spec.get("style") else None)
+    waiting = [n for n in (later or {}) if n in spec.get("tracks", {})]
+    for n in waiting:                                  # 아직 빈 트랙은 재지 않는다(빈 트랙 음량이 -inf 로 잡혀 +12dB 로 튀는 것 방지)
+        s[n].mix(mute=True)
+    if targets:
+        r = s.balance(targets)
+        log("balance: " + ", ".join(f"{m['track']} {m['moved_db']:+.1f}(p{m.get('pass', 1)})" for m in r["moves"]))
+    if waiting:
+        for n in waiting:
+            log(f"{n}: 반주 준비 끝 — 생성 기다리는 중…")
+            parts = later[n]()
+            parts = [parts] if isinstance(parts, dict) else list(parts)
+            spec["parts"] += parts
+            done = {}
+            for part in parts:
+                _place_audio_part(s, part, sections, spec, done)
+            s[n].mix(mute=False)
+            for ev in spec.get("events", []):           # 비트 스톱은 늦게 온 트랙에도(keep 에 없으면)
+                if ev["type"] == "stop" and n not in ev.get("keep", []):
+                    a_, b_ = _event_window(ev, sections)
+                    _cut(s[n], a_, b_)
+        spec.save()
+        s.save()
         if targets:
-            r = s.balance(targets)
-            log("balance: " + ", ".join(f"{m['track']} {m['moved_db']:+.1f}(p{m.get('pass', 1)})" for m in r["moves"]))
+            r = s.balance(targets, rows=getattr(s, "last_balance_rows", None), measure=set(waiting))
+            log("balance(+" + ",".join(waiting) + "): " + ", ".join(f"{m['track']} {m['moved_db']:+.1f}(p{m.get('pass', 1)})" for m in r["moves"]))
     report = s.render(lufs=mix.get("target_lufs"), label=label) if render else None
     try:
         from .layout import write_readme
@@ -362,6 +399,28 @@ def build(spec, render=True, balance=None, label=None, log=print):
     except Exception:
         pass
     return s, report
+
+
+def _place_audio_part(s, part, sections, spec, done):
+    """늦게 넣는 오디오 파트(보컬 등) — vocal_sections(구간별 클립) 또는 audio(파일 하나)."""
+    if "vocal_sections" in part:
+        if part["vocal_sections"] in done:
+            return
+        vp = Path(part["vocal_sections"])
+        vst = json.loads((vp if vp.is_absolute() else ROOT / vp).read_text(encoding="utf-8"))
+        for vsec in vst["sections"]:
+            s[part["track"]].audio(vsec["file"], start=round(vsec["place_s"] * spec["bpm"] / 60.0, 4),
+                                   name=vsec["name"], gain_db=part.get("gain_db", 0))
+        done[part["vocal_sections"]] = True
+        return
+    a = part["audio"]
+    path = a["path"] if Path(a["path"]).is_absolute() else str(ROOT / a["path"])
+    for sec in _targets(part, sections):
+        b0 = sec["start_bar"] * 4 + part.get("offset", 0)
+        s[part["track"]].audio(path, start=b0, length=a.get("length") or sec["bars"] * 4,
+                               **{k: a[k] for k in ("gain_db", "pan", "fade_in", "fade_out", "offset", "reverse") if k in a})
+        if a.get("length"):
+            break
 
 
 def _event_window(ev, sections):

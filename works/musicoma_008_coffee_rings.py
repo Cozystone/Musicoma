@@ -155,21 +155,31 @@ if __name__ == "__main__":
     if step == "inst":                           # 반주만 들어 볼 때. all 은 건너뛴다 — 보컬은 가이드로 만들고 최종 빌드가 반주를 다시 짓는다(10-15 속도)
         s, rep = arrange.build(spec, label="inst")
         print("반주:", rep["file"], rep["loudness"]["lufs_integrated"])
-    if step in ("all", "vocal"):
+    CAPTION = ("male rap vocals, english, upbeat jazz hip-hop, conversational storytelling flow, smooth and clear, "
+               "slightly behind the beat, warm mid-range voice")
+    VOX = root / "vocals" / "rap.wav"           # 구간별 녹음: vocals/rap/NN_구간.wav + rap.json (10-15. v1 의 rap_lego 를 옮긴 것)
+    spec["tracks"]["Rap"] = {"role": "rap vocal (generated over the arrangement)", "sends": {"0": -20},
+                             "fx": [{"device": "eq", "params": {"Low-pass freq": 110, "Low-pass gain": -6, "Mid freq 2": 3200, "Mid gain 2": 1.5}},
+                                    {"device": "compressor", "params": {"threshold": -20, "ratio": 3, "attack": 8, "release": 100}}]}
+    rap_part = {"track": "Rap", "vocal_sections": str(VOX.with_suffix(".json"))}
+
+    def make_vocals():
         guide = lego.render_guide(spec)
-        caption = ("male rap vocals, english, upbeat jazz hip-hop, conversational storytelling flow, smooth and clear, "
-                   "slightly behind the beat, warm mid-range voice")
-        vox, rep_v = lego.vocal_track(guide, rap_sections(), BPM, KEY, caption,
-                                      root / "vocals" / "rap_lego.wav", takes=10, guide_wav=guide, pass_wer=0.3, min_key_fit=0.0)
+        _, rep_v = lego.vocal_track(guide, rap_sections(), BPM, KEY, CAPTION, VOX, takes=12, guide_wav=guide,
+                                    pass_wer=0.3, min_key_fit=0.0)
         for x in rep_v:
             print(x["section"], "seed", x["chosen"], "오류율", x["wer"], "유사도", x["voice_sim"])
-    if step in ("all", "final"):
-        import glob
-        vox = sorted(glob.glob(str(root / "vocals" / "rap_lego*.wav")))[-1]
-        spec["tracks"]["Rap"] = {"role": "rap vocal (generated over the arrangement)", "sends": {"0": -20},
-                                 "fx": [{"device": "eq", "params": {"Low-pass freq": 110, "Low-pass gain": -6, "Mid freq 2": 3200, "Mid gain 2": 1.5}},
-                                        {"device": "compressor", "params": {"threshold": -20, "ratio": 3, "attack": 8, "release": 100}}]}
-        total = sum(x["bars"] for x in SECTIONS) * 4
-        spec["parts"].append({"track": "Rap", "in": ["intro"], "audio": {"path": vox, "length": total}})
+        return rap_part
+
+    if step == "vocal":
+        make_vocals()
+    if step == "all":                            # 보컬 생성 ∥ 반주 빌드·밸런스 → 보컬 트랙만 재서 맞춤(10-15 속도)
+        from concurrent.futures import ThreadPoolExecutor
+        lego.render_guide(spec)                  # 엔진을 쓰는 단계는 빌드 전에 끝낸다
+        fut = ThreadPoolExecutor(1).submit(make_vocals)
+        s, rep = arrange.build(spec, label=label, later={"Rap": fut.result})
+        print(json.dumps({k: rep[k] for k in ("file", "loudness", "bands_db", "issues")}, ensure_ascii=False, default=str))
+    if step == "final":                          # 보컬은 그대로 두고 다시 짓기(구간 다시 녹음 lego.retake 뒤에도)
+        spec["parts"].append(rap_part)
         s, rep = arrange.build(spec, label=label)
         print(json.dumps({k: rep[k] for k in ("file", "loudness", "bands_db", "issues")}, ensure_ascii=False, default=str))

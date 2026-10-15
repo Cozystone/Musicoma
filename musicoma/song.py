@@ -276,16 +276,23 @@ class Song:
                          "width": rep["stereo"]["width_side_to_mid_db"]})
         return rows
 
-    def balance(self, targets=None, reference="drums", max_move_db=12.0, passes=3, tolerance_lu=0.7):
+    def balance(self, targets=None, reference="drums", max_move_db=12.0, passes=3, tolerance_lu=0.7, rows=None, measure=None):
         """여러 번 재고 고친다 — 트랙 볼륨이 컴프레서 앞에 있으면 올린 만큼 안 올라가서(10-15 kanye 랩이 묻힌 원인),
-        한 번에 맞추면 오차가 남는다. 매번 다시 렌더해 측정, 모두 tolerance 안이면 멈춘다."""
-        all_moves, res, rows = [], None, None
+        한 번에 맞추면 오차가 남는다. 매번 다시 렌더해 측정, 모두 tolerance 안이면 멈춘다.
+        rows + measure: 앞서 잰 결과(self.last_balance_rows)를 쓰고 measure 트랙만 새로 잰다
+        (반주를 먼저 맞춰 둔 뒤 보컬만 얹을 때 — 10-15 속도)."""
+        all_moves, res = [], None
+        if rows is not None:
+            rows = {n: {**r, "moved": n in (measure or ())} for n, r in rows.items()}
+            for n in measure or ():
+                rows.setdefault(n, {"track": n, "lufs": None, "moved": True})
         for i in range(passes):
             res = self._balance_once(targets, reference, max_move_db, tolerance_lu, rows)
             rows = res["rows"]
             all_moves += [{**m, "pass": i + 1} for m in res["moves"]]
             if not res["moves"]:
                 break
+        self.last_balance_rows = {n: {k: v for k, v in r.items() if k != "moved"} for n, r in rows.items()} if rows else None
         return {"reference": res["reference"] if res else reference, "moves": all_moves}
 
     def _balance_once(self, targets=None, reference="drums", max_move_db=12.0, tolerance_lu=0.5, prev=None):
@@ -302,7 +309,7 @@ class Song:
             rows = {r["track"]: r for r in self.render_stems() if r.get("lufs") is not None}
         else:                                      # 지난 회차에 움직인 트랙만 다시 렌더(나머지 음량은 그대로 — 10-15 속도 개선)
             moved = {n for n, r in prev.items() if r.get("moved")}
-            rows = {n: {k: v for k, v in r.items() if k != "moved"} for n, r in prev.items()}
+            rows = {n: {k: v for k, v in r.items() if k != "moved"} for n, r in prev.items() if r.get("lufs") is not None}
             if moved:
                 rows.update({r["track"]: r for r in self.render_stems(only=moved) if r.get("lufs") is not None})
         tracks_meta = self.meta.get("tracks", {})

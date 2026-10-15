@@ -169,11 +169,15 @@ class Api(http.server.SimpleHTTPRequestHandler):
             f = ROOT / "projects" / a.get("song", "") / "song.json"
             if a.get("song") and f.exists():
                 song = json.loads(f.read_text(encoding="utf-8"))
-            r = hum.listen(wav, float(song.get("bpm") or a.get("bpm") or 90), song.get("key") or "C major")
-            r["path"] = wav
-            r["heard"] = [theory.note_name(x["pitch"]) for x in r["notes"]] if r["mode"] == "melody" else \
-                [{36: "킥", 38: "스네어", 42: "햇"}.get(x["pitch"], "?") for x in r["notes"]]
-            return self._json(r)
+            # 말 + 흥얼거림을 한 번에(10-15): 지시 문장(said)과 음악 구간(music)을 나눠 듣는다
+            u = hum.understand(wav, float(song.get("bpm") or a.get("bpm") or 90), song.get("key") or "C major")
+            for r in u["music"]:
+                r["heard"] = [theory.note_name(x["pitch"]) for x in r["notes"]] if r["mode"] == "melody" else \
+                    [{36: "킥", 38: "스네어", 42: "햇"}.get(x["pitch"], "?") for x in r["notes"]]
+            if not u["music"] and not u["said"]:
+                return self._json({"error": "소리를 못 찾았어요 — 조금 더 크게 불러 주세요"})
+            u["path"] = wav
+            return self._json(u)
         except Exception as ex:
             return self._json({"error": f"{type(ex).__name__}: {ex}"})
 

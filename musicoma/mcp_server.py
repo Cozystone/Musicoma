@@ -379,6 +379,47 @@ def hum_listen(path: str, bpm: float, key: str = "C major", mode: str = "auto") 
 
 
 @mcp.tool()
+def vocal_takes(state: str) -> list:
+    """Section-by-section vocal 'recording' of a song (like a real singer: verse, hook... each its own clip + kept
+    alternative takes). state = the vocal json (e.g. projects/<song>/vocals/rap_lego.json). Shows chosen seed and
+    alternatives per section with lyric error rate (wer), voice similarity, key fit."""
+    from musicoma import lego
+    return lego.takes_list(_abs(state))
+
+
+@mcp.tool()
+def vocal_retake(state: str, section: str, takes: int = 6, lyrics: str = "") -> dict:
+    """Re-record ONE section ("NG on hook2 — sing it again", optionally with new lyrics) in the same voice.
+    Other sections stay untouched. Old takes are kept; vocal_use_take to go back. Rebuild the song after (build_spec)."""
+    from musicoma import lego
+    return lego.retake(_abs(state), section, takes=takes, lyrics=lyrics or None, log=lambda m: None)
+
+
+@mcp.tool()
+def vocal_use_take(state: str, section: str, seed: int) -> dict:
+    """Swap a section to another kept take (no generation). Rebuild the song after."""
+    from musicoma import lego
+    return lego.use_take(_abs(state), section, seed)
+
+
+def _abs(p):
+    from pathlib import Path
+    from musicoma import arrange
+    q = Path(p)
+    return str(q if q.is_absolute() else Path(arrange.ROOT) / q)
+
+
+@mcp.tool()
+def hum_understand(path: str, bpm: float, key: str = "C major", lang: str = "ko") -> dict:
+    """A voice note that MIXES speech and humming/beatbox ("이 리듬으로 1분 20초에 네 번 넣어줘 — 투두투두…").
+    Returns said (the spoken instruction), music (each hummed part as hum_listen results + its clip path) and place
+    (at/repeat parsed from the speech). Melodies are transposed as a whole into the song key (shape kept).
+    Act on the instruction, then hum_place each music clip."""
+    from musicoma import hum
+    return hum.understand(path, bpm, key, lang)
+
+
+@mcp.tool()
 def hum_place(song: str, path: str, at: str = "0", repeat: int = 1, track: str = "Hum", sound: str = "",
               key: str = "", mode: str = "auto") -> dict:
     """Put a hummed idea into the song: at = '1:20' (min:sec) / '80s' / 'bar 33' (snapped to the bar), repeated `repeat`

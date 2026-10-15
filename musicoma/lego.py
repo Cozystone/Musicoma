@@ -28,6 +28,7 @@ from .layout import work_dir
 ROOT = Path(__file__).resolve().parent.parent
 ACE = ROOT / "third_party" / "ace-step-15"
 CONTEXT = 10.0          # 구간 앞뒤로 비트 문맥(초)
+BATCH = 3               # 한 번에 만드는 테이크 수(16GB: 3 까지 확인 — 10-15)
 MAX_CROP = 44.0
 
 
@@ -109,7 +110,8 @@ def key_fit(path, key):
     scale = np.array([0, 2, 3, 5, 7, 8, 10] if mode.lower().startswith("min") else [0, 2, 4, 5, 7, 9, 11])
     v, sr = sf.read(str(path), dtype="float64")
     v = v.mean(1) if v.ndim > 1 else v
-    f0, _ = pw.harvest(v, sr, frame_period=10, f0_floor=80, f0_ceil=1000)
+    f0, tt = pw.dio(v, sr, frame_period=10, f0_floor=80, f0_ceil=1000)     # harvest 2.2초 → dio+stonemask 0.3초(음계 비율엔 충분 — 10-15)
+    f0 = pw.stonemask(v, f0, tt, sr)
     f = f0[f0 > 0]
     if len(f) < 50:
         return 0.0
@@ -228,106 +230,239 @@ def vocals_only(path, out_path):
     return str(Path(out_path).resolve())
 
 
+def _safe_write(path, data, sr):
+    """엔진이 열고 있는 파일이면 새 이름으로(10-15 잠금 사고)."""
+    path = Path(path)
+    try:
+        sf.write(str(path), data, sr, subtype="PCM_24")
+    except Exception:
+        import time
+        path = path.with_name(f"{path.stem}_{time.strftime('%H%M%S')}{path.suffix}")
+        sf.write(str(path), data, sr, subtype="PCM_24")
+    return path
+
+
+def _cut(vox, a, b, sr):
+    """분리한 보컬(앞뒤 0.3초 여유) → 구간 [a-0.15, b] 만, 짧은 페이드. 놓는 자리 = a-0.15초.
+    (이음새에서 두 테이크가 겹쳐 '여러 목소리'로 들리던 문제 — 10-15)"""
+    v, s3 = sf.read(vox, dtype="float32")
+    if v.ndim == 1:
+        v = np.stack([v, v], 1)
+    if s3 != sr:
+        v = librosa.resample(v.T, orig_sr=s3, target_sr=sr).T
+    v = v[int(0.15 * sr):int((b - a + 0.3) * sr)].copy()
+    f_ = min(int(0.15 * sr), len(v) // 4)
+    v[:f_] *= np.linspace(0, 1, f_)[:, None]
+    g = min(int(0.02 * sr), len(v))
+    v[len(v) - g:] *= np.linspace(1, 0, g)[:, None]
+    return v
+
+
+def _score_key(r, has_ref):
+    return (r["voice_sim"] or 0) - 0.5 * r["wer"] + 0.5 * r["key_fit"] if has_ref else r["key_fit"] - r["wer"]
+
+
+def _take_section(si, sec, st, ref_print, reference, log, takes, enough, seed0):
+    """한 구간 '녹음' — 테이크를 만들고 채점. 반환 rows(테이크별 점수)."""
+    from . import voice_design as vd
+    from .vocal_melody import synth
+    work = Path(st["work"])
+    bpm, key, lang = st["bpm"], st["key"], st["lang"]
+    beat, sr = sf.read(st["guide"], dtype="float32")
+    if beat.ndim == 1:
+        beat = np.stack([beat, beat], 1)
+    beat = beat / (np.abs(beat).max() + 1e-9) * 0.8
+    a, b = float(sec["start"]), float(sec["end"])
+    c0 = max(0.0, a - CONTEXT)
+    c1 = min(len(beat) / sr, max(b + CONTEXT, c0 + 20.0), c0 + MAX_CROP)
+    if b > c1:                                   # 구간이 길면 문맥을 줄인다
+        c0, c1 = max(0.0, a - 2.0), min(len(beat) / sr, b + 2.0)
+    crop = work / f"{si:02d}_{sec['name']}_beat.wav"
+    seg = beat[int(c0 * sr):int(c1 * sr)].copy()
+    if sec.get("melody_notes"):
+        # 가이드 멜로디는 '이 구간 안에만'. 문맥(앞뒤)에 멜로디 악기가 들리면 모델이 '악기가 노래하는 곡'으로 보고 보컬을 안 얹는다(10-15: 8/8 실패 → 5/8 성공)
+        m = synth(sec["melody_notes"], bpm, sr, len(beat))[int(c0 * sr):int(c1 * sr)] * 0.35
+        seg = seg + m[:, None]
+        seg = seg / (np.abs(seg).max() + 1e-9) * 0.85
+    sf.write(str(crop), seg, sr, subtype="PCM_24")
+    req = {"tag": f"{si:02d}_{sec['name']}", "beat": str(crop), "lyrics": f"[{sec.get('tag', 'Verse')}]\n{sec['lyrics']}",
+           "caption": st["caption"], "bpm": int(round(bpm)), "key": sec.get("key", key), "start": round(a - c0, 3), "end": round(b - c0, 3),
+           "seeds": list(range(seed0, seed0 + takes)), "out_dir": str(work / f"{si:02d}_{sec['name']}"),
+           "track": st["track"], "steps": st["steps"], "model": "acestep-v15-xl-base", "offload": True,
+           "quantization": "int8_weight_only", "vocal_language": lang}
+    if reference:
+        req["reference"] = str(Path(reference).resolve())
+    log(f"[lego] {sec['name']} {a:.1f}~{b:.1f}s · 최대 {takes} 테이크(통과 {enough}개면 멈춤)")
+    srv = server({k: req[k] for k in ("model", "offload", "quantization")}, work)
+    pass_wer, min_key_fit = st["pass_wer"], st["min_key_fit"]
+
+    def score(f):
+        y, s2 = sf.read(f["path"], dtype="float32")
+        cut = Path(f["path"]).with_name("section.wav")
+        sf.write(str(cut), y[int(max(0, a - c0 - 0.3) * s2):int((b - c0 + 0.3) * s2)], s2)
+        vox = vocals_only(cut, cut.with_name("vocals.wav"))
+        hyp = " ".join(w["w"] for w in vd.words(vox, lang))
+        return {"seed": f["seed"], "wer": round(_wer(sec["lyrics"], hyp), 3),
+                "key_fit": round(key_fit(vox, sec.get("key", key)), 3),
+                "voice_sim": round(_sim(_voiceprint(vox), ref_print), 3) if ref_print is not None else None,
+                "vox": vox, "heard": hyp[:160]}
+
+    def passes(r):
+        return r["wer"] <= pass_wer and r["key_fit"] >= min_key_fit and (r["voice_sim"] is None or r["voice_sim"] >= 0.95)
+
+    # 생성(ACE 프로세스)과 채점(이 프로세스)을 겹친다: 테이크 n 을 채점하는 동안 n+1 을 만든다. 통과가 enough 개면 멈춤
+    # 테이크는 BATCH 개씩 한 번에(10-15 실측: 1개씩 10.8초 → 3개씩 테이크당 7.9초). 채점(묶음당 ~4초)이 생성(~24초)보다
+    # 훨씬 짧아서 다음 묶음을 미리 걸지 않는다 — 미리 걸면 구간마다 쓸모없는 묶음이 하나씩 더 생겼다(10-15 e2e: 69테이크)
+    seeds = req["seeds"]
+    rows = []
+    for g in range(0, len(seeds), BATCH):
+        srv.submit({**req, "seeds": seeds[g:g + BATCH], "batch": BATCH})
+        rows += [score(f) for f in srv.result()]
+        if enough and sum(map(passes, rows)) >= enough:
+            break
+    if not rows:
+        raise RuntimeError(f"[lego] {sec['name']}: 생성된 테이크가 없음(요청 {work / ('req_' + req['tag'] + '.json')} 확인)")
+    for r in rows:
+        r["pass"] = passes(r)
+    return rows
+
+
+def _pick(rows, st, has_ref):
+    ok = [r for r in rows if r["wer"] <= st["pass_wer"]] or sorted(rows, key=lambda r: r["wer"])[:2]
+    ok = [r for r in ok if r["key_fit"] >= st["min_key_fit"]] or ok        # 조성 적합도 통과 테이크 우선
+    return max(ok, key=lambda r: _score_key(r, has_ref))
+
+
+def _write(st, out_json):
+    """구간별 '녹음 파일' + 대안 테이크 + 전체 보컬 + 상태(json). 진짜 가수 녹음처럼: 구간 = 클립 하나, NG 면 그 구간만 다시."""
+    sr, n = st["sr"], st["length"]
+    base = Path(out_json).with_suffix("")
+    d = base.parent / base.name                 # vocals/<이름>/
+    (d / "takes").mkdir(parents=True, exist_ok=True)
+    full = np.zeros((n, 2), np.float32)
+    for si, sec in enumerate(st["sections"]):
+        a, b = float(sec["start"]), float(sec["end"])
+        for r in sec["takes"]:
+            if (r.get("pass") or r["seed"] == sec["chosen"]) and not (r.get("file") and Path(r["file"]).exists()):
+                r["file"] = str(_safe_write(d / "takes" / f"{si:02d}_{sec['name']}_seed{r['seed']}.wav", _cut(r["vox"], a, b, sr), sr))
+        best = next(r for r in sec["takes"] if r["seed"] == sec["chosen"])
+        v = _cut(best["vox"], a, b, sr)
+        sec["file"] = str(_safe_write(d / f"{si:02d}_{sec['name']}.wav", v, sr))
+        sec["place_s"] = round(max(0.0, a - 0.15), 4)
+        i = int(sec["place_s"] * sr)
+        full[i:i + len(v)] += v[:max(0, n - i)]
+    st["full"] = str(_safe_write(base.with_suffix(".wav"), full, sr))
+    Path(out_json).write_text(json.dumps(st, ensure_ascii=False, indent=1), encoding="utf-8")
+    return st
+
+
 def vocal_track(beat_wav, sections, bpm, key, caption, out, takes=8, lang="en", reference=None, log=print,
-                pass_wer=0.2, track="vocals", guide_wav=None, min_key_fit=0.8, enough=3):
+                pass_wer=0.2, track="vocals", guide_wav=None, min_key_fit=0.8, enough=3, steps=50):
     """guide_wav: 보컬 생성에만 쓰는 '가벼운 반주'(드럼·베이스·건반만). 10-15 측정: 꽉 찬 편곡(브라스·스트링·기타)을 주면
     Lego 가 '이미 완성된 곡'으로 보고 보컬을 거의 안 얹는다(보컬 -45~-60dB) — 덜어 낸 반주에서는 노래가 나온다.
     결과 보컬은 원래 반주(beat_wav) 위치에 놓인다. 노래는 랩보다 성공률이 낮아 takes 16~20 권장.
-    takes 는 '최대'다 — 통과(오류율·조성·목소리) 테이크가 enough 개 모이면 그 구간은 멈춘다. enough=0 이면 끝까지."""
+    takes 는 '최대'다 — 통과(오류율·조성·목소리) 테이크가 enough 개 모이면 그 구간은 멈춘다. enough=0 이면 끝까지.
+
+    결과(10-15 '가수 녹음처럼'): out.wav(전체) + out/NN_구간.wav(구간별 클립) + out/takes/(통과한 대안) + out.json(상태).
+    설계서에는 {"track": .., "vocal_sections": "vocals/out.json"} 로 구간별 클립을 놓는다. NG 구간은 retake / use_take."""
     out = Path(out).resolve()
     work = work_dir(out, "lego")
-    from . import voice_design as vd
-    beat, sr = sf.read(str(guide_wav or beat_wav), dtype="float32")
-    if beat.ndim == 1:
-        beat = np.stack([beat, beat], 1)
-    from .vocal_melody import synth
-    beat = beat / (np.abs(beat).max() + 1e-9) * 0.8
-    full = np.zeros_like(beat)
+    g = Path(guide_wav or beat_wav).resolve()
+    info = sf.info(str(g))
+    st = {"engine": "ACE-Step 1.5 xl-base lego + demucs", "caption": caption, "bpm": bpm, "key": key, "lang": lang,
+          "track": track, "guide": str(g), "work": str(work), "pass_wer": pass_wer, "min_key_fit": min_key_fit,
+          "steps": steps, "sr": info.samplerate, "length": info.frames, "reference": str(reference) if reference else None,
+          "sections": []}
     ref_print = _voiceprint(reference) if reference else None
-    report = []
+    ref_vox = reference
     for si, sec in enumerate(sections):
-        a, b = float(sec["start"]), float(sec["end"])
-        c0 = max(0.0, a - CONTEXT)
-        c1 = min(len(beat) / sr, max(b + CONTEXT, c0 + 20.0), c0 + MAX_CROP)
-        if b > c1:                                   # 구간이 길면 문맥을 줄인다
-            c0, c1 = max(0.0, a - 2.0), min(len(beat) / sr, b + 2.0)
-        crop = work / f"{si:02d}_{sec['name']}_beat.wav"
-        seg = beat[int(c0 * sr):int(c1 * sr)].copy()
-        if sec.get("melody_notes"):
-            # 가이드 멜로디는 '이 구간 안에만'. 문맥(앞뒤)에 멜로디 악기가 들리면 모델이 '악기가 노래하는 곡'으로 보고 보컬을 안 얹는다(10-15: 8/8 실패 → 5/8 성공)
-            m = synth(sec["melody_notes"], bpm, sr, len(beat))[int(c0 * sr):int(c1 * sr)] * 0.35
-            seg = seg + m[:, None]
-            seg = seg / (np.abs(seg).max() + 1e-9) * 0.85
-        sf.write(str(crop), seg, sr, subtype="PCM_24")
-        req = {"tag": f"{si:02d}_{sec['name']}", "beat": str(crop), "lyrics": f"[{sec.get('tag', 'Verse')}]\n{sec['lyrics']}",
-               "caption": caption, "bpm": int(round(bpm)), "key": sec.get("key", key), "start": round(a - c0, 3), "end": round(b - c0, 3),
-               "seeds": list(range(1 + si * 100, 1 + si * 100 + takes)), "out_dir": str(work / f"{si:02d}_{sec['name']}"),
-               "track": track, "steps": 50, "model": "acestep-v15-xl-base", "offload": True,
-               "quantization": "int8_weight_only", "vocal_language": lang}
-        good = [r for r in report if r["wer"] <= pass_wer]                 # 통과한 테이크만 목소리 기준으로(실패작이 참조가 되면 뒤가 전부 무음 — 10-15)
-        if reference or good:
-            req["reference"] = str(Path(reference or good[0]["vox"]).resolve())
-        log(f"[lego] {sec['name']} {a:.1f}~{b:.1f}s · 최대 {takes} 테이크(통과 {enough}개면 멈춤)")
-        srv = server({k: req[k] for k in ("model", "offload", "quantization")}, work)
-
-        def score(f):
-            y, s2 = sf.read(f["path"], dtype="float32")
-            cut = Path(f["path"]).with_name("section.wav")
-            sf.write(str(cut), y[int(max(0, a - c0 - 0.3) * s2):int((b - c0 + 0.3) * s2)], s2)
-            vox = vocals_only(cut, cut.with_name("vocals.wav"))
-            hyp = " ".join(w["w"] for w in vd.words(vox, lang))
-            return {"seed": f["seed"], "wer": round(_wer(sec["lyrics"], hyp), 3),
-                    "key_fit": round(key_fit(vox, sec.get("key", key)), 3),
-                    "voice_sim": round(_sim(_voiceprint(vox), ref_print), 3) if ref_print is not None else None,
-                    "vox": vox, "heard": hyp[:160]}
-
-        def passes(r):
-            return r["wer"] <= pass_wer and r["key_fit"] >= min_key_fit and (r["voice_sim"] is None or r["voice_sim"] >= 0.95)
-
-        # 생성(ACE 프로세스)과 채점(이 프로세스)을 겹친다: 테이크 n 을 채점하는 동안 n+1 을 만든다. 통과가 enough 개면 멈춤
-        # (10-15 Coffee Rings 기록으로 모의: 70 → 37 테이크, 고른 테이크는 같거나 동급)
-        seeds = req["seeds"]
-        srv.submit({**req, "seeds": [seeds[0]]})
-        sent, in_flight, rows = 1, 1, []
-        while in_flight:
-            files = srv.result()
-            in_flight -= 1
-            if (not enough or sum(map(passes, rows)) < enough) and sent < len(seeds):
-                srv.submit({**req, "seeds": [seeds[sent]]})
-                sent += 1
-                in_flight += 1
-            rows += [score(f) for f in files]
-        if not rows:
-            raise RuntimeError(f"[lego] {sec['name']}: 생성된 테이크가 없음(요청 {work / ('req_' + req['tag'] + '.json')} 확인)")
-        ok = [r for r in rows if r["wer"] <= pass_wer] or sorted(rows, key=lambda r: r["wer"])[:2]
-        in_key = [r for r in ok if r["key_fit"] >= min_key_fit]
-        ok = in_key or ok                                    # 조성 적합도 통과 테이크 우선
-        best = max(ok, key=lambda r: (r["voice_sim"] or 0) - 0.5 * r["wer"] + 0.5 * r["key_fit"]) if ref_print is not None             else max(ok, key=lambda r: r["key_fit"] - r["wer"])
+        rows = _take_section(si, sec, st, ref_print, ref_vox, log, takes, enough, 1 + si * 100)
+        best = _pick(rows, st, ref_print is not None)
         if ref_print is None and best["wer"] <= pass_wer:     # 처음 통과한 구간의 목소리가 이후 구간의 기준
             ref_print = _voiceprint(best["vox"])
-        v, s3 = sf.read(best["vox"], dtype="float32")
-        if v.ndim == 1:
-            v = np.stack([v, v], 1)
-        if s3 != sr:
-            v = librosa.resample(v.T, orig_sr=s3, target_sr=sr).T
-        # 분리할 때 앞뒤 0.3초를 붙여 잘랐다 → 구간 [a-0.15, b] 만 쓰고 짧게 페이드(이음새에서 두 테이크가 겹쳐 '여러 목소리'로 들리던 문제)
-        v = v[int(0.15 * sr):int((b - a + 0.3) * sr)]                    # 끝 = 구간 끝(다음 구간과 겹치지 않게)
-        f_ = min(int(0.15 * sr), len(v) // 4)
-        v[:f_] *= np.linspace(0, 1, f_)[:, None]
-        v[-int(0.02 * sr):] *= np.linspace(1, 0, int(0.02 * sr))[:, None]
-        i = int(max(0, a - 0.15) * sr)
-        full[i:i + len(v)] += v[:len(full) - i]
-        report.append({"section": sec["name"], "start": a, "end": b, "chosen": best["seed"], "wer": best["wer"],
-                       "key_fit": best["key_fit"],
-                       "voice_sim": best["voice_sim"], "vox": best["vox"], "takes": rows})
+        if ref_vox is None and best["wer"] <= pass_wer:       # 통과한 테이크만 목소리 참조로(실패작이 참조가 되면 뒤가 전부 무음 — 10-15)
+            ref_vox = best["vox"]
+        st["sections"].append({**sec, "chosen": best["seed"], "wer": best["wer"], "key_fit": best["key_fit"],
+                               "voice_sim": best["voice_sim"], "vox": best["vox"], "takes": rows})
         log(f"[lego] {sec['name']}: seed {best['seed']} · 오류율 {best['wer']} · 유사도 {best['voice_sim']} · 조성 {best['key_fit']}")
-    try:
-        sf.write(str(out), full, sr, subtype="PCM_24")
-    except Exception:                                # 엔진이 이전 파일을 열고 있으면 새 이름으로(10-15 잠금 사고)
-        import time
-        out = out.with_name(f"{out.stem}_{time.strftime('%H%M%S')}{out.suffix}")
-        sf.write(str(out), full, sr, subtype="PCM_24")
-    out.with_suffix(".json").write_text(json.dumps({"engine": "ACE-Step 1.5 xl-base lego + demucs", "caption": caption,
-                                                    "bpm": bpm, "key": key, "sections": report}, ensure_ascii=False,
-                                                   indent=1), encoding="utf-8")
-    return str(out), report
+    st["ref_vox"] = ref_vox
+    st = _write(st, out.with_suffix(".json"))
+    report = [{"section": x["name"], "start": x["start"], "end": x["end"], "chosen": x["chosen"], "wer": x["wer"],
+               "key_fit": x["key_fit"], "voice_sim": x["voice_sim"], "vox": x["vox"], "file": x["file"], "takes": x["takes"]}
+              for x in st["sections"]]
+    return st["full"], report
+
+
+def _load(state):
+    p = Path(state)
+    if p.suffix != ".json":
+        p = p.with_suffix(".json")
+    return p, json.loads(p.read_text(encoding="utf-8"))
+
+
+def _find(st, section):
+    for si, sec in enumerate(st["sections"]):
+        if sec["name"] == section:
+            return si, sec
+    raise KeyError(f"구간 없음: {section} (있는 것: {[x['name'] for x in st['sections']]})")
+
+
+def retake(state, section, takes=6, enough=2, lyrics=None, log=print):
+    """NG 난 구간만 다시 부르게(같은 목소리 — 다른 구간에서 고른 테이크를 참조로). 가사를 고쳐 다시 부를 수도 있다.
+    새 테이크 중 가장 좋은 것으로 바꾸고, 예전 것은 takes/ 에 남는다(use_take 로 되돌리기)."""
+    p, st = _load(state)
+    si, sec = _find(st, section)
+    if lyrics:
+        sec["lyrics"] = lyrics
+    ref = st.get("ref_vox")
+    if not ref or ref == sec.get("vox"):
+        ref = next((x["vox"] for x in st["sections"] if x["name"] != section and x["wer"] <= st["pass_wer"]), ref)
+    ref_print = _voiceprint(ref) if ref else None
+    seed0 = 1000 + si * 100 + len(sec["takes"])                          # 처음과 다른 시드
+    rows = _take_section(si, sec, st, ref_print, ref, log, takes, enough, seed0)
+    best = _pick(rows, st, ref_print is not None)
+    sec["takes"] += rows
+    sec.update({"chosen": best["seed"], "wer": best["wer"], "key_fit": best["key_fit"], "voice_sim": best["voice_sim"], "vox": best["vox"]})
+    log(f"[lego] 다시 녹음 {section}: seed {best['seed']} · 오류율 {best['wer']} · 유사도 {best['voice_sim']}")
+    _write(st, p)
+    return {"section": section, "chosen": best["seed"], "wer": best["wer"], "voice_sim": best["voice_sim"],
+            "file": sec["file"], "full": st["full"], "takes": [{k: r[k] for k in ("seed", "wer", "voice_sim", "key_fit")} for r in rows]}
+
+
+def use_take(state, section, seed):
+    """그 구간을 다른 테이크로 바꾼다(되돌리기 포함). 다시 생성하지 않음."""
+    p, st = _load(state)
+    _, sec = _find(st, section)
+    r = next((r for r in sec["takes"] if r["seed"] == int(seed)), None)
+    if r is None:
+        raise KeyError(f"{section} 에 seed {seed} 테이크 없음: {[x['seed'] for x in sec['takes']]}")
+    sec.update({"chosen": r["seed"], "wer": r["wer"], "key_fit": r["key_fit"], "voice_sim": r["voice_sim"], "vox": r["vox"]})
+    _write(st, p)
+    return {"section": section, "chosen": r["seed"], "file": sec["file"], "full": st["full"]}
+
+
+def takes_list(state):
+    """구간별로 고른 테이크와 대안들(통과한 것) — 화면·AI 가 '2절은 3번 테이크로' 같은 말을 처리할 때."""
+    _, st = _load(state)
+    return [{"section": x["name"], "start": x["start"], "end": x["end"], "chosen": x["chosen"], "file": x.get("file"),
+             "takes": [{k: r.get(k) for k in ("seed", "wer", "voice_sim", "key_fit", "pass", "file")} for r in x["takes"]]}
+            for x in st["sections"]]
+
+
+def from_legacy(old_json, sections, guide, out_json, pass_wer=0.3, min_key_fit=0.0, lang="en", track="vocals"):
+    """10-15 이전 형식(전체 보컬 하나 + 테이크 점수)을 구간별 녹음 형식으로 옮긴다 — 이미 고른 테이크 그대로."""
+    old = json.loads(Path(old_json).read_text(encoding="utf-8"))
+    info = sf.info(str(guide))
+    by = {s["name"]: s for s in sections}
+    st = {"engine": old.get("engine"), "caption": old.get("caption"), "bpm": old["bpm"], "key": old["key"], "lang": lang,
+          "track": track, "guide": str(Path(guide).resolve()), "work": str(work_dir(Path(out_json).with_suffix(".wav"), "lego")),
+          "pass_wer": pass_wer, "min_key_fit": min_key_fit, "steps": 50, "sr": info.samplerate, "length": info.frames,
+          "sections": []}
+    for x in old["sections"]:
+        best = next(r for r in x["takes"] if r["seed"] == x["chosen"])
+        for r in x["takes"]:
+            r["pass"] = r["wer"] <= pass_wer and r["key_fit"] >= min_key_fit
+        st["sections"].append({**by[x["section"]], "chosen": x["chosen"], "wer": x["wer"], "key_fit": x["key_fit"],
+                               "voice_sim": x["voice_sim"], "vox": best["vox"], "takes": x["takes"]})
+    st["ref_vox"] = next((x["vox"] for x in st["sections"] if x["wer"] <= pass_wer), None)
+    return _write(st, out_json)
