@@ -288,6 +288,29 @@ def _():
     return {"sections": len(c["orchestration"])}
 
 
+@check("theory.minor_key_romans")
+def _():
+    from musicoma import theory
+    assert theory.progression("i VI III VII", "D", "minor") == ["Dm", "Bb", "F", "C"]
+    assert theory.progression("bVI bVII i", "A", "minor") == ["F", "G", "Am"]
+    assert theory.progression("i iv VI V", "A", "minor") == ["Am", "Dm", "F", "E"]
+    assert theory.progression("I V vi IV", "C", "major") == ["C", "G", "Am", "F"]
+    return "ok"
+
+
+@check("critic.runs")
+def _():
+    from musicoma import critic
+    spec = {"name": "t", "bpm": 90, "key": "C major", "sections": [{"name": "a", "bars": 4}, {"name": "b", "bars": 4}],
+            "tracks": {"K": {}, "L": {}},
+            "parts": [{"track": "K", "in": "all", "chords": {"progression": "I vi IV V", "beats_per_chord": 4}},
+                      {"track": "L", "in": ["a"], "melody": "C5:1 E5:1 G5:1 C5:1 | A4:2 C5:2 | F5:4 | B4:4"},
+                      {"track": "L", "in": ["b"], "melody": "C#5:1 D#5:1 F#5:2 | A#4:4 | F#5:4 | C#5:4"}]}
+    r = critic.critique(spec, {"motif": {"melody": "C5:1 E5:1 G5:1"}})
+    assert r["clashes"]["L"]["clash"] >= 3, r["clashes"]
+    return {"score": r["score"], "issues": len(r["issues"])}
+
+
 if __name__ == "__main__":
     ok = sum(r["ok"] for r in RESULTS)
     print(f"\n{ok}/{len(RESULTS)} passed")

@@ -89,8 +89,11 @@ def roman(numeral, key="C", mode="major"):
     if not m:
         raise ValueError(f"cannot parse roman numeral '{numeral}'")
     acc, rn, sym, ext, _ = m.groups()
-    scale = SCALES["major"]  # 대중음악 관례: 단조에서도 bIII·bVI·bVII 처럼 장음계 기준으로 표기
-    root = (pc(key) + scale[_ROMAN_DEG[rn.upper()]] + (-1 if acc == "b" else 1 if acc == "#" else 0)) % 12
+    # 단조에서 변화표 없는 III·VI·VII 은 '그 조의' 자연단음계 음 위(D단조 VI = Bb). 'bVI' 처럼 b 를 붙인 표기는
+    # 대중음악 관례대로 장음계 기준(같은 Bb) — 둘 다 같은 답이 나오게. (10-15 오케스트라 '화음 안 맞음'의 원인 수정:
+    # 예전엔 단조에서도 장음계 기준이라 D단조 i VI III VII 이 Dm B Gb Db 로 나왔다)
+    base = SCALES["minor"] if (mode == "minor" and not acc) else SCALES["major"]
+    root = (pc(key) + base[_ROMAN_DEG[rn.upper()]] + (-1 if acc == "b" else 1 if acc == "#" else 0)) % 12
     minor = rn.islower()
     ext = ext or ""
     if sym == "°":

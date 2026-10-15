@@ -282,14 +282,15 @@ def build(spec, render=True, balance=None, label=None, log=print):
                 # 랩: 생성된 목소리(voice_design)가 가사 줄을 말하고, 단어 시작을 박자 격자에 맞춰 늘인다
                 from . import voice_design as vd
                 v = part["rap"]
-                key_ = json.dumps(["rap", v.get("voice"), v.get("lines"), spec["bpm"], v.get("seed", 0), v.get("lock")])
+                key_ = json.dumps(["rap", v.get("voice"), v.get("lines"), spec["bpm"], v.get("seed", 0), v.get("lock"), v.get("tail_words", 0)])
                 cache = per_track.setdefault("__vocal_cache", {})
                 if key_ not in cache:
                     out = ROOT / "projects" / spec["name"] / "vocals" / _vocal_name(part, sec, "rap")
                     cache[key_], _ = vd.rap(v["voice"], v["lines"], spec["bpm"], out,
                                             beats_per_line=v.get("beats_per_line", 4),
                                             style=v.get("style", "confident rhythmic hip-hop rap delivery"),
-                                            lock=v.get("lock", 0.75), seed=v.get("seed", 0), lang=v.get("lang", "en"))
+                                            lock=v.get("lock", 0.75), seed=v.get("seed", 0), lang=v.get("lang", "en"),
+                                            tail_words=v.get("tail_words", 0))
                     log(f"{part['track']}: rapped {cache[key_]}")
                 s[part["track"]].audio(cache[key_], start=b0, gain_db=v.get("gain_db", 0))
                 continue
@@ -341,6 +342,9 @@ def build(spec, render=True, balance=None, label=None, log=print):
                for p in a["points"]]
         s[a["track"]].automate(a["device"], a["param"], pts)
 
+    for ev in spec.get("events", []):
+        _apply_event(s, ev, sections, log)
+
     s.meta["spec"] = str(ROOT / "projects" / spec["name"] / "spec.json")
     s.save()
 
@@ -358,6 +362,60 @@ def build(spec, render=True, balance=None, label=None, log=print):
     except Exception:
         pass
     return s, report
+
+
+def _event_window(ev, sections):
+    """사건 위치: section(이름) + occurrence(몇 번째, 1부터) + at(섹션 시작 기준 박, 음수 = 그 전) + length(박)."""
+    occ = [x for x in sections if x["name"] == ev["section"]]
+    if not occ:
+        raise ValueError(f"event: 섹션 '{ev['section']}' 없음")
+    sec = occ[min(len(occ), ev.get("occurrence", 1)) - 1]
+    a = sec["start_bar"] * 4 + ev.get("at", 0)
+    return a, a + ev.get("length", 1)
+
+
+def _cut(track, a, b):
+    """트랙의 클립에서 [a, b) 박을 비운다(자르고 가운데를 뺀다)."""
+    for _ in range(64):
+        hit = next((c for c in track.clips() if c["start"] < b - 1e-6 and c["end"] > a + 1e-6), None)
+        if hit is None:
+            return
+        if hit["start"] < a - 1e-6:
+            track.e.call("clip.split", {"track": track.name, "clip": hit["clip"], "at": a})
+        elif hit["end"] > b + 1e-6:
+            track.e.call("clip.split", {"track": track.name, "clip": hit["clip"], "at": b})
+        else:
+            track.e.call("clip.remove", {"track": track.name, "clip": hit["clip"]})
+
+
+def _apply_event(s, ev, sections, log=print):
+    """곡의 '그 순간' — 본인 기준곡(On Sight 의 비트 체인지 등)에서 온 장치.
+    stop   : [section, at, length] 동안 keep 에 없는 트랙을 모두 비운다(숨 멈춤 → 다음 섹션 폭발)
+    filter : tracks(기본 = 보컬·버스 빼고 전부)에 로우패스를 걸어 to(Hz)까지 닫았다가 섹션에서 연다(필터 드롭)"""
+    a, b = _event_window(ev, sections)
+    names = [t["name"] for t in s.e.call("edit.info")["tracks"]]
+    meta = s.meta.get("tracks", {})
+    def skip(n):
+        role = (meta.get(n, {}).get("role") or "").lower()
+        return "return" in role or n in ev.get("keep", [])
+    if ev["type"] == "stop":
+        for n in names:
+            if not skip(n):
+                _cut(s[n], a, b)
+        log(f"event stop: {a}~{b}박 (유지: {ev.get('keep', [])})")
+    elif ev["type"] == "filter":
+        targets = ev.get("tracks") or [n for n in names if not skip(n) and not any(k in (meta.get(n, {}).get("role") or "").lower()
+                                                                                     for k in ("vocal", "rap"))]
+        ramp = ev.get("ramp", min(2.0, (b - a) / 2))
+        for n in targets:
+            d = s[n].fx("lowpass", {"frequency": 20000})
+            s[n].automate(d, "frequency", [{"beat": 0, "value": 20000}, {"beat": a, "value": 20000},
+                                           {"beat": a + ramp, "value": ev.get("to", 450)},
+                                           {"beat": max(a + ramp, b - 0.05), "value": ev.get("to", 450)},
+                                           {"beat": b, "value": 20000}])
+        log(f"event filter: {a}~{b}박 → {ev.get('to', 450)}Hz ({len(targets)}트랙)")
+    else:
+        raise ValueError(f"모르는 event type '{ev['type']}' (stop | filter)")
 
 
 def bounce(spec, age=None, stems=False, label="bounce"):

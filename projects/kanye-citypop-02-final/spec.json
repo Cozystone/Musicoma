@@ -3,7 +3,7 @@
  "bpm": 88,
  "key": "A major",
  "style": "chipmunk-soul",
- "brief": "kanye-citypop-02 v1 비트(그대로) + 생성 래퍼 2명 랩",
+ "brief": "kanye-citypop-02 v1 비트(그대로) + 하이톤 노래 훅(인트로 티저·훅) → 남자 랩(더블) · 벌스2 듀엣",
  "sections": [
   {
    "name": "intro",
@@ -32,7 +32,17 @@
  ],
  "tracks": {
   "Beat": {
-   "role": "beat (kanye-citypop-02 v1, untouched)"
+   "role": "beat (kanye-citypop-02 v1, untouched)",
+   "fx": [
+    {
+     "device": "eq",
+     "params": {
+      "Mid freq 2": 3000,
+      "Mid gain 2": -1.5,
+      "Mid Q 2": 0.7
+     }
+    }
+   ]
   },
   "Rap A": {
    "role": "rap vocal A",
@@ -90,40 +100,43 @@
     }
    ]
   },
-  "Hook A": {
-   "role": "hook vocal A",
-   "pan": -0.12,
+  "Sung": {
+   "role": "sung hook vocal (high, kanye-citypop-02 v2 A_human)",
    "sends": {
-    "0": -16
+    "0": -10
    },
    "fx": [
     {
      "device": "eq",
      "params": {
-      "Low-pass freq": 120,
-      "Low-pass gain": -8,
-      "Mid freq 2": 3200,
-      "Mid gain 2": 3.5,
-      "High-pass freq": 9000,
-      "High-pass gain": 2.5
+      "Low-pass freq": 160,
+      "Low-pass gain": -6,
+      "Mid freq 1": 320,
+      "Mid gain 1": -2.5,
+      "Mid Q 1": 1.0,
+      "Mid freq 2": 6500,
+      "Mid gain 2": -2.0,
+      "Mid Q 2": 2.0,
+      "High-pass freq": 11000,
+      "High-pass gain": 1.5
      }
     },
     {
      "device": "compressor",
      "params": {
       "threshold": -20,
-      "ratio": 4,
-      "attack": 8,
-      "release": 90
+      "ratio": 3,
+      "attack": 12,
+      "release": 140
      }
     }
    ]
   },
-  "Hook C": {
-   "role": "hook double C",
-   "pan": 0.12,
+  "Rap A dbl": {
+   "role": "rap double A",
+   "pan": 0.35,
    "sends": {
-    "0": -16
+    "0": -24
    },
    "fx": [
     {
@@ -186,68 +199,64 @@
      "Turn the city pop into a hip-hop shop"
     ],
     "beats_per_line": 4,
-    "seed": 11
+    "seed": 11,
+    "lock": 0.88
    }
   },
   {
-   "track": "Hook A",
+   "track": "Sung",
+   "in": [
+    "intro"
+   ],
+   "audio": {
+    "path": "D:\\0.Musicoma\\projects\\kanye-citypop-02\\vocals\\hook_A_human.wav",
+    "gain_db": -3,
+    "length": 16
+   }
+  },
+  {
+   "track": "Sung",
    "in": [
     "hook"
+   ],
+   "audio": {
+    "path": "D:\\0.Musicoma\\projects\\kanye-citypop-02\\vocals\\hook_A_human.wav",
+    "length": 16
+   }
+  },
+  {
+   "track": "Sung",
+   "in": [
+    "hook"
+   ],
+   "offset": 16,
+   "audio": {
+    "path": "D:\\0.Musicoma\\projects\\kanye-citypop-02\\vocals\\hook_A_human.wav",
+    "length": 16
+   }
+  },
+  {
+   "track": "Rap A dbl",
+   "in": [
+    "verse"
    ],
    "rap": {
     "voice": "gen-rapper-a",
     "lines": [
-     {
-      "text": "City lights, city lights, take me higher",
-      "beats": 8
-     },
-     {
-      "text": "Chipmunk soul and a midnight fire",
-      "beats": 8
-     },
-     {
-      "text": "City lights, city lights, never tired",
-      "beats": 8
-     },
-     {
-      "text": "Play it back till the night retires",
-      "beats": 8
-     }
+     "Woke up in the city with the vinyl on repeat",
+     "Mama in the kitchen humming something kind of sweet",
+     "Dusty little record from a summer in Tokyo",
+     "Speed it up a little now the angels sing soprano",
+     "I was in the basement with a sampler and a dream",
+     "Everybody laughing saying that is not a team",
+     "Now I got the strings and I got the horns on top",
+     "Turn the city pop into a hip-hop shop"
     ],
-    "style": "chanting a catchy hip-hop hook, rhythmic, energetic",
-    "lock": 0.9,
-    "seed": 21
-   }
-  },
-  {
-   "track": "Hook C",
-   "in": [
-    "hook"
-   ],
-   "rap": {
-    "voice": "gen-rapper-c",
-    "lines": [
-     {
-      "text": "City lights, city lights, take me higher",
-      "beats": 8
-     },
-     {
-      "text": "Chipmunk soul and a midnight fire",
-      "beats": 8
-     },
-     {
-      "text": "City lights, city lights, never tired",
-      "beats": 8
-     },
-     {
-      "text": "Play it back till the night retires",
-      "beats": 8
-     }
-    ],
-    "style": "chanting a catchy hip-hop hook, rhythmic, energetic",
-    "lock": 0.9,
-    "seed": 22,
-    "gain_db": -4
+    "beats_per_line": 4,
+    "seed": 12,
+    "lock": 0.88,
+    "gain_db": -4,
+    "tail_words": 2
    }
   },
   {
@@ -263,7 +272,8 @@
      "Writing on a napkin with a pencil and a quote"
     ],
     "beats_per_line": 4,
-    "seed": 31
+    "seed": 31,
+    "lock": 0.88
    }
   },
   {
@@ -279,7 +289,8 @@
      "Pitch it up a third and let the chorus wave a flag"
     ],
     "beats_per_line": 4,
-    "seed": 32
+    "seed": 32,
+    "lock": 0.88
    }
   },
   {
@@ -292,10 +303,11 @@
     "voice": "gen-rapper-a",
     "lines": [
      "Now the lights are blinking from the Shibuya to the coast",
-     "And I raise a little glass to the ones who matter most"
+     "So I raise a glass to the ones who matter most"
     ],
     "beats_per_line": 4,
-    "seed": 33
+    "seed": 33,
+    "lock": 0.88
    }
   },
   {
@@ -311,7 +323,8 @@
      "Speed it up and slow it down and let the city shine"
     ],
     "beats_per_line": 4,
-    "seed": 34
+    "seed": 34,
+    "lock": 0.88
    }
   }
  ],
@@ -320,10 +333,10 @@
   "target_lufs": -10.5,
   "balance_lu": {
    "beat": 0,
-   "rap a": 1.0,
-   "rap c": 1.0,
-   "hook a": 0.5,
-   "hook c": -3.5
+   "rap a dbl": -4.0,
+   "rap a": 3.0,
+   "rap c": 3.0,
+   "sung": 2.0
   }
  }
 }

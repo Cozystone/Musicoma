@@ -368,6 +368,47 @@ def sing_svc(voice: str, lyrics: str, bpm: float, melody: str, out: str, lang: s
 
 
 @mcp.tool()
+def concept(song: str, data: dict | None = None) -> dict:
+    """STEP 1 of every new song (before any notes): the concept doc — thesis, arc[{section,intent,energy}],
+    motif{melody,why}, collision[2-3 distant materials], constraints, events[{section,at,length,type: stop|filter}],
+    not[...]. data=None returns a template + the user's reference principles + their taste notes (TASTE/LOG).
+    Every later decision (sounds, form, lyrics) must trace back to this doc."""
+    from musicoma import concept as c
+    if data is None:
+        return {"template": c.template(), "taste": c.taste_context()}
+    return c.save(song, data)
+
+
+@mcp.tool()
+def motif_develop(motif: str, ops: list | None = None, key: str = "C major", bars: int = 4,
+                  plan: str = "statement answer", chords: list | None = None) -> dict:
+    """Develop the concept's motif instead of repeating it. ops: up:n down:n chrom:n octave:n invert retro augment:f
+    diminish:f displace:b fragment:n tail:n sequence:s,k rhythm:a,b,... ; plan: phrase shape from statement answer
+    question sequence climb fragment. chords=[[start,end,'Am7'],...] snaps strong-beat notes to chord tones.
+    Returns melody notation for a spec 'melody' part (padded to bars*4 beats)."""
+    from musicoma import motif as m
+    return {"melody": m.section_melody(motif, ops or [], [tuple(c) for c in chords] if chords else None, key, bars, plan)}
+
+
+@mcp.tool()
+def critique(song: str = "", spec: dict | None = None) -> dict:
+    """The anti-slop pass — run after writing a spec and after every build. Numbers: exact 4-bar repetition,
+    section contrast, melody notes off the chord on strong beats, motif presence/variation, 'events', plus lyric
+    checks (syllables vs notes/bars, rhyme, cliches). Then answer the qualitative questions yourself and fix
+    the spec until issues are resolved."""
+    from musicoma import critic, lyrics
+    if spec is None:
+        r = critic.critique_project(song)
+        import json as _j
+        spec = _j.loads((critic.arrange.ROOT / "projects" / song / "spec.json").read_text(encoding="utf-8"))
+    else:
+        from musicoma import concept as c
+        r = critic.critique(spec, c.load(spec.get("name", song)))
+    r["lyrics"] = lyrics.check_song(spec)
+    return {"report": critic.format_report(r), "issues": r["issues"] + r["lyrics"], "score": r["score"]}
+
+
+@mcp.tool()
 def tidy(project: str = "", dry_run: bool = False) -> dict:
     """Keep files readable: move intermediate files (per-line rap takes, guides, SVC takes, SoulX work, measurement
     stems, logs) of a song folder into projects/<song>/.work/ and refresh projects/<song>/README.md. Never deletes.

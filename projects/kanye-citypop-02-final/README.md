@@ -1,21 +1,32 @@
 # kanye-citypop-02-final
 
-kanye-citypop-02 v1 비트(그대로) + 생성 래퍼 2명 랩
+kanye-citypop-02 v1 비트(그대로) + 하이톤 노래 훅(인트로 티저·훅) → 남자 랩(더블) · 벌스2 듀엣
 
 - 템포 88 BPM · 키 A major · 스타일 chipmunk-soul
 - 구성: intro(4) → verse(8) → hook(8) → verse2(8) → hook(8) → outro(4)
 
 ## 들어볼 것
-- **최신**: `renders/kanye-citypop-02-final_v1.wav`
+- **최신**: `renders/kanye-citypop-02-final_v4.wav`
+- `renders/kanye-citypop-02-final_v3.wav`
+- `renders/kanye-citypop-02-final_v2.wav`
+- `renders/kanye-citypop-02-final_v1.wav`
 
 ## 보컬
 - `vocals/Hook A_rap_1.wav`
 - `vocals/Hook C_rap_2.wav`
+- `vocals/hook-a_hook_rap.wav`
+- `vocals/hook-c_hook_rap.wav`
 - `vocals/Rap A_rap_0.wav`
 - `vocals/Rap A_rap_3.wav`
 - `vocals/Rap A_rap_5.wav`
 - `vocals/Rap C_rap_4.wav`
 - `vocals/Rap C_rap_6.wav`
+- `vocals/rap-a-dbl_verse_rap.wav`
+- `vocals/rap-a_verse2-b5_rap.wav`
+- `vocals/rap-a_verse2_rap.wav`
+- `vocals/rap-a_verse_rap.wav`
+- `vocals/rap-c_verse2-b3_rap.wav`
+- `vocals/rap-c_verse2-b7_rap.wav`
 
 ## 파일
 - `spec.json` 설계서(이걸 고쳐 다시 지으면 곡이 바뀜) · `song.json` 요청·조치 기록

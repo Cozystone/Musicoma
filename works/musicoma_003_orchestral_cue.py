@@ -1,22 +1,57 @@
-"""장르 테스트 — 오케스트라(영화음악) 큐 24마디. 장르 카드 orchestral.yaml 을 따른다. 드럼 비트 없음, 다이내믹으로 쌓기.
-intro(현 pp) → A(첼로 선율 + 현 화음 + 호른 받침) → B(호른 영웅 동기 + 트럼펫·트롬본 + 팀파니, ff) → end(현만 남아 사라짐)"""
+"""오케스트라 큐 v3 — 콘셉트 → 동기 전개 → 화음 맞추기 → 비평. (v1·v2: 본인 "화음 안 맞고 진행도 별로")
+
+원인 기록: theory.roman 이 단조에서도 장음계 기준이라 D단조 'i VI III VII' 가 Dm–B–Gb–Db 로 나왔다(→ 수정, 테스트 추가).
+선율도 화음과 따로 써서 강박에 화음 밖 음이 많았다(→ motif.fit).
+"""
 import json
 import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from musicoma import arrange
+from musicoma import arrange, concept as concept_mod, critic, motif, theory
 from musicoma.knowledge import style
 
+NAME = "musicoma-003-orchestral"
+KEY = "D minor"
 card = style("orchestral")
 PAN = card["mix"]["seating_pan"]
-PROG = "i VI III VII"
 
-CELLO_A = "D3:2 F3:1 A3:1 | D4:3 C4:1 | A3:2 G3:1 F3:1 | E3:3 r:1 | D3:2 F3:1 A3:1 | D4:2 F4:1 E4:1 | C4:2 A3:2 | G3:2 E3:2"
-HORN_B = "A4:2 D5:1 E5:1 | F5:3 D5:1 | C5:2 A4:1 C5:1 | G4:4 | A4:2 D5:1 E5:1 | F5:2 G5:1 A5:1 | G5:2 F5:1 E5:1 | E5:4"
-FLUTE_B = "r:2 A5:2 | D6:4 | C6:4 | r:2 G5:2 | r:2 A5:2 | F6:4 | E6:4 | E6:4"
-TIMP = [{"pitch": 50, "start": 0, "length": 1, "velocity": 104}, {"pitch": 45, "start": 2, "length": 1, "velocity": 84}]
-ROLL = [{"pitch": 50, "start": 2 + i * 0.125, "length": 0.12, "velocity": 50 + i * 4} for i in range(16)]
+CONCEPT = {
+    "thesis": "잊고 지낸 이름을 다시 부르는 순간 — 작게 시작한 한 줄이 끝내 모두의 목소리가 된다",
+    "arc": [{"section": "intro", "intent": "빈 방, 첼로 혼자 기억을 더듬음", "energy": 0.15},
+            {"section": "A", "intent": "동기가 처음 또렷해짐 — 아직 망설임", "energy": 0.4},
+            {"section": "B", "intent": "모두가 같은 동기를 크게 — 호른이 이끔", "energy": 0.95},
+            {"section": "end", "intent": "다시 혼자, 그러나 끝 음이 위로 열려 있다(답이 아니라 질문)", "energy": 0.2}],
+    "motif": {"melody": "D4:1 E4:.5 F4:.5 A4:2", "why": "위로 올라가는 네 음 = 부르는 몸짓"},
+    "collision": ["낭만주의 현악 레가토", "영화 예고편식 금관 강타", "실내악처럼 텅 빈 시작과 끝"],
+    "constraints": ["모든 선율은 같은 네 음 동기에서만 나온다", "B 직전 두 박은 완전한 침묵"],
+    "events": [{"section": "B", "at": -2, "length": 2, "type": "stop", "why": "숨을 멈췄다가 터지게"}],
+    "references": concept_mod.PRINCIPLES,
+    "not": ["화음과 따로 노는 선율", "같은 마디 덩어리를 그대로 반복"],
+}
+
+PROG = {"A": "i VI III VII", "B": "i VI iv V", "end": "VI VII i i"}
+SECTIONS = [{"name": "intro", "bars": 4}, {"name": "A", "bars": 8}, {"name": "B", "bars": 8}, {"name": "end", "bars": 4}]
+
+
+def chords_for(section, bars):
+    ch = theory.progression(PROG.get(section, "i VI III VII"), "D", "minor")
+    out = []
+    for b in range(bars):
+        out.append((b * 4, b * 4 + 4, ch[b % len(ch)]))
+    return out
+
+
+M = CONCEPT["motif"]["melody"]
+# 섹션별 동기 전개(같은 네 음에서만) — 4마디 프레이즈 단위
+CELLO_A = (motif.section_melody(M, [], chords_for("A", 4), KEY, 4, "statement answer") + " " +
+           motif.section_melody(M, ["up:2"], chords_for("A", 4), KEY, 4, "statement question"))
+HORN_B = (motif.section_melody(M, ["octave:1"], chords_for("B", 4), KEY, 4, "statement climb") + " " +
+          motif.section_melody(M, ["octave:1", "augment:2"], chords_for("B", 4), KEY, 4, "statement answer"))
+FLUTE_B = (motif.section_melody(M, ["octave:2", "diminish:2", "invert"], chords_for("B", 4), KEY, 4,
+                                "fragment fragment sequence answer") + " " +
+           motif.section_melody(M, ["octave:2", "diminish:2"], chords_for("B", 4), KEY, 4, "sequence climb climb answer"))
+CELLO_END = motif.section_melody(M, ["augment:2"], chords_for("end", 4), KEY, 4, "question")
 
 
 def strip(sound, role, name):
@@ -24,16 +59,15 @@ def strip(sound, role, name):
 
 
 spec = {
-    "name": "musicoma-003-orchestral", "bpm": 76, "key": "D minor", "style": "orchestral",
-    "brief": "오케스트라 큐(장르 테스트) — 섹션 쌓기와 다이내믹",
-    "sections": [{"name": "intro", "bars": 4}, {"name": "A", "bars": 8}, {"name": "B", "bars": 8}, {"name": "end", "bars": 4}],
-    "feel": "loose", "intensity": 0.8,
+    "name": NAME, "bpm": 76, "key": KEY, "style": "orchestral",
+    "brief": "오케스트라 큐 v3 — 콘셉트·동기 전개·화음 맞춤(단조 진행 버그 수정 후)",
+    "sections": SECTIONS, "feel": "loose", "intensity": 0.8,
     "tracks": {
         "Violins": strip("strings_violins", "strings", "violins"),
         "Violas": strip("strings_violas", "strings", "violas"),
-        "Cellos": strip("strings_cello", "strings", "cellos"),
+        "Cellos": strip("strings_cello", "strings (melody)", "cellos"),
         "Basses": {**strip("contrabass", "bass", "basses"), "perform_role": "strings"},
-        "Horns": strip("horn", "brass", "horns"),
+        "Horns": strip("horn", "brass (melody)", "horns"),
         "Trumpets": strip("trumpet", "brass", "trumpets"),
         "Trombones": strip("trombone", "brass", "trombones"),
         "Flute": strip("flute", "lead", "flute"),
@@ -41,31 +75,41 @@ spec = {
     },
     "buses": [{"name": "Hall", "bus": 0, "device": "Dragonfly Hall Reverb", "volume_db": -3}],
     "parts": [
-        {"track": "Violins", "in": ["intro", "A", "B", "end"],
-         "chords": {"progression": PROG, "beats_per_chord": 4, "voicing": "pad", "velocity": 62, "legato": 1.0}},
-        {"track": "Violins", "in": ["B"],
-         "chords": {"progression": PROG, "beats_per_chord": 4, "voicing": "pad", "velocity": 96, "legato": 1.0}, "transpose": 12},
-        {"track": "Violas", "in": ["A", "B"],
-         "chords": {"progression": PROG, "beats_per_chord": 4, "voicing": "pad", "velocity": 70, "legato": 1.0}, "transpose": -12},
-        {"track": "Cellos", "in": ["intro", "end"], "bass": {"progression": PROG, "beats_per_chord": 4, "low": 38, "high": 52,
-                                                            "pattern": [[0, 3.9, 0]]}},
-        {"track": "Cellos", "in": ["A"], "melody": CELLO_A},
-        {"track": "Cellos", "in": ["B"], "bass": {"progression": PROG, "beats_per_chord": 4, "low": 38, "high": 52,
-                                                 "pattern": [[0, 1.9, 0], [2, 1.9, 7]]}},
-        {"track": "Basses", "in": ["A", "B"], "bass": {"progression": PROG, "beats_per_chord": 4, "low": 28, "high": 43,
-                                                       "pattern": [[0, 3.9, 0]]}},
-        {"track": "Horns", "in": ["A"], "chords": {"progression": PROG, "beats_per_chord": 4, "voicing": "pad", "velocity": 58}, "transpose": -12},
-        {"track": "Horns", "in": ["B"], "melody": HORN_B},
-        {"track": "Trumpets", "in": ["B"], "chords": {"progression": PROG, "beats_per_chord": 4, "voicing": "stab",
-                                                     "rhythm": [[0, 1.5, 1.0], [3, 1.0, 0.85]], "velocity": 90}},
-        {"track": "Trombones", "in": ["B"], "chords": {"progression": PROG, "beats_per_chord": 4, "voicing": "pad", "velocity": 84}, "transpose": -12},
-        {"track": "Flute", "in": ["B"], "melody": FLUTE_B},
-        {"track": "Timpani", "in": ["B"], "notes": TIMP, "cycle_beats": 4},
-        {"track": "Timpani", "in": ["A"], "notes": ROLL, "offset": 28},
+        # 화음 받침(섹션마다 진행이 다르다)
+        {"track": "Violas", "in": ["intro"], "chords": {"progression": PROG["A"], "beats_per_chord": 4, "voicing": "pad", "velocity": 40, "legato": 1.0}, "transpose": -12},
+        {"track": "Violins", "in": ["A"], "chords": {"progression": PROG["A"], "beats_per_chord": 4, "voicing": "pad", "velocity": 60, "legato": 1.0}},
+        {"track": "Violins", "in": ["B"], "chords": {"progression": PROG["B"], "beats_per_chord": 4, "voicing": "pad", "velocity": 96, "legato": 1.0}, "transpose": 12},
+        {"track": "Violins", "in": ["end"], "chords": {"progression": PROG["end"], "beats_per_chord": 4, "voicing": "pad", "velocity": 50, "legato": 1.0}},
+        {"track": "Violas", "in": ["A"], "chords": {"progression": PROG["A"], "beats_per_chord": 4, "voicing": "pad", "velocity": 66, "legato": 1.0}, "transpose": -12},
+        {"track": "Violas", "in": ["B"], "chords": {"progression": PROG["B"], "beats_per_chord": 4, "voicing": "pad", "velocity": 84, "legato": 1.0}, "transpose": -12},
+        {"track": "Basses", "in": ["A"], "bass": {"progression": PROG["A"], "beats_per_chord": 4, "low": 28, "high": 43, "pattern": [[0, 3.9, 0]]}},
+        {"track": "Basses", "in": ["B"], "bass": {"progression": PROG["B"], "beats_per_chord": 4, "low": 28, "high": 43, "pattern": [[0, 1.9, 0], [2, 1.9, 0]]}},
+        {"track": "Trombones", "in": ["B"], "chords": {"progression": PROG["B"], "beats_per_chord": 4, "voicing": "pad", "velocity": 84}, "transpose": -12},
+        {"track": "Trumpets", "in": ["B"], "chords": {"progression": PROG["B"], "beats_per_chord": 4, "voicing": "stab",
+                                                     "rhythm": [[0, 1.5, 1.0], [3, 1.0, 0.85]], "velocity": 88}},
+        # 선율 — 모두 같은 동기에서(콘셉트 제약)
+        {"track": "Cellos", "in": ["intro"], "melody": {"text": motif.section_melody(M, ["augment:2"], chords_for("A", 4), KEY, 4, "statement"), "velocity": 70, "repeat": False}},
+        {"track": "Cellos", "in": ["A"], "melody": {"text": CELLO_A, "velocity": 88, "repeat": False}},
+        {"track": "Cellos", "in": ["B"], "bass": {"progression": PROG["B"], "beats_per_chord": 4, "low": 38, "high": 55, "pattern": [[0, 1.9, 0], [2, 1.9, 7]]}},
+        {"track": "Cellos", "in": ["end"], "melody": {"text": CELLO_END, "velocity": 64, "repeat": False}},
+        {"track": "Horns", "in": ["A"], "chords": {"progression": PROG["A"], "beats_per_chord": 4, "voicing": "pad", "velocity": 52}, "transpose": -12},
+        {"track": "Horns", "in": ["B"], "melody": {"text": HORN_B, "velocity": 104, "repeat": False}},
+        {"track": "Flute", "in": ["B"], "melody": {"text": FLUTE_B, "velocity": 80, "repeat": False}},
+        # 팀파니는 화음의 근음·5도를 따라간다(v1: D/A 고정이라 Bb·C 위에서 부딪힘)
+        {"track": "Timpani", "in": ["B"], "bass": {"progression": PROG["B"], "beats_per_chord": 4, "low": 40, "high": 55,
+                                                  "pattern": [[0, 1, 0], [2, 1, 7]], "velocity": 104}},
     ],
-    "mix": {"balance": True, "target_lufs": card["mix"]["target_lufs"], "balance_lu": card["mix"]["balance_lu"]},
+    "events": [{"section": "B", "at": -2, "length": 2, "type": "stop"}],
+    "mix": {"balance": True, "target_lufs": card["mix"]["target_lufs"],
+            "balance_lu": {"violins": 0, "cellos": 0, "horns": 1, "violas": -4, "basses": -5, "trumpets": -5,
+                           "trombones": -6, "flute": -4, "timpani": -4}},
 }
 
 if __name__ == "__main__":
-    s, rep = arrange.build(spec, label=sys.argv[1] if len(sys.argv) > 1 else "v1")
+    concept_mod.save(NAME, CONCEPT)
+    r = critic.critique(spec, CONCEPT)
+    print(critic.format_report(r))
+    if "--dry" in sys.argv:
+        sys.exit(0)
+    s, rep = arrange.build(spec, label=sys.argv[1] if len(sys.argv) > 1 and not sys.argv[1].startswith("--") else "v3")
     print(json.dumps({k: rep[k] for k in ("file", "loudness", "bands_db", "issues", "png")}, ensure_ascii=False, default=str))

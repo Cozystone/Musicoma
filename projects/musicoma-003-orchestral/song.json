@@ -4,8 +4,8 @@
  "key": "D minor",
  "style": "orchestral",
  "time_sig": "4/4",
- "brief": "오케스트라 큐(장르 테스트) — 섹션 쌓기와 다이내믹",
- "created": "2026-10-15 08:42",
+ "brief": "오케스트라 큐 v3 — 콘셉트·동기 전개·화음 맞춤(단조 진행 버그 수정 후)",
+ "created": "2026-10-15 10:05",
  "tracks": {
   "Violins": {
    "sound": "strings_violins",
@@ -17,7 +17,7 @@
   },
   "Cellos": {
    "sound": "strings_cello",
-   "role": "strings"
+   "role": "strings (melody)"
   },
   "Basses": {
    "sound": "contrabass",
@@ -25,7 +25,7 @@
   },
   "Horns": {
    "sound": "horn",
-   "role": "brass"
+   "role": "brass (melody)"
   },
   "Trumpets": {
    "sound": "trumpet",

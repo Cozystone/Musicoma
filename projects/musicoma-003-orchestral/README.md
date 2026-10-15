@@ -1,12 +1,14 @@
 # musicoma-003-orchestral
 
-오케스트라 큐(장르 테스트) — 섹션 쌓기와 다이내믹
+오케스트라 큐 v3 — 콘셉트·동기 전개·화음 맞춤(단조 진행 버그 수정 후)
 
 - 템포 76 BPM · 키 D minor · 스타일 orchestral
 - 구성: intro(4) → A(8) → B(8) → end(4)
 
 ## 들어볼 것
-- **최신**: `renders/musicoma-003-orchestral_v2.wav`
+- **최신**: `renders/musicoma-003-orchestral_v3b.wav`
+- `renders/musicoma-003-orchestral_v3.wav`
+- `renders/musicoma-003-orchestral_v2.wav`
 - `renders/musicoma-003-orchestral_v1.wav`
 
 ## 파일

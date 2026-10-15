@@ -4,8 +4,8 @@
  "key": "A major",
  "style": "chipmunk-soul",
  "time_sig": "4/4",
- "brief": "kanye-citypop-02 v1 비트(그대로) + 생성 래퍼 2명 랩",
- "created": "2026-10-15 09:27",
+ "brief": "kanye-citypop-02 v1 비트(그대로) + 하이톤 노래 훅(인트로 티저·훅) → 남자 랩(더블) · 벌스2 듀엣",
+ "created": "2026-10-15 10:13",
  "tracks": {
   "Beat": {
    "sound": null,
@@ -19,13 +19,13 @@
    "sound": null,
    "role": "rap vocal C"
   },
-  "Hook A": {
+  "Sung": {
    "sound": null,
-   "role": "hook vocal A"
+   "role": "sung hook vocal (high, kanye-citypop-02 v2 A_human)"
   },
-  "Hook C": {
+  "Rap A dbl": {
    "sound": null,
-   "role": "hook double C"
+   "role": "rap double A"
   },
   "Verb": {
    "sound": null,

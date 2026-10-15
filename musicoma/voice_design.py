@@ -174,9 +174,10 @@ def flow(line_words, src, bpm, beats, grid=0.25, lock=0.75, pickup=0.0, squeeze=
 
 
 def rap(voice, lines, bpm, out, start_beat=0.0, beats_per_line=4, style="confident rhythmic hip-hop rap delivery",
-        lock=0.75, seed=0, lang="en", gap_beats=0.0, lead_in=0.0):
+        lock=0.75, seed=0, lang="en", gap_beats=0.0, lead_in=0.0, tail_words=0):
     """가사 줄들 → 한 개의 보컬 WAV(곡 박 0 기준으로 start_beat 에 놓임). 각 줄 = beats_per_line 박.
-    lines 원소는 문자열 또는 {"text", "beats"}."""
+    lines 원소는 문자열 또는 {"text", "beats"}.
+    tail_words=n: 각 줄의 마지막 n 단어만 남긴다 — 더블(펀치 인) 트랙용. 줄 전체 더블은 번져서 가사가 묻힌다(10-15)."""
     out = Path(out).resolve()
     from .layout import work_dir
     work = work_dir(out, "lines")
@@ -201,6 +202,14 @@ def rap(voice, lines, bpm, out, start_beat=0.0, beats_per_line=4, style="confide
         beats = it.get("beats", beats_per_line)
         ms, md = flow(ws, len(y) / SR, bpm, beats - gap_beats, lock=lock)
         z = warp(y, SR, ms, md)
+        if tail_words and len(md) > 2:
+            starts = md[1:-1]
+            cut = starts[-tail_words] if len(starts) >= tail_words else starts[0]
+            c = int(max(0.0, cut - 0.03) * SR)
+            z[:c] = 0.0
+            f = min(int(0.02 * SR), len(z) - c)
+            if f > 0:
+                z[c:c + f] *= np.linspace(0, 1, f)
         fade = int(0.006 * SR)
         z[:fade] *= np.linspace(0, 1, fade)
         z[-fade:] *= np.linspace(1, 0, fade)

@@ -19,6 +19,14 @@
 
 파이썬은 `D:/0.Musicoma/.venv/Scripts/python.exe` (PYTHONIOENCODING=utf-8).
 
+## 작곡 = 맥락 (본인 10-15: "맥락 있게 작곡하는 게 가장 중요, AI 슬롭 같지 않게")
+1. **콘셉트 먼저**(MCP `concept`): thesis 한 문장 · arc(섹션별 의도·에너지) · motif · collision(먼 재료 2~3) · constraints · events. 노트는 그다음.
+2. **동기 전개**(`motif_develop`): 선율은 동기의 변형에서. 같은 4마디 복사 금지. 강박 음은 화음 음으로(자동 fit).
+3. **사건**: 곡마다 '그 순간' 최소 하나 — 설계서 `events`(stop / filter). 본인 기준곡: Nujabes「Luv(sic)」(장르 발명) · 이찬혁「멸종위기사랑」(들어본 적 없는 진행) · Kanye「On Sight」(비트 체인지).
+4. **비평**(`critique`): 짓기 전·후 매번. 숫자 문제 + 질문에 직접 답하고 고친다. 본인 취향(D:/0.Creative/IDENTITY) 과 어긋나면 고친다.
+5. **가사**: 본인이 안 주면 콘셉트에서 새로 쓴다(원작 가사 인용 금지). 노래 = 음표당 음절(영어 하이픈 `ci- ty`, 한국어 글자), 랩 = 4박에 9~13음절, 2줄씩 운. `critique` 의 가사 검사 통과.
+6. 시안은 축이 다른 2~3안으로(무엇을 바꿨는지 한 줄씩).
+
 ## 파일 저장 규칙 (본인 10-15: "외부 공개 시 쓸데없는 파일이 섞여 알아보기 어렵지 않게")
 - 곡 폴더 `projects/<곡>/` 에 보이는 것 = `README.md`(자동) · `spec.json` · `song.json` · 편집 파일 · `renders/`(결과 wav+png) · `vocals/`(최종 보컬) · `versions/`.
 - 중간 파일(줄별 랩 원본·가이드·테이크·SoulX/SVC 작업·측정 스템·로그)은 **반드시 `.work/`** — 코드에서는 `musicoma.layout.work_dir(out, kind)`.

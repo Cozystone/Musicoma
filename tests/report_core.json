@@ -1,0 +1,102 @@
+{
+ "results": [
+  {
+   "test": "core.build",
+   "ok": true,
+   "sec": 0.0,
+   "detail": "up to date"
+  },
+  {
+   "test": "core.render_tiny_plan",
+   "ok": true,
+   "sec": 0.05,
+   "detail": {
+    "rms_dbfs": -22.4,
+    "peak_hz": [
+     440.0,
+     880.0
+    ],
+    "realtime_x": 321.2,
+    "peak_ram_mb": 9
+   }
+  },
+  {
+   "test": "core.threads_deterministic",
+   "ok": true,
+   "sec": 0.05,
+   "detail": "1 thread == N threads"
+  },
+  {
+   "test": "core.sfz_libraries",
+   "ok": true,
+   "sec": 0.18,
+   "detail": {
+    "piano_grand": "1121 regions, 0 ignored opcode kinds",
+    "drums_rusty": "2140 regions, 2 ignored opcode kinds",
+    "bass_hollow_finger": "2544 regions, 23 ignored opcode kinds"
+   }
+  }
+ ],
+ "null": [
+  [
+   "bass",
+   -0.01,
+   -35.94,
+   148.1
+  ],
+  [
+   "cal-audio",
+   1.52,
+   -2.23,
+   1489.5
+  ],
+  [
+   "cal-bass",
+   0.04,
+   -32.94,
+   260.6
+  ],
+  [
+   "cal-cc",
+   0.01,
+   -29.63,
+   130
+  ],
+  [
+   "cal-drums",
+   0.0,
+   -21.24,
+   115.9
+  ],
+  [
+   "cal-pan",
+   0.02,
+   -50.18,
+   540.9
+  ],
+  [
+   "cal-piano",
+   0.02,
+   -50.56,
+   218.5
+  ],
+  [
+   "drums",
+   0.0,
+   -23.1,
+   85.9
+  ],
+  [
+   "mix",
+   0.05,
+   -30.57,
+   27.9
+  ],
+  [
+   "piano",
+   0.02,
+   -35.32,
+   45.2
+  ]
+ ]
+}
