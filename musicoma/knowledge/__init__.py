@@ -72,6 +72,8 @@ def resolve_sound(name):
 
     돌려주는 것: {"device": "sfz", "sfz": path} | {"device": "Surge XT", "patch": fxp} | {"device": <vst3 이름>}
     """
+    if name.startswith("dexed:"):                 # 우리가 잡은 FM 패치(musicoma/fm_patches.py)
+        return {"device": "Dexed", "preset": str(ROOT / "sounds" / "presets" / "Dexed" / (name.split(":", 1)[1] + ".xml"))}
     cat = sounds()
     if name in cat["sfz"]:
         e = cat["sfz"][name]

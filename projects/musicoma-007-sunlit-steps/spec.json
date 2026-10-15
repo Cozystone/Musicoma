@@ -1,0 +1,170 @@
+{
+ "name": "musicoma-007-sunlit-steps",
+ "bpm": 88,
+ "key": "A minor",
+ "style": "chipmunk-soul",
+ "brief": "Original soul-sample-inspired boom-bap instrumental with an upper-register refrain, dry punchy drums, warm bass, and restrained strings.",
+ "sections": {
+  "intro": {
+   "bars": 4
+  },
+  "verse1": {
+   "bars": 16
+  },
+  "hook": {
+   "bars": 8
+  },
+  "verse2": {
+   "bars": 16
+  },
+  "hook2": {
+   "bars": 8
+  },
+  "outro": {
+   "bars": 4
+  }
+ },
+ "tracks": {
+  "Drums": {
+   "role": "drums",
+   "device": "SFZ Sampler",
+   "sound": "drums_acoustic_basic"
+  },
+  "Bass": {
+   "role": "bass",
+   "device": "SFZ Sampler",
+   "sound": "bass_hollow_finger"
+  },
+  "Soul Piano": {
+   "role": "keys",
+   "device": "SFZ Sampler",
+   "sound": "upright_piano"
+  },
+  "High Refrain": {
+   "role": "lead",
+   "device": "SFZ Sampler",
+   "sound": "wurlitzer"
+  },
+  "Strings": {
+   "role": "strings",
+   "device": "SFZ Sampler",
+   "sound": "strings_violins"
+  }
+ },
+ "parts": [
+  {
+   "track": "Drums",
+   "in": [
+    "verse1",
+    "verse2"
+   ],
+   "drums": {
+    "pattern": {
+     "kick": "x.....x...x..x..",
+     "snare": "....x.......x...",
+     "hat": "x.x.x.x.x.x.x.x."
+    },
+    "swing": 0.56,
+    "humanize_ms": 6
+   }
+  },
+  {
+   "track": "Drums",
+   "in": [
+    "hook",
+    "hook2"
+   ],
+   "drums": {
+    "pattern": {
+     "kick": "x..x......x..x..",
+     "snare": "....x..o....x...",
+     "hat": "x-x-x-x-x-x-x-x-"
+    },
+    "swing": 0.56,
+    "humanize_ms": 6
+   }
+  },
+  {
+   "track": "Drums",
+   "in": [
+    "intro",
+    "outro"
+   ],
+   "drums": {
+    "pattern": {
+     "kick": "x.........x.....",
+     "snare": "....x.......x...",
+     "hat": "................"
+    },
+    "swing": 0.56,
+    "humanize_ms": 6
+   }
+  },
+  {
+   "track": "Bass",
+   "in": [
+    "verse1",
+    "hook",
+    "verse2",
+    "hook2"
+   ],
+   "bass": {
+    "progression": "Am7 Fmaj7 Cmaj7 G7",
+    "pattern": "root_kick",
+    "octave": 2
+   }
+  },
+  {
+   "track": "Soul Piano",
+   "in": [
+    "intro",
+    "verse1",
+    "hook",
+    "verse2",
+    "hook2",
+    "outro"
+   ],
+   "chords": {
+    "progression": "Am7 Fmaj7 Cmaj7 G7",
+    "style": "rhodes",
+    "rhythm": "whole"
+   }
+  },
+  {
+   "track": "High Refrain",
+   "in": [
+    "hook",
+    "hook2"
+   ],
+   "melody": {
+    "notes": "E5:1 G5:1 A5:2 C6:1 A5:1 G5:2 | E5:1 G5:1 A5:1 G5:1 E5:2 D5:2",
+    "velocity": 92
+   }
+  },
+  {
+   "track": "Strings",
+   "in": [
+    "hook2"
+   ],
+   "chords": {
+    "progression": "Am7 Fmaj7 Cmaj7 G7",
+    "style": "pad",
+    "rhythm": "whole"
+   }
+  }
+ ],
+ "master": {
+  "target_lufs": -11,
+  "true_peak_db": -1
+ },
+ "mix": {
+  "balance": {
+   "Drums": 0,
+   "High Refrain": -2,
+   "Bass": -2.5,
+   "Soul Piano": -4,
+   "Strings": -8
+  },
+  "target_lufs": -11
+ }
+}

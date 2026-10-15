@@ -51,22 +51,36 @@
  ],
  "tracks": {
   "Drums": {
-   "preset": "drums/live_room",
+   "preset": "drums/studio",
    "role": "drums",
    "sends": {
     "0": -24
    }
   },
   "Bass": {
-   "preset": "bass/picked",
+   "preset": "bass/hollow_finger",
    "role": "bass"
   },
   "CP80": {
-   "preset": "keys/cp80",
+   "sound": "dexed:city_ep",
    "role": "keys",
    "pan": -0.2,
    "sends": {
     "0": -12
+   },
+   "perform_role": "keys",
+   "fx": [
+    {
+     "device": "chorus"
+    }
+   ]
+  },
+  "Bell": {
+   "sound": "dexed:city_bell",
+   "role": "pad",
+   "pan": 0.25,
+   "sends": {
+    "0": -8
    }
   },
   "Guitar": {
@@ -75,7 +89,12 @@
    "pan": 0.35,
    "sends": {
     "0": -16
-   }
+   },
+   "fx": [
+    {
+     "device": "chorus"
+    }
+   ]
   },
   "Strings": {
    "preset": "strings/ensemble",
@@ -640,6 +659,27 @@
    }
   },
   {
+   "track": "Bell",
+   "in": [
+    "chorus",
+    "chorus_last"
+   ],
+   "chords": {
+    "progression": "IVmaj7 III7 vi7 I7",
+    "beats_per_chord": 4,
+    "voicing": "pad",
+    "rhythm": [
+     [
+      0,
+      2,
+      1.0
+     ]
+    ],
+    "velocity": 60
+   },
+   "transpose": 12
+  },
+  {
    "track": "Sax",
    "in": [
     "bridge"
@@ -667,7 +707,7 @@
     "intro"
    ],
    "audio": {
-    "path": "D:\\0.Musicoma\\projects\\musicoma-006-last-exit\\vocals\\vox_lego_v3.wav",
+    "path": "D:\\0.Musicoma\\projects\\musicoma-006-last-exit\\vocals\\vox_lego_v4.wav",
     "length": 248
    }
   }
@@ -688,6 +728,7 @@
    "drums": 0,
    "bass": -1,
    "cp80": -2.5,
+   "bell": -10,
    "guitar": -6,
    "strings": -6,
    "brass": -4,

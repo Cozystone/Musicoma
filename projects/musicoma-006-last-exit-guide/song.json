@@ -1,0 +1,79 @@
+{
+ "name": "musicoma-006-last-exit-guide",
+ "bpm": 112,
+ "key": "F major",
+ "style": "city-pop",
+ "time_sig": "4/4",
+ "brief": "「Last Exit」 시티팝 · 영어 가사 · 반주 조건 생성 보컬",
+ "created": "2026-10-15 17:20",
+ "tracks": {
+  "Drums": {
+   "sound": "drums_acoustic_full",
+   "role": "drums"
+  },
+  "Bass": {
+   "sound": "bass_picked",
+   "role": "bass"
+  },
+  "CP80": {
+   "sound": "cp80",
+   "role": "keys"
+  }
+ },
+ "sections": [
+  {
+   "name": "intro",
+   "start_bar": 0,
+   "bars": 4
+  },
+  {
+   "name": "verse",
+   "start_bar": 4,
+   "bars": 8
+  },
+  {
+   "name": "pre",
+   "start_bar": 12,
+   "bars": 4
+  },
+  {
+   "name": "chorus",
+   "start_bar": 16,
+   "bars": 8
+  },
+  {
+   "name": "verse2",
+   "start_bar": 24,
+   "bars": 6
+  },
+  {
+   "name": "pre",
+   "start_bar": 30,
+   "bars": 4
+  },
+  {
+   "name": "chorus",
+   "start_bar": 34,
+   "bars": 8
+  },
+  {
+   "name": "bridge",
+   "start_bar": 42,
+   "bars": 8
+  },
+  {
+   "name": "chorus_last",
+   "start_bar": 50,
+   "bars": 8
+  },
+  {
+   "name": "outro",
+   "start_bar": 58,
+   "bars": 4
+  }
+ ],
+ "sources": [],
+ "history": [],
+ "versions": [],
+ "spec": "D:\\0.Musicoma\\projects\\musicoma-006-last-exit-guide\\spec.json"
+}

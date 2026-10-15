@@ -31,6 +31,47 @@ CONTEXT = 10.0          # 구간 앞뒤로 비트 문맥(초)
 MAX_CROP = 44.0
 
 
+# 보컬 생성용 '가이드 전용 악기'(10-15 검증): 곡의 실제 악기가 아니라 AI 가 반응하는 것이 확인된 소리로 박자·화성만 알려 준다.
+# 시티팝 곡에서 SM Drums·핑거 베이스·FM 피아노 가이드는 같은 멜로디에서도 8/8 실패, 이 조합은 4/8 성공(오류율 ≤ 0.16).
+GUIDE_PALETTE = {"drums": "drums/live_room", "bass": "bass/picked", "keys": "keys/cp80"}
+
+
+def guide_spec(spec, roles=None, name_suffix="-guide"):
+    """곡 설계서 → 보컬 생성용 가이드 설계서(드럼·베이스·건반 파트만, 가이드 전용 악기, 이펙트·센드 없음)."""
+    import copy
+    roles = roles or {}
+    g = copy.deepcopy(spec)
+    g["name"] = spec["name"] + name_suffix
+    keep = {}
+    for tname, t in spec["tracks"].items():
+        role = (roles.get(tname) or t.get("perform_role") or t.get("role") or "").lower()
+        kind = "drums" if "drum" in role else "bass" if "bass" in role else "keys" if role in ("keys", "piano") else None
+        if kind and kind not in keep.values():
+            keep[tname] = kind
+    g["tracks"] = {n: {"preset": GUIDE_PALETTE[k], "role": k} for n, k in keep.items()}
+    g["parts"] = [p for p in spec["parts"] if p["track"] in keep and not any(x in p for x in ("audio", "vocal", "rap"))]
+    g["buses"], g["events"], g["automation"] = [], [], []
+    g["mix"] = {"balance": False}
+    return g
+
+
+def render_guide(spec, roles=None):
+    """가이드 wav — 가이드 설계서를 짓고 **트랙별로 렌더해 그냥 더한다(마스터 체인 없음)**.
+    10-15 측정: 같은 가이드를 곡 전체 렌더(마스터·리미터 통과)로 주면 8/8 실패, 트랙 합으로 주면 4/8 성공(오류율 ≤ 0.23)."""
+    import glob
+    from . import arrange
+    s, _ = arrange.build(guide_spec(spec, roles), render=False, log=lambda m: None)
+    s.render_stems()
+    mix, sr = None, 48000
+    for p in glob.glob(str(Path(s.dir) / ".work" / "stems" / "*.wav")):
+        y, sr = sf.read(p, dtype="float32")
+        mix = y if mix is None else mix[:len(y)] + y[:len(mix)]
+    mix = mix / (np.abs(mix).max() + 1e-9) * 0.8
+    out = Path(s.dir) / "guide_stems.wav"
+    sf.write(str(out), mix, sr, subtype="PCM_24")
+    return out
+
+
 def _wer(ref, hyp):
     r = re.findall(r"[a-z']+", ref.lower())
     h = re.findall(r"[a-z']+", hyp.lower())
@@ -75,6 +116,12 @@ def vocal_track(beat_wav, sections, bpm, key, caption, out, takes=8, lang="en", 
     beat, sr = sf.read(str(guide_wav or beat_wav), dtype="float32")
     if beat.ndim == 1:
         beat = np.stack([beat, beat], 1)
+    mel_notes = [n for sec in sections for n in (sec.get("melody_notes") or [])]
+    if mel_notes:                                     # 멜로디 가이드(최종 믹스엔 안 들어감)
+        from .vocal_melody import synth
+        m = synth(mel_notes, bpm, sr, len(beat)) * 0.35
+        beat = beat + m[:, None]
+        beat = beat / (np.abs(beat).max() + 1e-9) * 0.85
     full = np.zeros_like(beat)
     ref_print = _voiceprint(reference) if reference else None
     report = []
@@ -87,12 +134,13 @@ def vocal_track(beat_wav, sections, bpm, key, caption, out, takes=8, lang="en", 
         crop = work / f"{si:02d}_{sec['name']}_beat.wav"
         sf.write(str(crop), beat[int(c0 * sr):int(c1 * sr)], sr, subtype="PCM_24")
         req = {"tag": f"{si:02d}_{sec['name']}", "beat": str(crop), "lyrics": f"[{sec.get('tag', 'Verse')}]\n{sec['lyrics']}",
-               "caption": caption, "bpm": int(round(bpm)), "key": key, "start": round(a - c0, 3), "end": round(b - c0, 3),
+               "caption": caption, "bpm": int(round(bpm)), "key": sec.get("key", key), "start": round(a - c0, 3), "end": round(b - c0, 3),
                "seeds": list(range(1 + si * 100, 1 + si * 100 + takes)), "out_dir": str(work / f"{si:02d}_{sec['name']}"),
                "track": track, "steps": 50, "model": "acestep-v15-xl-base", "offload": True,
                "quantization": "int8_weight_only", "vocal_language": lang}
-        if ref_print is not None and (reference or report):
-            req["reference"] = str(Path(reference or report[0]["vox"]).resolve())
+        good = [r for r in report if r["wer"] <= pass_wer]                 # 통과한 테이크만 목소리 기준으로(실패작이 참조가 되면 뒤가 전부 무음 — 10-15)
+        if reference or good:
+            req["reference"] = str(Path(reference or good[0]["vox"]).resolve())
         log(f"[lego] {sec['name']} {a:.1f}~{b:.1f}s · 테이크 {takes}")
         files = _run_lego(req, work)
         rows = []
@@ -111,17 +159,19 @@ def vocal_track(beat_wav, sections, bpm, key, caption, out, takes=8, lang="en", 
             raise RuntimeError(f"[lego] {sec['name']}: 생성된 테이크가 없음(요청 {work / ('req_' + req['tag'] + '.json')} 확인)")
         ok = [r for r in rows if r["wer"] <= pass_wer] or sorted(rows, key=lambda r: r["wer"])[:2]
         best = max(ok, key=lambda r: (r["voice_sim"] or 0) - 0.5 * r["wer"]) if ref_print is not None else min(ok, key=lambda r: r["wer"])
-        if ref_print is None:                        # 첫 구간에서 고른 목소리가 이후 구간의 기준
+        if ref_print is None and best["wer"] <= pass_wer:     # 처음 통과한 구간의 목소리가 이후 구간의 기준
             ref_print = _voiceprint(best["vox"])
         v, s3 = sf.read(best["vox"], dtype="float32")
         if v.ndim == 1:
             v = np.stack([v, v], 1)
         if s3 != sr:
             v = librosa.resample(v.T, orig_sr=s3, target_sr=sr).T
-        f_ = int(0.03 * sr)
+        # 분리할 때 앞뒤 0.3초를 붙여 잘랐다 → 구간 [a-0.15, b] 만 쓰고 짧게 페이드(이음새에서 두 테이크가 겹쳐 '여러 목소리'로 들리던 문제)
+        v = v[int(0.15 * sr):int((b - a + 0.3) * sr)]                    # 끝 = 구간 끝(다음 구간과 겹치지 않게)
+        f_ = min(int(0.15 * sr), len(v) // 4)
         v[:f_] *= np.linspace(0, 1, f_)[:, None]
-        v[-f_:] *= np.linspace(1, 0, f_)[:, None]
-        i = int(max(0, a - 0.3) * sr)
+        v[-int(0.02 * sr):] *= np.linspace(1, 0, int(0.02 * sr))[:, None]
+        i = int(max(0, a - 0.15) * sr)
         full[i:i + len(v)] += v[:len(full) - i]
         report.append({"section": sec["name"], "start": a, "end": b, "chosen": best["seed"], "wer": best["wer"],
                        "voice_sim": best["voice_sim"], "vox": best["vox"], "takes": rows})

@@ -30,6 +30,7 @@ sfz:
   church_organ: {path: sounds/sfz/vsco2-ce/OrganQuiet.sfz}
   orchestral_perc: {path: sounds/sfz/vsco2-ce/GM-StylePerc.sfz, map: gm}
   # 10-15 추가 — Karoryfer(CC0-1.0, GitHub sfzinstruments 확인) · Greg Sullivan EP(CC-BY 3.0, 출처 표기 필요)
+  drums_studio: {path: sounds/sfz/sm-drums/Programs/SM_Drums_kit.sfz, map: gm, note: "깨끗한 스튜디오 킷 — 시티팝·팝·AOR. 퍼블릭 도메인(SM Drums: Scott McLean·Tod Stillwell·Suleiman Ali)"}
   drums_rusty: {path: sounds/sfz/karoryfer-big-rusty-drums/Programs/02-basic.sfz, map: gm, note: "거칠고 빈티지한 킷(스틱) — 붐뱁·소울 1순위. CC0"}
   drums_rusty_full: {path: sounds/sfz/karoryfer-big-rusty-drums/Programs/01-full.sfz, map: gm, note: "브러시·말렛 포함 전체. CC0"}
   bass_hollow_finger: {path: sounds/sfz/karoryfer-black-and-blue-basses/Programs/04-babyblue_warm.sfz, note: "할로우바디 핑거 베이스(따뜻) — 소울·시티팝·네오소울. CC0"}

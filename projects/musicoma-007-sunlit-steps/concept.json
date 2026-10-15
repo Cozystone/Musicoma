@@ -1,0 +1,74 @@
+{
+ "thesis": "An original, hopeful soul-sample-inspired hip-hop instrumental: an imagined high-register refrain rides dry swung drums and a warm bassline as the energy rises from a filtered intro to a bright final hook.",
+ "arc": [
+  {
+   "section": "intro",
+   "intent": "distant memory; filtered harmonic motif only",
+   "energy": 0.25
+  },
+  {
+   "section": "verse1",
+   "intent": "grounded head-nod pocket",
+   "energy": 0.55
+  },
+  {
+   "section": "hook",
+   "intent": "open, celebratory release with high-register refrain",
+   "energy": 0.82
+  },
+  {
+   "section": "verse2",
+   "intent": "pull back for rhythmic detail",
+   "energy": 0.62
+  },
+  {
+   "section": "hook2",
+   "intent": "full return with strings",
+   "energy": 0.9
+  },
+  {
+   "section": "outro",
+   "intent": "motif fades back into memory",
+   "energy": 0.3
+  }
+ ],
+ "motif": {
+  "melody": "A short, original ascending three-note response in the upper register, answered by a falling two-note phrase.",
+  "why": "Creates the feeling of a sped-up soul refrain without quoting or imitating any recording."
+ },
+ "collision": [
+  "dusty upright-piano harmony",
+  "precise dry boom-bap drums",
+  "small chamber strings"
+ ],
+ "constraints": [
+  "Instrumental only; no artist imitation or sampled recordings.",
+  "Dry mono drum center; no trap hat rolls.",
+  "Warm low bass replaces any sample low end."
+ ],
+ "events": [
+  {
+   "section": "intro",
+   "at": 0,
+   "length": 16,
+   "type": "filter"
+  },
+  {
+   "section": "hook",
+   "at": 80,
+   "length": 1,
+   "type": "stop"
+  },
+  {
+   "section": "hook2",
+   "at": 176,
+   "length": 2,
+   "type": "stop"
+  }
+ ],
+ "not": [
+  "No recognizable melody, lyrics, vocal timbre, or arrangement copied from a reference artist.",
+  "No long reverb on drums.",
+  "No modern EDM risers."
+ ]
+}

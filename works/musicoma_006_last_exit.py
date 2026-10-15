@@ -77,10 +77,13 @@ spec = {
     "brief": "「Last Exit」 시티팝 · 영어 가사 · 반주 조건 생성 보컬",
     "sections": SECTIONS,
     "tracks": {
-        "Drums": {"preset": "drums/live_room", "role": "drums", "sends": {"0": -24}},
-        "Bass": {"preset": "bass/picked", "role": "bass"},
-        "CP80": {"preset": "keys/cp80", "role": "keys", "pan": -0.2, "sends": {"0": -12}},
-        "Guitar": {"preset": "guitar/archtop", "role": "guitar", "pan": 0.35, "sends": {"0": -16}},
+        "Drums": {"preset": "drums/studio", "role": "drums", "sends": {"0": -24}},              # v2: 재즈 킷 → 스튜디오 킷(SM Drums)
+        "Bass": {"preset": "bass/hollow_finger", "role": "bass"},                  # v2: 피크 → 핑거(미드 살아 있게)
+        "CP80": {"sound": "dexed:city_ep", "role": "keys", "pan": -0.2, "sends": {"0": -12}, "perform_role": "keys",
+                 "fx": [{"device": "chorus"}]},                                      # v2: 탁한 CP80 샘플 → 자체 FM 일렉피아노 + 코러스
+        "Bell": {"sound": "dexed:city_bell", "role": "pad", "pan": 0.25, "sends": {"0": -8}},
+        "Guitar": {"preset": "guitar/archtop", "role": "guitar", "pan": 0.35, "sends": {"0": -16},
+                   "fx": [{"device": "chorus"}]},
         "Strings": {"preset": "strings/ensemble", "role": "strings", "pan": -0.1, "sends": {"0": -8}},
         "Brass": {"preset": "brass/synth_80s", "role": "brass", "pan": 0.15, "sends": {"0": -12}},
         "Sax": {"preset": "lead/alto_sax", "role": "lead", "sends": {"0": -10}},
@@ -116,41 +119,39 @@ spec = {
         {"track": "Brass", "in": ["chorus", "chorus_last"], "chords": {"progression": PROG["chorus"], "beats_per_chord": 4, "voicing": "stab",
                                                                      "rhythm": [[0, 0.25, 1.0], [0.5, 0.25, 0.85], [3.5, 0.5, 1.0]], "velocity": 92}},
         {"track": "Brass", "in": ["pre"], "melody": {"text": "r:12 " + BRASS_HOOK.split(" r:")[0], "velocity": 96, "repeat": False}},
+        {"track": "Bell", "in": ["chorus", "chorus_last"], "chords": {"progression": PROG["chorus"], "beats_per_chord": 4,
+                                                                    "voicing": "pad", "rhythm": [[0, 2, 1.0]], "velocity": 60}, "transpose": 12},
         {"track": "Sax", "in": ["bridge"], "melody": {"text": SAX, "velocity": 96, "repeat": False}},
         {"track": "Sax", "in": ["outro"], "melody": {"text": motif.section_melody(M, ["octave:-1", "augment:2"], chords_for("chorus", 4), KEY, 4, "statement"),
                                                      "velocity": 84, "repeat": False}},
     ],
     "events": CONCEPT["events"],
     "mix": {"balance": True, "target_lufs": -12,
-            "balance_lu": {"drums": 0, "bass": -1, "cp80": -2.5, "guitar": -6, "strings": -6, "brass": -4, "sax": -1, "vox": 2.5}},
+            "balance_lu": {"drums": 0, "bass": -1, "cp80": -2.5, "bell": -10, "guitar": -6, "strings": -6, "brass": -4, "sax": -1, "vox": 2.5}},
 }
 
 
 def vocal_sections():
-    """보컬이 부를 구간(초). 절+프리를 한 덩어리로(이야기가 이어지게), 후렴은 따로."""
-    out, bar = [], 0
-    starts = []
-    for s in SECTIONS:
-        starts.append((s["name"], bar, s["bars"]))
-        bar += s["bars"]
-    def t(b):
-        return round(b * 4 * SPB, 3)
-    seen = {}
-    i = 0
-    while i < len(starts):
-        name, b0, n = starts[i]
-        k = seen.get(name, 0)
-        seen[name] = k + 1
-        if name in ("verse", "verse2") and i + 1 < len(starts) and starts[i + 1][0] == "pre":
-            nb = n + starts[i + 1][2]
-            out.append({"name": f"{name}_pre", "start": t(b0), "end": t(b0 + nb), "tag": "Verse",
-                        "lyrics": LYR[name] + "\n\n" + LYR["pre"]})
-            seen["pre"] = seen.get("pre", 0) + 1
-            i += 2
-            continue
-        if name in ("chorus", "chorus_last"):
-            out.append({"name": f"{name}{k + 1}", "start": t(b0), "end": t(b0 + n), "tag": "Chorus", "lyrics": LYR["chorus"]})
-        i += 1
+    """보컬 구간(초) — 8마디 이하로(10마디 한 창은 42 테이크 모두 실패, 10-15), 구간마다 조성과 가이드 멜로디."""
+    from musicoma import theory, vocal_melody
+    lyr = {"verse": LYR["verse"], "pre": LYR["pre"], "chorus": LYR["chorus"], "verse2": LYR["verse2"], "chorus_last": LYR["chorus"]}
+    prog = {"verse": PROG["verse"], "verse2": PROG["verse"], "pre": PROG["pre"], "chorus": PROG["chorus"], "chorus_last": PROG["chorus"]}
+    out, bar, count = [], 0, {}
+    for s_ in SECTIONS:
+        name, n = s_["name"], s_["bars"]
+        if name in lyr:
+            count[name] = count.get(name, 0) + 1
+            tr = s_.get("transpose", 0)
+            names = ["C", "Db", "D", "Eb", "E", "F", "F#", "G", "Ab", "A", "Bb", "B"]
+            key = f"{names[(5 + tr) % 12]} major"
+            ch = theory.progression(prog[name], names[(5 + tr) % 12], "major")
+            chords = [(bar * 4 + b * 4, bar * 4 + b * 4 + 4, ch[b % len(ch)]) for b in range(n)]
+            mel = vocal_melody.section_notes(lyr[name], bar * 4, n, motif.develop(motif.parse(M), [f"chrom:{tr}"] if tr else [], KEY) and
+                                             motif.to_text(motif.develop(motif.parse(M), [f"chrom:{tr}"] if tr else [], KEY)), key, chords)
+            out.append({"name": f"{name}{count[name]}", "start": round(bar * 4 * SPB, 3), "end": round((bar + n) * 4 * SPB, 3),
+                        "tag": "Chorus" if "chorus" in name else ("Pre-Chorus" if name == "pre" else "Verse"),
+                        "lyrics": lyr[name], "key": key, "melody_notes": mel})
+        bar += n
     return out
 
 
@@ -167,18 +168,11 @@ if __name__ == "__main__":
         s, rep = arrange.build(spec, label="inst")
         print("반주:", rep["file"], rep["loudness"]["lufs_integrated"])
     if step in ("all", "vocal"):
-        # 보컬 생성용 가벼운 반주(드럼·베이스·CP80) — 꽉 찬 편곡에서는 Lego 가 보컬을 안 얹는다(10-15 측정)
-        import glob, numpy as np, soundfile as sf
-        st = {Path(p).stem.rsplit("_", 1)[0]: p for p in glob.glob(str(root / ".work" / "stems" / "*.wav"))}
-        mix = None
-        for k, g in [("Drums", 1.0), ("Bass", 1.0), ("CP80", 0.9)]:
-            y, sr = sf.read(st[k])
-            mix = y * g if mix is None else mix[:len(y)] + y[:len(mix)] * g
-        guide = root / ".work" / "vocal_guide.wav"
-        sf.write(str(guide), mix / np.abs(mix).max() * 0.8, sr, subtype="PCM_24")
-        caption = "female vocals, english, 1980s japanese city pop, clear singing, lead vocal"
-        vox, rep_v = lego.vocal_track(inst, vocal_sections(), BPM, KEY, caption, root / "vocals" / "vox_lego.wav",
-                                      takes=18, guide_wav=guide, pass_wer=0.35)
+        # 보컬 생성용 가이드 — 곡의 악기가 아니라 '가이드 전용 악기'로 따로 렌더(lego.GUIDE_PALETTE, 10-15 측정)
+        guide = lego.render_guide(spec)                 # 트랙 합(마스터 없음) — 전체 렌더 가이드는 실패(10-15)
+        caption = "female solo lead vocal, english, 1980s japanese city pop, clear singing, no harmonies, no backing vocals"
+        vox, rep_v = lego.vocal_track(inst, vocal_sections(), BPM, KEY, caption, root / "vocals" / "vox_lego_v4.wav",
+                                      takes=12, guide_wav=guide, pass_wer=0.3)
         for x in rep_v:
             print(x["section"], "seed", x["chosen"], "오류율", x["wer"], "유사도", x["voice_sim"])
     if step in ("all", "final"):
@@ -186,6 +180,6 @@ if __name__ == "__main__":
                                  "fx": [{"device": "eq", "params": {"Low-pass freq": 140, "Low-pass gain": -6, "Mid freq 2": 3500, "Mid gain 2": 1.5}},
                                         {"device": "compressor", "params": {"threshold": -20, "ratio": 3, "attack": 8, "release": 120}}]}
         total_beats = sum(x["bars"] for x in SECTIONS) * 4
-        spec["parts"].append({"track": "Vox", "in": ["intro"], "audio": {"path": str(root / "vocals" / "vox_lego_v3.wav"), "length": total_beats}})
-        s, rep = arrange.build(spec, label="v1")
+        spec["parts"].append({"track": "Vox", "in": ["intro"], "audio": {"path": str(root / "vocals" / "vox_lego_v4.wav"), "length": total_beats}})
+        s, rep = arrange.build(spec, label=sys.argv[2] if len(sys.argv) > 2 else "v2")
         print(json.dumps({k: rep[k] for k in ("file", "loudness", "bands_db", "issues")}, ensure_ascii=False, default=str))

@@ -1,0 +1,66 @@
+{
+ "name": "musicoma-007-sunlit-steps",
+ "bpm": 88,
+ "key": "A minor",
+ "style": "chipmunk-soul",
+ "time_sig": "4/4",
+ "brief": "Original soul-sample-inspired boom-bap instrumental with an upper-register refrain, dry punchy drums, warm bass, and restrained strings.",
+ "created": "2026-10-15 17:27",
+ "tracks": {
+  "Drums": {
+   "sound": "drums_acoustic_basic",
+   "role": "drums"
+  },
+  "Bass": {
+   "sound": "bass_hollow_finger",
+   "role": "bass"
+  },
+  "Soul Piano": {
+   "sound": "upright_piano",
+   "role": "keys"
+  },
+  "High Refrain": {
+   "sound": "wurlitzer",
+   "role": "lead"
+  },
+  "Strings": {
+   "sound": "strings_violins",
+   "role": "strings"
+  }
+ },
+ "sections": [
+  {
+   "name": "intro",
+   "start_bar": 0,
+   "bars": 4
+  },
+  {
+   "name": "verse1",
+   "start_bar": 4,
+   "bars": 16
+  },
+  {
+   "name": "hook",
+   "start_bar": 20,
+   "bars": 8
+  },
+  {
+   "name": "verse2",
+   "start_bar": 28,
+   "bars": 16
+  },
+  {
+   "name": "hook2",
+   "start_bar": 44,
+   "bars": 8
+  },
+  {
+   "name": "outro",
+   "start_bar": 52,
+   "bars": 4
+  }
+ ],
+ "sources": [],
+ "history": [],
+ "versions": []
+}

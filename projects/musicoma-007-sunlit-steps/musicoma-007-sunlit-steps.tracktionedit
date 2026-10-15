@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<EDIT appVersion="Unknown" projectID="0/add954" creationTime="1792052835268"
+      modifiedBy="anseo" lastSignificantChange="1a13eac4109">
+  <TRANSPORT start="0.0" loopPoint1="0.0" loopPoint2="0.0"/>
+  <PITCHSEQUENCE>
+    <PITCH startBeat="0.0" pitch="60"/>
+  </PITCHSEQUENCE>
+  <TEMPOSEQUENCE>
+    <TEMPO startBeat="0.0" bpm="88.0" curve="1.0"/>
+    <TIMESIG numerator="4" denominator="4" startBeat="0.0"/>
+  </TEMPOSEQUENCE>
+  <VIDEO/>
+  <CLICKTRACK level="0.6000000238418579"/>
+  <MASTERVOLUME>
+    <PLUGIN type="volume" volume="0.6376281380653381" id="1001" enabled="1">
+      <MODIFIERASSIGNMENTS/>
+    </PLUGIN>
+  </MASTERVOLUME>
+  <RACKS/>
+  <MASTERPLUGINS>
+    <PLUGIN type="level" id="1010" enabled="1" remapOnTempoChange="1"/>
+  </MASTERPLUGINS>
+  <INPUTDEVICES>
+    <INPUTDEVICE deviceID="all_midi_in" name="All MIDI Ins"/>
+  </INPUTDEVICES>
+  <TRACKCOMPS/>
+  <SCENES/>
+  <ARRANGERTRACK name="Arranger" id="1006"/>
+  <CHORDTRACK name="Chord" id="1008"/>
+  <MARKERTRACK id="1002" name="Marker"/>
+  <TEMPOTRACK name="Global" id="1007">
+    <MODIFIERS/>
+  </TEMPOTRACK>
+  <MASTERTRACK name="Master" id="1009">
+    <MODIFIERS/>
+  </MASTERTRACK>
+  <TRACK id="1011" name="Drums">
+    <MODIFIERS/>
+    <OUTPUTDEVICES>
+      <DEVICE name="(default audio output)"/>
+    </OUTPUTDEVICES>
+    <CLIPSLOTS/>
+    <PLUGIN type="musicomaSfz" id="1014" enabled="1" remapOnTempoChange="1"
+            sfzFile="D:\0.Musicoma\sounds\sfz\virtuosity-drums\Programs\01-basic-kit.sfz">
+      <MODIFIERASSIGNMENTS/>
+    </PLUGIN>
+    <PLUGIN type="volume" id="1012" enabled="1" remapOnTempoChange="1">
+      <MODIFIERASSIGNMENTS/>
+    </PLUGIN>
+    <PLUGIN type="level" id="1013" enabled="1"/>
+  </TRACK>
+  <TRACK id="1015" name="Bass">
+    <MODIFIERS/>
+    <OUTPUTDEVICES>
+      <DEVICE name="(default audio output)"/>
+    </OUTPUTDEVICES>
+    <CLIPSLOTS/>
+    <PLUGIN type="musicomaSfz" id="1018" enabled="1" remapOnTempoChange="1"
+            sfzFile="D:\0.Musicoma\sounds\sfz\karoryfer-black-and-blue-basses\Programs\04-babyblue_warm.sfz">
+      <MODIFIERASSIGNMENTS/>
+    </PLUGIN>
+    <PLUGIN type="volume" id="1016" enabled="1" remapOnTempoChange="1">
+      <MODIFIERASSIGNMENTS/>
+    </PLUGIN>
+    <PLUGIN type="level" id="1017" enabled="1"/>
+  </TRACK>
+  <TRACK id="1019" name="Soul Piano">
+    <MODIFIERS/>
+    <OUTPUTDEVICES>
+      <DEVICE name="(default audio output)"/>
+    </OUTPUTDEVICES>
+    <CLIPSLOTS/>
+    <PLUGIN type="musicomaSfz" id="1022" enabled="1" remapOnTempoChange="1"
+            sfzFile="D:\0.Musicoma\sounds\sfz\vsco2-ce\UprightPiano.sfz">
+      <MODIFIERASSIGNMENTS/>
+    </PLUGIN>
+    <PLUGIN type="volume" id="1020" enabled="1" remapOnTempoChange="1">
+      <MODIFIERASSIGNMENTS/>
+    </PLUGIN>
+    <PLUGIN type="level" id="1021" enabled="1"/>
+  </TRACK>
+  <TRACK id="1023" name="High Refrain">
+    <MODIFIERS/>
+    <OUTPUTDEVICES>
+      <DEVICE name="(default audio output)"/>
+    </OUTPUTDEVICES>
+    <CLIPSLOTS/>
+    <PLUGIN type="musicomaSfz" id="1026" enabled="1" remapOnTempoChange="1"
+            sfzFile="D:\0.Musicoma\sounds\sfz\gregsullivan-epianos\Wurlitzer EP200\Wurlitzer EP200.sfz">
+      <MODIFIERASSIGNMENTS/>
+    </PLUGIN>
+    <PLUGIN type="volume" id="1024" enabled="1" remapOnTempoChange="1">
+      <MODIFIERASSIGNMENTS/>
+    </PLUGIN>
+    <PLUGIN type="level" id="1025" enabled="1"/>
+  </TRACK>
+  <TRACK id="1027" name="Strings">
+    <MODIFIERS/>
+    <OUTPUTDEVICES>
+      <DEVICE name="(default audio output)"/>
+    </OUTPUTDEVICES>
+    <CLIPSLOTS/>
+    <PLUGIN type="musicomaSfz" id="1030" enabled="1" remapOnTempoChange="1"
+            sfzFile="D:\0.Musicoma\sounds\sfz\vsco2-ce\ViolinEnsSusVib.sfz">
+      <MODIFIERASSIGNMENTS/>
+    </PLUGIN>
+    <PLUGIN type="volume" id="1028" enabled="1" remapOnTempoChange="1">
+      <MODIFIERASSIGNMENTS/>
+    </PLUGIN>
+    <PLUGIN type="level" id="1029" enabled="1"/>
+  </TRACK>
+</EDIT>

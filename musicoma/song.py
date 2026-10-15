@@ -171,6 +171,8 @@ class Song:
             self.e.call("device.add", add)
             if "patch" in r:
                 self.e.call("device.load_file", {"track": name, "device": 0, "path": r["patch"]})
+            if "preset" in r:
+                self.e.call("device.preset_load", {"track": name, "device": 0, "path": r["preset"]})
         if volume_db is not None or pan is not None:
             t.mix(**{k: v for k, v in (("volume_db", volume_db), ("pan", pan)) if v is not None})
         self.meta.setdefault("tracks", {})[name] = {"sound": sound, "role": role}

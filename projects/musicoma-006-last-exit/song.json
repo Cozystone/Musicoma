@@ -5,19 +5,23 @@
  "style": "city-pop",
  "time_sig": "4/4",
  "brief": "「Last Exit」 시티팝 · 영어 가사 · 반주 조건 생성 보컬",
- "created": "2026-10-15 15:11",
+ "created": "2026-10-15 17:07",
  "tracks": {
   "Drums": {
-   "sound": "drums_acoustic_full",
+   "sound": "drums_studio",
    "role": "drums"
   },
   "Bass": {
-   "sound": "bass_picked",
+   "sound": "bass_hollow_finger",
    "role": "bass"
   },
   "CP80": {
-   "sound": "cp80",
+   "sound": "dexed:city_ep",
    "role": "keys"
+  },
+  "Bell": {
+   "sound": "dexed:city_bell",
+   "role": "pad"
   },
   "Guitar": {
    "sound": "guitar_archtop",
