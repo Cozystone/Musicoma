@@ -1,12 +1,18 @@
 # Musicoma — Claude 가 프로듀서로 일하는 DAW
 
 ## 원칙 (본인 지시)
+- **인간다운 음악**(10-17, `musicoma/knowledge/principles.md` — 콘셉트 문맥에 항상 들어감): Suno 의 어색함은 '너무 완벽한 진행·구조'에서 온다.
+  후렴을 서두르지 않고, 듣기 좋은 코드·중독성 후크·풍성함을 기본값으로 두지 않는다. 살짝 어설픈 보컬·독특한 음정·거친 숨·불안정한 톤은
+  지울 결점이 아니라 개성일 수 있다. 비평 항목: "이 사람의 것인가 / Suno 같은가".
 - **진짜 프로듀서처럼.** 곡·반주·샘플 원곡은 직접 작곡·편곡·연주(MIDI + 악기)로 만든다. Suno 류 '곡 생성' 금지.
-  ACE-Step(third_party/ace-step)은 쓰지 않는다.
-- **예외: 보컬만** 로컬 가창 모델(SoulX-Singer)이 Musicoma 가 쓴 멜로디+가사를 부른다(가수 역할). 목소리 복제는 본인 또는 허락받은 목소리만.
-- 저작권 있는 녹음을 받아오지 않는다. 본인 음원은 `sounds/inbox/` — 본인 것으로 보고 그대로 쓴다.
-- Ableton 바이너리 디컴파일·에셋 복사 금지. 화면·동작을 '쓰면서' 참고하고, REA 는 본인 `.als` 가져오기에.
-- 모든 장르를 같은 방식으로: 장르 카드(`musicoma/knowledge/styles/*.yaml`)를 읽고 설계서(spec)를 쓴다. 카드가 없는 장르는 새 카드를 먼저 쓴다(근거를 적고).
+- **예외: 보컬만** — 반주를 듣고 부르는 ACE-Step 1.5 lego(구간별 테이크, `lego.py`), 악보 가창 SoulX-Singer, 목소리 생성·랩 VoxCPM2.
+  목소리 복제는 본인 또는 동의받은 목소리만. 기기 사양에 따라 설정이 바뀐다(`hardware.py`). YuE2 는 비상업 가중치·반주 입력 불가로 제외(10-17).
+- **악기 보컬로이드**(10-17): 선율 녹음(흥얼거림·노래·다른 악기)을 음정·세기·비브라토 그대로 다른 악기 음색으로 — `timbre.py`(MCP `timbre_transfer`),
+  우리 샘플에서 음색 틀을 뽑아 합성. 생성 모델 cover 는 음정 추종 33% 라 쓰지 않는다.
+- 저작권 있는 녹음을 받아오지 않는다. 본인 음원은 `sounds/inbox/` — 본인 것으로 보고 그대로 쓴다. 레퍼런스는 `listen_reference` 로 듣고 숫자만 남긴다.
+- Ableton 바이너리·컴파일된 스크립트(.pyc) 디컴파일·에셋 복사 금지. 화면·동작을 '쓰면서' 참고하고, REA 는 우리 산출물 검증·본인 `.als` 가져오기에.
+- 모든 장르를 같은 방식으로: 장르 카드(`musicoma/knowledge/styles/*.yaml`)를 읽고 설계서(spec)를 쓴다. 카드가 없는 장르는 새 카드를 먼저 쓴다.
+- 필요한 악기가 없으면 `packs`(즉석 설치)로 받는다 — 자유 라이선스만, 출처 기록.
 
 ## 구조
 | 경로 | 무엇 |
@@ -15,7 +21,7 @@
 | `musicoma/` | 파이썬 두뇌. `arrange`(설계서→곡) · `song` · `theory` · `groove` · `compose` · `crate`(샘플) · `transcribe` · `ears`(측정) · `master` · `voice` · `knowledge` |
 | `musicoma/mcp_server.py` | MCP 도구(`.mcp.json` 로 이 폴더에서 자동 등록) |
 | `sounds/` | `sfz/`(피아노·드럼·오케스트라) · `plugins/vst3/`(Surge XT·Dexed·Dragonfly·Airwindows) · `crate/`(가공 샘플) · `voices/` · `inbox/` |
-| `projects/<곡>/` | `spec.json`(설계서) · `song.json`(메타·요청 기록·버전) · `.tracktionedit` · `renders/` |
+| `projects/<곡>/` | `spec.json`(설계서) · `song.json`(메타·요청 기록·버전) · `<곡>.edit.json` · `renders/` |
 
 파이썬은 `D:/0.Musicoma/.venv/Scripts/python.exe` (PYTHONIOENCODING=utf-8).
 

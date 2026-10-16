@@ -62,6 +62,9 @@ def validate(c):
 def taste_context(max_chars=4000):
     """본인 취향 문서(TASTE.md + LOG.md 끝부분)를 읽어 비평 기준으로. 없으면 빈 문자열."""
     parts = []
+    pr = Path(__file__).resolve().parent / "knowledge" / "principles.md"       # 인간다운 음악 원칙(10-17) — 항상 맨 앞
+    if pr.exists():
+        parts.append(pr.read_text(encoding="utf-8"))
     for f in ("TASTE.md", "LOG.md"):
         p = TASTE / f
         if p.exists():

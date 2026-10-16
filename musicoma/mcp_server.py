@@ -714,5 +714,22 @@ def vocal_styles() -> dict:
     return {k: {"humanize": v["humanize"], "character": v["character"], "post": v["post"]} for k, v in vs.STYLES.items()}
 
 
+@mcp.tool()
+def timbre_transfer(source: str, instrument: str, out: str = "", semitones: float = 0, breath: float = 1.0,
+                    strength: float = 1.0, vibrato_keep: float = 1.0) -> dict:
+    """INSTRUMENT 'VOCALOID': re-voice a MONOPHONIC melody recording (a hum, a sung line, a rendered flute...) as another
+    sampled instrument (alto_sax, trumpet, flute, solo_violin, clarinet, oboe, horn... any SFZ role from knowledge_sounds),
+    keeping the performance exactly: pitch glides, vibrato, dynamics, timing (measured: 96% of frames within 25 cents).
+    No generative model: the timbre is analysed from our own instrument samples (first use builds a cache, ~5 s).
+    semitones: transpose (12 = octave). breath: noise/air amount. strength: dynamics follow (0.5 = flatter).
+    vibrato_keep: 0 = straighten pitch, 1 = keep. Then place the result with engine clip.add_audio or a spec audio part.
+    Not for chords/polyphony. For a human-sounding solo line, prefer this over a quantized MIDI line."""
+    from musicoma import timbre
+    src = Path(source)
+    out_p = Path(out) if out else src.with_name(f"{src.stem}_as_{instrument}.wav")
+    return _j(timbre.transfer(str(src), instrument, str(out_p), semitones=semitones, breath=breath, strength=strength,
+                              vibrato_keep=vibrato_keep))
+
+
 if __name__ == "__main__":
     mcp.run()
