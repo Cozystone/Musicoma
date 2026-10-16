@@ -138,10 +138,18 @@ def words(path, lang="en"):
     """단어별 시작·끝(초) — 정렬의 기준점."""
     global _ASR
     if _ASR is None:
+        try:   # ctranslate2 의 GPU 연산은 cuBLAS 12·cuDNN 9 DLL 이 필요 — 설치판엔 torch(cu128) 안에만 있다
+            import torch
+            os.add_dll_directory(str(Path(torch.__file__).parent / "lib"))
+        except (ImportError, OSError, AttributeError):
+            pass
         from faster_whisper import WhisperModel
         _ASR = WhisperModel("small", device="cuda", compute_type="float16")
-    segs, _ = _ASR.transcribe(str(path), language=lang, word_timestamps=True, vad_filter=False)
-    return [{"w": w.word.strip(), "s": w.start, "e": w.end} for s in segs for w in s.words]
+    # 파일 경로를 넘기면 faster-whisper 가 PyAV 로 디코딩하는데, PyAV 16+ 에서 그 호출이 깨진다(10-16) — 직접 읽어 16k 배열로
+    y, sr = sf.read(str(path), dtype="float32", always_2d=True)
+    y = librosa.resample(y.mean(1), orig_sr=sr, target_sr=16000) if sr != 16000 else y.mean(1)
+    segs, _ = _ASR.transcribe(y.astype(np.float32), language=lang, word_timestamps=True, vad_filter=False)
+    return [{"w": w.word.strip(), "s": float(w.start), "e": float(w.end)} for s in segs for w in s.words]
 
 
 def _trim(y, sr, db=40):
