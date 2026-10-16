@@ -231,7 +231,7 @@ def sing_svc(voice, lyrics, bpm, melody=None, notes=None, out=None, lang="ko", s
                "save_dir": str(d), "n_steps": n_steps, "cfg": cfg}
         (d / "svc_request.json").write_text(json.dumps(req), encoding="utf-8")
         r = subprocess.run([str(SOULX / ".venv/Scripts/python.exe"), str(SOULX / "musicoma_svc.py"), str(d / "svc_request.json")],
-                           cwd=SOULX, env=env, capture_output=True, text=True, encoding="utf-8", errors="replace")
+                           cwd=SOULX, env=env, capture_output=True, stdin=subprocess.DEVNULL, text=True, encoding="utf-8", errors="replace")
         if r.returncode != 0:
             raise RuntimeError((r.stdout[-1500:] + "\n" + r.stderr[-2500:]).strip())
         wav = json.loads(r.stdout.strip().splitlines()[-1])["wav"]

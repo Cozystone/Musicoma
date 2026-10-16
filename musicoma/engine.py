@@ -75,10 +75,10 @@ def start(port=PORT, wait=20.0, breakaway=True):
     flags = getattr(subprocess, "CREATE_NEW_PROCESS_GROUP", 0) | getattr(subprocess, "DETACHED_PROCESS", 0)
     args = [str(ENGINE_EXE), "--port", str(port), "--root", str(ROOT)]
     try:
-        subprocess.Popen(args, cwd=ENGINE_EXE.parent, stdout=log, stderr=log,
+        subprocess.Popen(args, cwd=ENGINE_EXE.parent, stdin=subprocess.DEVNULL, stdout=log, stderr=log,
                          creationflags=flags | (CREATE_BREAKAWAY_FROM_JOB if breakaway else 0))
     except OSError:  # Job 이 빠져나가기를 허용하지 않으면 그냥 띄운다
-        subprocess.Popen(args, cwd=ENGINE_EXE.parent, stdout=log, stderr=log, creationflags=flags)
+        subprocess.Popen(args, cwd=ENGINE_EXE.parent, stdin=subprocess.DEVNULL, stdout=log, stderr=log, creationflags=flags)
     t0 = time.time()
     while time.time() - t0 < wait:
         if is_running(port):

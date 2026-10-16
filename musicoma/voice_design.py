@@ -39,7 +39,7 @@ def _run(jobs, tag="job"):
     env = {**os.environ, "PYTHONUTF8": "1", "PYTHONIOENCODING": "utf-8", "HF_HOME": str(VOX / "hf"),
            "HF_HUB_OFFLINE": "1"}
     r = subprocess.run([str(PY), str(VOX / "musicoma_voxcpm.py"), str(req)], cwd=VOX, env=env,
-                       capture_output=True, text=True, encoding="utf-8", errors="replace")
+                       capture_output=True, stdin=subprocess.DEVNULL, text=True, encoding="utf-8", errors="replace")
     if r.returncode != 0:
         raise RuntimeError(r.stderr[-2500:])
     return json.loads([l for l in r.stdout.splitlines() if l.startswith('{"done"')][-1])

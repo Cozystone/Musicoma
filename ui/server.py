@@ -320,16 +320,19 @@ async def bridge(ws):
                 print("engine restarted — reattached", flush=True)
                 await ws.send(json.dumps({"event": "engine_restarted"}))
             first = False
-            while True:
-                line = await reader.readline()
-                if not line:
-                    break
-                try:
-                    i = json.loads(line).get("id")
-                    link["pending"].discard(i)
-                except ValueError:
-                    pass
-                await ws.send(line.decode("utf-8"))
+            try:
+                while True:
+                    line = await reader.readline()   # 엔진이 강제로 꺼지면 빈 줄 대신 연결 리셋 오류가 난다
+                    if not line:
+                        break
+                    try:
+                        i = json.loads(line).get("id")
+                        link["pending"].discard(i)
+                    except ValueError:
+                        pass
+                    await ws.send(line.decode("utf-8"))
+            except (ConnectionError, OSError, asyncio.IncompleteReadError) as ex:
+                print(f"engine connection lost: {ex!r}", flush=True)
             link["writer"] = None
             writer.close()
             await fail_pending("엔진이 다시 시작되는 중입니다")
@@ -352,8 +355,11 @@ async def bridge(ws):
                                          ensure_ascii=False))
                 continue
             link["pending"].add(req.get("id"))
-            w.write((json.dumps(req, ensure_ascii=False) + "\n").encode("utf-8"))
-            await w.drain()
+            try:
+                w.write((json.dumps(req, ensure_ascii=False) + "\n").encode("utf-8"))
+                await w.drain()
+            except (ConnectionError, OSError):
+                pass   # 읽는 쪽이 끊김을 알아채고 대기 중 요청을 오류로 돌려준 뒤 다시 붙는다
     finally:
         task.cancel()
         if link["writer"]:

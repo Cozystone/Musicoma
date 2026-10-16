@@ -53,7 +53,7 @@ def start(wait=120):
     flags = getattr(subprocess, "CREATE_NEW_PROCESS_GROUP", 0) | getattr(subprocess, "DETACHED_PROCESS", 0)
     env = {**os.environ, "PYTHONUTF8": "1", "PYTHONIOENCODING": "utf-8"}   # cp949 콘솔에서 죽지 않게
     subprocess.Popen([str(uv), "run", "acestep-api", "--host", "127.0.0.1", "--port", "8001",
-                      "--download-source", "huggingface"], cwd=ACE_DIR, stdout=log, stderr=log,
+                      "--download-source", "huggingface"], cwd=ACE_DIR, stdin=subprocess.DEVNULL, stdout=log, stderr=log,
                      creationflags=flags, env=env)
     t0 = time.time()
     while time.time() - t0 < wait:

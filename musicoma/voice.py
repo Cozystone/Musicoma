@@ -31,7 +31,7 @@ FPS = 50
 def _run(args, cwd=SOULX):
     env = {"PYTHONPATH": str(SOULX), "PYTHONUTF8": "1", "PYTHONIOENCODING": "utf-8"}
     import os
-    r = subprocess.run([str(PY)] + args, cwd=cwd, env={**os.environ, **env}, capture_output=True, text=True,
+    r = subprocess.run([str(PY)] + args, cwd=cwd, env={**os.environ, **env}, capture_output=True, stdin=subprocess.DEVNULL, text=True,
                        encoding="utf-8", errors="replace")
     if r.returncode != 0:
         raise RuntimeError((r.stdout[-1500:] + "\n" + r.stderr[-2500:]).strip())

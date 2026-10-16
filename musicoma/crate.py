@@ -353,7 +353,7 @@ def separate(path, folder=None, model="htdemucs"):
     folder = Path(folder) if folder else CRATE / source_name(path) / "stems"
     folder.mkdir(parents=True, exist_ok=True)
     r = subprocess.run([sys.executable, "-m", "demucs", "-n", model, "-o", str(folder), str(path)],
-                       capture_output=True, text=True, encoding="utf-8", errors="replace")
+                       capture_output=True, stdin=subprocess.DEVNULL, text=True, encoding="utf-8", errors="replace")
     if r.returncode != 0:
         raise RuntimeError("demucs failed: " + r.stderr[-800:])
     stems = {p.stem: str(p) for p in (folder / model / Path(path).stem).glob("*.wav")}

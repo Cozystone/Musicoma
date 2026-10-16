@@ -43,7 +43,7 @@ def to_wav(path, out_dir=None, sr=48000):
                 shutil.copy2(p, out)
             return str(out)
     r = subprocess.run([_ffmpeg(), "-y", "-v", "error", "-i", str(p), "-vn", "-ac", "2", "-ar", str(sr), "-c:a", "pcm_s24le", str(out)],
-                       capture_output=True, text=True, encoding="utf-8", errors="replace")
+                       capture_output=True, stdin=subprocess.DEVNULL, text=True, encoding="utf-8", errors="replace")
     if r.returncode != 0:
         raise RuntimeError("ffmpeg: " + r.stderr[-400:])
     return str(out)
