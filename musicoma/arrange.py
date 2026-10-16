@@ -205,7 +205,7 @@ def part_notes(part, sec, spec):
     return []
 
 
-def build(spec, render=True, balance=None, label=None, log=print, later=None):
+def build(spec, render=True, balance=None, label=None, log=print, later=None, fmt="mp3"):
     """설계서대로 곡을 새로 짓는다(같은 이름이면 덮어씀). 돌려줌: (Song, report|None)
     later = {트랙: 함수} — 그 트랙의 파트(오디오·vocal_sections)는 함수가 돌려줄 때 넣는다(10-15 속도: 보컬을 생성하는 동안
     반주를 짓고 밸런스까지 맞춰 두고, 보컬이 오면 그 트랙만 재서 맞춘다). 함수는 파트 dict 또는 list 를 돌려준다."""
@@ -392,7 +392,7 @@ def build(spec, render=True, balance=None, label=None, log=print, later=None):
         if targets:
             r = s.balance(targets, rows=getattr(s, "last_balance_rows", None), measure=set(waiting))
             log("balance(+" + ",".join(waiting) + "): " + ", ".join(f"{m['track']} {m['moved_db']:+.1f}(p{m.get('pass', 1)})" for m in r["moves"]))
-    report = s.render(lufs=mix.get("target_lufs"), label=label) if render else None
+    report = s.render(lufs=mix.get("target_lufs"), label=label, fmt=fmt) if render else None
     try:
         from .layout import write_readme
         write_readme(spec["name"])                     # 곡 폴더 안내서 갱신(무엇을 들으면 되는지)
@@ -482,7 +482,7 @@ def bounce(spec, age=None, stems=False, label="bounce"):
 
     직접 작곡·연주한 것이라 스템이 완벽하게 분리돼 있다(AI 분리 불필요)."""
     from . import crate
-    s, rep = build(spec, render=True, label=label)
+    s, rep = build(spec, render=True, label=label, fmt="wav")   # 레코드는 다시 샘플링할 재료 — 손실 없는 wav
     out = {"mix": rep["file"]}
     if stems:
         out["stems"] = {}

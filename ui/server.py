@@ -129,7 +129,8 @@ class Api(http.server.SimpleHTTPRequestHandler):
         if q.startswith("/api/renders"):
             d = ROOT / "projects" / unquote(q.split("name=", 1)[-1]) / "renders"
             out = []
-            for w in sorted(d.glob("*.wav"), key=lambda p: p.stat().st_mtime, reverse=True)[:12]:
+            files = [p for p in d.glob("*") if p.suffix in (".mp3", ".wav")] if d.exists() else []
+            for w in sorted(files, key=lambda p: p.stat().st_mtime, reverse=True)[:12]:
                 png = w.with_suffix(".png")
                 out.append({"name": w.stem, "wav": str(w), "png": str(png) if png.exists() else None,
                             "mtime": w.stat().st_mtime})
@@ -146,7 +147,7 @@ class Api(http.server.SimpleHTTPRequestHandler):
                 return
             data = f.read_bytes()
             self.send_response(200)
-            self.send_header("Content-Type", {".wav": "audio/wav", ".png": "image/png"}.get(f.suffix, "application/octet-stream"))
+            self.send_header("Content-Type", {".wav": "audio/wav", ".mp3": "audio/mpeg", ".png": "image/png"}.get(f.suffix, "application/octet-stream"))
             self.send_header("Content-Length", str(len(data)))
             self.end_headers()
             self.wfile.write(data)

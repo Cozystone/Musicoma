@@ -95,7 +95,7 @@ def write_readme(project):
     d = PROJECTS / project
     song = json.loads((d / "song.json").read_text(encoding="utf-8")) if (d / "song.json").exists() else {}
     spec = json.loads((d / "spec.json").read_text(encoding="utf-8")) if (d / "spec.json").exists() else {}
-    renders = sorted((d / "renders").glob("*.wav"), key=lambda p: p.stat().st_mtime, reverse=True) if (d / "renders").exists() else []
+    renders = sorted([p for p in (d / "renders").iterdir() if p.suffix in (".mp3", ".wav")], key=lambda p: p.stat().st_mtime, reverse=True) if (d / "renders").exists() else []
     vocals = sorted((d / "vocals").glob("*.wav")) if (d / "vocals").exists() else []
     versions = sorted((d / "versions").iterdir()) if (d / "versions").exists() else []
     L = [f"# {project}", ""]

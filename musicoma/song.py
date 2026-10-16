@@ -8,12 +8,14 @@
     d.fx("compressor", {"threshold": -18, "ratio": 4, "attack": 20})
     d.midi(notes, start=0, length=16)
     s.section("verse", 4, 16)
-    s.render()                      # → wav + ears 리포트 + png
+    s.render()                      # → mp3(320k) + ears 리포트 + png  (fmt="wav" 면 wav)
 """
 import json
 import shutil
 import time
 from pathlib import Path
+
+import soundfile as sf
 
 from . import ears as ears_mod
 from .engine import connect
@@ -21,6 +23,17 @@ from .knowledge import resolve_sound, style as load_style
 from .master import master
 
 ROOT = Path(__file__).resolve().parent.parent
+
+
+def to_mp3(wav, keep_wav=False):
+    """wav → 같은 이름 .mp3 (320kbps 고정, libsndfile 내장 LAME — ffmpeg 불필요). 반환: mp3 경로."""
+    wav = Path(wav)
+    out = wav.with_suffix(".mp3")
+    y, sr = sf.read(str(wav), dtype="float32", always_2d=True)
+    sf.write(str(out), y, sr, format="MP3", bitrate_mode="CONSTANT", compression_level=0.0)
+    if not keep_wav:
+        wav.unlink()
+    return str(out)
 
 
 class Track:
@@ -220,7 +233,8 @@ class Song:
         return s["start_bar"] * 4, s["bars"] * 4
 
     # ---------------------------------------------------------------- 결과
-    def render(self, lufs=None, start=None, end=None, tail=2.5, png=True, ref=None, label=None):
+    def render(self, lufs=None, start=None, end=None, tail=2.5, png=True, ref=None, label=None, fmt="mp3"):
+        """곡 렌더 → 측정. fmt="mp3"(기본, 320k — 듣고 나누는 파일) | "wav"(샘플 소스 '레코드'처럼 다시 가공할 파일)."""
         if lufs is None and self.style_card:
             lufs = self.style_card.get("mix", {}).get("target_lufs")
         params = {"tail": tail}
@@ -247,6 +261,8 @@ class Song:
         if ref:
             report["vs_reference"] = ears_mod.compare(report, ears_mod.analyze(ref)[0])
         report["render_ms"] = r.get("render_ms")
+        if fmt == "mp3":
+            report["file"] = to_mp3(r["path"])
         return report
 
     def render_stems(self, start=None, end=None, only=None):

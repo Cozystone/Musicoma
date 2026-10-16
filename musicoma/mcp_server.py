@@ -142,12 +142,13 @@ def song_section(name: str, section: str, start_bar: int, bars: int) -> dict:
 
 @mcp.tool()
 def render(name: str, lufs: float | None = None, label: str = "", start_beat: float | None = None,
-           end_beat: float | None = None, reference: str = "") -> dict:
+           end_beat: float | None = None, reference: str = "", fmt: str = "mp3") -> dict:
     """Render + master to target LUFS (default from style card) + ears report (loudness, true peak, 6 bands,
     stereo, issues like dead air/clipping, tempo/key estimate) + spectrogram PNG. Read the PNG to 'see' it.
-    reference: path to a reference wav for band/LUFS comparison."""
+    reference: path to a reference wav for band/LUFS comparison.
+    fmt: "mp3" (default, 320k, for listening/sharing) or "wav" (only when the render will be re-sampled/processed)."""
     s = _song(name)
-    rep = s.render(lufs=lufs, label=label or None, start=start_beat, end=end_beat, ref=reference or None)
+    rep = s.render(lufs=lufs, label=label or None, start=start_beat, end=end_beat, ref=reference or None, fmt=fmt)
     return _j(rep)
 
 
