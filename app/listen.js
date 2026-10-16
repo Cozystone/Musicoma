@@ -11,6 +11,7 @@ const http = require('http');
 const PORT = 47803;
 const PARTITION = 'persist:musicoma-listen';
 let busy = false;
+let activeWin = null;                 // 듣는 중인 창 — 시간 초과 때 강제로 닫아 잠금을 푼다(10-17: Suno 페이지에서 멈춰 다음 요청이 전부 '이미 듣는 중')
 
 function sleep(ms) { return new Promise((r) => setTimeout(r, ms)); }
 
@@ -54,7 +55,8 @@ const CAPTURE = String.raw`(async (clips, seconds, speed) => {
   };
   v.muted = false; v.volume = 1;
   const setSpeed = (s) => { v.preservesPitch = false; v.playbackRate = s; };
-  try { await v.play(); } catch (_) {}
+  const tryPlay = () => Promise.race([v.play().catch(() => {}), sleep(3000)]);   // play() 가 영영 대기하는 페이지 대비
+  try { await tryPlay(); } catch (_) {}
   await skipAds();
   for (let i = 0; i < 80 && !(v.duration > 0 && isFinite(v.duration)); i++) await sleep(250);
   const dur = v.duration;
@@ -88,7 +90,7 @@ const CAPTURE = String.raw`(async (clips, seconds, speed) => {
     const wantHere = full && ci === 1 ? seconds : want;   // 가운데(대개 후렴 근처) 구간만 1배속
     v.currentTime = at;
     await new Promise((r) => { const f = () => { v.removeEventListener('seeked', f); r(); }; v.addEventListener('seeked', f); setTimeout(f, 4000); });
-    try { await v.play(); } catch (_) {}
+    try { await tryPlay(); } catch (_) {}
     for (let i = 0; i < 40 && (v.readyState < 3 || v.paused); i++) await sleep(150);
     await skipAds();
     setSpeed(sp);
@@ -180,6 +182,7 @@ function hiddenWindow() {
 async function listen({ query, url, clips = 3, seconds = 20, speed = 4, show = true }, log, getMain) {
   const main = getMain && getMain();
   const win = show && main && !main.isDestroyed() && main.isVisible() ? attachViewer(main) : hiddenWindow();
+  activeWin = win;
   win.webContents.setWindowOpenHandler(() => ({ action: 'deny' }));
   try {
     const target = url || await findOnYouTube(win, query);
@@ -193,6 +196,7 @@ async function listen({ query, url, clips = 3, seconds = 20, speed = 4, show = t
   } finally {
     await sleep(1500);                         // '다 들었음' 띠를 잠깐 보여 주고 닫는다
     if (!win.isDestroyed()) win.destroy();
+    if (activeWin === win) activeWin = null;
   }
 }
 
@@ -208,7 +212,11 @@ function start(log, getMain) {
       if (!a.query && !a.url) return send(400, { error: 'query 또는 url' });
       if (busy) return send(409, { error: '이미 듣는 중' });
       busy = true;
-      const timer = setTimeout(() => { if (!res.writableEnded) send(504, { error: '시간 초과(6분)' }); }, 360000);
+      const timer = setTimeout(() => {
+        if (!res.writableEnded) send(504, { error: '시간 초과(6분)' });
+        try { if (activeWin && !activeWin.isDestroyed()) activeWin.destroy(); } catch (_) {}   // 창을 닫으면 executeJavaScript 가 거부되며 listen() 이 끝난다
+        activeWin = null; busy = false;
+      }, 360000);
       try {
         const r = await listen(a, log, getMain);
         if (!res.writableEnded) send(200, r);

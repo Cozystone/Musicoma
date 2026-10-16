@@ -17,12 +17,13 @@ std::unique_ptr<Device> createBuiltinFx (const std::string& name)
     if (equalsNoCase (name, "phaser"))                                                  return makePhaser();
     if (equalsNoCase (name, "lowpass") || equalsNoCase (name, "filter"))                return makeLowpass();
     if (equalsNoCase (name, "pitchshift") || equalsNoCase (name, "pitchshifter"))       return makePitchShifter();
+    if (equalsNoCase (name, "drive") || equalsNoCase (name, "overdrive") || equalsNoCase (name, "distortion")) return makeDrive();
     return nullptr;
 }
 
 std::vector<std::string> builtinFxNames()
 {
-    return { "eq", "compressor", "reverb", "delay", "chorus", "phaser", "lowpass", "pitchshift" };
+    return { "eq", "compressor", "reverb", "delay", "chorus", "phaser", "lowpass", "pitchshift", "drive" };
 }
 
 namespace fx {
@@ -137,6 +138,13 @@ void Biquad2::lowpass (double sr, double f, double q)
     f = clampF (sr, f);
     double w = 2 * kPi * f / sr, c = std::cos (w), al = std::sin (w) / (2 * q);
     setNorm ((1 - c) / 2, 1 - c, (1 - c) / 2, 1 + al, -2 * c, 1 - al);
+}
+
+void Biquad2::highpass (double sr, double f, double q)
+{
+    f = clampF (sr, f);
+    double w = 2 * kPi * f / sr, c = std::cos (w), al = std::sin (w) / (2 * q);
+    setNorm ((1 + c) / 2, -(1 + c), (1 + c) / 2, 1 + al, -2 * c, 1 - al);
 }
 
 void Biquad2::peak (double sr, double f, double q, double gainDb)

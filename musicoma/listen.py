@@ -97,6 +97,19 @@ def _clip(y, sr):
             active = float((20 * np.log10(rms + 1e-9) > 20 * np.log10(rms.max() + 1e-9) - 30).mean())
             v["syllables_per_sec"] = round(len(syl) / max(1.0, active * len(v16) / 16000), 2)
         out["vocal"] = v
+        # 코드 진행(이 구간): 화성 스템(other+bass) → 크로마 템플릿 채보. 임시 파일은 바로 지운다(소리를 남기지 않는다)
+        try:
+            import tempfile, os
+            from . import transcribe
+            harm = stems["other"] + stems["bass"]
+            bpm_ = tempo if 60 < tempo < 200 else 120
+            with tempfile.TemporaryDirectory() as td:
+                hp, bp = os.path.join(td, "h.wav"), os.path.join(td, "b.wav")
+                sf.write(hp, harm, ssr); sf.write(bp, stems["bass"], ssr)
+                ch = transcribe.simplify(transcribe.chords(hp, bpm_, beats_per_chord=2, bass_path=bp))
+            out["chords"] = [c[0] for c in ch][:24]
+        except Exception as ex:
+            out["chords_error"] = str(ex)[:100]
     # 조성: 구간마다 전체 믹스(화성 성분)로 재고 나중에 투표 — 스템을 섞거나 구간을 이어 붙이면 틀렸다
     # (10-17 시험: Back On My Feet 구간별 C maj/E min/E min → 투표 E minor 정답, 이어 붙이면 C major)
     k, kc = ears.estimate_key(librosa.effects.harmonic(y22), 22050)
@@ -199,6 +212,9 @@ def analyze_clips(clips, sr, meta=None, name=None, save=True):
             card["form"] = _form(long[0], sr, card["tempo"])
         except Exception as ex:
             card["form_error"] = str(ex)[:120]
+    for p, s in zip(per, speeds):
+        if (s or 1) == 1 and p.get("chords"):
+            card["chords_1x"] = p["chords"]            # 1배속으로 들은 구간(가운데 = 대개 후렴 근처)의 코드 진행
     vs = [p["vocal"] for p in per if "vocal" in p]
     if vs:
         card["vocal"] = next((v for v in vs if v.get("present")), vs[0])

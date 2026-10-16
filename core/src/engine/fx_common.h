@@ -120,6 +120,7 @@ struct Biquad2
     void flush() { for (int c = 0; c < 2; ++c) { z1[c] = flushDenorm (z1[c]); z2[c] = flushDenorm (z2[c]); } }
 
     void lowpass (double sr, double f, double q);
+    void highpass (double sr, double f, double q);
     void peak (double sr, double f, double q, double gainDb);
     void lowShelf (double sr, double f, double q, double gainDb);
     void highShelf (double sr, double f, double q, double gainDb);
@@ -143,5 +144,6 @@ std::unique_ptr<Device> makeReverb();
 std::unique_ptr<Device> makeChorus();
 std::unique_ptr<Device> makePhaser();
 std::unique_ptr<Device> makePitchShifter();
+std::unique_ptr<Device> makeDrive();
 
 } // namespace mc::fx

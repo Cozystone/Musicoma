@@ -27,6 +27,7 @@ bass:
   reese:      {name: "신스 · 와이드", sound: "Basses/Wide Bassline", perform: {role: bass, feel: tight}}
   hollow_finger: {name: "핑거 베이스 (실제 샘플)", sound: bass_hollow_finger, fx: [{device: compressor, params: {threshold: -20, ratio: 3, attack: 20, release: 100}}], perform: {role: bass}}
   picked:     {name: "피크 베이스 (실제 샘플)", sound: bass_picked, perform: {role: bass}}
+  picked_rock: {name: "피크 베이스 · 록 (드라이브 살짝)", sound: bass_picked, fx: [{device: drive, params: {drive: 8, character: 0.2, "low cut": 40, presence: 0, tone: 2600, output: -4}}, {device: compressor, params: {threshold: -16, ratio: 4, attack: 6, release: 80}}], perform: {role: bass, feel: tight}}
   upright_real: {name: "업라이트 피치카토 (실제 샘플)", sound: upright_bass, perform: {role: bass, feel: laid_back}}
   808_dist:   {name: "808 디스토션 (퐁크·트랩)", sound: bass_808_dist, perform: {role: bass, feel: tight}}
 
@@ -38,6 +39,7 @@ drums:
   studio:     {name: "스튜디오 킷 (시티팝·AOR, 실제 샘플)", sound: drums_studio, fx: [{device: eq, params: {"Low-pass freq": 80, "Low-pass gain": 1.5, "Mid freq 1": 400, "Mid gain 1": -2.5, "Mid freq 2": 6000, "Mid gain 2": 2}}, {device: compressor, params: {threshold: -18, ratio: 3, attack: 15, release: 80, "output gain": 2}}], perform: {role: drums, feel: straight}}
   rusty:      {name: "러스티 킷 (빈티지 실제 샘플 · 붐뱁)", sound: drums_rusty, fx: [{device: eq, params: {"Low-pass freq": 70, "Low-pass gain": 2.5, "Mid freq 1": 400, "Mid gain 1": -2.5, "Mid freq 2": 5000, "Mid gain 2": 2}}, {device: compressor, params: {threshold: -20, ratio: 4, attack: 25, release: 90, "output gain": 3}}], perform: {role: drums, feel: laid_back}}
   tight_pop:  {name: "타이트 팝", sound: drums_acoustic_basic, fx: [{device: compressor, params: {threshold: -18, ratio: 6, attack: 3, release: 50}}], perform: {role: drums, feel: tight}}
+  rock:       {name: "록 밴드 (풀 킷, 펀치)", sound: drums_acoustic_full, fx: [{device: eq, params: {"Low-pass freq": 70, "Low-pass gain": 2, "Mid freq 1": 450, "Mid gain 1": -2.5, "Mid freq 2": 5000, "Mid gain 2": 2.5}}, {device: compressor, params: {threshold: -16, ratio: 4, attack: 8, release: 70, "output gain": 3}}], perform: {role: drums, feel: straight, intensity: 0.9}}
 
 strings:
   ensemble:   {name: "스트링 앙상블", sound: strings_violins, perform: {role: strings}}
@@ -69,6 +71,11 @@ guitar:
   electric:   {name: "일렉 기타", sound: "Plucks/E-Guitar", perform: {role: guitar}}
   archtop:    {name: "아치톱 클린 (실제 샘플)", sound: guitar_archtop, perform: {role: guitar}}
   archtop_mic: {name: "아치톱 마이크 (실제 샘플)", sound: guitar_archtop_mic, perform: {role: guitar}}
+  # 10-17 밴드 곡용 — 픽업 샘플 + 엔진 drive(앰프). 포크·재즈가 아니라 록·팝 밴드 소리
+  crunch:     {name: "크런치 리듬 (픽업 + 드라이브)", sound: guitar_archtop, fx: [{device: drive, params: {drive: 16, character: 0.3, "low cut": 110, presence: 2, tone: 3800, output: -7}}, {device: compressor, params: {threshold: -18, ratio: 3, attack: 10, release: 90}}], perform: {role: guitar, intensity: 0.8}}
+  power:      {name: "파워코드 (강한 드라이브)", sound: guitar_archtop, fx: [{device: drive, params: {drive: 26, character: 0.55, "low cut": 90, presence: 1.5, tone: 4500, output: -9}}, {device: eq, params: {"Mid freq 1": 500, "Mid gain 1": -2, "Mid freq 2": 2800, "Mid gain 2": 2}}], perform: {role: guitar, intensity: 0.9, feel: tight}}
+  lead_bright: {name: "리드 (밝은 드라이브 + 딜레이)", sound: guitar_archtop, fx: [{device: drive, params: {drive: 20, character: 0.35, "low cut": 160, presence: 3, tone: 5200, output: -8}}, {device: delay}, {device: chorus}], perform: {role: lead, intensity: 0.85}}
+  jangle:     {name: "쟁글 클린 (코러스)", sound: guitar_archtop, fx: [{device: drive, params: {drive: 6, character: 0.1, "low cut": 120, presence: 2.5, tone: 7000, output: -4}}, {device: chorus}], perform: {role: guitar}}
 
 pluck:
   marimba:    {name: "마림바", sound: marimba, perform: {role: pluck}}
