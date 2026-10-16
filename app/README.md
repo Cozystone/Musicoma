@@ -14,7 +14,7 @@
   resources\musicoma\                       ← 설치판의 "루트"
     musicoma\  (+ knowledge\*.yaml, setup_manifest.json, setup_assets.py, sfz_overlays\)
     ui\        (server.py, web\)
-    engine\build\musicoma_engine_artefacts\Release\musicoma-engine.exe, sfizz.dll
+    core\build\musicoma-engine.exe           자체 엔진(10-16, Tracktion·JUCE 없음)
     setup\     (requirements-*.txt, ai\ — AI 접착 스크립트)
     THIRD_PARTY_NOTICES.md
     ── 실행하면서 생기는 것 ──
@@ -71,7 +71,7 @@ npm start               # 설치 없이 바로 실행 (번들 런타임은 runti
 - `build_runtime.ps1` 은 uv 로 python-build-standalone CPython 3.13.12 를 `runtime\.cache` 에 받고,
   `runtime\dist\python` 에 복사한 뒤 `requirements-core.txt` 를 그 안에 직접 설치한다(가상환경이 아니라 어디로 옮겨도 동작).
   tkinter·테스트·콘솔 실행 파일은 뺀다. 마지막에 `third_party` 의 AI 접착 스크립트를 `runtime\ai\` 로 동기화한다.
-- 엔진은 미리 빌드돼 있어야 한다(`engine\build\…\Release\musicoma-engine.exe` + `sfizz.dll`).
+- 엔진은 미리 빌드돼 있어야 한다(`core\build.bat` → `core\build\musicoma-engine.exe`).
 - 아이콘: `python scripts/make-icon.py` (Pillow) → `build/icon.ico`.
 - 서명 인증서가 없으면 서명은 건너뛴다(첫 실행 때 SmartScreen 경고가 뜰 수 있다).
 
@@ -90,9 +90,9 @@ npm start               # 설치 없이 바로 실행 (번들 런타임은 runti
 
 ## 라이선스 · 출처 표기
 자세한 목록은 [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md).
-- **배포 주의**: 엔진이 Tracktion Engine(GPL-3.0)과 JUCE(AGPL-3.0)를, 런타임의 pedalboard 가 GPL-3.0 을 쓴다.
-  본인 PC 사용은 괜찮지만 **설치 파일을 남에게 주면** GPL/AGPL 조건(대응 소스 제공 등)을 지키거나 상용 라이선스를 사야 한다.
-- Electron MIT · CPython PSF-2.0 · uv MIT/Apache-2.0 · sfizz BSD-2-Clause · 각 Python 패키지는 NOTICES 표 참고.
+- **배포**: 설치 파일 안에는 GPL/AGPL 구성요소가 없다(10-16: 엔진을 자체 코드로 교체, 런타임에서 pedalboard 제거).
+  첫 실행 때 받는 플러그인(Surge XT·Dexed·Dragonfly, GPL-3.0)은 따로 배포되는 별개 프로그램. 자세한 것은 THIRD_PARTY_NOTICES.md.
+- Electron MIT · CPython PSF-2.0 · uv MIT/Apache-2.0 · Steinberg VST3 SDK MIT · 각 Python 패키지는 NOTICES 표 참고.
 - 음원: **Salamander Grand Piano V3 — CC BY 3.0, Alexander Holm** / **Greg Sullivan E-Pianos — CC BY 3.0, Greg Sullivan**
   (이 둘은 곡 공개 시 출처 표기 필요). Virtuosity Drums · VSCO2 CE · Karoryfer 5종은 CC0.
   플러그인 Surge XT · Dragonfly · Airwindows Consolidated · Dexed 는 GPL-3.0 (Airwindows DSP 는 MIT).

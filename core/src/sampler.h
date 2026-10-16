@@ -67,6 +67,11 @@ public:
     /** 조각 렌더: 앞 조각에 이어서 n 프레임을 L/R 에 더한다 (메모리를 조각 크기만 쓰게). */
     void process (const std::vector<MidiEv>& events, int64_t n, float* L, float* R);
 
+    /** 실시간 엔진용: events 의 frame 이 '이 블록 안 위치'(0..n-1). 블록마다 부른다. */
+    void processBlock (const std::vector<MidiEv>& blockEvents, int64_t n, float* L, float* R);
+    /** 재생 멈춤·탐색: 페달 떼고 모든 보이스를 바로 끈다. */
+    void allNotesOff();
+
     float outputGain = 1.0f;   // SFZ 디바이스 볼륨
     SynthStats stats;
 
@@ -94,6 +99,7 @@ private:
     int64_t now = 0;
     int64_t renderPos = 0;
     size_t eventPos = 0;
+    std::vector<MidiEv> blockEv;           // processBlock 용(절대 프레임으로 옮긴 사본, 미리 확보)
 
     void noteOn (int key, float vel);
     void noteOff (int key);

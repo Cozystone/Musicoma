@@ -11,7 +11,8 @@ import time
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-ENGINE_EXE = ROOT / "engine/build/musicoma_engine_artefacts/Release/musicoma-engine.exe"
+# 자체 엔진(10-16, Tracktion·JUCE 없음): core/build.bat 로 빌드
+ENGINE_EXE = ROOT / "core/build/musicoma-engine.exe"
 PORT = 47800
 
 
@@ -63,8 +64,9 @@ def start(port=PORT, wait=20.0):
     if is_running(port):
         return
     if not ENGINE_EXE.exists():
-        raise EngineError(f"engine not built: {ENGINE_EXE} (run engine/build.bat)")
-    log = open(ROOT / "engine/engine.log", "ab")
+        raise EngineError(f"engine not built: {ENGINE_EXE} (run core/build.bat)")
+    (ROOT / "renders").mkdir(exist_ok=True)
+    log = open(ROOT / "renders" / "engine.log", "ab")
     flags = getattr(subprocess, "CREATE_NEW_PROCESS_GROUP", 0) | getattr(subprocess, "DETACHED_PROCESS", 0)
     subprocess.Popen([str(ENGINE_EXE), "--port", str(port), "--root", str(ROOT)],
                      cwd=ENGINE_EXE.parent, stdout=log, stderr=log, creationflags=flags)
@@ -73,7 +75,7 @@ def start(port=PORT, wait=20.0):
         if is_running(port):
             return
         time.sleep(0.25)
-    raise EngineError("engine did not start (see engine/engine.log)")
+    raise EngineError("engine did not start (see renders/engine.log)")
 
 
 def connect(client="claude", port=PORT):

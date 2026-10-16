@@ -72,6 +72,11 @@ class Api(http.server.SimpleHTTPRequestHandler):
 
     def do_GET(self):
         q = self.path
+        if q.startswith("/api/edit_path"):                   # 곡 이름 → 엔진 편집 파일 경로(설치 위치와 상관없이)
+            from urllib.parse import parse_qs, urlparse
+            from musicoma.layout import edit_file
+            name = parse_qs(urlparse(q).query).get("song", [""])[0]
+            return self._json({"path": str(edit_file(name))})
         if q.startswith("/api/projects"):
             return self._json(sorted(p.parent.name for p in (ROOT / "projects").glob("*/song.json")))
         if q.startswith("/api/sounds"):
@@ -245,7 +250,7 @@ def auto_version(song):
         return None
     dst = d / "versions" / ("auto-" + _t.strftime("%m%d-%H%M%S"))
     dst.mkdir(parents=True, exist_ok=True)
-    for f in [d / f"{song}.tracktionedit", d / "song.json", d / "spec.json"]:
+    for f in [d / f"{song}.edit.json", d / f"{song}.tracktionedit", d / "song.json", d / "spec.json"]:
         if f.exists():
             shutil.copy2(f, dst / f.name)
     olds = sorted((d / "versions").glob("auto-*"))

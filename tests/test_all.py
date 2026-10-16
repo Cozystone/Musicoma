@@ -48,8 +48,10 @@ def _():
 @check("engine.builtin_devices")
 def _():
     out = []
-    for d in ["4osc", "sampler", "sfz", "eq", "compressor", "reverb", "delay", "chorus", "phaser", "lowpass", "pitchshift"]:
-        r = e.call("device.add", {"track": "T1", "device": d})
+    # 자체 엔진(10-16) 내장 디바이스: sfz 샘플러 + 이펙트 8종 (옛 Tracktion 4osc 신스는 없음 — 신스는 Surge XT/Dexed)
+    for d in ["sfz", "eq", "compressor", "reverb", "delay", "chorus", "phaser", "lowpass", "pitchshift"]:
+        extra = {"sfz": f"{S}/sfz/salamander-grand-piano/Salamander Grand Piano V3.sfz"} if d == "sfz" else {}
+        r = e.call("device.add", {"track": "T1", "device": d, **extra})
         ps = e.call("device.params", {"track": "T1", "device": r["device"]})
         out.append(f"{d}:{len(ps['params'])}")
     return out

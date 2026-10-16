@@ -100,7 +100,8 @@ async function boot() {
   for (const p of projects) sel.append(new Option(p, p, false, p === current));
   sel.onchange = async () => {
     if (sel.value === "__new") { info = null; drawWelcome(); return; }
-    await call("edit.load", { path: `D:/0.Musicoma/projects/${sel.value}/${sel.value}.tracktionedit` });
+    const ep = await (await fetch(`/api/edit_path?song=${encodeURIComponent(sel.value)}`)).json();
+    await call("edit.load", { path: ep.path });
     pxPerBeat = null; selClip = null; setTimeSel(null);
     $("#feed").innerHTML = "";
     refresh();

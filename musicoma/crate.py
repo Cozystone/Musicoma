@@ -129,13 +129,12 @@ def varispeed(path, semitones=None, ratio=None, out=None):
 
 
 def stretch(path, rate=None, target_bpm=None, source_bpm=None, semitones=0.0, out=None):
-    """음정 유지하고 템포만(또는 템포 유지하고 음정만) — 고음질 Rubber Band."""
-    from pedalboard import time_stretch
+    """음정 유지하고 템포만(또는 템포 유지하고 음정만) — 위상 보코더(musicoma.dsp, pedalboard 없이 10-16)."""
+    from . import dsp
     if rate is None:
         rate = (target_bpm / source_bpm) if target_bpm and source_bpm else 1.0
     y, sr = _load(path)
-    z = time_stretch(y, sr, stretch_factor=rate, pitch_shift_in_semitones=semitones,
-                     high_quality=True, transient_mode="mixed")
+    z = dsp.time_stretch(y.T, sr, rate=rate, semitones=semitones).T
     out = out or _out(path, f"_x{rate:.3f}_{semitones:+.1f}st")
     return _save(z, sr, out, {"op": "stretch", "source": str(path), "rate": rate, "semitones": semitones})
 
@@ -318,7 +317,7 @@ AGE_PRESETS = {
 
 def age(path, preset="vinyl", out=None, seed=1):
     """늙히기: 대역 제한·비트 감소·포화·잡음·와우/플러터."""
-    from pedalboard import Pedalboard, HighpassFilter, LowpassFilter, Bitcrush, Distortion, Resample, Gain
+    from . import dsp
     hp, lp, bits, rate, drive, noise_db, wow = AGE_PRESETS[preset]
     y, sr = _load(path)
     if wow:
@@ -327,14 +326,15 @@ def age(path, preset="vinyl", out=None, seed=1):
         mod = wow * (np.sin(2 * np.pi * 0.55 * t + rnd.random() * 6) + 0.3 * np.sin(2 * np.pi * 6.1 * t))
         idx = np.clip(np.arange(y.shape[1]) + mod * sr, 0, y.shape[1] - 1)
         y = np.vstack([np.interp(idx, np.arange(y.shape[1]), ch) for ch in y]).astype(np.float32)
-    chain = [HighpassFilter(hp), LowpassFilter(lp)]
+    z = y.T                                            # (프레임, 채널)
+    z = dsp.lowpass(dsp.highpass(z, sr, hp, order=1), sr, lp, order=1) if hp > 20 or lp < 20000 else z
     if rate:
-        chain.append(Resample(target_sample_rate=rate))
+        z = dsp.lofi_resample(z, sr, rate)
     if bits:
-        chain.append(Bitcrush(bit_depth=bits))
+        z = dsp.bitcrush(z, bits)
     if drive:
-        chain += [Distortion(drive_db=drive), Gain(-drive * 0.8)]
-    z = Pedalboard(chain)(y, sr)
+        z = dsp.gain(dsp.distortion(z, drive), -drive * 0.8)
+    z = np.ascontiguousarray(np.asarray(z, dtype=np.float32).T)
     if noise_db > -100:
         rnd = np.random.default_rng(seed)
         hiss = rnd.normal(0, 1, z.shape) * 10 ** (noise_db / 20) * 0.3

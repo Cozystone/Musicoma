@@ -61,5 +61,5 @@ def install_all(e):
     """작업용 빈 편집에서 모든 패치를 저장(현재 곡을 건드리지 않게 scratch 편집을 연다)."""
     from pathlib import Path
     root = Path(__file__).resolve().parent.parent
-    e.call("edit.new", {"path": str(root / "scratch" / "fm_install.tracktionedit")})
+    e.call("edit.new", {"path": str(root / "scratch" / "fm_install.edit.json")})
     return {n: install(e, n) for n in PATCHES}

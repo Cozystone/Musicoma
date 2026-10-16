@@ -57,6 +57,7 @@ SfzSynth::SfzSynth (std::shared_ptr<const Instrument> i, SamplePool& p, double s
     : inst (std::move (i)), pool (p), sr (sampleRate), tune (t), rng (12345u)
 {
     voices.resize ((size_t) std::max (8, tune.maxVoices));
+    blockEv.reserve (4096);
     seqCounter.assign (inst->regions.size(), 0);
     def7.assign (inst->regions.size(), 0);
     def10.assign (inst->regions.size(), 0);
@@ -629,6 +630,26 @@ void SfzSynth::render (const std::vector<MidiEv>& events, int64_t frames, float*
     renderPos = 0;
     eventPos = 0;
     process (events, frames, L, R);
+}
+
+void SfzSynth::processBlock (const std::vector<MidiEv>& blockEvents, int64_t n, float* L, float* R)
+{
+    blockEv.clear();
+    for (auto& e : blockEvents)
+        blockEv.push_back ({ e.frame + renderPos, e.kind, e.a, e.v });
+    eventPos = 0;
+    process (blockEv, n, L, R);
+}
+
+void SfzSynth::allNotesOff()
+{
+    for (auto& v : voices) v.active = false;
+    for (int k = 0; k < 128; ++k) held[k] = false;
+    deferredRelease.clear();
+    pendingBends.clear();
+    cc[64] = 0;
+    bend = 0;
+    bendSmoothed = 0;
 }
 
 void SfzSynth::process (const std::vector<MidiEv>& events, int64_t n, float* L, float* R)

@@ -7,7 +7,6 @@ numba==0.65.1
 llvmlite==0.47.0
 soundfile==0.13.1
 pyloudnorm==0.2.0
-pedalboard==0.9.26
 pyworld==0.3.5
 matplotlib==3.11.0
 mcp==1.30.0

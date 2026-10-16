@@ -3,13 +3,13 @@
 설치 파일(`Musicoma Setup <버전>.exe`)에 **들어 있는** 것과, 첫 실행 때 **공식 배포처에서 받는** 것을 나눠 적는다.
 (2026-10-15 기준. 버전이 바뀌면 이 문서도 갱신한다.)
 
-## ⚠ 배포 전에 반드시 읽을 것
-Musicoma 엔진(`musicoma-engine.exe`)은 **Tracktion Engine (GPL-3.0)** 과 **JUCE (AGPL-3.0, 상용 라이선스 선택 가능)** 를
-링크한다. 또 런타임의 **pedalboard** 는 GPL-3.0 이다.
-- 본인 PC 에서 쓰는 것은 문제없다.
-- **설치 파일을 다른 사람에게 주는 순간** "배포"가 된다. 그때는 ① 엔진·셸 전체의 대응 소스 코드를 같은 조건(GPL-3.0/AGPL-3.0)으로
-  함께 제공하고 라이선스 고지를 유지하거나, ② Tracktion·JUCE 의 상용 라이선스를 사야 한다.
-  AGPL 은 네트워크로 서비스하는 경우에도 소스 제공 의무가 생긴다.
+## 배포와 라이선스 (2026-10-16 갱신)
+2026-10-16 부터 엔진(`musicoma-engine.exe`)은 **Musicoma 자체 코드**다(Tracktion Engine·JUCE·sfizz 를 쓰지 않음, 클린룸).
+런타임에서도 GPL 인 pedalboard 를 뺐다(자체 `musicoma/dsp.py`). 그래서 **설치 파일 안에는 GPL/AGPL 구성요소가 없다.**
+- 엔진이 쓰는 외부 코드는 Steinberg VST3 SDK 3.8.1(**MIT**, 플러그인 호스팅 규격)뿐이다.
+- 첫 실행 때 공식 배포처에서 받는 플러그인(Surge XT·Dexed·Dragonfly = GPL-3.0)은 설치 파일에 들어 있지 않은 **별개 프로그램**이고,
+  엔진은 VST3 규격으로 불러 쓸 뿐이다(호스트와 플러그인은 따로 배포됨).
+- Musicoma 코드 자체의 라이선스는 아직 정하지 않았다(README "라이선스").
 - 이 고지 문서는 법률 자문이 아니다. 외부 배포 전에는 각 라이선스 원문을 확인할 것.
 
 ## 1. 설치 파일에 포함된 것
@@ -19,10 +19,8 @@ Musicoma 엔진(`musicoma-engine.exe`)은 **Tracktion Engine (GPL-3.0)** 과 **J
 |---|---|---|
 | Electron 44 (Chromium, Node.js 포함) | MIT (Chromium·Node 는 각자 BSD/MIT 등 — `LICENSES.chromium.html` 이 설치 폴더에 함께 들어감) | 데스크톱 셸 |
 | electron-builder / NSIS | MIT / zlib | 설치 프로그램 |
-| Musicoma engine | (본인 코드) + 아래 링크 라이브러리 | `musicoma-engine.exe` |
-| Tracktion Engine | **GPL-3.0** (상용 라이선스 별도) | 엔진에 정적 링크 |
-| JUCE | **AGPL-3.0** (상용 라이선스 별도) | 엔진에 정적 링크 |
-| sfizz 1.2.3 | BSD-2-Clause | `sfizz.dll` (https://github.com/sfztools/sfizz) |
+| Musicoma engine | (본인 코드 — 자체 SFZ 샘플러·이펙트·믹서·실시간 재생, 클린룸) | `musicoma-engine.exe` (core/) |
+| Steinberg VST3 SDK 3.8.1 (base · pluginterfaces · public.sdk 일부) | **MIT** | 엔진에 정적 링크(플러그인 호스팅) |
 
 ### Python 런타임 (`resources/runtime/python`)
 | 구성요소 | 라이선스 |
@@ -67,7 +65,6 @@ Musicoma 엔진(`musicoma-engine.exe`)은 **Tracktion Engine (GPL-3.0)** 과 **J
 | numba | 0.65.1 | BSD-2-Clause |
 | numpy | 2.4.6 | BSD-3-Clause (+ 0BSD, MIT, Zlib, CC0 구성요소) |
 | packaging | 26.3 | Apache-2.0 OR BSD-2-Clause |
-| **pedalboard** | 0.9.26 | **GPL-3.0** (JUCE 포함) |
 | pillow | 12.3.0 | MIT-CMU |
 | pip | 26.0.1 | MIT |
 | platformdirs | 4.13.0 | MIT |

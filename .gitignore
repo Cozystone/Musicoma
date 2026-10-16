@@ -39,3 +39,7 @@ scratch/
 **/.work/
 # 스키마 실험(비공개)
 projects/scratch-spec-schema-probe/
+
+# 자체 엔진 빌드 산출물
+core/build/
+core/build-*/

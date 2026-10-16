@@ -6,7 +6,8 @@
 - 구성: intro(4) → verse(8) → chorus(8) → verse2(6) → chorus(8) → bridge(4) → chorus_last(8) → outro(4)
 
 ## 들어볼 것
-- **최신**: `renders/musicoma-009-half-past-three_v3.wav`
+- **최신**: `renders/musicoma-009-half-past-three_v4-own-engine.wav`
+- `renders/musicoma-009-half-past-three_v3.wav`
 - `renders/musicoma-009-half-past-three_v2.wav`
 - `renders/musicoma-009-half-past-three_v1.wav`
 

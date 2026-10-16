@@ -23,7 +23,7 @@ for n in (4, 16, 32, 64):
         elif i % 4 == 1:
             e.call("device.add", {"track": name, "device": "Surge XT"})
         elif i % 4 == 2:
-            e.call("device.add", {"track": name, "device": "4osc"})
+            e.call("device.add", {"track": name, "device": "Dexed"})
         else:
             e.call("device.add", {"track": name, "device": "sfz", "sfz": f"{S}/sfz/virtuosity-drums/Programs/01-basic-kit.sfz"})
         e.call("device.add", {"track": name, "device": "eq"})

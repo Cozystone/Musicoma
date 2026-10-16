@@ -38,7 +38,8 @@ def E():
 def _song(name):
     """이름으로 곡을 잡는다. 엔진에 다른 곡이 열려 있으면 이 곡을 연다."""
     e = E()
-    path = ROOT / "projects" / name / f"{name}.tracktionedit"
+    from musicoma.layout import edit_file
+    path = edit_file(name)
     current = e.call("ping").get("edit", "")
     if path.exists() and Path(current or ".").resolve() != path.resolve():
         e.call("edit.load", {"path": str(path)})

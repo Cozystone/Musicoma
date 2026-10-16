@@ -123,7 +123,8 @@ class Song:
     @classmethod
     def open(cls, name):
         s = cls(name)
-        f = s.dir / f"{name}.tracktionedit"
+        from .layout import edit_file
+        f = edit_file(name)
         if not f.exists():
             raise FileNotFoundError(f)
         s.e.call("edit.load", {"path": str(f)})
@@ -172,7 +173,13 @@ class Song:
             if "patch" in r:
                 self.e.call("device.load_file", {"track": name, "device": 0, "path": r["patch"]})
             if "preset" in r:
-                self.e.call("device.preset_load", {"track": name, "device": 0, "path": r["preset"]})
+                # 우리 FM 패치(dexed:이름)는 파일 없이 값을 바로 넣는다(엔진·프리셋 형식과 무관 — 10-16 자체 엔진)
+                from . import fm_patches
+                pname = Path(r["preset"]).stem
+                if pname in fm_patches.PATCHES:
+                    self.e.call("device.set", {"track": name, "device": 0, "params": fm_patches.PATCHES[pname]})
+                else:
+                    self.e.call("device.preset_load", {"track": name, "device": 0, "path": r["preset"]})
         if volume_db is not None or pan is not None:
             t.mix(**{k: v for k, v in (("volume_db", volume_db), ("pan", pan)) if v is not None})
         self.meta.setdefault("tracks", {})[name] = {"sound": sound, "role": role}
@@ -352,12 +359,13 @@ class Song:
         return {"reference": ref_name, "moves": moves, "rows": rows}
 
     def snapshot(self, label, note=""):
-        """지금 상태를 버전으로 고정(.tracktionedit 복사 + 렌더)."""
+        """지금 상태를 버전으로 고정(편집 파일 복사 + 렌더)."""
         self.save()
         vdir = self.dir / "versions"
         vdir.mkdir(exist_ok=True)
-        src = self.dir / f"{self.name}.tracktionedit"
-        dst = vdir / f"{label}.tracktionedit"
+        from .layout import edit_file
+        src = edit_file(self.name)
+        dst = vdir / f"{label}{''.join(src.suffixes)}"
         shutil.copy2(src, dst)
         rep = self.render(label=label)
         self.meta.setdefault("versions", []).append({"label": label, "note": note, "edit": str(dst),

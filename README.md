@@ -51,8 +51,9 @@
 (C++)     └── MCP 서버 (musicoma/mcp_server.py) ── Claude Code 가 조작
  │  127.0.0.1:47800, 줄 단위 JSON (`help` 로 명령 목록)
  │
- ├─ Tracktion Engine 3.5 + JUCE 8 : 트랙·클립·MIDI·오토메이션·VST3·렌더
- ├─ Musicoma Core (core/) : 자체 렌더러 — 클린룸 SFZ 샘플러·FLAC, 실시간 28~45배, 엔진과 널 테스트
+ ├─ Musicoma 엔진 (core/, 자체 C++ — Tracktion·JUCE 없음, 클린룸)
+ │    곡 모델·되돌리기·편집 파일(.edit.json) · 자체 SFZ 샘플러·FLAC · 내장 이펙트 8종(EQ·컴프·리버브·딜레이·코러스·페이저·필터·피치)
+ │    VST3 호스팅(Steinberg VST3 SDK, MIT) · 실시간 재생(WASAPI)·루프·메트로놈·MIDI 녹음 · 오프라인 렌더(실시간 60배 이상)
  └─ 파이썬 두뇌 (musicoma/)
       arrange(설계서→곡) · perform(연주자) · theory · groove · motif · concept · critic · lyrics
       song(밸런스·렌더) · master · ears(측정) · crate(샘플 가공) · lego(반주 조건 보컬) · hum(흥얼거림)
@@ -61,8 +62,7 @@
 
 | 경로 | 무엇 |
 |---|---|
-| `engine/` | C++ 엔진. `engine\build.bat` |
-| `core/` | 자체 렌더러(Tracktion 대체 단계 C1). `core\build.bat`, 설명 `core/README.md` |
+| `core/` | 자체 엔진. `core\build.bat` → `core/build/musicoma-engine.exe`(서버) · `musicoma-core.exe`(렌더 계획 CLI). 설명 `docs/ENGINE.md`, `core/README.md` |
 | `musicoma/` | 파이썬 두뇌 + MCP 서버 + 지식 카드 |
 | `ui/` | 화면 서버와 웹 화면 |
 | `app/` | Electron 설치판(번들 Python 런타임 · 첫 실행 음원 받기 · AI 모듈 설치). 설명 `app/README.md` |
@@ -85,10 +85,10 @@
 
 ### B. 개발 환경
 ```
-:: 1) 엔진 의존성: third_party/tracktion_engine (github.com/Tracktion/tracktion_engine, 07e2d67, JUCE 서브모듈 포함)
-::                 third_party/sfizz/bin/Release/sfizz.dll (sfizz 1.2.3)
+:: 1) 엔진 의존성: third_party/vst3sdk (github.com/steinbergmedia/vst3sdk, v3.8.1_build_84, MIT —
+::    서브모듈 base · pluginterfaces · public.sdk · cmake 만)
 :: 2) 빌드 도구: MSVC Build Tools(C:\BuildTools) + CMake + Ninja
-engine\build.bat
+core\build.bat
 :: 3) 파이썬 3.13 가상환경
 py -3.13 -m venv .venv
 .venv\Scripts\pip install -r app\runtime\requirements-core.txt
@@ -106,7 +106,8 @@ Claude Code 에서 이 폴더를 열면 `.mcp.json` 으로 MCP 도구가 등록�
 - **곡 스크립트**: `python works/musicoma_009_half_past_three.py dry | all v1 | final v2`
   — `dry` 비평만 · `all` 가이드 → [보컬 구간별 녹음 ∥ 반주 빌드·밸런스] → 보컬만 재고 렌더 · `final` 보컬은 그대로 두고 다시 짓기.
 - **보컬 구간 고치기**: `lego.retake("projects/<곡>/vocals/vox.json", "chorus2")` 또는 MCP `vocal_retake` / `vocal_use_take`.
-- **점검**: `.venv\Scripts\python tests\test_all.py` (엔진·파이썬·프리셋·MCP·화면 22항목)
+- **점검**: `.venv\Scripts\python tests\test_all.py` (엔진·파이썬·프리셋·MCP·화면 22항목) ·
+  옛 엔진과 같은지: `tests\golden\check_protocol.py`(명령 77개 응답 모양) · `check_sound.py`(이펙트·믹서 28경우 널 테스트)
 
 작곡 절차(레퍼런스 → 콘셉트 → 동기 → 사건 → 비평 → 가사)와 파일 저장 규칙은 `CLAUDE.md` 에 있다 — 에이전트가 따르는 작업 규약.
 
@@ -127,5 +128,5 @@ Claude Code 에서 이 폴더를 열면 `.mcp.json` 으로 MCP 도구가 등록�
 ## 라이선스
 **아직 정하지 않았다** — 정해질 때까지 이 저장소의 Musicoma 코드는 저작권자에게 모든 권리가 있다.
 제3자 구성요소는 각자의 라이선스를 따른다: `app/THIRD_PARTY_NOTICES.md`.
-주의: 엔진 실행 파일은 Tracktion Engine(GPL-3.0)·JUCE(AGPL-3.0)를 정적 링크한다 — 설치판을 남에게 배포하려면
-GPL 조건(소스 제공·고지)을 지키거나 상용 라이선스가 필요하다. 그 결정 전까지 설치판은 개인 빌드용.
+2026-10-16 부터 엔진은 자체 코드(클린룸)이고 런타임에서도 GPL 패키지(pedalboard)를 뺐다 — **설치 파일 안에 GPL/AGPL 구성요소가 없다.**
+엔진이 쓰는 외부 코드는 Steinberg VST3 SDK(MIT)뿐. 첫 실행 때 받는 플러그인(Surge XT·Dexed·Dragonfly, GPL-3.0)은 따로 배포되는 별개 프로그램이다.

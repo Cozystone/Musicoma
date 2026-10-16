@@ -11,7 +11,7 @@
 ## 구조
 | 경로 | 무엇 |
 |---|---|
-| `engine/` | C++ 엔진(Tracktion Engine 3.5 + JUCE 8). `build.bat` 로 빌드. 127.0.0.1:47800 줄 단위 JSON. `help` 로 명령 목록 |
+| `core/` | 자체 C++ 엔진(10-16, Tracktion·JUCE 없음 — 클린룸). `core\build.bat` → `core/build/musicoma-engine.exe`. 127.0.0.1:47800 줄 단위 JSON. `help` 로 명령 목록 |
 | `musicoma/` | 파이썬 두뇌. `arrange`(설계서→곡) · `song` · `theory` · `groove` · `compose` · `crate`(샘플) · `transcribe` · `ears`(측정) · `master` · `voice` · `knowledge` |
 | `musicoma/mcp_server.py` | MCP 도구(`.mcp.json` 로 이 폴더에서 자동 등록) |
 | `sounds/` | `sfz/`(피아노·드럼·오케스트라) · `plugins/vst3/`(Surge XT·Dexed·Dragonfly·Airwindows) · `crate/`(가공 샘플) · `voices/` · `inbox/` |

@@ -20,7 +20,7 @@ const ENGINE_PORT = 47800;
 const HTTP_PORT = 47802;
 const UI_URL = `http://127.0.0.1:${HTTP_PORT}`;
 const DEFAULT_ROOT = 'D:\\0.Musicoma';
-const ENGINE_REL = path.join('engine', 'build', 'musicoma_engine_artefacts', 'Release', 'musicoma-engine.exe');
+const ENGINE_REL = path.join('core', 'build', 'musicoma-engine.exe');   // 자체 엔진(10-16, Tracktion·JUCE 없음)
 
 const LOG_DIR = path.join(process.env.LOCALAPPDATA || app.getPath('temp'), 'Musicoma', 'logs');
 const CFG_DIR = path.join(app.getPath('appData'), 'Musicoma');

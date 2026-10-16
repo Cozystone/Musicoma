@@ -1,7 +1,7 @@
 {
   "name": "musicoma",
   "productName": "Musicoma",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Musicoma DAW desktop shell",
   "author": "Musicoma",
   "private": true,
@@ -73,11 +73,10 @@
         ]
       },
       {
-        "from": "../engine/build/musicoma_engine_artefacts/Release",
-        "to": "musicoma/engine/build/musicoma_engine_artefacts/Release",
+        "from": "../core/build",
+        "to": "musicoma/core/build",
         "filter": [
-          "musicoma-engine.exe",
-          "sfizz.dll"
+          "musicoma-engine.exe"
         ]
       },
       {

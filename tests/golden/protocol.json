@@ -1,0 +1,3132 @@
+{
+ "captured": "2026-10-16 08:44",
+ "engine": "Tracktion Engine 3.5 + JUCE 8 (old)",
+ "calls": [
+  {
+   "method": "ping",
+   "params": {},
+   "ok": true,
+   "result": {
+    "ok": true,
+    "version": "0.1.0",
+    "edit": "D:\\0.Musicoma\\projects\\zz-als\\zz-als.tracktionedit"
+   },
+   "ms": 0,
+   "note": ""
+  },
+  {
+   "method": "help",
+   "params": {},
+   "ok": true,
+   "result": {
+    "ping": "-> {ok}",
+    "help": "this list",
+    "edit.new": "{name, bpm=120, time_sig='4/4'} create project in projects/<name>/",
+    "edit.load": "{path}",
+    "edit.save": "{path?}",
+    "edit.info": "full summary: tempo, tracks, devices, clips (positions in beats)",
+    "edit.set": "{bpm?, time_sig?}",
+    "edit.undo": "",
+    "edit.redo": "",
+    "track.add": "{name} -> {track}",
+    "track.remove": "{track}",
+    "track.set": "{track, name?, volume_db?, pan(-1..1)?, mute?, solo?}",
+    "device.available": "built-in + scanned VST3 devices",
+    "device.scan": "{dirs?} scan VST3 folders (default sounds/plugins/vst3)",
+    "device.add": "{track|'master', device, index?, sfz?, bus?, level_db?} -> {device}. send/return: put 'return' (bus n) on a bus track, 'send' (bus n, level_db) on source tracks",
+    "device.remove": "{track, device}",
+    "device.params": "{track, device, filter?} list parameters with ranges and current values",
+    "device.set": "{track, device, params:{id|name: value | 'text'}, enabled?}",
+    "device.show": "{track, device} open the device window for manual control",
+    "device.preset_save": "{track, device, name}",
+    "device.preset_load": "{track, device, name|path}",
+    "device.load_file": "{track, device, path} load a plugin patch file (.fxp / raw state) e.g. Surge XT patches",
+    "device.programs": "{track, device} list the plugin's built-in programs",
+    "device.program": "{track, device, program: index|name}",
+    "clip.add_midi": "{track, start, length, name?, notes:[{pitch,start,length,velocity}], cc?:[{cc,beat,value 0-127}], bend?:[{beat,value -1..1}]} beats relative to clip. cc64=sustain pedal, cc11=expression, cc1=modwheel",
+    "clip.list": "{track}",
+    "clip.notes": "{track, clip}",
+    "clip.controllers": "{track, clip} â cc / bend events",
+    "clip.set_notes": "{track, clip, notes, replace=true}",
+    "clip.remove": "{track, clip}",
+    "clip.import_midi": "{track, path, start=0, midi_track?}",
+    "clip.add_audio": "{track, path, start=0, offset(sec in file)=0, length(beats)?, gain_db?, pan?, fade_in?, fade_out?, reverse?}",
+    "clip.set": "{track, clip, name?, mute?, start?, length?, offset?, gain_db?, pan?, fade_in?, fade_out?, reverse?}",
+    "automation.set": "{track, device, param, points:[{beat, value, curve?}], clear=true}",
+    "transport.play": "{from?, loop:[startBeat,endBeat]?}",
+    "transport.stop": "",
+    "transport.state": "",
+    "meters": "peak levels (dB) per track [L,R] and master â poll while playing",
+    "clip.duplicate": "{track, clip, start?} copy a clip (default: right after the original)",
+    "clip.split": "{track, clip, at (beat)} split a clip in two",
+    "audio.devices": "list output devices per driver type (Windows Audio, ASIO...) and the current one",
+    "audio.set": "{device, type?, buffer?} choose the playback output",
+    "transport.record": "{} start recording on armed tracks (stop with transport.stop â takes become clips)",
+    "transport.metronome": "{enabled, volume?(0.2..1)} click track",
+    "inputs.list": "MIDI and audio inputs (keyboards, controllers, interfaces)",
+    "track.arm": "{track, armed=true, input?(device name; default = first MIDI keyboard)} record-arm a track",
+    "render": "{path?, start?, end?, tail=2, lufs?, sample_rate=48000, bit_depth=24, tracks?} -> wav"
+   },
+   "ms": 0,
+   "note": ""
+  },
+  {
+   "method": "edit.new",
+   "params": {
+    "name": "zz-golden",
+    "bpm": 96
+   },
+   "ok": true,
+   "result": {
+    "path": "D:\\0.Musicoma\\projects\\zz-golden\\zz-golden.tracktionedit",
+    "bpm": 96.0,
+    "time_sig": "4/4",
+    "length_beats": 0.0,
+    "tracks": [],
+    "master": {
+     "devices": [],
+     "volume_db": -3.0
+    }
+   },
+   "ms": 41,
+   "note": ""
+  },
+  {
+   "method": "edit.set",
+   "params": {
+    "bpm": 100,
+    "time_sig": "3/4"
+   },
+   "ok": true,
+   "result": {
+    "path": "D:\\0.Musicoma\\projects\\zz-golden\\zz-golden.tracktionedit",
+    "bpm": 100.0,
+    "time_sig": "3/4",
+    "length_beats": 0.0,
+    "tracks": [],
+    "master": {
+     "devices": [],
+     "volume_db": -3.0
+    }
+   },
+   "ms": 0,
+   "note": ""
+  },
+  {
+   "method": "edit.set",
+   "params": {
+    "time_sig": "4/4"
+   },
+   "ok": true,
+   "result": {
+    "path": "D:\\0.Musicoma\\projects\\zz-golden\\zz-golden.tracktionedit",
+    "bpm": 100.0,
+    "time_sig": "4/4",
+    "length_beats": 0.0,
+    "tracks": [],
+    "master": {
+     "devices": [],
+     "volume_db": -3.0
+    }
+   },
+   "ms": 0,
+   "note": ""
+  },
+  {
+   "method": "device.available",
+   "params": {},
+   "ok": true,
+   "result": {
+    "built_in": [
+     "4osc",
+     "sampler",
+     "sfz",
+     "eq",
+     "compressor",
+     "reverb",
+     "delay",
+     "chorus",
+     "phaser",
+     "lowpass",
+     "pitchshift",
+     "send",
+     "return"
+    ],
+    "vst3": [
+     {
+      "name": "Surge XT",
+      "vendor": "Surge Synth Team",
+      "instrument": true,
+      "category": "Instrument|Synth"
+     },
+     {
+      "name": "Surge XT Effects",
+      "vendor": "Surge Synth Team",
+      "instrument": false,
+      "category": "Fx"
+     },
+     {
+      "name": "Dragonfly Room Reverb",
+      "vendor": "Michael Willis",
+      "instrument": false,
+      "category": "Fx|Reverb|Stereo"
+     },
+     {
+      "name": "Dragonfly Plate Reverb",
+      "vendor": "Michael Willis",
+      "instrument": false,
+      "category": "Fx|Reverb|Stereo"
+     },
+     {
+      "name": "Dragonfly Hall Reverb",
+      "vendor": "Michael Willis and Rob vd Berg",
+      "instrument": false,
+      "category": "Fx|Reverb|Stereo"
+     },
+     {
+      "name": "Dragonfly Early Reflections",
+      "vendor": "Michael Willis",
+      "instrument": false,
+      "category": "Fx|Reverb|Stereo"
+     },
+     {
+      "name": "Dexed",
+      "vendor": "Digital Suburban",
+      "instrument": true,
+      "category": "Instrument|Synth"
+     },
+     {
+      "name": "Airwindows Consolidated",
+      "vendor": "Airwindows",
+      "instrument": false,
+      "category": "Fx"
+     }
+    ]
+   },
+   "ms": 0,
+   "note": ""
+  },
+  {
+   "method": "audio.devices",
+   "params": {},
+   "ok": true,
+   "result": {
+    "types": [
+     {
+      "type": "Windows Audio",
+      "outputs": [
+       "원격 오디오"
+      ]
+     },
+     {
+      "type": "Windows Audio (Exclusive Mode)",
+      "outputs": [
+       "원격 오디오"
+      ]
+     },
+     {
+      "type": "Windows Audio (Low Latency Mode)",
+      "outputs": [
+       "원격 오디오"
+      ]
+     },
+     {
+      "type": "DirectSound",
+      "outputs": [
+       "주 사운드 드라이버",
+       "원격 오디오"
+      ]
+     }
+    ],
+    "current": "원격 오디오",
+    "current_type": "Windows Audio",
+    "sample_rate": 44100.0,
+    "buffer": 441
+   },
+   "ms": 2,
+   "note": ""
+  },
+  {
+   "method": "inputs.list",
+   "params": {},
+   "ok": true,
+   "result": {
+    "midi": [
+     {
+      "name": "All MIDI Ins",
+      "enabled": true
+     }
+    ],
+    "audio": []
+   },
+   "ms": 0,
+   "note": ""
+  },
+  {
+   "method": "track.add",
+   "params": {
+    "name": "Piano"
+   },
+   "ok": true,
+   "result": {
+    "track": 0,
+    "name": "Piano",
+    "volume_db": 0.0,
+    "pan": 0.0,
+    "mute": false,
+    "solo": false,
+    "devices": [],
+    "clips": []
+   },
+   "ms": 0,
+   "note": ""
+  },
+  {
+   "method": "device.add",
+   "params": {
+    "track": "Piano",
+    "device": "sfz",
+    "sfz": "D:\\0.Musicoma\\sounds\\sfz\\salamander-grand-piano\\Salamander Grand Piano V3.sfz"
+   },
+   "ok": true,
+   "result": {
+    "device": 0,
+    "name": "SFZ Sampler",
+    "type": "musicomaSfz",
+    "enabled": true,
+    "num_params": 1,
+    "sfz": "D:\\0.Musicoma\\sounds\\sfz\\salamander-grand-piano\\Salamander Grand Piano V3.sfz",
+    "regions": 1121
+   },
+   "ms": 681,
+   "note": ""
+  },
+  {
+   "method": "track.add",
+   "params": {
+    "name": "Synth"
+   },
+   "ok": true,
+   "result": {
+    "track": 1,
+    "name": "Synth",
+    "volume_db": 0.0,
+    "pan": 0.0,
+    "mute": false,
+    "solo": false,
+    "devices": [],
+    "clips": []
+   },
+   "ms": 53,
+   "note": ""
+  },
+  {
+   "method": "device.add",
+   "params": {
+    "track": "Synth",
+    "device": "Surge XT"
+   },
+   "ok": true,
+   "result": {
+    "device": 0,
+    "name": "Surge XT",
+    "type": "vst",
+    "enabled": true,
+    "num_params": 776
+   },
+   "ms": 126,
+   "note": ""
+  },
+  {
+   "method": "device.load_file",
+   "params": {
+    "track": "Synth",
+    "device": 0,
+    "path": "D:\\0.Musicoma\\sounds\\plugins\\vst3\\Surge Synth Team\\SurgeXTData\\patches_factory\\Keys\\EP 1.fxp"
+   },
+   "ok": true,
+   "result": {
+    "device": "Surge XT",
+    "loaded": "EP 1",
+    "program": ""
+   },
+   "ms": 3,
+   "note": ""
+  },
+  {
+   "method": "device.programs",
+   "params": {
+    "track": "Synth",
+    "device": 0
+   },
+   "ok": true,
+   "result": {
+    "current": 0,
+    "programs": []
+   },
+   "ms": 6,
+   "note": ""
+  },
+  {
+   "method": "device.params",
+   "params": {
+    "track": "Synth",
+    "device": 0,
+    "filter": "volume"
+   },
+   "ok": true,
+   "result": {
+    "device": "Surge XT",
+    "params": [
+     {
+      "id": "12",
+      "name": "Global Volume",
+      "value": 0.957796990871429,
+      "text": "-2.03 dB",
+      "min": 0.0,
+      "max": 1.0,
+      "index": 14
+     },
+     {
+      "id": "237",
+      "name": "A Volume",
+      "value": 0.890899002552032,
+      "text": "-3.00 dB",
+      "min": 0.0,
+      "max": 1.0,
+      "index": 239
+     },
+     {
+      "id": "292",
+      "name": "A Osc 1 Volume",
+      "value": 1.0,
+      "text": "0.00 dB",
+      "min": 0.0,
+      "max": 1.0,
+      "index": 294
+     },
+     {
+      "id": "296",
+      "name": "A Osc 2 Volume",
+      "value": 1.0,
+      "text": "0.00 dB",
+      "min": 0.0,
+      "max": 1.0,
+      "index": 298
+     },
+     {
+      "id": "300",
+      "name": "A Osc 3 Volume",
+      "value": 1.0,
+      "text": "0.00 dB",
+      "min": 0.0,
+      "max": 1.0,
+      "index": 302
+     },
+     {
+      "id": "304",
+      "name": "A Ring Modulation 1x2 Volume",
+      "value": 1.0,
+      "text": "0.00 dB",
+      "min": 0.0,
+      "max": 1.0,
+      "index": 306
+     },
+     {
+      "id": "308",
+      "name": "A Ring Modulation 2x3 Volume",
+      "value": 1.0,
+      "text": "0.00 dB",
+      "min": 0.0,
+      "max": 1.0,
+      "index": 310
+     },
+     {
+      "id": "312",
+      "name": "A Noise Volume",
+      "value": 1.0,
+      "text": "0.00 dB",
+      "min": 0.0,
+      "max": 1.0,
+      "index": 314
+     },
+     {
+      "id": "510",
+      "name": "B Volume",
+      "value": 0.890899002552032,
+      "text": "-3.00 dB",
+      "min": 0.0,
+      "max": 1.0,
+      "index": 512
+     },
+     {
+      "id": "565",
+      "name": "B Osc 1 Volume",
+      "value": 1.0,
+      "text": "0.00 dB",
+      "min": 0.0,
+      "max": 1.0,
+      "index": 567
+     },
+     {
+      "id": "569",
+      "name": "B Osc 2 Volume",
+      "value": 1.0,
+      "text": "0.00 dB",
+      "min": 0.0,
+      "max": 1.0,
+      "index": 571
+     },
+     {
+      "id": "573",
+      "name": "B Osc 3 Volume",
+      "value": 1.0,
+      "text": "0.00 dB",
+      "min": 0.0,
+      "max": 1.0,
+      "index": 575
+     },
+     {
+      "id": "577",
+      "name": "B Ring Modulation 1x2 Volume",
+      "value": 1.0,
+      "text": "0.00 dB",
+      "min": 0.0,
+      "max": 1.0,
+      "index": 579
+     },
+     {
+      "id": "581",
+      "name": "B Ring Modulation 2x3 Volume",
+      "value": 1.0,
+      "text": "0.00 dB",
+      "min": 0.0,
+      "max": 1.0,
+      "index": 583
+     },
+     {
+      "id": "585",
+      "name": "B Noise Volume",
+      "value": 1.0,
+      "text": "0.00 dB",
+      "min": 0.0,
+      "max": 1.0,
+      "index": 587
+     }
+    ]
+   },
+   "ms": 1,
+   "note": ""
+  },
+  {
+   "method": "track.add",
+   "params": {
+    "name": "FM"
+   },
+   "ok": true,
+   "result": {
+    "track": 2,
+    "name": "FM",
+    "volume_db": 0.0,
+    "pan": 0.0,
+    "mute": false,
+    "solo": false,
+    "devices": [],
+    "clips": []
+   },
+   "ms": 0,
+   "note": ""
+  },
+  {
+   "method": "device.add",
+   "params": {
+    "track": "FM",
+    "device": "Dexed"
+   },
+   "ok": true,
+   "result": {
+    "device": 0,
+    "name": "Dexed",
+    "type": "vst",
+    "enabled": true,
+    "num_params": 160
+   },
+   "ms": 15,
+   "note": ""
+  },
+  {
+   "method": "device.params",
+   "params": {
+    "track": "FM",
+    "device": 0,
+    "filter": "cutoff"
+   },
+   "ok": true,
+   "result": {
+    "device": "Dexed",
+    "params": [
+     {
+      "id": "0",
+      "name": "Cutoff",
+      "value": 1.0,
+      "text": "1",
+      "min": 0.0,
+      "max": 1.0,
+      "index": 2
+     }
+    ]
+   },
+   "ms": 1,
+   "note": ""
+  },
+  {
+   "method": "track.add",
+   "params": {
+    "name": "FX"
+   },
+   "ok": true,
+   "result": {
+    "track": 3,
+    "name": "FX",
+    "volume_db": 0.0,
+    "pan": 0.0,
+    "mute": false,
+    "solo": false,
+    "devices": [],
+    "clips": []
+   },
+   "ms": 1,
+   "note": ""
+  },
+  {
+   "method": "device.add",
+   "params": {
+    "track": "FX",
+    "device": "eq"
+   },
+   "ok": true,
+   "result": {
+    "device": 0,
+    "name": "4-Band Equaliser",
+    "type": "4bandEq",
+    "enabled": true,
+    "num_params": 12
+   },
+   "ms": 0,
+   "note": ""
+  },
+  {
+   "method": "device.add",
+   "params": {
+    "track": "FX",
+    "device": "compressor"
+   },
+   "ok": true,
+   "result": {
+    "device": 1,
+    "name": "Compressor",
+    "type": "compressor",
+    "enabled": true,
+    "num_params": 6
+   },
+   "ms": 0,
+   "note": ""
+  },
+  {
+   "method": "device.add",
+   "params": {
+    "track": "FX",
+    "device": "reverb"
+   },
+   "ok": true,
+   "result": {
+    "device": 2,
+    "name": "Reverb",
+    "type": "reverb",
+    "enabled": true,
+    "num_params": 6
+   },
+   "ms": 0,
+   "note": ""
+  },
+  {
+   "method": "device.add",
+   "params": {
+    "track": "FX",
+    "device": "delay"
+   },
+   "ok": true,
+   "result": {
+    "device": 3,
+    "name": "Delay",
+    "type": "delay",
+    "enabled": true,
+    "num_params": 2
+   },
+   "ms": 0,
+   "note": ""
+  },
+  {
+   "method": "device.add",
+   "params": {
+    "track": "FX",
+    "device": "chorus"
+   },
+   "ok": true,
+   "result": {
+    "device": 4,
+    "name": "Chorus",
+    "type": "chorus",
+    "enabled": true,
+    "num_params": 0
+   },
+   "ms": 0,
+   "note": ""
+  },
+  {
+   "method": "device.add",
+   "params": {
+    "track": "FX",
+    "device": "phaser"
+   },
+   "ok": true,
+   "result": {
+    "device": 5,
+    "name": "Phaser",
+    "type": "phaser",
+    "enabled": true,
+    "num_params": 0
+   },
+   "ms": 1,
+   "note": ""
+  },
+  {
+   "method": "device.add",
+   "params": {
+    "track": "FX",
+    "device": "lowpass"
+   },
+   "ok": true,
+   "result": {
+    "device": 6,
+    "name": "LPF/HPF",
+    "type": "lowpass",
+    "enabled": true,
+    "num_params": 1
+   },
+   "ms": 0,
+   "note": ""
+  },
+  {
+   "method": "device.add",
+   "params": {
+    "track": "FX",
+    "device": "pitchshift"
+   },
+   "ok": true,
+   "result": {
+    "device": 7,
+    "name": "Pitch Shifter",
+    "type": "pitchShifter",
+    "enabled": true,
+    "num_params": 1
+   },
+   "ms": 0,
+   "note": ""
+  },
+  {
+   "method": "device.params",
+   "params": {
+    "track": "FX",
+    "device": 0
+   },
+   "ok": true,
+   "result": {
+    "device": "4-Band Equaliser",
+    "params": [
+     {
+      "id": "Low-pass freq",
+      "name": "Low-shelf freq",
+      "value": 80.0,
+      "text": "80 Hz",
+      "min": 20.0,
+      "max": 20000.0,
+      "index": 0
+     },
+     {
+      "id": "Low-pass gain",
+      "name": "Low-shelf gain",
+      "value": 0.0,
+      "text": "+0.00 dB",
+      "min": -20.0,
+      "max": 20.0,
+      "index": 1
+     },
+     {
+      "id": "Low-pass Q",
+      "name": "Low-shelf Q",
+      "value": 0.5,
+      "text": "0.500",
+      "min": 0.100000001490116,
+      "max": 4.0,
+      "index": 2
+     },
+     {
+      "id": "Mid freq 1",
+      "name": "Mid freq 1",
+      "value": 3000.0,
+      "text": "3000 Hz",
+      "min": 20.0,
+      "max": 20000.0,
+      "index": 3
+     },
+     {
+      "id": "Mid gain 1",
+      "name": "Mid gain 1",
+      "value": 0.0,
+      "text": "+0.00 dB",
+      "min": -20.0,
+      "max": 20.0,
+      "index": 4
+     },
+     {
+      "id": "Mid Q 1",
+      "name": "Mid Q 1",
+      "value": 0.5,
+      "text": "0.500",
+      "min": 0.100000001490116,
+      "max": 4.0,
+      "index": 5
+     },
+     {
+      "id": "Mid freq 2",
+      "name": "Mid freq 2",
+      "value": 5000.0,
+      "text": "5000 Hz",
+      "min": 20.0,
+      "max": 20000.0,
+      "index": 6
+     },
+     {
+      "id": "Mid gain 2",
+      "name": "Mid gain 2",
+      "value": 0.0,
+      "text": "+0.00 dB",
+      "min": -20.0,
+      "max": 20.0,
+      "index": 7
+     },
+     {
+      "id": "Mid Q 2",
+      "name": "Mid Q 2",
+      "value": 0.5,
+      "text": "0.500",
+      "min": 0.100000001490116,
+      "max": 4.0,
+      "index": 8
+     },
+     {
+      "id": "High-pass freq",
+      "name": "High-shelf freq",
+      "value": 17000.0,
+      "text": "17000 Hz",
+      "min": 20.0,
+      "max": 20000.0,
+      "index": 9
+     },
+     {
+      "id": "High-pass gain",
+      "name": "High-shelf gain",
+      "value": 0.0,
+      "text": "+0.00 dB",
+      "min": -20.0,
+      "max": 20.0,
+      "index": 10
+     },
+     {
+      "id": "High-pass Q",
+      "name": "High-shelf Q",
+      "value": 0.5,
+      "text": "0.500",
+      "min": 0.100000001490116,
+      "max": 4.0,
+      "index": 11
+     }
+    ]
+   },
+   "ms": 0,
+   "note": "eq"
+  },
+  {
+   "method": "device.params",
+   "params": {
+    "track": "FX",
+    "device": 1
+   },
+   "ok": true,
+   "result": {
+    "device": "Compressor",
+    "params": [
+     {
+      "id": "threshold",
+      "name": "Threshold",
+      "value": 0.501187205314636,
+      "text": "-6.00 dB",
+      "min": 0.009999999776483,
+      "max": 1.0,
+      "index": 0
+     },
+     {
+      "id": "ratio",
+      "name": "Ratio",
+      "value": 0.5,
+      "text": "2.00 : 1",
+      "min": 0.0,
+      "max": 0.949999988079071,
+      "index": 1
+     },
+     {
+      "id": "attack",
+      "name": "Attack",
+      "value": 100.0,
+      "text": "100.0 ms",
+      "min": 0.300000011920929,
+      "max": 200.0,
+      "index": 2
+     },
+     {
+      "id": "release",
+      "name": "Release",
+      "value": 100.0,
+      "text": "100.0 ms",
+      "min": 10.0,
+      "max": 300.0,
+      "index": 3
+     },
+     {
+      "id": "output gain",
+      "name": "Output gain",
+      "value": 0.0,
+      "text": "+0.00 dB",
+      "min": -10.0,
+      "max": 24.0,
+      "index": 4
+     },
+     {
+      "id": "input gain",
+      "name": "Sidechain gain",
+      "value": 0.0,
+      "text": "+0.00 dB",
+      "min": -24.0,
+      "max": 24.0,
+      "index": 5
+     }
+    ]
+   },
+   "ms": 0,
+   "note": "compressor"
+  },
+  {
+   "method": "device.params",
+   "params": {
+    "track": "FX",
+    "device": 2
+   },
+   "ok": true,
+   "result": {
+    "device": "Reverb",
+    "params": [
+     {
+      "id": "room size",
+      "name": "Room Size",
+      "value": 0.300000011920929,
+      "text": "4",
+      "min": 0.0,
+      "max": 1.0,
+      "index": 0
+     },
+     {
+      "id": "damping",
+      "name": "Damping",
+      "value": 0.5,
+      "text": "50%",
+      "min": 0.0,
+      "max": 1.0,
+      "index": 1
+     },
+     {
+      "id": "wet level",
+      "name": "Wet Level",
+      "value": 0.333333343267441,
+      "text": "+0.00 dB",
+      "min": 0.0,
+      "max": 1.0,
+      "index": 2
+     },
+     {
+      "id": "dry level",
+      "name": "Dry Level",
+      "value": 0.5,
+      "text": "+0.00 dB",
+      "min": 0.0,
+      "max": 1.0,
+      "index": 3
+     },
+     {
+      "id": "width",
+      "name": "Width",
+      "value": 1.0,
+      "text": "100%",
+      "min": 0.0,
+      "max": 1.0,
+      "index": 4
+     },
+     {
+      "id": "mode",
+      "name": "Freeze",
+      "value": 0.0,
+      "text": "Off",
+      "min": 0.0,
+      "max": 1.0,
+      "index": 5
+     }
+    ]
+   },
+   "ms": 0,
+   "note": "reverb"
+  },
+  {
+   "method": "device.params",
+   "params": {
+    "track": "FX",
+    "device": 3
+   },
+   "ok": true,
+   "result": {
+    "device": "Delay",
+    "params": [
+     {
+      "id": "feedback",
+      "name": "Feedback",
+      "value": -6.0,
+      "text": "-6.00 dB",
+      "min": -30.0,
+      "max": 0.0,
+      "index": 0
+     },
+     {
+      "id": "mix proportion",
+      "name": "Mix proportion",
+      "value": 0.300000011920929,
+      "text": "30% wet",
+      "min": 0.0,
+      "max": 1.0,
+      "index": 1
+     }
+    ]
+   },
+   "ms": 0,
+   "note": "delay"
+  },
+  {
+   "method": "device.params",
+   "params": {
+    "track": "FX",
+    "device": 4
+   },
+   "ok": true,
+   "result": {
+    "device": "Chorus",
+    "params": []
+   },
+   "ms": 0,
+   "note": "chorus"
+  },
+  {
+   "method": "device.params",
+   "params": {
+    "track": "FX",
+    "device": 5
+   },
+   "ok": true,
+   "result": {
+    "device": "Phaser",
+    "params": []
+   },
+   "ms": 0,
+   "note": "phaser"
+  },
+  {
+   "method": "device.params",
+   "params": {
+    "track": "FX",
+    "device": 6
+   },
+   "ok": true,
+   "result": {
+    "device": "LPF/HPF",
+    "params": [
+     {
+      "id": "frequency",
+      "name": "Frequency",
+      "value": 4000.0,
+      "text": "4000 Hz",
+      "min": 10.0,
+      "max": 22000.0,
+      "index": 0
+     }
+    ]
+   },
+   "ms": 0,
+   "note": "lowpass"
+  },
+  {
+   "method": "device.params",
+   "params": {
+    "track": "FX",
+    "device": 7
+   },
+   "ok": true,
+   "result": {
+    "device": "Pitch Shifter",
+    "params": [
+     {
+      "id": "semitones up",
+      "name": "Semitones",
+      "value": 0.0,
+      "text": "(Original pitch)",
+      "min": -24.0,
+      "max": 24.0,
+      "index": 0
+     }
+    ]
+   },
+   "ms": 0,
+   "note": "pitchshift"
+  },
+  {
+   "method": "device.set",
+   "params": {
+    "track": "FX",
+    "device": 0,
+    "params": {
+     "Low-pass freq": 110,
+     "Low-pass gain": -6,
+     "Mid freq 2": 3200,
+     "Mid gain 2": 1.5,
+     "Mid Q 2": 0.7
+    }
+   },
+   "ok": true,
+   "result": {
+    "device": "4-Band Equaliser",
+    "changed": [
+     {
+      "id": "Low-pass freq",
+      "name": "Low-shelf freq",
+      "value": 110.0,
+      "text": "110 Hz",
+      "min": 20.0,
+      "max": 20000.0
+     },
+     {
+      "id": "Low-pass gain",
+      "name": "Low-shelf gain",
+      "value": -6.0,
+      "text": "-6.00 dB",
+      "min": -20.0,
+      "max": 20.0
+     },
+     {
+      "id": "Mid freq 2",
+      "name": "Mid freq 2",
+      "value": 3200.0,
+      "text": "3200 Hz",
+      "min": 20.0,
+      "max": 20000.0
+     },
+     {
+      "id": "Mid gain 2",
+      "name": "Mid gain 2",
+      "value": 1.5,
+      "text": "+1.50 dB",
+      "min": -20.0,
+      "max": 20.0
+     },
+     {
+      "id": "Mid Q 2",
+      "name": "Mid Q 2",
+      "value": 0.699999988079071,
+      "text": "0.700",
+      "min": 0.100000001490116,
+      "max": 4.0
+     }
+    ]
+   },
+   "ms": 0,
+   "note": ""
+  },
+  {
+   "method": "device.set",
+   "params": {
+    "track": "FX",
+    "device": 1,
+    "params": {
+     "threshold": -20,
+     "ratio": 4,
+     "attack": 8,
+     "release": 100,
+     "output gain": 3
+    }
+   },
+   "ok": true,
+   "result": {
+    "device": "Compressor",
+    "changed": [
+     {
+      "id": "threshold",
+      "name": "Threshold",
+      "value": 0.100000001490116,
+      "text": "-20.00 dB",
+      "min": 0.009999999776483,
+      "max": 1.0
+     },
+     {
+      "id": "ratio",
+      "name": "Ratio",
+      "value": 0.25,
+      "text": "4.00 : 1",
+      "min": 0.0,
+      "max": 0.949999988079071
+     },
+     {
+      "id": "attack",
+      "name": "Attack",
+      "value": 8.0,
+      "text": "8.0 ms",
+      "min": 0.300000011920929,
+      "max": 200.0
+     },
+     {
+      "id": "release",
+      "name": "Release",
+      "value": 100.0,
+      "text": "100.0 ms",
+      "min": 10.0,
+      "max": 300.0
+     },
+     {
+      "id": "output gain",
+      "name": "Output gain",
+      "value": 3.0,
+      "text": "+3.00 dB",
+      "min": -10.0,
+      "max": 24.0
+     }
+    ]
+   },
+   "ms": 0,
+   "note": ""
+  },
+  {
+   "method": "device.set",
+   "params": {
+    "track": "FX",
+    "device": 6,
+    "params": {
+     "frequency": 1800
+    }
+   },
+   "ok": true,
+   "result": {
+    "device": "LPF/HPF",
+    "changed": [
+     {
+      "id": "frequency",
+      "name": "Frequency",
+      "value": 1800.0,
+      "text": "1800 Hz",
+      "min": 10.0,
+      "max": 22000.0
+     }
+    ]
+   },
+   "ms": 0,
+   "note": ""
+  },
+  {
+   "method": "device.set",
+   "params": {
+    "track": "FX",
+    "device": 1,
+    "enabled": false
+   },
+   "ok": true,
+   "result": {
+    "device": "Compressor",
+    "changed": []
+   },
+   "ms": 0,
+   "note": ""
+  },
+  {
+   "method": "device.params",
+   "params": {
+    "track": "FX",
+    "device": 1
+   },
+   "ok": true,
+   "result": {
+    "device": "Compressor",
+    "params": [
+     {
+      "id": "threshold",
+      "name": "Threshold",
+      "value": 0.100000001490116,
+      "text": "-20.00 dB",
+      "min": 0.009999999776483,
+      "max": 1.0,
+      "index": 0
+     },
+     {
+      "id": "ratio",
+      "name": "Ratio",
+      "value": 0.25,
+      "text": "4.00 : 1",
+      "min": 0.0,
+      "max": 0.949999988079071,
+      "index": 1
+     },
+     {
+      "id": "attack",
+      "name": "Attack",
+      "value": 8.0,
+      "text": "8.0 ms",
+      "min": 0.300000011920929,
+      "max": 200.0,
+      "index": 2
+     },
+     {
+      "id": "release",
+      "name": "Release",
+      "value": 100.0,
+      "text": "100.0 ms",
+      "min": 10.0,
+      "max": 300.0,
+      "index": 3
+     },
+     {
+      "id": "output gain",
+      "name": "Output gain",
+      "value": 3.0,
+      "text": "+3.00 dB",
+      "min": -10.0,
+      "max": 24.0,
+      "index": 4
+     },
+     {
+      "id": "input gain",
+      "name": "Sidechain gain",
+      "value": 0.0,
+      "text": "+0.00 dB",
+      "min": -24.0,
+      "max": 24.0,
+      "index": 5
+     }
+    ]
+   },
+   "ms": 0,
+   "note": "compressor after set"
+  },
+  {
+   "method": "track.add",
+   "params": {
+    "name": "Hall"
+   },
+   "ok": true,
+   "result": {
+    "track": 4,
+    "name": "Hall",
+    "volume_db": 0.0,
+    "pan": 0.0,
+    "mute": false,
+    "solo": false,
+    "devices": [],
+    "clips": []
+   },
+   "ms": 0,
+   "note": ""
+  },
+  {
+   "method": "device.add",
+   "params": {
+    "track": "Hall",
+    "device": "return",
+    "bus": 0
+   },
+   "ok": true,
+   "result": {
+    "device": 0,
+    "name": "Aux Return #1",
+    "type": "auxreturn",
+    "enabled": true,
+    "num_params": 0
+   },
+   "ms": 1,
+   "note": ""
+  },
+  {
+   "method": "device.add",
+   "params": {
+    "track": "Hall",
+    "device": "Dragonfly Hall Reverb"
+   },
+   "ok": true,
+   "result": {
+    "device": 1,
+    "name": "Dragonfly Hall Reverb",
+    "type": "vst",
+    "enabled": true,
+    "num_params": 20
+   },
+   "ms": 3,
+   "note": ""
+  },
+  {
+   "method": "device.add",
+   "params": {
+    "track": "Piano",
+    "device": "send",
+    "bus": 0,
+    "level_db": -12
+   },
+   "ok": true,
+   "result": {
+    "device": 1,
+    "name": "Aux Send #1",
+    "type": "auxsend",
+    "enabled": true,
+    "num_params": 1
+   },
+   "ms": 1,
+   "note": ""
+  },
+  {
+   "method": "device.add",
+   "params": {
+    "track": "master",
+    "device": "compressor"
+   },
+   "ok": true,
+   "result": {
+    "device": 0,
+    "name": "Compressor",
+    "type": "compressor",
+    "enabled": true,
+    "num_params": 6
+   },
+   "ms": 0,
+   "note": ""
+  },
+  {
+   "method": "track.set",
+   "params": {
+    "track": "Piano",
+    "volume_db": -3,
+    "pan": -0.3
+   },
+   "ok": true,
+   "result": {
+    "track": 0,
+    "name": "Piano",
+    "volume_db": -3.0,
+    "pan": -0.300000011920929,
+    "mute": false,
+    "solo": false,
+    "devices": [
+     {
+      "device": 0,
+      "name": "SFZ Sampler",
+      "type": "musicomaSfz",
+      "enabled": true,
+      "num_params": 1,
+      "sfz": "D:\\0.Musicoma\\sounds\\sfz\\salamander-grand-piano\\Salamander Grand Piano V3.sfz",
+      "regions": 1121
+     },
+     {
+      "device": 1,
+      "name": "Aux Send #1",
+      "type": "auxsend",
+      "enabled": true,
+      "num_params": 1
+     }
+    ],
+    "clips": []
+   },
+   "ms": 0,
+   "note": ""
+  },
+  {
+   "method": "track.set",
+   "params": {
+    "track": "Synth",
+    "mute": true
+   },
+   "ok": true,
+   "result": {
+    "track": 1,
+    "name": "Synth",
+    "volume_db": 0.0,
+    "pan": 0.0,
+    "mute": true,
+    "solo": false,
+    "devices": [
+     {
+      "device": 0,
+      "name": "Surge XT",
+      "type": "vst",
+      "enabled": true,
+      "num_params": 776
+     }
+    ],
+    "clips": []
+   },
+   "ms": 0,
+   "note": ""
+  },
+  {
+   "method": "track.set",
+   "params": {
+    "track": "Synth",
+    "mute": false,
+    "solo": false,
+    "name": "Synth"
+   },
+   "ok": true,
+   "result": {
+    "track": 1,
+    "name": "Synth",
+    "volume_db": 0.0,
+    "pan": 0.0,
+    "mute": false,
+    "solo": false,
+    "devices": [
+     {
+      "device": 0,
+      "name": "Surge XT",
+      "type": "vst",
+      "enabled": true,
+      "num_params": 776
+     }
+    ],
+    "clips": []
+   },
+   "ms": 0,
+   "note": ""
+  },
+  {
+   "method": "clip.add_midi",
+   "params": {
+    "track": "Piano",
+    "start": 0,
+    "length": 8,
+    "name": "chords",
+    "notes": [
+     {
+      "pitch": 60,
+      "start": 0,
+      "length": 1,
+      "velocity": 100
+     },
+     {
+      "pitch": 64,
+      "start": 1,
+      "length": 1,
+      "velocity": 90
+     },
+     {
+      "pitch": 67,
+      "start": 2,
+      "length": 2,
+      "velocity": 80
+     }
+    ],
+    "cc": [
+     {
+      "cc": 64,
+      "beat": 0,
+      "value": 127
+     },
+     {
+      "cc": 64,
+      "beat": 3.9,
+      "value": 0
+     }
+    ],
+    "bend": [
+     {
+      "beat": 2,
+      "value": 0.5
+     }
+    ]
+   },
+   "ok": true,
+   "result": {
+    "clip": 0,
+    "notes": 3
+   },
+   "ms": 0,
+   "note": ""
+  },
+  {
+   "method": "clip.list",
+   "params": {
+    "track": "Piano"
+   },
+   "ok": true,
+   "result": [
+    {
+     "clip": 0,
+     "name": "chords",
+     "start": 0.0,
+     "end": 8.0,
+     "type": "midi",
+     "notes": 3
+    }
+   ],
+   "ms": 0,
+   "note": ""
+  },
+  {
+   "method": "clip.notes",
+   "params": {
+    "track": "Piano",
+    "clip": 0
+   },
+   "ok": true,
+   "result": [
+    {
+     "pitch": 60,
+     "start": 0.0,
+     "length": 1.0,
+     "velocity": 100
+    },
+    {
+     "pitch": 64,
+     "start": 1.0,
+     "length": 1.0,
+     "velocity": 90
+    },
+    {
+     "pitch": 67,
+     "start": 2.0,
+     "length": 2.0,
+     "velocity": 80
+    }
+   ],
+   "ms": 0,
+   "note": ""
+  },
+  {
+   "method": "clip.controllers",
+   "params": {
+    "track": "Piano",
+    "clip": 0
+   },
+   "ok": true,
+   "result": {
+    "cc": [
+     {
+      "beat": 0.0,
+      "cc": 64,
+      "value": 127
+     },
+     {
+      "beat": 3.9,
+      "cc": 64,
+      "value": 0
+     }
+    ],
+    "bend": [
+     {
+      "beat": 2.0,
+      "value": 0.499969480559116
+     }
+    ]
+   },
+   "ms": 0,
+   "note": ""
+  },
+  {
+   "method": "clip.set_notes",
+   "params": {
+    "track": "Piano",
+    "clip": 0,
+    "notes": [
+     {
+      "pitch": 62,
+      "start": 0.5,
+      "length": 0.5,
+      "velocity": 70
+     }
+    ],
+    "replace": false
+   },
+   "ok": true,
+   "result": {
+    "notes": 4
+   },
+   "ms": 0,
+   "note": ""
+  },
+  {
+   "method": "clip.duplicate",
+   "params": {
+    "track": "Piano",
+    "clip": 0
+   },
+   "ok": true,
+   "result": {
+    "clip": 1
+   },
+   "ms": 1,
+   "note": ""
+  },
+  {
+   "method": "clip.split",
+   "params": {
+    "track": "Piano",
+    "clip": 1,
+    "at": 12
+   },
+   "ok": true,
+   "result": [
+    {
+     "clip": 0,
+     "name": "chords",
+     "start": 0.0,
+     "end": 8.0,
+     "type": "midi",
+     "notes": 4
+    },
+    {
+     "clip": 1,
+     "name": "chords",
+     "start": 8.0,
+     "end": 12.0,
+     "type": "midi",
+     "notes": 4
+    },
+    {
+     "clip": 2,
+     "name": "chords",
+     "start": 12.0,
+     "end": 16.0,
+     "type": "midi",
+     "notes": 4
+    }
+   ],
+   "ms": 0,
+   "note": ""
+  },
+  {
+   "method": "clip.set",
+   "params": {
+    "track": "Piano",
+    "clip": 0,
+    "name": "intro",
+    "mute": false
+   },
+   "ok": true,
+   "result": [
+    {
+     "clip": 0,
+     "name": "intro",
+     "start": 0.0,
+     "end": 8.0,
+     "type": "midi",
+     "notes": 4
+    },
+    {
+     "clip": 1,
+     "name": "chords",
+     "start": 8.0,
+     "end": 12.0,
+     "type": "midi",
+     "notes": 4
+    },
+    {
+     "clip": 2,
+     "name": "chords",
+     "start": 12.0,
+     "end": 16.0,
+     "type": "midi",
+     "notes": 4
+    }
+   ],
+   "ms": 0,
+   "note": ""
+  },
+  {
+   "method": "track.add",
+   "params": {
+    "name": "Audio"
+   },
+   "ok": true,
+   "result": {
+    "track": 5,
+    "name": "Audio",
+    "volume_db": 0.0,
+    "pan": 0.0,
+    "mute": false,
+    "solo": false,
+    "devices": [],
+    "clips": []
+   },
+   "ms": 1,
+   "note": ""
+  },
+  {
+   "method": "clip.add_audio",
+   "params": {
+    "track": "Audio",
+    "path": "D:\\0.Musicoma\\sounds\\crate\\accomp\\accomp_vinyl.wav",
+    "start": 4,
+    "length": 8,
+    "gain_db": -3,
+    "fade_in": 0.1,
+    "fade_out": 0.2
+   },
+   "ok": true,
+   "result": {
+    "clip": 0,
+    "source_seconds": 64.1503125,
+    "source_bpm_note": "engine plays audio at original speed; prepare tempo/pitch with the crate tools"
+   },
+   "ms": 7,
+   "note": ""
+  },
+  {
+   "method": "clip.set",
+   "params": {
+    "track": "Audio",
+    "clip": 0,
+    "gain_db": -1.5,
+    "pan": 0.2,
+    "reverse": true
+   },
+   "ok": true,
+   "result": [
+    {
+     "clip": 0,
+     "name": "accomp_vinyl",
+     "start": 4.0,
+     "end": 12.0,
+     "type": "audio",
+     "gain_db": -1.5
+    }
+   ],
+   "ms": 1,
+   "note": ""
+  },
+  {
+   "method": "clip.list",
+   "params": {
+    "track": "Audio"
+   },
+   "ok": true,
+   "result": [
+    {
+     "clip": 0,
+     "name": "accomp_vinyl",
+     "start": 4.0,
+     "end": 12.0,
+     "type": "audio",
+     "gain_db": -1.5
+    }
+   ],
+   "ms": 0,
+   "note": ""
+  },
+  {
+   "method": "automation.set",
+   "params": {
+    "track": "FX",
+    "device": 6,
+    "param": "frequency",
+    "points": [
+     {
+      "beat": 0,
+      "value": 400
+     },
+     {
+      "beat": 8,
+      "value": 8000,
+      "curve": 0.5
+     }
+    ]
+   },
+   "ok": true,
+   "result": {
+    "param": "Frequency",
+    "points": 2
+   },
+   "ms": 0,
+   "note": ""
+  },
+  {
+   "method": "edit.info",
+   "params": {},
+   "ok": true,
+   "result": {
+    "path": "D:\\0.Musicoma\\projects\\zz-golden\\zz-golden.tracktionedit",
+    "bpm": 100.0,
+    "time_sig": "4/4",
+    "length_beats": 16.0,
+    "tracks": [
+     {
+      "track": 0,
+      "name": "Piano",
+      "volume_db": -3.0,
+      "pan": -0.300000011920929,
+      "mute": false,
+      "solo": false,
+      "devices": [
+       {
+        "device": 0,
+        "name": "SFZ Sampler",
+        "type": "musicomaSfz",
+        "enabled": true,
+        "num_params": 1,
+        "sfz": "D:\\0.Musicoma\\sounds\\sfz\\salamander-grand-piano\\Salamander Grand Piano V3.sfz",
+        "regions": 1121
+       },
+       {
+        "device": 1,
+        "name": "Aux Send #1",
+        "type": "auxsend",
+        "enabled": true,
+        "num_params": 1
+       }
+      ],
+      "clips": [
+       {
+        "clip": 0,
+        "name": "intro",
+        "start": 0.0,
+        "end": 8.0,
+        "type": "midi",
+        "notes": 4
+       },
+       {
+        "clip": 1,
+        "name": "chords",
+        "start": 8.0,
+        "end": 12.0,
+        "type": "midi",
+        "notes": 4
+       },
+       {
+        "clip": 2,
+        "name": "chords",
+        "start": 12.0,
+        "end": 16.0,
+        "type": "midi",
+        "notes": 4
+       }
+      ]
+     },
+     {
+      "track": 1,
+      "name": "Synth",
+      "volume_db": 0.0,
+      "pan": 0.0,
+      "mute": false,
+      "solo": false,
+      "devices": [
+       {
+        "device": 0,
+        "name": "Surge XT",
+        "type": "vst",
+        "enabled": true,
+        "num_params": 776
+       }
+      ],
+      "clips": []
+     },
+     {
+      "track": 2,
+      "name": "FM",
+      "volume_db": 0.0,
+      "pan": 0.0,
+      "mute": false,
+      "solo": false,
+      "devices": [
+       {
+        "device": 0,
+        "name": "Dexed",
+        "type": "vst",
+        "enabled": true,
+        "num_params": 160
+       }
+      ],
+      "clips": []
+     },
+     {
+      "track": 3,
+      "name": "FX",
+      "volume_db": 0.0,
+      "pan": 0.0,
+      "mute": false,
+      "solo": false,
+      "devices": [
+       {
+        "device": 0,
+        "name": "4-Band Equaliser",
+        "type": "4bandEq",
+        "enabled": true,
+        "num_params": 12
+       },
+       {
+        "device": 1,
+        "name": "Compressor",
+        "type": "compressor",
+        "enabled": false,
+        "num_params": 6
+       },
+       {
+        "device": 2,
+        "name": "Reverb",
+        "type": "reverb",
+        "enabled": true,
+        "num_params": 6
+       },
+       {
+        "device": 3,
+        "name": "Delay",
+        "type": "delay",
+        "enabled": true,
+        "num_params": 2
+       },
+       {
+        "device": 4,
+        "name": "Chorus",
+        "type": "chorus",
+        "enabled": true,
+        "num_params": 0
+       },
+       {
+        "device": 5,
+        "name": "Phaser",
+        "type": "phaser",
+        "enabled": true,
+        "num_params": 0
+       },
+       {
+        "device": 6,
+        "name": "LPF/HPF",
+        "type": "lowpass",
+        "enabled": true,
+        "num_params": 1
+       },
+       {
+        "device": 7,
+        "name": "Pitch Shifter",
+        "type": "pitchShifter",
+        "enabled": true,
+        "num_params": 1
+       }
+      ],
+      "clips": []
+     },
+     {
+      "track": 4,
+      "name": "Hall",
+      "volume_db": 0.0,
+      "pan": 0.0,
+      "mute": false,
+      "solo": false,
+      "devices": [
+       {
+        "device": 0,
+        "name": "Aux Return #1",
+        "type": "auxreturn",
+        "enabled": true,
+        "num_params": 0
+       },
+       {
+        "device": 1,
+        "name": "Dragonfly Hall Reverb",
+        "type": "vst",
+        "enabled": true,
+        "num_params": 20
+       }
+      ],
+      "clips": []
+     },
+     {
+      "track": 5,
+      "name": "Audio",
+      "volume_db": 0.0,
+      "pan": 0.0,
+      "mute": false,
+      "solo": false,
+      "devices": [],
+      "clips": [
+       {
+        "clip": 0,
+        "name": "accomp_vinyl",
+        "start": 4.0,
+        "end": 12.0,
+        "type": "audio",
+        "gain_db": -1.5
+       }
+      ]
+     }
+    ],
+    "master": {
+     "devices": [
+      {
+       "device": 0,
+       "name": "Compressor",
+       "type": "compressor",
+       "enabled": true,
+       "num_params": 6
+      }
+     ],
+     "volume_db": -3.0
+    }
+   },
+   "ms": 0,
+   "note": ""
+  },
+  {
+   "method": "transport.state",
+   "params": {},
+   "ok": true,
+   "result": {
+    "playing": false,
+    "position": 0.0,
+    "looping": false,
+    "recording": false,
+    "metronome": false,
+    "loop": [
+     0.0,
+     0.0
+    ],
+    "audio_device": "원격 오디오 (Windows Audio)"
+   },
+   "ms": 0,
+   "note": ""
+  },
+  {
+   "method": "meters",
+   "params": {},
+   "ok": true,
+   "result": {
+    "tracks": {
+     "Piano": [
+      -100.0,
+      -100.0
+     ],
+     "Synth": [
+      -100.0,
+      -100.0
+     ],
+     "FM": [
+      -100.0,
+      -100.0
+     ],
+     "FX": [
+      -100.0,
+      -100.0
+     ],
+     "Hall": [
+      -100.0,
+      -100.0
+     ],
+     "Audio": [
+      -100.0,
+      -100.0
+     ]
+    },
+    "master": [
+     -100.0,
+     -100.0
+    ]
+   },
+   "ms": 0,
+   "note": ""
+  },
+  {
+   "method": "transport.metronome",
+   "params": {
+    "enabled": false
+   },
+   "ok": true,
+   "result": {
+    "playing": false,
+    "position": 0.0,
+    "looping": false,
+    "recording": false,
+    "metronome": false,
+    "loop": [
+     0.0,
+     0.0
+    ],
+    "audio_device": "원격 오디오 (Windows Audio)"
+   },
+   "ms": 0,
+   "note": ""
+  },
+  {
+   "method": "edit.save",
+   "params": {},
+   "ok": true,
+   "result": {
+    "path": "D:\\0.Musicoma\\projects\\zz-golden\\zz-golden.tracktionedit"
+   },
+   "ms": 19,
+   "note": ""
+  },
+  {
+   "method": "render",
+   "params": {
+    "path": "D:\\0.Musicoma\\scratch\\golden\\render.wav",
+    "end": 8,
+    "tail": 1
+   },
+   "ok": true,
+   "result": {
+    "path": "D:\\0.Musicoma\\scratch\\golden\\render.wav",
+    "seconds": 5.8,
+    "render_ms": 5395.812600016594
+   },
+   "ms": 5396,
+   "note": ""
+  },
+  {
+   "method": "render",
+   "params": {
+    "path": "D:\\0.Musicoma\\scratch\\golden\\piano_only.wav",
+    "end": 4,
+    "tail": 0.5,
+    "tracks": [
+     "Piano"
+    ]
+   },
+   "ok": true,
+   "result": {
+    "path": "D:\\0.Musicoma\\scratch\\golden\\piano_only.wav",
+    "seconds": 2.9,
+    "render_ms": 647.5028999745846
+   },
+   "ms": 660,
+   "note": ""
+  },
+  {
+   "method": "track.remove",
+   "params": {
+    "track": "Audio"
+   },
+   "ok": true,
+   "result": {
+    "path": "D:\\0.Musicoma\\projects\\zz-golden\\zz-golden.tracktionedit",
+    "bpm": 100.0,
+    "time_sig": "4/4",
+    "length_beats": 16.0,
+    "tracks": [
+     {
+      "track": 0,
+      "name": "Piano",
+      "volume_db": -3.0,
+      "pan": -0.300000011920929,
+      "mute": false,
+      "solo": false,
+      "devices": [
+       {
+        "device": 0,
+        "name": "SFZ Sampler",
+        "type": "musicomaSfz",
+        "enabled": true,
+        "num_params": 1,
+        "sfz": "D:\\0.Musicoma\\sounds\\sfz\\salamander-grand-piano\\Salamander Grand Piano V3.sfz",
+        "regions": 1121
+       },
+       {
+        "device": 1,
+        "name": "Aux Send #1",
+        "type": "auxsend",
+        "enabled": true,
+        "num_params": 1
+       }
+      ],
+      "clips": [
+       {
+        "clip": 0,
+        "name": "intro",
+        "start": 0.0,
+        "end": 8.0,
+        "type": "midi",
+        "notes": 4
+       },
+       {
+        "clip": 1,
+        "name": "chords",
+        "start": 8.0,
+        "end": 12.0,
+        "type": "midi",
+        "notes": 4
+       },
+       {
+        "clip": 2,
+        "name": "chords",
+        "start": 12.0,
+        "end": 16.0,
+        "type": "midi",
+        "notes": 4
+       }
+      ]
+     },
+     {
+      "track": 1,
+      "name": "Synth",
+      "volume_db": 0.0,
+      "pan": 0.0,
+      "mute": false,
+      "solo": false,
+      "devices": [
+       {
+        "device": 0,
+        "name": "Surge XT",
+        "type": "vst",
+        "enabled": true,
+        "num_params": 776
+       }
+      ],
+      "clips": []
+     },
+     {
+      "track": 2,
+      "name": "FM",
+      "volume_db": 0.0,
+      "pan": 0.0,
+      "mute": false,
+      "solo": false,
+      "devices": [
+       {
+        "device": 0,
+        "name": "Dexed",
+        "type": "vst",
+        "enabled": true,
+        "num_params": 160
+       }
+      ],
+      "clips": []
+     },
+     {
+      "track": 3,
+      "name": "FX",
+      "volume_db": 0.0,
+      "pan": 0.0,
+      "mute": false,
+      "solo": false,
+      "devices": [
+       {
+        "device": 0,
+        "name": "4-Band Equaliser",
+        "type": "4bandEq",
+        "enabled": true,
+        "num_params": 12
+       },
+       {
+        "device": 1,
+        "name": "Compressor",
+        "type": "compressor",
+        "enabled": false,
+        "num_params": 6
+       },
+       {
+        "device": 2,
+        "name": "Reverb",
+        "type": "reverb",
+        "enabled": true,
+        "num_params": 6
+       },
+       {
+        "device": 3,
+        "name": "Delay",
+        "type": "delay",
+        "enabled": true,
+        "num_params": 2
+       },
+       {
+        "device": 4,
+        "name": "Chorus",
+        "type": "chorus",
+        "enabled": true,
+        "num_params": 0
+       },
+       {
+        "device": 5,
+        "name": "Phaser",
+        "type": "phaser",
+        "enabled": true,
+        "num_params": 0
+       },
+       {
+        "device": 6,
+        "name": "LPF/HPF",
+        "type": "lowpass",
+        "enabled": true,
+        "num_params": 1
+       },
+       {
+        "device": 7,
+        "name": "Pitch Shifter",
+        "type": "pitchShifter",
+        "enabled": true,
+        "num_params": 1
+       }
+      ],
+      "clips": []
+     },
+     {
+      "track": 4,
+      "name": "Hall",
+      "volume_db": 0.0,
+      "pan": 0.0,
+      "mute": false,
+      "solo": false,
+      "devices": [
+       {
+        "device": 0,
+        "name": "Aux Return #1",
+        "type": "auxreturn",
+        "enabled": true,
+        "num_params": 0
+       },
+       {
+        "device": 1,
+        "name": "Dragonfly Hall Reverb",
+        "type": "vst",
+        "enabled": true,
+        "num_params": 20
+       }
+      ],
+      "clips": []
+     }
+    ],
+    "master": {
+     "devices": [
+      {
+       "device": 0,
+       "name": "Compressor",
+       "type": "compressor",
+       "enabled": true,
+       "num_params": 6
+      }
+     ],
+     "volume_db": -3.0
+    }
+   },
+   "ms": 7,
+   "note": ""
+  },
+  {
+   "method": "edit.undo",
+   "params": {},
+   "ok": true,
+   "result": {
+    "path": "D:\\0.Musicoma\\projects\\zz-golden\\zz-golden.tracktionedit",
+    "bpm": 100.0,
+    "time_sig": "4/4",
+    "length_beats": 16.0,
+    "tracks": [
+     {
+      "track": 0,
+      "name": "Piano",
+      "volume_db": -3.0,
+      "pan": -0.300000011920929,
+      "mute": false,
+      "solo": false,
+      "devices": [
+       {
+        "device": 0,
+        "name": "SFZ Sampler",
+        "type": "musicomaSfz",
+        "enabled": true,
+        "num_params": 1,
+        "sfz": "D:\\0.Musicoma\\sounds\\sfz\\salamander-grand-piano\\Salamander Grand Piano V3.sfz",
+        "regions": 1121
+       },
+       {
+        "device": 1,
+        "name": "Aux Send #1",
+        "type": "auxsend",
+        "enabled": true,
+        "num_params": 1
+       }
+      ],
+      "clips": [
+       {
+        "clip": 0,
+        "name": "intro",
+        "start": 0.0,
+        "end": 8.0,
+        "type": "midi",
+        "notes": 4
+       },
+       {
+        "clip": 1,
+        "name": "chords",
+        "start": 8.0,
+        "end": 12.0,
+        "type": "midi",
+        "notes": 4
+       },
+       {
+        "clip": 2,
+        "name": "chords",
+        "start": 12.0,
+        "end": 16.0,
+        "type": "midi",
+        "notes": 4
+       }
+      ]
+     },
+     {
+      "track": 1,
+      "name": "Synth",
+      "volume_db": 0.0,
+      "pan": 0.0,
+      "mute": false,
+      "solo": false,
+      "devices": [
+       {
+        "device": 0,
+        "name": "Surge XT",
+        "type": "vst",
+        "enabled": true,
+        "num_params": 776
+       }
+      ],
+      "clips": []
+     },
+     {
+      "track": 2,
+      "name": "FM",
+      "volume_db": 0.0,
+      "pan": 0.0,
+      "mute": false,
+      "solo": false,
+      "devices": [
+       {
+        "device": 0,
+        "name": "Dexed",
+        "type": "vst",
+        "enabled": true,
+        "num_params": 160
+       }
+      ],
+      "clips": []
+     },
+     {
+      "track": 3,
+      "name": "FX",
+      "volume_db": 0.0,
+      "pan": 0.0,
+      "mute": false,
+      "solo": false,
+      "devices": [
+       {
+        "device": 0,
+        "name": "4-Band Equaliser",
+        "type": "4bandEq",
+        "enabled": true,
+        "num_params": 12
+       },
+       {
+        "device": 1,
+        "name": "Compressor",
+        "type": "compressor",
+        "enabled": false,
+        "num_params": 6
+       },
+       {
+        "device": 2,
+        "name": "Reverb",
+        "type": "reverb",
+        "enabled": true,
+        "num_params": 6
+       },
+       {
+        "device": 3,
+        "name": "Delay",
+        "type": "delay",
+        "enabled": true,
+        "num_params": 2
+       },
+       {
+        "device": 4,
+        "name": "Chorus",
+        "type": "chorus",
+        "enabled": true,
+        "num_params": 0
+       },
+       {
+        "device": 5,
+        "name": "Phaser",
+        "type": "phaser",
+        "enabled": true,
+        "num_params": 0
+       },
+       {
+        "device": 6,
+        "name": "LPF/HPF",
+        "type": "lowpass",
+        "enabled": true,
+        "num_params": 1
+       },
+       {
+        "device": 7,
+        "name": "Pitch Shifter",
+        "type": "pitchShifter",
+        "enabled": true,
+        "num_params": 1
+       }
+      ],
+      "clips": []
+     },
+     {
+      "track": 4,
+      "name": "Hall",
+      "volume_db": 0.0,
+      "pan": 0.0,
+      "mute": false,
+      "solo": false,
+      "devices": [
+       {
+        "device": 0,
+        "name": "Aux Return #1",
+        "type": "auxreturn",
+        "enabled": true,
+        "num_params": 0
+       },
+       {
+        "device": 1,
+        "name": "Dragonfly Hall Reverb",
+        "type": "vst",
+        "enabled": true,
+        "num_params": 20
+       }
+      ],
+      "clips": []
+     },
+     {
+      "track": 5,
+      "name": "Audio",
+      "volume_db": 0.0,
+      "pan": 0.0,
+      "mute": false,
+      "solo": false,
+      "devices": [],
+      "clips": [
+       {
+        "clip": 0,
+        "name": "accomp_vinyl",
+        "start": 4.0,
+        "end": 12.0,
+        "type": "audio",
+        "gain_db": -1.5
+       }
+      ]
+     }
+    ],
+    "master": {
+     "devices": [
+      {
+       "device": 0,
+       "name": "Compressor",
+       "type": "compressor",
+       "enabled": true,
+       "num_params": 6
+      }
+     ],
+     "volume_db": -3.0
+    }
+   },
+   "ms": 0,
+   "note": ""
+  },
+  {
+   "method": "edit.redo",
+   "params": {},
+   "ok": true,
+   "result": {
+    "path": "D:\\0.Musicoma\\projects\\zz-golden\\zz-golden.tracktionedit",
+    "bpm": 100.0,
+    "time_sig": "4/4",
+    "length_beats": 16.0,
+    "tracks": [
+     {
+      "track": 0,
+      "name": "Piano",
+      "volume_db": -3.0,
+      "pan": -0.300000011920929,
+      "mute": false,
+      "solo": false,
+      "devices": [
+       {
+        "device": 0,
+        "name": "SFZ Sampler",
+        "type": "musicomaSfz",
+        "enabled": true,
+        "num_params": 1,
+        "sfz": "D:\\0.Musicoma\\sounds\\sfz\\salamander-grand-piano\\Salamander Grand Piano V3.sfz",
+        "regions": 1121
+       },
+       {
+        "device": 1,
+        "name": "Aux Send #1",
+        "type": "auxsend",
+        "enabled": true,
+        "num_params": 1
+       }
+      ],
+      "clips": [
+       {
+        "clip": 0,
+        "name": "intro",
+        "start": 0.0,
+        "end": 8.0,
+        "type": "midi",
+        "notes": 4
+       },
+       {
+        "clip": 1,
+        "name": "chords",
+        "start": 8.0,
+        "end": 12.0,
+        "type": "midi",
+        "notes": 4
+       },
+       {
+        "clip": 2,
+        "name": "chords",
+        "start": 12.0,
+        "end": 16.0,
+        "type": "midi",
+        "notes": 4
+       }
+      ]
+     },
+     {
+      "track": 1,
+      "name": "Synth",
+      "volume_db": 0.0,
+      "pan": 0.0,
+      "mute": false,
+      "solo": false,
+      "devices": [
+       {
+        "device": 0,
+        "name": "Surge XT",
+        "type": "vst",
+        "enabled": true,
+        "num_params": 776
+       }
+      ],
+      "clips": []
+     },
+     {
+      "track": 2,
+      "name": "FM",
+      "volume_db": 0.0,
+      "pan": 0.0,
+      "mute": false,
+      "solo": false,
+      "devices": [
+       {
+        "device": 0,
+        "name": "Dexed",
+        "type": "vst",
+        "enabled": true,
+        "num_params": 160
+       }
+      ],
+      "clips": []
+     },
+     {
+      "track": 3,
+      "name": "FX",
+      "volume_db": 0.0,
+      "pan": 0.0,
+      "mute": false,
+      "solo": false,
+      "devices": [
+       {
+        "device": 0,
+        "name": "4-Band Equaliser",
+        "type": "4bandEq",
+        "enabled": true,
+        "num_params": 12
+       },
+       {
+        "device": 1,
+        "name": "Compressor",
+        "type": "compressor",
+        "enabled": false,
+        "num_params": 6
+       },
+       {
+        "device": 2,
+        "name": "Reverb",
+        "type": "reverb",
+        "enabled": true,
+        "num_params": 6
+       },
+       {
+        "device": 3,
+        "name": "Delay",
+        "type": "delay",
+        "enabled": true,
+        "num_params": 2
+       },
+       {
+        "device": 4,
+        "name": "Chorus",
+        "type": "chorus",
+        "enabled": true,
+        "num_params": 0
+       },
+       {
+        "device": 5,
+        "name": "Phaser",
+        "type": "phaser",
+        "enabled": true,
+        "num_params": 0
+       },
+       {
+        "device": 6,
+        "name": "LPF/HPF",
+        "type": "lowpass",
+        "enabled": true,
+        "num_params": 1
+       },
+       {
+        "device": 7,
+        "name": "Pitch Shifter",
+        "type": "pitchShifter",
+        "enabled": true,
+        "num_params": 1
+       }
+      ],
+      "clips": []
+     },
+     {
+      "track": 4,
+      "name": "Hall",
+      "volume_db": 0.0,
+      "pan": 0.0,
+      "mute": false,
+      "solo": false,
+      "devices": [
+       {
+        "device": 0,
+        "name": "Aux Return #1",
+        "type": "auxreturn",
+        "enabled": true,
+        "num_params": 0
+       },
+       {
+        "device": 1,
+        "name": "Dragonfly Hall Reverb",
+        "type": "vst",
+        "enabled": true,
+        "num_params": 20
+       }
+      ],
+      "clips": []
+     }
+    ],
+    "master": {
+     "devices": [
+      {
+       "device": 0,
+       "name": "Compressor",
+       "type": "compressor",
+       "enabled": true,
+       "num_params": 6
+      }
+     ],
+     "volume_db": -3.0
+    }
+   },
+   "ms": 1,
+   "note": ""
+  },
+  {
+   "method": "device.preset_save",
+   "params": {
+    "track": "FM",
+    "device": 0,
+    "name": "golden_fm"
+   },
+   "ok": true,
+   "result": {
+    "path": "D:\\0.Musicoma\\sounds\\presets\\Dexed\\golden_fm.xml"
+   },
+   "ms": 2,
+   "note": ""
+  },
+  {
+   "method": "device.preset_load",
+   "params": {
+    "track": "FM",
+    "device": 0,
+    "name": "golden_fm"
+   },
+   "ok": true,
+   "result": {
+    "device": 0,
+    "name": "Dexed",
+    "type": "vst",
+    "enabled": true,
+    "num_params": 160
+   },
+   "ms": 6,
+   "note": ""
+  },
+  {
+   "method": "device.remove",
+   "params": {
+    "track": "FX",
+    "device": 7
+   },
+   "ok": true,
+   "result": {
+    "path": "D:\\0.Musicoma\\projects\\zz-golden\\zz-golden.tracktionedit",
+    "bpm": 100.0,
+    "time_sig": "4/4",
+    "length_beats": 16.0,
+    "tracks": [
+     {
+      "track": 0,
+      "name": "Piano",
+      "volume_db": -3.0,
+      "pan": -0.300000011920929,
+      "mute": false,
+      "solo": false,
+      "devices": [
+       {
+        "device": 0,
+        "name": "SFZ Sampler",
+        "type": "musicomaSfz",
+        "enabled": true,
+        "num_params": 1,
+        "sfz": "D:\\0.Musicoma\\sounds\\sfz\\salamander-grand-piano\\Salamander Grand Piano V3.sfz",
+        "regions": 1121
+       },
+       {
+        "device": 1,
+        "name": "Aux Send #1",
+        "type": "auxsend",
+        "enabled": true,
+        "num_params": 1
+       }
+      ],
+      "clips": [
+       {
+        "clip": 0,
+        "name": "intro",
+        "start": 0.0,
+        "end": 8.0,
+        "type": "midi",
+        "notes": 4
+       },
+       {
+        "clip": 1,
+        "name": "chords",
+        "start": 8.0,
+        "end": 12.0,
+        "type": "midi",
+        "notes": 4
+       },
+       {
+        "clip": 2,
+        "name": "chords",
+        "start": 12.0,
+        "end": 16.0,
+        "type": "midi",
+        "notes": 4
+       }
+      ]
+     },
+     {
+      "track": 1,
+      "name": "Synth",
+      "volume_db": 0.0,
+      "pan": 0.0,
+      "mute": false,
+      "solo": false,
+      "devices": [
+       {
+        "device": 0,
+        "name": "Surge XT",
+        "type": "vst",
+        "enabled": true,
+        "num_params": 776
+       }
+      ],
+      "clips": []
+     },
+     {
+      "track": 2,
+      "name": "FM",
+      "volume_db": 0.0,
+      "pan": 0.0,
+      "mute": false,
+      "solo": false,
+      "devices": [
+       {
+        "device": 0,
+        "name": "Dexed",
+        "type": "vst",
+        "enabled": true,
+        "num_params": 160
+       }
+      ],
+      "clips": []
+     },
+     {
+      "track": 3,
+      "name": "FX",
+      "volume_db": 0.0,
+      "pan": 0.0,
+      "mute": false,
+      "solo": false,
+      "devices": [
+       {
+        "device": 0,
+        "name": "4-Band Equaliser",
+        "type": "4bandEq",
+        "enabled": true,
+        "num_params": 12
+       },
+       {
+        "device": 1,
+        "name": "Compressor",
+        "type": "compressor",
+        "enabled": false,
+        "num_params": 6
+       },
+       {
+        "device": 2,
+        "name": "Reverb",
+        "type": "reverb",
+        "enabled": true,
+        "num_params": 6
+       },
+       {
+        "device": 3,
+        "name": "Delay",
+        "type": "delay",
+        "enabled": true,
+        "num_params": 2
+       },
+       {
+        "device": 4,
+        "name": "Chorus",
+        "type": "chorus",
+        "enabled": true,
+        "num_params": 0
+       },
+       {
+        "device": 5,
+        "name": "Phaser",
+        "type": "phaser",
+        "enabled": true,
+        "num_params": 0
+       },
+       {
+        "device": 6,
+        "name": "LPF/HPF",
+        "type": "lowpass",
+        "enabled": true,
+        "num_params": 1
+       }
+      ],
+      "clips": []
+     },
+     {
+      "track": 4,
+      "name": "Hall",
+      "volume_db": 0.0,
+      "pan": 0.0,
+      "mute": false,
+      "solo": false,
+      "devices": [
+       {
+        "device": 0,
+        "name": "Aux Return #1",
+        "type": "auxreturn",
+        "enabled": true,
+        "num_params": 0
+       },
+       {
+        "device": 1,
+        "name": "Dragonfly Hall Reverb",
+        "type": "vst",
+        "enabled": true,
+        "num_params": 20
+       }
+      ],
+      "clips": []
+     }
+    ],
+    "master": {
+     "devices": [
+      {
+       "device": 0,
+       "name": "Compressor",
+       "type": "compressor",
+       "enabled": true,
+       "num_params": 6
+      }
+     ],
+     "volume_db": -3.0
+    }
+   },
+   "ms": 0,
+   "note": ""
+  },
+  {
+   "method": "clip.notes",
+   "params": {
+    "track": "Nope",
+    "clip": 0
+   },
+   "ok": false,
+   "error": "clip.notes: no track named 'Nope'",
+   "note": "error: unknown track"
+  },
+  {
+   "method": "device.add",
+   "params": {
+    "track": "FX",
+    "device": "NoSuchPlugin"
+   },
+   "ok": false,
+   "error": "device.add: unknown device 'NoSuchPlugin' (see device.available, or device.scan)",
+   "note": "error: unknown device"
+  },
+  {
+   "method": "nonsense.method",
+   "params": {},
+   "ok": false,
+   "error": "nonsense.method: unknown method: nonsense.method (see 'help')",
+   "note": "error: unknown method"
+  }
+ ]
+}

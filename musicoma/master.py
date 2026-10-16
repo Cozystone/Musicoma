@@ -17,25 +17,22 @@ def _tp(y):
 
 def master(path, lufs=-12.0, ceiling=-1.0, glue=True, out=None, tone=None):
     """tone: {'low_shelf_db':.., 'high_shelf_db':..} 마스터 톤 보정(선택)."""
-    from pedalboard import Pedalboard, Compressor, Limiter, Gain, LowShelfFilter, HighShelfFilter
+    from . import dsp                                   # pedalboard(GPL) 대신 자체 DSP(10-16)
     y, sr = sf.read(str(path), always_2d=True, dtype="float32")
     meter = pyln.Meter(sr)
-    chain = []
+    pre = y
     if tone:
         if tone.get("low_shelf_db"):
-            chain.append(LowShelfFilter(cutoff_frequency_hz=120, gain_db=tone["low_shelf_db"]))
+            pre = dsp.shelf(pre, sr, 120, tone["low_shelf_db"], kind="low")
         if tone.get("high_shelf_db"):
-            chain.append(HighShelfFilter(cutoff_frequency_hz=8000, gain_db=tone["high_shelf_db"]))
+            pre = dsp.shelf(pre, sr, 8000, tone["high_shelf_db"], kind="high")
     if glue:
-        chain.append(Compressor(threshold_db=-16, ratio=2.0, attack_ms=30, release_ms=200))
-    pre = Pedalboard(chain)(y.T, sr).T if chain else y
+        pre = dsp.compressor(pre, sr, threshold_db=-16, ratio=2.0, attack_ms=30, release_ms=200)
 
     gain = lufs - meter.integrated_loudness(pre)
     z = pre
-    up = resample_poly(pre, 4, 1, axis=0).astype(np.float32)      # 리미터를 4배 오버샘플에서(10-16 퐁크: 1배 리미터는 모서리를 만들어
-    for _ in range(4):                                             # 트루피크가 샘플 피크보다 4.5dB 높아져 곡 전체가 그만큼 작아졌다 -10 LUFS)
-        zu = Pedalboard([Gain(gain), Limiter(threshold_db=ceiling - 0.5, release_ms=120)])(up.T, sr * 4).T
-        z = resample_poly(zu, 1, 4, axis=0).astype(np.float32)
+    for _ in range(4):                                  # 리미터는 4배 오버샘플에서(트루피크까지 천장 아래)
+        z = dsp.limiter(dsp.gain(pre, gain), sr, ceiling_db=ceiling - 0.5, release_ms=120, oversample=4)
         z = z * min(1.0, 10 ** ((ceiling - _tp(z)) / 20))      # 오버샘플 피크 안전장치
         got = meter.integrated_loudness(z)
         if abs(got - lufs) < 0.2:
@@ -43,5 +40,5 @@ def master(path, lufs=-12.0, ceiling=-1.0, glue=True, out=None, tone=None):
         gain += lufs - got
     out = Path(out) if out else Path(path).with_name(Path(path).stem + "_master.wav")
     sf.write(str(out), z, sr, subtype="PCM_24")
-    return {"path": str(out), "lufs": round(meter.integrated_loudness(z), 1), "true_peak": round(_tp(z), 1),
-            "gain_applied_db": round(gain, 1)}
+    return {"path": str(out), "lufs": round(float(meter.integrated_loudness(z)), 1), "true_peak": round(float(_tp(z)), 1),
+            "gain_applied_db": round(float(gain), 1)}

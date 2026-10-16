@@ -1,0 +1,310 @@
+{
+ "format": "musicoma-edit",
+ "version": 1,
+ "name": "kanye-citypop-02-final",
+ "bpm": 88.0,
+ "time_sig": "4/4",
+ "master_volume_db": -3.0,
+ "master": [],
+ "tracks": [
+  {
+   "name": "Beat",
+   "volume_db": 0.0,
+   "pan": 0.0,
+   "mute": false,
+   "solo": false,
+   "slots": [
+    {
+     "uid": 2,
+     "enabled": true,
+     "kind": "builtin",
+     "builtin": "eq",
+     "state": {
+      "Low-pass freq": 80.0,
+      "Low-pass gain": 0.0,
+      "Low-pass Q": 0.5,
+      "Mid freq 1": 3000.0,
+      "Mid gain 1": 0.0,
+      "Mid Q 1": 0.5,
+      "Mid freq 2": 3000.0,
+      "Mid gain 2": -1.5,
+      "Mid Q 2": 0.699999988079071,
+      "High-pass freq": 17000.0,
+      "High-pass gain": 0.0,
+      "High-pass Q": 0.5
+     }
+    }
+   ],
+   "clips": [
+    {
+     "name": "kanye-citypop-02_v1",
+     "start": 0.0,
+     "length": 163.69999999999993,
+     "mute": false,
+     "midi": false,
+     "path": "D:\\0.Musicoma\\projects\\kanye-citypop-02-final\\..\\kanye-citypop-02\\renders\\kanye-citypop-02_v1.wav",
+     "offset_sec": 0.0,
+     "gain_db": 0.0,
+     "pan": 0.0,
+     "fade_in": 0.0,
+     "fade_out": 0.0,
+     "reverse": false
+    }
+   ]
+  },
+  {
+   "name": "Rap",
+   "volume_db": 4.5,
+   "pan": 0.0,
+   "mute": false,
+   "solo": false,
+   "slots": [
+    {
+     "uid": 3,
+     "enabled": true,
+     "kind": "builtin",
+     "builtin": "eq",
+     "state": {
+      "Low-pass freq": 110.0,
+      "Low-pass gain": -6.0,
+      "Low-pass Q": 0.5,
+      "Mid freq 1": 3000.0,
+      "Mid gain 1": 0.0,
+      "Mid Q 1": 0.5,
+      "Mid freq 2": 3200.0,
+      "Mid gain 2": 1.5,
+      "Mid Q 2": 0.5,
+      "High-pass freq": 17000.0,
+      "High-pass gain": 0.0,
+      "High-pass Q": 0.5
+     }
+    },
+    {
+     "uid": 4,
+     "enabled": true,
+     "kind": "builtin",
+     "builtin": "compressor",
+     "state": {
+      "threshold": -22.0,
+      "ratio": 2.9999999105930337,
+      "attack": 10.0,
+      "release": 100.0,
+      "output gain": 0.0
+     }
+    },
+    {
+     "uid": 5,
+     "enabled": true,
+     "kind": "send",
+     "bus": 0,
+     "level_db": -22.0
+    }
+   ],
+   "clips": [
+    {
+     "name": "rap_lego_full",
+     "start": 0.0,
+     "length": 163.69999999999993,
+     "mute": false,
+     "midi": false,
+     "path": "D:\\0.Musicoma\\projects\\kanye-citypop-02-final\\vocals\\rap_lego_full.wav",
+     "offset_sec": 0.0,
+     "gain_db": 4.5,
+     "pan": 0.0,
+     "fade_in": 0.0,
+     "fade_out": 0.0,
+     "reverse": false
+    }
+   ]
+  },
+  {
+   "name": "Sung",
+   "volume_db": 2.899999380111694,
+   "pan": 0.0,
+   "mute": false,
+   "solo": false,
+   "slots": [
+    {
+     "uid": 6,
+     "enabled": true,
+     "kind": "builtin",
+     "builtin": "eq",
+     "state": {
+      "Low-pass freq": 160.0,
+      "Low-pass gain": -6.0,
+      "Low-pass Q": 0.5,
+      "Mid freq 1": 320.0,
+      "Mid gain 1": -2.5,
+      "Mid Q 1": 1.0,
+      "Mid freq 2": 6500.0,
+      "Mid gain 2": -2.0,
+      "Mid Q 2": 2.0,
+      "High-pass freq": 11000.0,
+      "High-pass gain": 1.5,
+      "High-pass Q": 0.5
+     }
+    },
+    {
+     "uid": 7,
+     "enabled": true,
+     "kind": "builtin",
+     "builtin": "compressor",
+     "state": {
+      "threshold": -20.0,
+      "ratio": 2.9999999105930337,
+      "attack": 12.0,
+      "release": 140.0,
+      "output gain": 0.0
+     }
+    },
+    {
+     "uid": 8,
+     "enabled": true,
+     "kind": "send",
+     "bus": 0,
+     "level_db": -10.0
+    }
+   ],
+   "clips": [
+    {
+     "name": "hook_A_human",
+     "start": 48.0,
+     "length": 16.000000000000014,
+     "mute": false,
+     "midi": false,
+     "path": "D:\\0.Musicoma\\projects\\kanye-citypop-02-final\\..\\kanye-citypop-02\\vocals\\hook_A_human.wav",
+     "offset_sec": 0.0,
+     "gain_db": 0.0,
+     "pan": 0.0,
+     "fade_in": 0.0,
+     "fade_out": 0.0,
+     "reverse": false
+    },
+    {
+     "name": "hook_A_human",
+     "start": 64.0,
+     "length": 16.000000000000014,
+     "mute": false,
+     "midi": false,
+     "path": "D:\\0.Musicoma\\projects\\kanye-citypop-02-final\\..\\kanye-citypop-02\\vocals\\hook_A_human.wav",
+     "offset_sec": 0.0,
+     "gain_db": 0.0,
+     "pan": 0.0,
+     "fade_in": 0.0,
+     "fade_out": 0.0,
+     "reverse": false
+    },
+    {
+     "name": "hook_A_human",
+     "start": 112.0,
+     "length": 16.0,
+     "mute": false,
+     "midi": false,
+     "path": "D:\\0.Musicoma\\projects\\kanye-citypop-02-final\\..\\kanye-citypop-02\\vocals\\hook_A_human.wav",
+     "offset_sec": 0.0,
+     "gain_db": 0.0,
+     "pan": 0.0,
+     "fade_in": 0.0,
+     "fade_out": 0.0,
+     "reverse": false
+    },
+    {
+     "name": "hook_A_human",
+     "start": 128.0,
+     "length": 16.0,
+     "mute": false,
+     "midi": false,
+     "path": "D:\\0.Musicoma\\projects\\kanye-citypop-02-final\\..\\kanye-citypop-02\\vocals\\hook_A_human.wav",
+     "offset_sec": 0.0,
+     "gain_db": 0.0,
+     "pan": 0.0,
+     "fade_in": 0.0,
+     "fade_out": 0.0,
+     "reverse": false
+    }
+   ]
+  },
+  {
+   "name": "Verb",
+   "volume_db": -6.0,
+   "pan": 0.0,
+   "mute": false,
+   "solo": false,
+   "slots": [
+    {
+     "uid": 9,
+     "enabled": true,
+     "kind": "return",
+     "bus": 0
+    },
+    {
+     "uid": 10,
+     "enabled": true,
+     "kind": "vst3",
+     "vst3": {
+      "name": "Dragonfly Plate Reverb"
+     },
+     "state_params": [
+      {
+       "name": "Dry Level",
+       "index": "dry level",
+       "value": 0.0
+      },
+      {
+       "name": "Wet Level",
+       "index": "wet level",
+       "value": 1.0
+      },
+      {
+       "name": "Dry Level",
+       "index": "2",
+       "value": 0.800000011920929
+      },
+      {
+       "name": "Wet Level",
+       "index": "3",
+       "value": 0.200000002980232
+      },
+      {
+       "name": "Algorithm",
+       "index": "4",
+       "value": 0.5
+      },
+      {
+       "name": "Width",
+       "index": "5",
+       "value": 0.5
+      },
+      {
+       "name": "Predelay",
+       "index": "6",
+       "value": 0.0
+      },
+      {
+       "name": "Decay",
+       "index": "7",
+       "value": 0.030303031206131
+      },
+      {
+       "name": "Low Cut",
+       "index": "8",
+       "value": 1.0
+      },
+      {
+       "name": "High Cut",
+       "index": "9",
+       "value": 1.0
+      },
+      {
+       "name": "Dampen",
+       "index": "10",
+       "value": 0.800000011920929
+      }
+     ]
+    }
+   ],
+   "clips": []
+  }
+ ],
+ "converted_from": "D:\\0.Musicoma\\projects\\kanye-citypop-02-final\\kanye-citypop-02-final.tracktionedit"
+}

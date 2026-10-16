@@ -99,15 +99,12 @@ def apply(path, out, pitch_st=0.0, formant=0.0, breath=0.0, rasp=0.0, brightness
     if rasp:
         drive = 1 + 6 * rasp
         z = np.tanh(z * drive) / np.tanh(drive) * 0.9 + z * 0.1
-    from pedalboard import Pedalboard, HighShelfFilter, LowShelfFilter
-    chain = []
+    from . import dsp
     tilt = brightness - 3.0 * age
     if tilt:
-        chain.append(HighShelfFilter(cutoff_frequency_hz=4000, gain_db=float(tilt)))
+        z = dsp.shelf(z, sr, 4000, float(tilt), kind="high")
     if formant < -1:
-        chain.append(LowShelfFilter(cutoff_frequency_hz=250, gain_db=1.5))
-    if chain:
-        z = Pedalboard(chain)(z.astype(np.float32)[None, :], sr)[0]
+        z = dsp.shelf(z, sr, 250, 1.5, kind="low")
     z = z / (np.abs(z).max() + 1e-9) * 0.9
     sf.write(str(out), np.stack([z, z], axis=1), sr, subtype="PCM_24")
     return str(out)
