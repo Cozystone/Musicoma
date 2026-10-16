@@ -24,7 +24,7 @@
 | `io_*.cpp` | WASAPI 공유 모드 출력(MMCSS) · WinMM MIDI 입력 |
 | `eng_midifile.cpp` | SMF 0/1 → MIDI 클립 |
 
-빌드: `core\build.bat` → `core/build/musicoma-engine.exe`(+ `musicoma-core.exe` 렌더 계획 CLI, `test-fx`·`test-vst3`·`test-io` 모듈 시험).
+빌드: `core\build.bat` → `core/build/musicoma-engine.exe`(+ `test-fx`·`test-vst3`·`test-io` 모듈 시험).
 
 ## 측정 — 옛 엔진(Tracktion)과 같은가 (10-16)
 | 항목 | 결과 |
@@ -48,7 +48,18 @@
 - VST3 파라미터 `id` = VST3 ParamID(옛 엔진은 플러그인 순번). 이름으로 찾는 건 그대로 된다.
 - 내장 신스 `4osc`(Tracktion 것)는 없다 — 신스는 Surge XT/Dexed.
 - 컴프레서 `threshold`/`ratio` 를 사람 단위(dB, N:1)로 보고한다(옛 엔진은 내부 단위).
-- 편집 파일 형식이 바뀌었다: `.tracktionedit` → `.edit.json`. 옛 곡 26개는 `python -m musicoma.convert_edit` 로 옮겨 둠
-  (옛 엔진이 떠 있어야 동작 — 이제는 옮길 필요가 생기면 spec.json 으로 다시 짓는다). 오토메이션은 옮기지 못함(다시 지으면 생김).
-- 피치 시프터 지연 보정(PDC)은 아직 없음 — 지연 32 ms 가 그대로 남는다(곡에서 거의 안 씀).
-- 실시간 MIDI 입력은 장치가 없는 PC 라 실제 건반으로는 시험하지 못함(목록·오류 경로만 확인).
+- 편집 파일 형식이 바뀌었다: `.tracktionedit` → `.edit.json`. 옛 곡 26개는 옛 엔진이 있을 때 변환해 뒀다
+  (변환기는 옛 엔진과 함께 삭제 — 이제 필요하면 spec.json 으로 다시 짓는다). 오토메이션은 옮기지 못함(다시 지으면 생김).
+- 지연 보정(PDC): 트랙 체인 지연(피치 시프터 2048 샘플 등)의 최댓값에 모든 트랙을 맞추고, 렌더는 그만큼 앞을 잘라 낸다
+  — 임펄스 위치가 이펙트 유무와 상관없이 같은 샘플(실측).
+- MIDI 녹음: 이 PC 엔 MIDI 장치가 없어 `midi.inject`(가상 건반, 실제 입력과 같은 길)로 시험 — 0.5초에 친 화음이 박 1.0, 길이 1.5박 클립으로(실측).
+  실제 건반은 아직 못 꽂아 봄.
+
+## REA 로 확인 — 새 엔진에 Tracktion·JUCE 코드가 없는가 (10-16)
+같은 검사를 옛 엔진(대조군)과 새 엔진에 했다(REA objdump + 바이너리 문자열 검색).
+| | 옛 엔진 | 새 엔진 |
+|---|---|---|
+| 크기 | 12.4 MB | 1.3 MB |
+| `juce`/`JUCE` 흔적 | 1213 | **0** |
+| `tracktion`/`Tracktion` | 1969 | 2 — 둘 다 우리 문자열(옛 파일 확장자 `.tracktionedit`, 그 파일을 열 때의 안내문) |
+| `sfizz` | 21 | **0** |

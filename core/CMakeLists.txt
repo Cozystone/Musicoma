@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 3.20)
 
 # Musicoma Core — 자체 오디오 엔진. 표준 라이브러리 + Windows API (+ VST3 SDK, MIT) 만 쓴다. Tracktion·JUCE 없음.
-#   musicoma-core     오프라인 렌더러(C1, 렌더 계획 JSON → WAV)
 #   musicoma-engine   엔진 서버(127.0.0.1:47800, 기존 프로토콜) — 실시간 재생·VST3·내장 이펙트·녹음
 #   test-fx / test-vst3 / test-io   모듈별 시험 프로그램(core/tests/)
 project(MusicomaCore LANGUAGES C CXX)
@@ -17,8 +16,7 @@ set(CORE_COMMON
     src/samplepool.cpp
     src/sfz.cpp
     src/dsp.cpp
-    src/sampler.cpp
-    src/render.cpp)
+    src/sampler.cpp)
 
 file(GLOB FX_SRC  CONFIGURE_DEPENDS src/engine/fx_*.cpp)
 file(GLOB VST_SRC CONFIGURE_DEPENDS src/engine/vst3_*.cpp)
@@ -47,9 +45,6 @@ function(mc_vst3 tgt)
     endif()
 endfunction()
 
-add_executable(musicoma-core src/main.cpp ${CORE_COMMON})
-mc_options(musicoma-core)
-
 if (FX_SRC AND EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_fx.cpp)
     add_executable(test-fx tests/test_fx.cpp ${FX_SRC} ${CORE_COMMON})
     mc_options(test-fx)
@@ -70,15 +65,4 @@ if (ENG_SRC)
     add_executable(musicoma-engine ${ENG_SRC} ${FX_SRC} ${VST_SRC} ${IO_SRC} ${CORE_COMMON})
     mc_options(musicoma-engine)
     mc_vst3(musicoma-engine)
-endif()
-
-# 개발용: 엔진 뼈대 + I/O 만(내장 이펙트·VST3 는 대역) — 모듈이 준비되기 전 시험
-if (ENG_SRC)
-    if (VST_SRC)
-        add_executable(musicoma-engine-dev ${ENG_SRC} ${IO_SRC} ${VST_SRC} src/engine/stub_fx.cpp ${CORE_COMMON})
-        mc_vst3(musicoma-engine-dev)
-    else()
-        add_executable(musicoma-engine-dev ${ENG_SRC} ${IO_SRC} src/engine/stub_modules.cpp ${CORE_COMMON})
-    endif()
-    mc_options(musicoma-engine-dev)
 endif()

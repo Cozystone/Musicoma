@@ -62,13 +62,13 @@
 
 | 경로 | 무엇 |
 |---|---|
-| `core/` | 자체 엔진. `core\build.bat` → `core/build/musicoma-engine.exe`(서버) · `musicoma-core.exe`(렌더 계획 CLI). 설명 `docs/ENGINE.md`, `core/README.md` |
+| `core/` | 자체 엔진. `core\build.bat` → `core/build/musicoma-engine.exe`. 설명 `docs/ENGINE.md` |
 | `musicoma/` | 파이썬 두뇌 + MCP 서버 + 지식 카드 |
 | `ui/` | 화면 서버와 웹 화면 |
 | `app/` | Electron 설치판(번들 Python 런타임 · 첫 실행 음원 받기 · AI 모듈 설치). 설명 `app/README.md` |
 | `works/` | 곡 스크립트(설계서를 만들고 짓는 코드). `works/tests/` 일회성 측정 |
 | `projects/<곡>/` | `spec.json` 설계서 · `song.json` 요청·조치 기록 · `concept.json` · 편집 파일 · `README.md` |
-| `tests/` | 전체 점검(`test_all.py` 22항목) · Core 널 테스트(`test_core.py`) |
+| `tests/` | 전체 점검(`test_all.py` 22항목) · `golden/` 옛 엔진 기록과 비교(`check_protocol.py` · `check_sound.py`) |
 | `docs/` | 설계·측정 기록 |
 
 ## 설치

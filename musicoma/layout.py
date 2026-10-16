@@ -3,7 +3,7 @@
 곡 폴더 projects/<곡>/
     README.md          이 곡 안내(자동 생성): 최신 렌더, 버전, 보컬, 설계서
     spec.json          설계서(곡의 원본)        song.json   메타·요청 기록·버전
-    <곡>.edit.json     엔진 편집 파일(자체 엔진 형식, 10-16 — 옛 <곡>.tracktionedit 은 convert_edit 로 옮김)
+    <곡>.edit.json     엔진 편집 파일(자체 엔진 형식, 10-16)
     renders/           렌더 결과(wav + 측정 png)만
     vocals/            최종 보컬 wav + 그 설정(json)만
     versions/          스냅숏

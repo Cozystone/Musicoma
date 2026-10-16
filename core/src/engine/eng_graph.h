@@ -32,6 +32,9 @@ public:
 
     double sampleRate() const { return sr; }
 
+    /** 곡 전체의 처리 지연(샘플) = 트랙 체인 지연의 최댓값. 모든 트랙을 이만큼 맞춰 늦춘다(PDC). */
+    int latency();
+
 private:
     Engine& eng;
     double sr = 48000;
@@ -42,6 +45,9 @@ private:
     std::map<std::string, std::array<float, 2>> peak;
     struct EndCache { uint64_t sig = 0; std::vector<double> end; };   // 같은 음이 겹칠 때 앞 음의 실제 끝(박, 클립 기준)
     std::map<const Clip*, EndCache> ends;
+    struct Delay { std::vector<float> L, R; size_t pos = 0; int len = 0; };   // 트랙 지연 보정용 링 버퍼
+    std::map<std::string, Delay> pdc;
+    int trackLatency (const Track& t) const;
     const std::vector<double>& noteEnds (const Clip& c);
 
     void renderTrack (Track& t, int n, int64_t f0, bool playing, const std::vector<MidiEv>* live);

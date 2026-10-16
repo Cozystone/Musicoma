@@ -5,7 +5,7 @@
 //     피크 p 의 영역 전체를 bin q = round(p·비율) 로 통째로 옮긴다(창 모양·주변 위상 관계 보존 = 위상 고정).
 //     피크의 합성 위상 = 지난 프레임 q 의 합성 위상 + 순간 주파수·비율·홉,  영역의 다른 bin 은 피크와의 분석 위상 차를 그대로.
 //   · 포먼트 보존 없음(포먼트도 같이 움직인다). 비율 1 이면 분석 스펙트럼을 그대로 되돌려(지연만) 원음과 같다.
-//   · 지연(latency) = N - N/4 샘플(48 kHz 1536 = 32 ms). 엔진이 latency() 로 보정.
+//   · 지연(latency) = N 샘플(48 kHz 2048 ≈ 43 ms, 임펄스로 실측). 엔진이 latency() 로 보정(PDC).
 //   · 블록 크기와 무관(샘플 단위 FIFO), 처리 안에서 할당 없음.
 #include "fx_common.h"
 #include <algorithm>
@@ -148,7 +148,7 @@ public:
         }
     }
 
-    int latency() const override { return Lat; }
+    int latency() const override { return Lat + H; }   // 실측(10-16 엔진 통합): 출력은 N(=Lat+H) 샘플 늦게 나온다
 
 protected:
     bool parseSpecialText (int, const std::string& text, double& out) override

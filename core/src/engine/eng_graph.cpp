@@ -41,6 +41,7 @@ void Graph::prepare (double sampleRate, int block)
 
 void Graph::resetAll()
 {
+    for (auto& kv : pdc) { std::fill (kv.second.L.begin(), kv.second.L.end(), 0.0f); std::fill (kv.second.R.begin(), kv.second.R.end(), 0.0f); }
     if (! eng.project) return;
     for (auto& t : eng.project->tracks)
         for (auto& s : t.slots) if (s.dev) s.dev->reset();
@@ -253,6 +254,20 @@ void Graph::metronomeClick (float* L, float* R, int n, int64_t f0)
     }
 }
 
+int Graph::trackLatency (const Track& t) const
+{
+    int lat = 0;
+    for (auto& s : t.slots) if (s.enabled && s.dev && s.dev->enabled) lat += std::max (0, s.dev->latency());
+    return lat;
+}
+
+int Graph::latency()
+{
+    int m = 0;
+    if (eng.project) for (auto& t : eng.project->tracks) m = std::max (m, trackLatency (t));
+    return m;
+}
+
 void Graph::process (float* L, float* R, int n, int64_t f0, bool playing,
                      const std::set<std::string>* only, const std::vector<MidiEv>* live, int liveTrack)
 {
@@ -263,6 +278,7 @@ void Graph::process (float* L, float* R, int n, int64_t f0, bool playing,
 
     bool anySolo = false;
     for (auto& t : P.tracks) anySolo |= t.solo;
+    const int maxLat = latency();
     auto hasReturn = [] (const Track& t) { for (auto& s : t.slots) if (s.kind == Slot::Return && s.enabled) return true; return false; };
 
     // 리턴이 없는 트랙 먼저(센드가 버스를 채움), 리턴 트랙은 나중
@@ -279,6 +295,19 @@ void Graph::process (float* L, float* R, int n, int64_t f0, bool playing,
                 continue;
             }
             renderTrack (t, n, f0, playing, lv);
+            // 지연 보정: 이 트랙보다 지연이 큰 트랙(피치 시프터 등)에 맞춰 늦춘다
+            if (int d = maxLat - trackLatency (t); d > 0)
+            {
+                auto& dl = pdc[t.name];
+                if (dl.len != d) { dl.L.assign ((size_t) d, 0.0f); dl.R.assign ((size_t) d, 0.0f); dl.pos = 0; dl.len = d; }
+                for (int i = 0; i < n; ++i)
+                {
+                    float a = dl.L[dl.pos], b = dl.R[dl.pos];
+                    dl.L[dl.pos] = tL[(size_t) i]; dl.R[dl.pos] = tR[(size_t) i];
+                    tL[(size_t) i] = a; tR[(size_t) i] = b;
+                    if (++dl.pos >= (size_t) d) dl.pos = 0;
+                }
+            }
             float gl, gr;
             panGains (t.pan, gl, gr);
             float v = dbToGain (t.volumeDb);

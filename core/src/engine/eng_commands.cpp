@@ -89,6 +89,7 @@ const std::vector<std::pair<std::string, std::string>>& helpList()
         { "inputs.list", "MIDI and audio inputs (keyboards, controllers, interfaces)" },
         { "track.arm", "{track, armed=true, input?(device name; default = first MIDI keyboard)} record-arm a track" },
         { "render", "{path?, start?, end?, tail=2, sample_rate=48000, bit_depth=24, tracks?} -> wav" },
+        { "midi.inject", "{messages:[[status,data1,data2],...]} virtual keyboard: same path as a MIDI input (monitor + record)" },
     };
     return h;
 }
@@ -98,7 +99,7 @@ const std::set<std::string>& readOnly()
     static const std::set<std::string> r { "ping", "help", "edit.info", "edit.save", "device.available", "device.params", "device.show",
         "device.preset_save", "device.programs", "clip.list", "clip.notes", "clip.controllers", "transport.play", "transport.stop",
         "transport.state", "render", "device.scan", "audio.devices", "audio.set", "meters", "transport.record", "inputs.list",
-        "transport.metronome" };
+        "transport.metronome", "midi.inject" };
     return r;
 }
 
@@ -165,12 +166,16 @@ static Json doRender (Engine& e, const Json& p)
     g.resetAll();
     std::vector<std::vector<float>> ch (2, std::vector<float> ((size_t) (f1 - f0), 0.0f));
     std::vector<float> L (block), R (block);
-    for (int64_t f = f0; f < f1; f += block)
+    const int64_t lat = g.latency();          // 지연 보정(PDC): 곡 전체가 lat 샘플 늦게 나오므로 그만큼 더 돌리고 앞을 버린다
+    for (int64_t f = f0; f < f1 + lat; f += block)
     {
-        int n = (int) std::min<int64_t> (block, f1 - f);
+        int n = (int) std::min<int64_t> (block, f1 + lat - f);
         g.process (L.data(), R.data(), n, f, true, only.empty() ? nullptr : &only, nullptr, -1);
-        std::copy_n (L.data(), n, ch[0].data() + (f - f0));
-        std::copy_n (R.data(), n, ch[1].data() + (f - f0));
+        for (int i = 0; i < n; ++i)
+        {
+            int64_t o = f + i - lat - f0;
+            if (o >= 0 && o < f1 - f0) { ch[0][(size_t) o] = L[(size_t) i]; ch[1][(size_t) o] = R[(size_t) i]; }
+        }
     }
     g.resetAll();
     if (sr != 48000) e.prepareAll (48000);
@@ -256,7 +261,7 @@ Json Engine::handle (const std::string& method, const Json& p, bool& mutated)
         {
             fs::path j = f; j.replace_extension (".edit.json");
             if (! fs::exists (j))
-                throw CommandError ("old Tracktion edit file: convert first with  python -m musicoma.convert_edit \"" + path + "\"");
+                throw CommandError ("old Tracktion edit file (no longer supported) — rebuild the song from its spec.json: " + path);
             f = j;
         }
         std::string text;
@@ -857,6 +862,22 @@ Json Engine::handle (const std::string& method, const Json& p, bool& mutated)
         }
         o.set ("midi", mi);
         o.set ("audio", Json::array());
+        return o;
+    }
+    if (method == "midi.inject")
+    {
+        // 가상 건반 / 시험용: 실제 MIDI 입력과 똑같은 길(모니터 + 녹음)로 메시지를 넣는다. messages: [[status, data1, data2], …]
+        int count = 0;
+        for (auto& m : p["messages"].a)
+            if (m.a.size() >= 2)
+            {
+                MidiInMsg msg;
+                msg.status = (uint8_t) m.a[0].n; msg.data1 = (uint8_t) m.a[1].n; msg.data2 = m.a.size() > 2 ? (uint8_t) m.a[2].n : 0;
+                onMidiIn (msg);
+                ++count;
+            }
+        Json o = Json::object();
+        o.set ("sent", Json::number (count));
         return o;
     }
     if (method == "render") return doRender (*this, p);
