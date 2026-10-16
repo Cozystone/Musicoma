@@ -74,7 +74,7 @@
 ## 설치
 
 ### A. 설치판 (Windows 10/11 x64)
-1. `Musicoma Setup 0.3.0.exe` 실행(사용자별 설치, 위치 변경 가능). Python·엔진·코드가 들어 있어 개발 환경이 없어도 된다.
+1. `Musicoma Setup 0.4.0.exe` 실행(사용자별 설치, 위치 변경 가능). Python·엔진·코드가 들어 있어 개발 환경이 없어도 된다.
 2. 첫 실행 창에서 **기본 음원**(약 7 GB 다운로드, 공식 배포처에서 받음)을 받는다.
 3. 보컬까지 쓰려면 **AI 모듈**(선택) — NVIDIA GPU(16 GB 권장, CUDA 12.8 드라이버)와 디스크 약 75 GB:
    ACE-Step 1.5 XL(주 보컬 엔진) · demucs · faster-whisper · VoxCPM2 · SoulX-Singer.

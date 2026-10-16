@@ -18,7 +18,7 @@ int64_t playFrameNow();
 void setPlayFrame (int64_t f);
 void stopNullClock();
 
-static const char* kVersion = "0.3.0-musicoma";
+static const char* kVersion = "0.4.0";
 
 namespace {
 

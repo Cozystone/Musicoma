@@ -80,7 +80,7 @@ if (-not $SkipTest) {
     $tmp = Join-Path ([IO.Path]::GetTempPath()) ("musicoma-rt-" + [guid]::NewGuid().ToString("N").Substring(0, 8))
     Copy-Item $PyDir $tmp -Recurse
     try {
-        & (Join-Path $tmp "python.exe") -I -c "import sys,numpy,scipy,librosa,soundfile,pyloudnorm,pedalboard,pyworld,matplotlib,mcp,websockets,httpx,yaml; matplotlib.use('Agg'); import matplotlib.pyplot; print('runtime ok', sys.version.split()[0], sys.prefix)"
+        & (Join-Path $tmp "python.exe") -I -c "import sys,numpy,scipy,librosa,numba,soundfile,pyloudnorm,pyworld,matplotlib,mcp,websockets,httpx,yaml; matplotlib.use('Agg'); import matplotlib.pyplot; print('runtime ok', sys.version.split()[0], sys.prefix)"
         if ($LASTEXITCODE) { throw "relocated runtime import test failed" }
     } finally {
         Remove-Item $tmp -Recurse -Force -ErrorAction SilentlyContinue
