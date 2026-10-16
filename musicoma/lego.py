@@ -119,6 +119,15 @@ def key_fit(path, key):
     return float(np.isin(pc, (scale + t) % 12).mean())
 
 
+def _ace_cfg():
+    """기기 사양에 맞춘 ACE-Step 설정(musicoma/hardware.py) — 모델이 안 되는 사양이면 바로 알려 준다."""
+    from .hardware import ace_profile
+    pr = ace_profile()
+    if not pr.get("model"):
+        raise RuntimeError("[lego] " + pr["note"])
+    return {"model": pr["model"], "offload": pr["offload"], "quantization": pr["quantization"]}
+
+
 def _sim(a, b):
     return float(np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b) + 1e-9))
 
@@ -288,8 +297,7 @@ def _take_section(si, sec, st, ref_print, reference, log, takes, enough, seed0):
     req = {"tag": f"{si:02d}_{sec['name']}", "beat": str(crop), "lyrics": f"[{sec.get('tag', 'Verse')}]\n{sec['lyrics']}",
            "caption": st["caption"], "bpm": int(round(bpm)), "key": sec.get("key", key), "start": round(a - c0, 3), "end": round(b - c0, 3),
            "seeds": list(range(seed0, seed0 + takes)), "out_dir": str(work / f"{si:02d}_{sec['name']}"),
-           "track": st["track"], "steps": st["steps"], "model": "acestep-v15-xl-base", "offload": True,
-           "quantization": "int8_weight_only", "vocal_language": lang}
+           "track": st["track"], "steps": st["steps"], **_ace_cfg(), "vocal_language": lang}
     if reference:
         req["reference"] = str(Path(reference).resolve())
     log(f"[lego] {sec['name']} {a:.1f}~{b:.1f}s · 최대 {takes} 테이크(통과 {enough}개면 멈춤)")

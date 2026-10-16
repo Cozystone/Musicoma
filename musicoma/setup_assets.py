@@ -356,6 +356,13 @@ def _run(cmd, dry, env=None, cwd=None, step=""):
 
 
 def run_ai(manifest, root: Path, python: str, uv: str | None, dry):
+    try:                                                     # 이 PC 사양으로 어떤 모델·설정이 되는지 먼저 알린다
+        from musicoma.hardware import ace_profile
+        pr = ace_profile()
+        emit("hardware", gpu=pr.get("hw", {}).get("gpu"), vram_mb=pr.get("hw", {}).get("vram_mb"),
+             ram_gb=pr.get("hw", {}).get("ram_gb"), ace_tier=pr.get("tier"), ace_model=pr.get("model"), note=pr.get("note"))
+    except Exception as ex:
+        emit("log", text=f"hardware check skipped: {ex}")
     ai = manifest["ai"]
     bdir = bundle_dir(root)
     emit("plan", kind="ai", uv=uv, python=python, bundle=str(bdir) if bdir else None,

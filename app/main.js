@@ -268,12 +268,34 @@ function hasNvidia() {
     });
   });
 }
+// 사양 판정(musicoma/hardware.py 와 같은 기준): 어떤 AI 모델·설정이 이 PC 에서 되는지 첫 실행 화면에 보여 준다(10-17)
+function gpuInfo() {
+  return new Promise((resolve) => {
+    execFile('nvidia-smi', ['--query-gpu=name,memory.total', '--format=csv,noheader,nounits'], { windowsHide: true, timeout: 5000 }, (err, out) => {
+      const line = (out || '').trim().split('\n')[0] || '';
+      const [name, mem] = line.split(',').map((s) => s.trim());
+      const vram = parseInt(mem || '0', 10) || 0;
+      if (err || !name) return resolve({ gpu: null, vramMB: 0, tier: 'none', note: 'NVIDIA GPU 를 찾지 못했습니다 — 노래·목소리 생성(AI 모듈)은 이 PC 에서 동작하지 않습니다. 악기 연주·편집은 모두 됩니다.' });
+      const gb = Math.round(vram / 1024);
+      const tier = vram >= 23000 ? 'full' : vram >= 19000 ? 'no-offload' : vram >= 15000 ? 'offload' : vram >= 11000 ? 'offload-int8' : 'none';
+      const notes = {
+        full: `${name} ${gb} GB → ACE-Step XL 풀 품질로 설치합니다.`,
+        'no-offload': `${name} ${gb} GB → ACE-Step XL(INT8, 오프로드 없이).`,
+        offload: `${name} ${gb} GB → ACE-Step XL(CPU 오프로드 + INT8). 노래 한 구간 생성 약 25초.`,
+        'offload-int8': `${name} ${gb} GB → ACE-Step XL(CPU 오프로드 + INT8). 느리지만 동작합니다.`,
+        none: `${name} ${gb} GB → 노래 생성(ACE-Step)은 12 GB 이상이 필요해 제외합니다. 랩·말하기(VoxCPM)·노래(SoulX-Singer)·악기 연주는 됩니다.`,
+      };
+      resolve({ gpu: name, vramMB: vram, tier, note: notes[tier] });
+    });
+  });
+}
 
 function runFirstRun(root, py) {
   return new Promise(async (resolve) => {
     const info = setupInfo(root);
     if (!info) { log('setup manifest missing — skip first-run'); resolve('nomanifest'); return; }
     info.nvidia = await hasNvidia();
+    info.hw = await gpuInfo();
     let finished = false;
     const finish = (result) => {
       if (finished) return;

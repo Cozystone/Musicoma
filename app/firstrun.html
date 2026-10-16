@@ -71,7 +71,7 @@
     $('soundsT').textContent = `기본 음원 받기 (약 ${i.coreDownloadGB} GB 다운로드 · 설치 후 ${i.coreDiskGB} GB)`;
     $('aiT').textContent = `AI 모듈 설치 (선택, 약 ${i.aiDiskGB} GB, NVIDIA GPU 필요)`;
     if (!i.nvidia) $('aiWarn').textContent = 'NVIDIA GPU 를 찾지 못했습니다 — 이 PC 에서는 AI 모듈이 동작하지 않습니다.';
-    else $('aiWarn').textContent = 'NVIDIA GPU 확인됨. 시간이 오래 걸립니다(모델 수십 GB).';
+    else $('aiWarn').textContent = (i.hw && i.hw.note ? i.hw.note + ' ' : 'NVIDIA GPU 확인됨. ') + '시간이 오래 걸립니다(모델 수십 GB).';
     if (!i.hasUv) { $('ai').disabled = true; $('aiWarn').textContent += ' (uv.exe 가 없어 설치할 수 없음)'; }
   });
 
