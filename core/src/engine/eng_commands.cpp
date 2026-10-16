@@ -18,7 +18,7 @@ int64_t playFrameNow();
 void setPlayFrame (int64_t f);
 void stopNullClock();
 
-static const char* kVersion = "0.4.1";
+static const char* kVersion = "0.4.2";
 
 namespace {
 
@@ -92,7 +92,7 @@ const std::vector<std::pair<std::string, std::string>>& helpList()
         { "midi.inject", "{messages:[[status,data1,data2],...]} virtual keyboard: same path as a MIDI input (monitor + record)" },
         { "transport.locate", "{beat} move the play position (stays stopped if stopped)" },
         { "track.select", "{track} focus track: live MIDI plays it when no track is armed" },
-        { "midi.map", "{cc, track, device, param, min?, max?} map a controller CC to a device parameter (saved with the song)" },
+        { "midi.map", "{cc, track, device, param, min?, max?} map a controller CC to a device parameter; without device: param=volume|pan maps the track fader/pan (saved with the song)" },
         { "midi.unmap", "{cc}" }, { "midi.maps", "list CC mappings" },
         { "transport.loop", "{start?, end?, enabled?} set the loop brace without starting playback" },
     };
@@ -936,18 +936,29 @@ Json Engine::handle (const std::string& method, const Json& p, bool& mutated)
     if (method == "midi.map")
     {
         auto& P = requireProject();
-        Slot& s = slot (p);
-        if (! s.dev) throw CommandError ("device has no parameters");
         std::string param = p.str ("param");
-        ParamInfo info; bool found = false;
-        for (auto& pi : s.dev->params())
-            if (lower (pi.id) == lower (param) || lower (pi.name) == lower (param)) { info = pi; found = true; break; }
-        if (! found) throw CommandError ("no parameter '" + param + "' (see device.params)");
         Project::MidiMap m;
         m.cc = (int) needNum (p, "cc");
         m.track = track (p["track"]).name;
-        m.slot = (int) (&s - &track (p["track"]).slots[0]);
-        m.param = info.id;
+        ParamInfo info;
+        if (! p.find ("device") && (lower (param) == "volume" || lower (param) == "pan"))
+        {
+            // 트랙 페이더·팬: device 없이 param=volume(-60..6 dB) | pan(-1..1)
+            m.slot = -1; m.param = lower (param);
+            info.name = m.param; info.id = m.param;
+            info.min = m.param == "volume" ? -60.0 : -1.0; info.max = m.param == "volume" ? 6.0 : 1.0;
+        }
+        else
+        {
+            Slot& s = slot (p);
+            if (! s.dev) throw CommandError ("device has no parameters");
+            bool found = false;
+            for (auto& pi : s.dev->params())
+                if (lower (pi.id) == lower (param) || lower (pi.name) == lower (param)) { info = pi; found = true; break; }
+            if (! found) throw CommandError ("no parameter '" + param + "' (see device.params)");
+            m.slot = (int) (&s - &track (p["track"]).slots[0]);
+            m.param = info.id;
+        }
         m.min = p.num ("min", info.min); m.max = p.num ("max", info.max);
         auto& mm = P.midiMaps;
         mm.erase (std::remove_if (mm.begin(), mm.end(), [&] (auto& x) { return x.cc == m.cc; }), mm.end());

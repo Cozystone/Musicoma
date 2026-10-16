@@ -1,0 +1,55 @@
+# MIDI 컨트롤러 프로필 — 꽂으면 포트 이름으로 알아보고 '보통 쓰는 대로' 바로 연결한다(10-17).
+# Ableton 이 149개 컨트롤러 스크립트로 하는 일(포트 이름으로 인식 → 노브는 고른 장치의 파라미터, 페이더는 트랙 볼륨,
+# 버튼은 트랜스포트)의 축소판. CC 번호는 각 제조사 공개 문서의 기본(공장) 설정값. 실제 꽂았을 때 맞지 않으면 midi_setup(learn) 로.
+# match: 포트 이름에 들어 있는 글자(대소문자 무시). knobs/faders: 왼쪽부터 순서대로. transport: 버튼 CC(눌림=127).
+generic:
+  name: 일반 MIDI 키보드(표준 CC)
+  knobs: []                   # 모르는 장치 — 표준 CC 의미만 쓴다
+  standard: {1: mod, 7: volume, 10: pan, 11: expression, 64: sustain, 71: resonance, 74: cutoff, 91: reverb, 93: chorus}
+profiles:
+  - match: [launchkey mk3, launchkey mk4, lkmk3, lkmk4]
+    name: Novation Launchkey MK3/MK4
+    knobs: [21, 22, 23, 24, 25, 26, 27, 28]
+    faders: [53, 54, 55, 56, 57, 58, 59, 60, 61]      # 49/61/88 모델만(마지막 = 마스터)
+    transport: {play: 115, stop: 116, record: 117, loop: 118}
+  - match: [launchkey mini]
+    name: Novation Launchkey Mini MK3/MK4
+    knobs: [21, 22, 23, 24, 25, 26, 27, 28]
+    transport: {play: 115, record: 117}
+  - match: [launch control xl]
+    name: Novation Launch Control XL
+    knobs: [13, 14, 15, 16, 17, 18, 19, 20, 29, 30, 31, 32, 33, 34, 35, 36, 49, 50, 51, 52, 53, 54, 55, 56]
+    faders: [77, 78, 79, 80, 81, 82, 83, 84]
+  - match: [nanokontrol2, nanokontrol 2]
+    name: Korg nanoKONTROL2
+    knobs: [16, 17, 18, 19, 20, 21, 22, 23]
+    faders: [0, 1, 2, 3, 4, 5, 6, 7]
+    buttons: {solo: [32, 33, 34, 35, 36, 37, 38, 39], mute: [48, 49, 50, 51, 52, 53, 54, 55], rec: [64, 65, 66, 67, 68, 69, 70, 71]}
+    transport: {rewind: 43, forward: 44, stop: 42, play: 41, record: 45, loop: 46}
+  - match: [mpk mini, mpkmini]
+    name: Akai MPK mini (mk2/mk3)
+    knobs: [70, 71, 72, 73, 74, 75, 76, 77]
+  - match: [apc key 25]
+    name: Akai APC Key 25
+    knobs: [48, 49, 50, 51, 52, 53, 54, 55]
+    transport: {play: 91, record: 93}
+  - match: [minilab mkii, minilab mk2]
+    name: Arturia MiniLab mkII
+    knobs: [112, 74, 71, 76, 77, 93, 73, 75, 114, 18, 19, 16, 17, 91, 79, 72]
+  - match: [minilab 3, minilab3]
+    name: Arturia MiniLab 3
+    knobs: [86, 87, 89, 90, 110, 111, 116, 117]
+    faders: [14, 15, 30, 31]
+  - match: [keylab essential, keylab mk]
+    name: Arturia KeyLab (기본 DAW 모드)
+    knobs: [74, 71, 76, 77, 93, 18, 19, 16, 17]
+    faders: [73, 75, 79, 72, 80, 81, 82, 83, 85]
+  - match: [oxygen]
+    name: M-Audio Oxygen
+    knobs: [74, 71, 81, 91, 16, 80, 19, 2]
+    faders: [20, 21, 22, 23, 24, 25, 26, 27, 7]
+    transport: {rewind: 114, forward: 115, stop: 116, play: 117, record: 118, loop: 113}
+  - match: [keystation]
+    name: M-Audio Keystation
+    faders: [7]
+    transport: {rewind: 114, forward: 115, stop: 116, play: 117, record: 118, loop: 113}

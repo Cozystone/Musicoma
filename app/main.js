@@ -135,14 +135,20 @@ function isListening(port) {
   });
 }
 
-async function waitPort(port, child, timeoutMs) {
+async function waitPort(port, child, timeoutMs, label) {
   const t0 = Date.now();
+  let lastTick = 0;
   while (Date.now() - t0 < timeoutMs) {
     if (await isListening(port)) return true;
     if (child && child.exitCode !== null) return false; // 일찍 죽음
+    const s = Math.floor((Date.now() - t0) / 1000);
+    if (label && s >= 5 && s !== lastTick) { lastTick = s; setStatus(`${label} (${s}초…)`); }   // 느린 PC·첫 실행에서 멈춘 게 아님을 보여 준다
     await new Promise((r) => setTimeout(r, 300));
   }
   return false;
+}
+function logTail(name) {
+  try { return fs.readFileSync(path.join(LOG_DIR, name), 'utf8').trim().split('\n').slice(-3).join('\n'); } catch (_) { return ''; }
 }
 
 function setStatus(text, isError = false) {
@@ -202,7 +208,10 @@ async function ensureServers(root, py) {
     const child = launch('engine', engineExe, ['--port', String(ENGINE_PORT), '--root', root], {
       cwd: path.dirname(engineExe),
     });
-    if (!(await waitPort(ENGINE_PORT, child, 30000))) throw new Error('엔진이 시작되지 않았습니다 (logs\\engine.log)');
+    if (!(await waitPort(ENGINE_PORT, child, 30000, '엔진 시작 중'))) {
+      const tail = logTail('engine.log');
+      throw new Error('엔진이 시작되지 않았습니다.' + (tail ? `\n\n엔진 로그 끝:\n${tail}` : ''));
+    }
   }
 
   setStatus('화면 서버 확인 중…');
@@ -213,7 +222,10 @@ async function ensureServers(root, py) {
     if (!fs.existsSync(server)) throw new Error(`UI 서버 파일이 없습니다:\n${server}`);
     setStatus('화면 서버 시작 중…');
     const child = launch('ui-server', py.python, [server], { cwd: root, env: childEnv(root) });
-    if (!(await waitPort(HTTP_PORT, child, 40000))) throw new Error('화면 서버가 시작되지 않았습니다 (logs\\ui-server.log)');
+    if (!(await waitPort(HTTP_PORT, child, 40000, '화면 서버 시작 중'))) {
+      const tail = logTail('ui-server.log');
+      throw new Error('화면 서버가 시작되지 않았습니다.' + (tail ? `\n\n서버 로그 끝:\n${tail}` : ''));
+    }
   }
   setStatus('여는 중…');
 }
@@ -385,17 +397,26 @@ function createMain() {
   win.loadURL(UI_URL);
 }
 
-async function fail(message) {
+// 시작 실패: 원인 + 할 수 있는 일(다시 시도 · 로그 폴더 열기 · 닫기). '왜'와 '어디를 보면 되는지'를 같이 보여 준다(10-17).
+async function fail(message, { retry } = {}) {
   log(`startup failed: ${message}`);
   setStatus(message, true);
-  await dialog.showMessageBox(splash && !splash.isDestroyed() ? splash : null, {
-    type: 'error',
-    title: 'Musicoma',
-    message: '시작하지 못했습니다',
-    detail: `${message}\n\n로그: ${LOG_DIR}\n설정: ${CONFIG}`,
-  });
-  app.quit();
+  const buttons = retry ? ['다시 시도', '로그 폴더 열기', '닫기'] : ['로그 폴더 열기', '닫기'];
+  for (;;) {
+    const { response } = await dialog.showMessageBox(splash && !splash.isDestroyed() ? splash : null, {
+      type: 'error', title: 'Musicoma', message: '시작하지 못했습니다', buttons, defaultId: 0, cancelId: buttons.length - 1,
+      detail: `${message}\n\n로그: ${LOG_DIR}\n설정: ${CONFIG}\n\n자주 있는 원인: 다른 Musicoma 가 떠 있음 · 보안 프로그램이 엔진을 막음 · 설치 폴더에 쓰기 권한 없음`,
+    });
+    const label = buttons[response];
+    if (label === '로그 폴더 열기') { shell.openPath(LOG_DIR); continue; }
+    if (label === '다시 시도') { try { await retry(); return; } catch (e) { message = e.message; log(`retry failed: ${message}`); continue; } }
+    app.quit();
+    return;
+  }
 }
+
+process.on('uncaughtException', (e) => { log(`uncaught: ${e.stack || e.message}`); });
+process.on('unhandledRejection', (e) => { log(`unhandled: ${(e && e.stack) || e}`); });
 
 if (!app.requestSingleInstanceLock()) {
   app.quit();
@@ -429,13 +450,12 @@ if (!app.requestSingleInstanceLock()) {
     }
 
     await createSplash();
+    const start = async () => { await ensureServers(root, resolvePython(root)); createMain(); starting = false; };  // AI 를 방금 깔았으면 python-ai 로 바뀜
     try {
-      await ensureServers(root, resolvePython(root)); // AI 를 방금 깔았으면 python-ai 로 바뀜
-      createMain();
-      starting = false;
+      await start();
     } catch (e) {
       starting = false;
-      await fail(e.message);
+      await fail(e.message, { retry: async () => { killSpawned(); await start(); } });
     }
   });
 

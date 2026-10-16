@@ -157,9 +157,18 @@ void Engine::applyMidiMaps (std::vector<MidiEv>& evs)
         for (auto& mm : P.midiMaps)
         {
             if (mm.cc != e.a) continue;
+            const double val = mm.min + (mm.max - mm.min) * (double) e.v;
             for (auto& t : P.tracks)
-                if (t.name == mm.track && mm.slot >= 0 && mm.slot < (int) t.slots.size() && t.slots[(size_t) mm.slot].dev)
-                    t.slots[(size_t) mm.slot].dev->setParam (mm.param, mm.min + (mm.max - mm.min) * (double) e.v);
+            {
+                if (t.name != mm.track) continue;
+                if (mm.slot < 0)                                   // 트랙 자체: volume(dB) · pan(-1..1) — 페이더형 컨트롤러
+                {
+                    if (mm.param == "volume") t.volumeDb = val;
+                    else if (mm.param == "pan") t.pan = val;
+                }
+                else if (mm.slot < (int) t.slots.size() && t.slots[(size_t) mm.slot].dev)
+                    t.slots[(size_t) mm.slot].dev->setParam (mm.param, val);
+            }
             used = true;
         }
         return used;

@@ -569,5 +569,150 @@ def recipe_chipmunk_soul(name: str, bpm: float = 88, semitones: float = 4, key: 
     return _j({"steps": log, "notes": notes, "report": rep, "song": s.summary()})
 
 
+# ----------------------------------------------------------------------------- 악기팩(즉석 설치) · MIDI/트랜스포트(대화로만) · 보컬 스타일
+@mcp.tool()
+def packs(action: str = "catalog", pack_id: str = "", url: str = "", name: str = "", license: str = "",
+          author: str = "", homepage: str = "", roles: dict | None = None) -> dict:
+    """Instrument packs the app can fetch ON DEMAND (no reinstall). action:
+    'catalog'  -> every known pack with installed/downloaded flags, size, license (Surge XT, Dexed FM, VSCO2 orchestra, Karoryfer...).
+    'install'  -> pack_id from the catalog (downloads + extracts; minutes for big packs - tell the user the size first).
+    'add'      -> a free SFZ pack that is NOT in the catalog: url = direct https zip link you found (WebSearch; e.g. github
+                 release/zip), name, license (must be free: CC0 / CC-BY / Public Domain / MIT...), author, homepage;
+                 roles = {role_name: 'relative/path/in/zip.sfz'} optional. Registers role names you can use right away in
+                 song_track(sound=...) / build_spec. Only zips with .sfz inside; executables are refused; attribution is logged.
+    Use when a request needs a sound the catalog lacks (e.g. 'harpsichord', 'gamelan', 'FM bells' -> dexed)."""
+    from musicoma import packs as pk
+    if action == "catalog":
+        return {"packs": pk.catalog(), "note": "install 은 분 단위로 걸릴 수 있다 — 크기를 먼저 말해 주고 진행"}
+    if action == "install":
+        return _j(pk.install(pack_id))
+    if action == "add":
+        return _j(pk.add_from_url(url, pack_id or name, name, license, author, homepage, roles))
+    raise ValueError("action: catalog | install | add")
+
+
+@mcp.tool()
+def midi_setup(action: str = "status", track: str = "", device: int = 0, param: str = "", cc: int = -1,
+               wait_seconds: float = 8, enabled: bool = True) -> dict:
+    """MIDI from the chat alone (no UI steps). action:
+    'status' -> connected inputs, armed tracks, current CC maps, last controller moved.
+    'select' -> track: focus it so a keyboard plays it without arming.   'arm' -> track + enabled (record-arm).
+    'map'    -> cc + track + device(index) + param(name): controller CC drives that parameter (saved with the song).
+    'learn'  -> track + device + param: tell the user to move a knob; waits up to wait_seconds for the next CC and maps it.
+    'auto'   -> track: recognize the plugged controller by port name (Launchkey, Launch Control XL, nanoKONTROL2, MPK mini,
+               APC Key, MiniLab, KeyLab, Oxygen...; knowledge/midi_controllers.yaml) and map its knobs to the track's
+               device parameters (cutoff/resonance/envelope/mix first) and its faders to track volumes - like Ableton's
+               automatic control-surface setup. Unknown controller: standard CCs 74/71/1/91/7. Then selects the track.
+    'unmap'  -> cc.   'maps' -> list."""
+    import time as _t
+    e = E()
+    if action == "status":
+        st = e.call("transport.state")
+        ins = e.call("inputs.list")
+        try:
+            info = e.call("edit.info")
+        except Exception:
+            info = {}
+        armed = [t["name"] for t in (info.get("tracks") or []) if t.get("armed")]
+        return _j({"inputs": ins.get("midi"), "armed": armed, "midi_inputs_open": st.get("midi_inputs"),
+                   "last_cc": st.get("midi_last"), "maps": e.call("midi.maps") if info else []})
+    if action == "select":
+        return _j(e.call("track.select", {"track": track}))
+    if action == "arm":
+        return _j(e.call("track.arm", {"track": track, "armed": enabled}))
+    if action == "map":
+        return _j(e.call("midi.map", {"cc": cc, "track": track, "device": device, "param": param}))
+    if action == "unmap":
+        return _j(e.call("midi.unmap", {"cc": cc}))
+    if action == "maps":
+        return _j(e.call("midi.maps"))
+    if action == "learn":
+        seq0 = e.call("transport.state")["midi_last"]["seq"]
+        t0 = _t.time()
+        while _t.time() - t0 < wait_seconds:
+            st = e.call("transport.state")["midi_last"]
+            if st["seq"] != seq0 and st["cc"] >= 0:
+                return _j(e.call("midi.map", {"cc": st["cc"], "track": track, "device": device, "param": param}))
+            _t.sleep(0.1)
+        return {"error": f"{wait_seconds}초 안에 움직인 컨트롤러가 없음 — 노브를 움직여 달라고 한 뒤 다시"}
+    if action == "auto":
+        # 꽂힌 컨트롤러를 포트 이름으로 알아보고(knowledge/midi_controllers.yaml) 노브→장치 파라미터, 페이더→트랙 볼륨.
+        # 모르는 장치면 표준 CC(74 컷오프·71 레조·1 모드·91 리버브·7 볼륨)로.
+        from musicoma import midi_profiles
+        return _j(midi_profiles.apply(e, track))
+    raise ValueError("action: status | select | arm | map | learn | auto | unmap | maps")
+
+
+@mcp.tool()
+def transport(action: str = "state", beat: float = -1, loop_start: float = -1, loop_end: float = -1,
+              section: str = "") -> dict:
+    """Play/stop/locate/loop from the chat. action: 'state' | 'play' (from beat or current) | 'stop' | 'locate' (beat) |
+    'loop' (loop_start/loop_end beats, or section name of the current song -> loops that section) | 'loop_off' |
+    'play_section' (section name: loop + play it)."""
+    e = E()
+    if action == "state":
+        return _j(e.call("transport.state"))
+    if action == "play":
+        return _j(e.call("transport.play", {"from": beat} if beat >= 0 else {}))
+    if action == "stop":
+        return _j(e.call("transport.stop"))
+    if action == "locate":
+        return _j(e.call("transport.locate", {"beat": max(0.0, beat)}))
+    if action in ("loop", "play_section"):
+        a, b = loop_start, loop_end
+        if section:
+            cur = e.call("ping").get("edit", "")
+            name = Path(cur).parent.name if cur else ""
+            s = _song(name) if name else None
+            secs = (s.meta.get("sections") if s else None) or []
+            sec = next((x for x in secs if x["name"] == section), None)
+            if not sec:
+                raise ValueError(f"섹션 없음: {section} (있는 것: {[x['name'] for x in secs]})")
+            a, b = sec["start_bar"] * 4, (sec["start_bar"] + sec["bars"]) * 4
+        if not (b > a >= 0):
+            raise ValueError("loop_start < loop_end 로 주거나 section 이름을")
+        st = e.call("transport.loop", {"start": a, "end": b, "enabled": True})
+        if action == "play_section":
+            st = e.call("transport.play", {"from": a, "loop": [a, b]})
+        return _j(st)
+    if action == "loop_off":
+        return _j(e.call("transport.loop", {"enabled": False}))
+    raise ValueError("action: state | play | stop | locate | loop | loop_off | play_section")
+
+
+@mcp.tool()
+def quantize(name: str, track: str, clip: int = -1, grid: float = 0.25, strength: float = 1.0) -> dict:
+    """Quantize note starts of a MIDI clip (clip index; -1 = every MIDI clip on the track) to grid beats
+    (0.25 = 1/16, 0.5 = 1/8, 1 = 1/4). strength 0..1 (1 = exactly on grid, 0.5 = halfway - keeps feel)."""
+    s = _song(name)
+    e = s.e
+    info = e.call("edit.info")
+    tr = next((t for t in info["tracks"] if t["name"] == track), None)
+    if not tr:
+        raise ValueError(f"트랙 없음: {track}")
+    clips = [c for c in tr["clips"] if c.get("type") == "midi" and (clip < 0 or c["clip"] == clip)]
+    moved = 0
+    for c in clips:
+        notes = e.call("clip.notes", {"track": track, "clip": c["clip"]})
+        out = []
+        for n in notes:
+            abs_ = c["start"] + n["start"]
+            q = round(abs_ / grid) * grid
+            ns = abs_ + (q - abs_) * strength - c["start"]
+            if abs(ns - n["start"]) > 1e-6:
+                moved += 1
+            out.append({**n, "start": max(0.0, ns)})
+        e.call("clip.set_notes", {"track": track, "clip": c["clip"], "notes": out, "replace": True})
+    return {"clips": len(clips), "notes_moved": moved, "grid": grid, "strength": strength}
+
+
+@mcp.tool()
+def vocal_styles() -> dict:
+    """Vocal 'style' presets for spec vocal parts: natural (default), vocaloid (grid-tight pitch, no vibrato, bright,
+    doubled - for Vocaloid/subculture requests), robot, whisper, idol. Put {"style": "vocaloid"} in the vocal part."""
+    from musicoma import vocal_styles as vs
+    return {k: {"humanize": v["humanize"], "character": v["character"], "post": v["post"]} for k, v in vs.STYLES.items()}
+
+
 if __name__ == "__main__":
     mcp.run()

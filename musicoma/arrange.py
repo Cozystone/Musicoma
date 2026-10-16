@@ -262,7 +262,10 @@ def build(spec, render=True, balance=None, label=None, log=print, later=None, fm
                 # 보컬: 멜로디+가사를 가수에게 부르게 해서 오디오로 놓는다 (섹션마다 같은 노래면 한 번만 부름)
                 from . import voice as voice_mod
                 v = part["vocal"]
-                key_ = json.dumps([v.get("voice"), v.get("melody"), v.get("lyrics"), spec["bpm"], v.get("seed", 0)])
+                from . import vocal_styles
+                vstyle = v.get("style", "natural")                       # natural | vocaloid | robot | whisper | idol
+                v = {**v, "humanize": vocal_styles.humanize_for(vstyle, v.get("humanize"))}
+                key_ = json.dumps([v.get("voice"), v.get("melody"), v.get("lyrics"), spec["bpm"], v.get("seed", 0), vstyle])
                 cache = per_track.setdefault("__vocal_cache", {})
                 if key_ not in cache:
                     out = ROOT / "projects" / spec["name"] / "vocals" / _vocal_name(part, sec, "sing", sections)
@@ -272,14 +275,16 @@ def build(spec, render=True, balance=None, label=None, log=print, later=None, fm
                         cache[key_] = sing_svc.sing_svc(v["voice"], v["lyrics"], spec["bpm"], melody=v["melody"], out=out,
                                                         lang=lang, seed=v.get("seed", 0), humanize=v.get("humanize"),
                                                         takes=v.get("takes", 3))
-                        log(f"{part['track']}: sang(svc, {lang}) {cache[key_]}")
+                        vocal_styles.apply(vstyle, cache[key_], seed=v.get("seed", 0))
+                        log(f"{part['track']}: sang(svc, {lang}, {vstyle}) {cache[key_]}")
                         s[part["track"]].audio(cache[key_], start=b0, gain_db=v.get("gain_db", 0))
                         continue
                     cache[key_] = voice_mod.sing(v["voice"], v["lyrics"], spec["bpm"], melody=v["melody"], out=out,
                                                  language=v.get("language", "English"),
                                                  humanize=v.get("humanize"), seed=v.get("seed", 0),
                                                  control=v.get("control", "score"))
-                    log(f"{part['track']}: sang {cache[key_]}")
+                    vocal_styles.apply(vstyle, cache[key_], seed=v.get("seed", 0))
+                    log(f"{part['track']}: sang({vstyle}) {cache[key_]}")
                 s[part["track"]].audio(cache[key_], start=b0, gain_db=v.get("gain_db", 0))
                 continue
             if "rap" in part:
