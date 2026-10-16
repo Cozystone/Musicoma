@@ -90,6 +90,11 @@ const std::vector<std::pair<std::string, std::string>>& helpList()
         { "track.arm", "{track, armed=true, input?(device name; default = first MIDI keyboard)} record-arm a track" },
         { "render", "{path?, start?, end?, tail=2, sample_rate=48000, bit_depth=24, tracks?, stems_dir?} -> wav (+ per-track wavs in stems_dir, one pass)" },
         { "midi.inject", "{messages:[[status,data1,data2],...]} virtual keyboard: same path as a MIDI input (monitor + record)" },
+        { "transport.locate", "{beat} move the play position (stays stopped if stopped)" },
+        { "track.select", "{track} focus track: live MIDI plays it when no track is armed" },
+        { "midi.map", "{cc, track, device, param, min?, max?} map a controller CC to a device parameter (saved with the song)" },
+        { "midi.unmap", "{cc}" }, { "midi.maps", "list CC mappings" },
+        { "transport.loop", "{start?, end?, enabled?} set the loop brace without starting playback" },
     };
     return h;
 }
@@ -99,7 +104,7 @@ const std::set<std::string>& readOnly()
     static const std::set<std::string> r { "ping", "help", "edit.info", "edit.save", "device.available", "device.params", "device.show",
         "device.preset_save", "device.programs", "clip.list", "clip.notes", "clip.controllers", "transport.play", "transport.stop",
         "transport.state", "render", "device.scan", "audio.devices", "audio.set", "meters", "transport.record", "inputs.list",
-        "transport.metronome", "midi.inject" };
+        "transport.metronome", "midi.inject", "transport.locate", "track.select", "midi.maps", "transport.loop" };
     return r;
 }
 
@@ -130,6 +135,12 @@ static Json transportState (Engine& e)
     Json lp = Json::array(); lp.push (Json::number (e.loopStart)); lp.push (Json::number (e.loopEnd));
     o.set ("loop", lp);
     o.set ("audio_device", Json::string (e.output.isOpen() ? e.output.deviceName() + " (Windows Audio)" : std::string ("(no output — silent clock)")));
+    Json ml = Json::object();
+    ml.set ("cc", Json::number (e.lastCc.load())); ml.set ("value", Json::number (e.lastCcValue.load()));
+    ml.set ("seq", Json::number ((double) e.lastCcSeq.load()));
+    o.set ("midi_last", ml);
+    o.set ("midi_inputs", Json::number ((double) e.midiInputs.size()));
+    o.set ("note_seq", Json::number ((double) e.noteSeq.load()));
     return o;
 }
 
@@ -386,19 +397,7 @@ Json Engine::handle (const std::string& method, const Json& p, bool& mutated)
         auto& t = requireProject().tracks[(size_t) i];
         t.armed = p.flag ("armed", true);
         t.armInput = p.str ("input");
-        // MIDI 입력 열기(아직 안 열렸으면)
-        if (t.armed && midiInputs.empty())
-        {
-            auto list = MidiInput::list();
-            for (auto& mi : list)
-            {
-                if (! t.armInput.empty() && lower (mi.name).find (lower (t.armInput)) == std::string::npos) continue;
-                auto in = std::make_unique<MidiInput>();
-                std::string err;
-                if (in->open (mi.index, [this] (const MidiInMsg& msg) { onMidiIn (msg); }, err)) midiInputs.push_back (std::move (in));
-                else if (log) log ("midi input: " + err);
-            }
-        }
+        if (t.armed) openMidiInputs();      // 새로 꽂은 키보드도
         Json o = describeTrack (i);
         o.set ("armed", Json::boolean (t.armed));
         Json ins = Json::array();
@@ -842,13 +841,13 @@ Json Engine::handle (const std::string& method, const Json& p, bool& mutated)
                 auto it = graph->meters.find (t.name);
                 Json v = Json::array();
                 float a = -100, b = -100;
-                if (it != graph->meters.end() && playing.load()) { a = it->second[0]; b = it->second[1]; }
+                if (it != graph->meters.end()) { a = it->second[0]; b = it->second[1]; }   // 멈춰 있어도 건반 연주가 보이게(10-17)
                 v.push (Json::number (a)); v.push (Json::number (b));
                 tr.set (t.name, v);
             }
         o.set ("tracks", tr);
         Json mm = Json::array();
-        mm.push (Json::number (playing.load() ? graph->masterMeter[0] : -100)); mm.push (Json::number (playing.load() ? graph->masterMeter[1] : -100));
+        mm.push (Json::number (graph->masterMeter[0])); mm.push (Json::number (graph->masterMeter[1]));
         o.set ("master", mm);
         return o;
     }
@@ -906,6 +905,78 @@ Json Engine::handle (const std::string& method, const Json& p, bool& mutated)
         o.set ("midi", mi);
         o.set ("audio", Json::array());
         return o;
+    }
+    if (method == "transport.locate")
+    {
+        // 재생 위치만 옮긴다(멈춰 있으면 멈춘 채로, 재생 중이면 그 자리로 건너뜀) — 눈금자 클릭·스크럽·재생 헤드 끌기
+        auto& P = requireProject();
+        double b = std::max (0.0, needNum (p, "beat"));
+        graph->resetAll();
+        setPlayFrame ((int64_t) std::llround (b * 60.0 / P.bpm * 48000.0));
+        positionBeat = b;
+        return transportState (*this);
+    }
+    if (method == "transport.loop")
+    {
+        // 루프 구간만 정한다(재생은 그대로) — 눈금자의 루프 막대 끌기, Ctrl+L
+        if (p.find ("start")) loopStart = std::max (0.0, needNum (p, "start"));
+        if (p.find ("end")) loopEnd = std::max (loopStart, needNum (p, "end"));
+        if (p.find ("enabled")) looping = p.flag ("enabled", looping) && loopEnd > loopStart;
+        return transportState (*this);
+    }
+    if (method == "track.select")
+    {
+        // 선택한 트랙 = 연주가 들어갈 곳(녹음 대기 트랙이 없을 때). 곡은 안 바뀐다
+        focusTrack = p.find ("track") ? trackIndex (p["track"]) : -1;
+        openMidiInputs();
+        Json o = Json::object();
+        o.set ("focus", Json::number (focusTrack.load()));
+        return o;
+    }
+    if (method == "midi.map")
+    {
+        auto& P = requireProject();
+        Slot& s = slot (p);
+        if (! s.dev) throw CommandError ("device has no parameters");
+        std::string param = p.str ("param");
+        ParamInfo info; bool found = false;
+        for (auto& pi : s.dev->params())
+            if (lower (pi.id) == lower (param) || lower (pi.name) == lower (param)) { info = pi; found = true; break; }
+        if (! found) throw CommandError ("no parameter '" + param + "' (see device.params)");
+        Project::MidiMap m;
+        m.cc = (int) needNum (p, "cc");
+        m.track = track (p["track"]).name;
+        m.slot = (int) (&s - &track (p["track"]).slots[0]);
+        m.param = info.id;
+        m.min = p.num ("min", info.min); m.max = p.num ("max", info.max);
+        auto& mm = P.midiMaps;
+        mm.erase (std::remove_if (mm.begin(), mm.end(), [&] (auto& x) { return x.cc == m.cc; }), mm.end());
+        mm.push_back (m);
+        openMidiInputs();
+        Json o = Json::object();
+        o.set ("cc", Json::number (m.cc)); o.set ("track", Json::string (m.track)); o.set ("slot", Json::number (m.slot));
+        o.set ("param", Json::string (info.name.empty() ? info.id : info.name));
+        return o;
+    }
+    if (method == "midi.unmap")
+    {
+        auto& mm = requireProject().midiMaps;
+        int cc = (int) needNum (p, "cc");
+        mm.erase (std::remove_if (mm.begin(), mm.end(), [&] (auto& x) { return x.cc == cc; }), mm.end());
+        Json o = Json::object(); o.set ("removed", Json::number (cc));
+        return o;
+    }
+    if (method == "midi.maps")
+    {
+        Json a = Json::array();
+        for (auto& m : requireProject().midiMaps)
+        {
+            Json x = Json::object();
+            x.set ("cc", Json::number (m.cc)); x.set ("track", Json::string (m.track)); x.set ("slot", Json::number (m.slot));
+            x.set ("param", Json::string (m.param)); x.set ("min", Json::number (m.min)); x.set ("max", Json::number (m.max));
+            a.push (x);
+        }
+        return a;
     }
     if (method == "midi.inject")
     {

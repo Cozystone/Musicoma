@@ -109,7 +109,11 @@ async function boot() {
   const sel = $("#project");
   sel.innerHTML = "";
   sel.append(new Option("＋ 새 곡…", "__new"));
-  const ping = await call("ping");
+  let ping = null;
+  for (let i = 0; i < 20 && !ping; i++) {                       // 엔진이 아직 붙는 중이면 잠깐 기다려 다시(앱 첫 실행)
+    try { ping = await call("ping"); } catch (e) { status("엔진 기다리는 중… " + e.message); await new Promise((r) => setTimeout(r, 1000)); }
+  }
+  if (!ping) { status("엔진에 연결하지 못했습니다 — 앱을 다시 켜 보세요"); return; }
   const current = (ping.edit || "").split(/[\\/]/).slice(-2, -1)[0];
   for (const p of projects) sel.append(new Option(p, p, false, p === current));
   sel.onchange = async () => {
@@ -126,7 +130,8 @@ async function boot() {
   await checkAI();
   if (!aiReady()) drawConnect();
   else if (!current) { sel.value = "__new"; drawWelcome(); }
-  if (current) refresh();
+  if (current) refresh().then(() => { if (selected) call("track.select", { track: selected }).catch(() => {}); });
+  call("transport.state").then((st) => { startMarker = st.position; dawOnState(st); }).catch(() => {});
 }
 
 function setMode(m) {
@@ -311,8 +316,11 @@ async function refresh() {
 }
 const totalBeats = () => Math.max(32, Math.ceil(info.length_beats / 4) * 4 + 8);
 function fit() { pxPerBeat = Math.max(1.2, (($("#lanes-wrap").clientWidth || 1000) - 20) / totalBeats()); }
-const snapUnit = () => (pxPerBeat * 4 < 24 ? 4 : pxPerBeat < 10 ? 1 : 0.25);   // 확대 정도에 맞춘 격자
-const snapB = (b, free) => (free ? b : Math.round(b / snapUnit()) * snapUnit());
+// 격자: 확대 정도에 맞춘 기본 단위 × 2^gridShift (Ctrl+1 촘촘히 · Ctrl+2 넓게), snapOn=false 면 자유(Ctrl+4) — daw.js
+let gridShift = parseInt(store.get("gridShift", "0")) || 0, snapOn = store.get("snapOn", "1") !== "0";
+const autoUnit = () => (pxPerBeat * 4 < 24 ? 4 : pxPerBeat < 10 ? 1 : 0.25);
+const snapUnit = () => Math.min(16, Math.max(1 / 16, autoUnit() * 2 ** gridShift));
+const snapB = (b, free) => (free || !snapOn ? b : Math.round(b / snapUnit()) * snapUnit());
 
 function drawArrange() {
   const tb = totalBeats(), width = tb * pxPerBeat;
@@ -329,10 +337,6 @@ function drawArrange() {
     sec.ondblclick = (e) => { e.stopPropagation(); call("transport.play", { from: s.start_bar * 4 }).then(startPoll); };
     ruler.append(sec);
   }
-  ruler.onclick = (e) => {
-    const x = e.clientX - ruler.getBoundingClientRect().left;
-    call("transport.play", { from: Math.floor(x / pxPerBeat / 4) * 4 }).then(startPoll);
-  };
   const noteJobs = [];
   let prevRet = false;
   info.tracks.forEach((t, i) => {
@@ -371,12 +375,13 @@ function drawArrange() {
   });
   for (const [box, track, c] of noteJobs) drawNotes(box, track, c);
   hydrateIcons(hdr);
-  drawOverview(); drawTimeSel();
+  drawOverview(); drawTimeSel(); dawDecorate();
   if (document.body.classList.contains("session-view")) drawSession();
 }
 
 function select(name) {
   selected = name;
+  call("track.select", { track: name }).catch(() => {});      // 고른 트랙으로 연주가 들어간다(Ableton 처럼)
   document.querySelectorAll(".th").forEach((h, i) => h.classList.toggle("sel", info.tracks[i]?.name === name));
   document.querySelectorAll(".lane").forEach((l, i) => l.classList.toggle("sel", info.tracks[i]?.name === name));
   drawDetail();
@@ -435,7 +440,7 @@ function startTimeSel(e, track) {
   lane.onpointermove = (ev) => { b = beatAt(ev.clientX); timeSel = { a: Math.min(a, b), b: Math.max(a, b), track }; drawTimeSel(); };
   lane.onpointerup = () => {
     lane.onpointermove = null;
-    if (Math.abs(b - a) < snapUnit()) { setTimeSel(null); return; }
+    if (Math.abs(b - a) < snapUnit()) { setTimeSel(null); dawLocate(a); return; }   // 그냥 클릭 = 시작 마커(재생 중이면 그 자리로)
     setTimeSel({ a: Math.min(a, b), b: Math.max(a, b), track });
   };
 }
@@ -594,8 +599,10 @@ async function drawDetail() {
             .finally(() => { busyK = false; if (queued != null) { const q = queued; queued = null; send(q); } });
         };
         const kn = new Knob(p.value, { min: p.min, max: p.max, size: 30, onChange: send, tip: p.name });
+        Object.assign(k.dataset, { track: t.name, device: d.device, param: p.id, name: p.name });   // MIDI 맵(daw.js)
         k.append(kn.el, el("div", "n", p.name), v); knobs.append(k);
       }
+      dawMarkMaps();
     });
   }
 }
@@ -635,8 +642,8 @@ async function poll() {
   $("#play").classList.toggle("on", playing);
   $("#rec").classList.toggle("on", !!st.recording);
   $("#metro").classList.toggle("on", !!st.metronome);
-  $("#pos").textContent = fmtPos(st.position);
-  const ph = $("#playhead"); ph.style.display = "block"; ph.style.left = st.position * pxPerBeat + "px";
+  setPlayheadUI(st.position);
+  dawOnState(st);
   if (!meterBusy && $("#mixer").classList.contains("on")) {
     meterBusy = true;
     call("meters").then((m) => {
@@ -648,19 +655,16 @@ async function poll() {
   if (!playing) { clearInterval(pollTimer); pollTimer = null; for (const f of faders.values()) f.meter(null); masterFader && masterFader.meter(null); }
 }
 function startPoll() { if (!pollTimer) pollTimer = setInterval(poll, 50); poll(); }
-$("#play").onclick = () => call("transport.play", {}).then(startPoll);
+$("#play").onclick = () => (playing ? Promise.resolve() : dawPlay());
 let lastStop = 0;
 $("#stop").onclick = () => {
   const now = performance.now();
-  const p = now - lastStop < 600 ? call("transport.stop").then(() => call("transport.play", { from: 0 })).then(() => call("transport.stop")) : call("transport.stop");
+  // 두 번 누르면 처음으로(시작 마커도 0) — Ableton 과 같다
+  const twice = now - lastStop < 600;
+  const p = call("transport.stop").then(() => (twice ? dawLocate(0, true) : null));
   lastStop = now; p.then(poll);
 };
-$("#loop").onclick = () => {
-  const on = !$("#loop").classList.contains("on");
-  $("#loop").classList.toggle("on", on);
-  const s = timeSel ? { a: timeSel.a, b: timeSel.b } : (song.sections || [])[0] && { a: song.sections[0].start_bar * 4, b: (song.sections[0].start_bar + song.sections[0].bars) * 4 };
-  call("transport.play", on && s ? { loop: [s.a, s.b], from: s.a } : { loop: false }).then(startPoll);
-};
+$("#loop").onclick = () => setLoop(!loopSt.on, !loopSt.on && timeSel ? [timeSel.a, timeSel.b] : null);   // 루프 막대는 daw.js
 // ---------------------------------------------------------------- 녹음 · 메트로놈 · 탭 템포 · 트랙 추가 · 내보내기
 async function toggleArm(name) {
   const on = !armed.has(name);
@@ -816,7 +820,9 @@ $("#redo").onclick = () => call("edit.redo").then(refresh);
 document.addEventListener("keydown", (e) => {
   const typing = ["INPUT", "TEXTAREA", "SELECT"].includes(e.target.tagName);
   if (typing) return;
-  if (e.code === "Space") { e.preventDefault(); (playing ? call("transport.stop") : call("transport.play", {})).then(startPoll); }
+  if (dawKeyDown(e)) return;                                   // 컴퓨터 MIDI 키보드·격자·루프·맵 모드(daw.js)
+  // Space: 멈춰 있으면 시작 마커부터, Shift+Space: 멈춘 곳에서 이어서, 재생 중이면 멈춤
+  if (e.code === "Space") { e.preventDefault(); (playing ? call("transport.stop").then(poll) : dawPlay(!e.shiftKey)); }
   else if (e.ctrlKey && e.key.toLowerCase() === "z") { e.preventDefault(); call(e.shiftKey ? "edit.redo" : "edit.undo").then(refresh); }
   else if (e.ctrlKey && e.key.toLowerCase() === "y") { e.preventDefault(); call("edit.redo").then(refresh); }
   else if (e.key === "Escape") setTimeSel(null);

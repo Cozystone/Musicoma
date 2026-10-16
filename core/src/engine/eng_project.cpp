@@ -319,6 +319,18 @@ Json Engine::projectToJson (bool withState)
     Json ms = Json::array();
     for (auto& s : P.master) ms.push (slotToJson (s, withState));
     o.set ("master", ms);
+    if (! P.midiMaps.empty())
+    {
+        Json mm = Json::array();
+        for (auto& m : P.midiMaps)
+        {
+            Json x = Json::object();
+            x.set ("cc", Json::number (m.cc)); x.set ("track", Json::string (m.track)); x.set ("slot", Json::number (m.slot));
+            x.set ("param", Json::string (m.param)); x.set ("min", Json::number (m.min)); x.set ("max", Json::number (m.max));
+            mm.push (x);
+        }
+        o.set ("midi_maps", mm);
+    }
     Json tr = Json::array();
     for (auto& t : P.tracks)
     {
@@ -356,6 +368,9 @@ void Engine::projectFromJson (const Json& j, bool reuse)
     P->bpm = j.num ("bpm", 120);
     P->timeSig = j.str ("time_sig", "4/4");
     P->masterVolumeDb = j.num ("master_volume_db", -3);
+    for (auto& x : j["midi_maps"].a)
+        P->midiMaps.push_back ({ (int) x.num ("cc", 0), x.str ("track"), (int) x.num ("slot", 0), x.str ("param"),
+                                 x.num ("min", 0), x.num ("max", 1) });
 
     auto loadSlot = [&] (const Json& so) -> Slot
     {

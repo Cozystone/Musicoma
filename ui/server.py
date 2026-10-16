@@ -303,7 +303,7 @@ async def ask_codex(ws, msg):
 async def bridge(ws):
     """브라우저 연결 하나당 엔진 연결 하나. 줄 단위 JSON 을 양방향으로 넘긴다.
     엔진이 꺼지면 다시 띄우고 다시 붙는다(브라우저 연결·AI 작업 스트림은 그대로) — 브라우저에는 engine_restarted 를 알린다."""
-    link = {"writer": None, "pending": set()}
+    link = {"writer": None, "pending": set(), "ready": asyncio.Event()}
 
     async def fail_pending(why):
         for i in list(link["pending"]):
@@ -321,6 +321,7 @@ async def bridge(ws):
                 await asyncio.sleep(2)
                 continue
             link["writer"] = writer
+            link["ready"].set()
             if not first:
                 print("engine restarted — reattached", flush=True)
                 await ws.send(json.dumps({"event": "engine_restarted"}))
@@ -339,6 +340,7 @@ async def bridge(ws):
             except (ConnectionError, OSError, asyncio.IncompleteReadError) as ex:
                 print(f"engine connection lost: {ex!r}", flush=True)
             link["writer"] = None
+            link["ready"].clear()
             writer.close()
             await fail_pending("엔진이 다시 시작되는 중입니다")
             await asyncio.sleep(0.5)
@@ -355,6 +357,12 @@ async def bridge(ws):
                 continue
             req["client"] = "ui"
             w = link["writer"]
+            if w is None:                       # 앱을 막 켰을 때: 엔진이 붙을 때까지 잠깐 기다린다(10-17: 첫 ping 이 실패해 화면이 비어 있던 것)
+                try:
+                    await asyncio.wait_for(link["ready"].wait(), 15)
+                except asyncio.TimeoutError:
+                    pass
+                w = link["writer"]
             if w is None or w.is_closing():
                 await ws.send(json.dumps({"id": req.get("id"), "ok": False, "error": "엔진이 다시 시작되는 중입니다"},
                                          ensure_ascii=False))

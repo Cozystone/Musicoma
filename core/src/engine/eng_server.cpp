@@ -214,6 +214,7 @@ int wmain (int argc, wchar_t** argv)
     std::fflush (stdout);
     std::string aerr;
     if (! engine.startOutput (aerr)) std::fprintf (stderr, "audio output not available: %s (render still works)\n", aerr.c_str());
+    engine.openMidiInputs();   // 연결된 MIDI 키보드·컨트롤러를 바로 연다(녹음 대기 없이도 연주·매핑)
     runVst3WindowThread();     // 플러그인 창 메시지 루프(프로세스 끝까지)
     return 0;
 }

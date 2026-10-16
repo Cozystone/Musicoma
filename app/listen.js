@@ -5,7 +5,7 @@
 // 분석(템포·조성·그루브·대역…)은 파이썬 musicoma/listen.py 가 한다.
 'use strict';
 
-const { BrowserWindow } = require('electron');
+const { BrowserWindow, WebContentsView } = require('electron');
 const http = require('http');
 
 const PORT = 47803;
@@ -17,12 +17,35 @@ function sleep(ms) { return new Promise((r) => setTimeout(r, ms)); }
 // 페이지 안에서 도는 녹음 스크립트(문자열로 주입). 광고가 끝나길 기다렸다가 곡의 여러 지점을 잠깐씩 듣는다.
 const CAPTURE = String.raw`(async (clips, seconds, speed) => {
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+  // 화면 위 진행 띠 — 사용자가 'AI 가 지금 이 곡을 듣고 있다'를 보게
+  const say = (msg) => {
+    let b = document.getElementById('mc-listen');
+    if (!b) {
+      b = document.createElement('div'); b.id = 'mc-listen';
+      b.style.cssText = 'position:fixed;left:0;right:0;bottom:0;z-index:2147483647;padding:6px 10px;font:600 13px/1.35 system-ui,sans-serif;' +
+        'color:#fff;background:linear-gradient(0deg,rgba(0,0,0,.85),rgba(0,0,0,.55));pointer-events:none';
+      document.documentElement.appendChild(b);
+    }
+    b.textContent = '🎧 Musicoma 가 듣는 중 — ' + msg;
+  };
+  say('영상 찾는 중');
   let v = null;
   for (let i = 0; i < 150 && !(v = document.querySelector('video, audio')); i++) await sleep(200);
   if (!v) throw new Error('재생할 영상/소리를 찾지 못함');
+  // 뷰어에서는 영상만 꽉 차게(페이지의 나머지는 가림) — 좁은 AI 창 위에서도 '무엇을 듣는지' 바로 보이게
+  const fit = () => {
+    const css = 'position:fixed!important;inset:0!important;width:100vw!important;height:100vh!important;' +
+                'object-fit:contain!important;z-index:2147483646!important;background:#000!important;left:0!important;top:0!important';
+    if (v.getAttribute('style') !== css) v.setAttribute('style', css);
+    document.documentElement.style.overflow = 'hidden';
+    if (document.body) document.body.style.overflow = 'hidden';
+  };
+  fit();
+  const fitTimer = setInterval(fit, 500);       // 유튜브가 크기를 다시 잡아도 덮어쓴다
   const player = document.querySelector('#movie_player');
   const isAd = () => !!(player && player.classList.contains('ad-showing'));
   const skipAds = async () => {
+    if (isAd()) say('광고 건너뛰는 중');
     for (let i = 0; i < 240 && isAd(); i++) {
       const b = document.querySelector('.ytp-skip-ad-button, .ytp-ad-skip-button, .ytp-ad-skip-button-modern');
       if (b) b.click();
@@ -65,6 +88,8 @@ const CAPTURE = String.raw`(async (clips, seconds, speed) => {
     for (let i = 0; i < 40 && (v.readyState < 3 || v.paused); i++) await sleep(150);
     await skipAds();
     setSpeed(sp);
+    say((ci + 1) + '/' + spots.length + ' 구간 · ' + Math.floor(at / 60) + ':' + String(Math.floor(at % 60)).padStart(2, '0') +
+        '부터 ' + Math.round(want) + '초 · ' + (sp === 1 ? '1배속(소리 색 재기)' : sp + '배속(리듬·조성 재기)') + ' · 스피커로는 안 나갑니다');
     rec = { L: [], R: [], n: 0 };
     const t0 = Date.now();
     const need = want * ctx.sampleRate / sp;      // 원래 소리 want 초 = 이 컨텍스트 샘플 수
@@ -87,9 +112,11 @@ const CAPTURE = String.raw`(async (clips, seconds, speed) => {
     out.push({ at: Math.round(at * 10) / 10, speed: sp, rate: ctx.sampleRate / sp, seconds: Math.round(r.n * sp / ctx.sampleRate * 10) / 10, pcm: b64 });
   }
   v.pause();
+  say('다 들었음 — 분석 중');
   let title = document.title.replace(/ - YouTube$/, ''), channel = null;
   try { const d = player && player.getVideoData && player.getVideoData(); if (d) { title = d.title || title; channel = d.author || null; } } catch (_) {}
   await ctx.close();
+  clearInterval(fitTimer);
   return { title, channel, url: location.href, duration: Math.round(dur * 10) / 10, sample_rate: 48000, speed, clips: out };
 })`;
 
@@ -104,14 +131,48 @@ async function findOnYouTube(win, query) {
   throw new Error(`유튜브에서 '${query}' 를 찾지 못함`);
 }
 
-async function listen({ query, url, clips = 3, seconds = 20, speed = 4 }, log) {
-  const win = new BrowserWindow({
-    show: false, width: 1280, height: 800,
-    webPreferences: {
-      partition: PARTITION, sandbox: true, contextIsolation: true, nodeIntegration: false,
-      backgroundThrottling: false, autoplayPolicy: 'no-user-gesture-required',
+const WEB_PREFS = {
+  partition: PARTITION, sandbox: true, contextIsolation: true, nodeIntegration: false,
+  backgroundThrottling: false, autoplayPolicy: 'no-user-gesture-required',
+};
+
+// 메인 창의 AI 창(#feed) 위쪽에 16:9 뷰어를 얹는다. 창 크기가 바뀌면 따라간다.
+function attachViewer(main) {
+  const view = new WebContentsView({ webPreferences: WEB_PREFS });
+  main.contentView.addChildView(view);
+  const place = async () => {
+    try {
+      const r = await main.webContents.executeJavaScript(
+        `(() => { const e = document.querySelector('#feed') || document.querySelector('#producer'); if (!e) return null;
+                  const b = e.getBoundingClientRect(); return { x: b.left, y: b.top, w: b.width }; })()`);
+      if (!r || view.webContents.isDestroyed()) return;
+      const w = Math.max(240, Math.round(r.w)), h = Math.round(w * 9 / 16);
+      view.setBounds({ x: Math.round(r.x), y: Math.round(r.y), width: w, height: h });
+    } catch (_) { /* 창이 닫히는 중 */ }
+  };
+  const onResize = () => { place(); };
+  main.on('resize', onResize);
+  place();
+  return {
+    webContents: view.webContents,
+    loadURL: (u) => view.webContents.loadURL(u),
+    destroy: () => {
+      main.removeListener('resize', onResize);
+      try { main.contentView.removeChildView(view); } catch (_) {}
+      try { view.webContents.close(); } catch (_) {}
     },
-  });
+    isDestroyed: () => view.webContents.isDestroyed(),
+  };
+}
+
+function hiddenWindow() {
+  const w = new BrowserWindow({ show: false, width: 1280, height: 800, webPreferences: WEB_PREFS });
+  return { webContents: w.webContents, loadURL: (u) => w.loadURL(u), destroy: () => w.destroy(), isDestroyed: () => w.isDestroyed() };
+}
+
+async function listen({ query, url, clips = 3, seconds = 20, speed = 4, show = true }, log, getMain) {
+  const main = getMain && getMain();
+  const win = show && main && !main.isDestroyed() && main.isVisible() ? attachViewer(main) : hiddenWindow();
   win.webContents.setWindowOpenHandler(() => ({ action: 'deny' }));
   try {
     const target = url || await findOnYouTube(win, query);
@@ -123,11 +184,12 @@ async function listen({ query, url, clips = 3, seconds = 20, speed = 4 }, log) {
              sample_rate: r.sample_rate, clips: r.clips.map((c) => c.pcm), rates: r.clips.map((c) => c.rate),
              speeds: r.clips.map((c) => c.speed) };
   } finally {
+    await sleep(1500);                         // '다 들었음' 띠를 잠깐 보여 주고 닫는다
     if (!win.isDestroyed()) win.destroy();
   }
 }
 
-function start(log) {
+function start(log, getMain) {
   const server = http.createServer((req, res) => {
     const send = (code, obj) => { res.writeHead(code, { 'Content-Type': 'application/json; charset=utf-8' }); res.end(JSON.stringify(obj)); };
     if (req.method !== 'POST' || req.url !== '/listen') return send(404, { error: 'POST /listen' });
@@ -141,7 +203,7 @@ function start(log) {
       busy = true;
       const timer = setTimeout(() => { if (!res.writableEnded) send(504, { error: '시간 초과(4분)' }); }, 240000);
       try {
-        const r = await listen(a, log);
+        const r = await listen(a, log, getMain);
         if (!res.writableEnded) send(200, r);
       } catch (e) {
         log(`listen failed: ${e.message}`);

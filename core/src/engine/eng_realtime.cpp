@@ -94,14 +94,16 @@ void Engine::audioCallback (float* L, float* R, int n)
     const double step = kInternalRate / devRate;
     const double bpm = project->bpm;
 
-    // 실시간 입력(모니터) — 첫 번째 녹음 대기 트랙으로
+    // 실시간 입력(모니터) — 첫 번째 녹음 대기 트랙, 없으면 선택한 트랙
     int liveTrack = -1;
     for (size_t i = 0; i < project->tracks.size(); ++i) if (project->tracks[i].armed) { liveTrack = (int) i; break; }
+    if (liveTrack < 0 && focusTrack.load() >= 0 && focusTrack.load() < (int) project->tracks.size()) liveTrack = focusTrack.load();
     {
         std::lock_guard<std::mutex> l (liveLock);
         gLive.swap (liveQueue);
         liveQueue.clear();
     }
+    applyMidiMaps (gLive);
 
     size_t need = (size_t) std::ceil (gFifo.frac + n * step) + 4;
     while (gFifo.count < need)
@@ -144,9 +146,45 @@ void Engine::audioCallback (float* L, float* R, int n)
     lastBlockMs = nowMs();
 }
 
+void Engine::applyMidiMaps (std::vector<MidiEv>& evs)
+{
+    if (! project || project->midiMaps.empty()) return;
+    auto& P = *project;
+    evs.erase (std::remove_if (evs.begin(), evs.end(), [&] (const MidiEv& e)
+    {
+        if (e.kind != MidiEv::CC) return false;
+        bool used = false;
+        for (auto& mm : P.midiMaps)
+        {
+            if (mm.cc != e.a) continue;
+            for (auto& t : P.tracks)
+                if (t.name == mm.track && mm.slot >= 0 && mm.slot < (int) t.slots.size() && t.slots[(size_t) mm.slot].dev)
+                    t.slots[(size_t) mm.slot].dev->setParam (mm.param, mm.min + (mm.max - mm.min) * (double) e.v);
+            used = true;
+        }
+        return used;
+    }), evs.end());
+}
+
+void Engine::openMidiInputs()
+{
+    for (auto& mi : MidiInput::list())
+    {
+        bool open = false;
+        for (auto& in : midiInputs) if (in->name() == mi.name) open = true;
+        if (open) continue;
+        auto in = std::make_unique<MidiInput>();
+        std::string err;
+        if (in->open (mi.index, [this] (const MidiInMsg& msg) { onMidiIn (msg); }, err)) midiInputs.push_back (std::move (in));
+        else if (log) log ("midi input: " + err);
+    }
+}
+
 void Engine::onMidiIn (const MidiInMsg& msg)
 {
     uint8_t st = msg.status & 0xF0;
+    if (st == 0xB0) { lastCc = msg.data1; lastCcValue = msg.data2; ++lastCcSeq; }
+    if (st == 0x90 && msg.data2 > 0) ++noteSeq;
     MidiEv e { 0, MidiEv::CC, 0, 0 };
     if (st == 0x90 && msg.data2 > 0) e = { 0, MidiEv::NoteOn, msg.data1, msg.data2 / 127.0f };
     else if (st == 0x80 || (st == 0x90 && msg.data2 == 0)) e = { 0, MidiEv::NoteOff, msg.data1, 0.0f };

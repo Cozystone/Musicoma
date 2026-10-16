@@ -407,7 +407,7 @@ if (!app.requestSingleInstanceLock()) {
 
   app.whenReady().then(async () => {
     Menu.setApplicationMenu(null);
-    listenServer.start(log);
+    listenServer.start(log, () => win);   // 듣는 화면은 메인 창의 AI 창 위에 뷰어로
     const { root, source } = resolveRoot();
     const py = resolvePython(root);
     log(`start — root=${root} (${source}) python=${py.python} runtime=${RUNTIME_DIR} packaged=${app.isPackaged}`);

@@ -93,12 +93,13 @@ body.simple .pro-only { display: none !important; }
 #arr-body { display: grid; grid-template-columns: 170px 1fr; overflow: hidden; }
 #lanes-wrap { position: relative; overflow: auto; background: var(--lane-empty); }
 #headers { background: var(--panel); border-right: 1px solid var(--edge); overflow: hidden; }
-.hdr-spacer { height: 30px; border-bottom: 1px solid var(--edge); color: var(--dim); padding: 0 6px; line-height: 30px;
+.hdr-spacer { height: 40px; border-bottom: 1px solid var(--edge); color: var(--dim); padding: 0 6px; line-height: 40px;
               font-size: 10px; }
-#ruler { position: sticky; top: 0; height: 30px; background: var(--panel); border-bottom: 1px solid var(--edge); z-index: 3; }
+#ruler { position: sticky; top: 0; height: 40px; background: var(--panel); border-bottom: 1px solid var(--edge); z-index: 3;
+         cursor: col-resize; user-select: none; }
 .bar { position: absolute; top: 0; height: 14px; border-left: 1px solid var(--line); padding-left: 2px; color: var(--dim);
        font-size: 9px; line-height: 13px; }
-.sec { position: absolute; top: 15px; height: 14px; background: var(--sec-bg); color: var(--text); font-size: 10px;
+.sec { position: absolute; top: 25px; height: 14px; background: var(--sec-bg); color: var(--text); font-size: 10px;
        padding: 0 4px 0 9px; line-height: 13px; border: 1px solid var(--line); overflow: hidden; white-space: nowrap; }
 .sec::before { content: ""; position: absolute; left: 2px; top: 3px; border: 3px solid transparent; border-left: 4px solid var(--text); }
 .sec.on { background: var(--accent); }
@@ -228,7 +229,7 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
 #ctxbar button { height: 24px; border-radius: 5px; }
 
 /* 선택 구간 · 클립 상태 */
-#selection { position: absolute; top: 30px; bottom: 0; background: color-mix(in srgb, var(--accent2) 18%, transparent);
+#selection { position: absolute; top: 40px; bottom: 0; background: color-mix(in srgb, var(--accent2) 18%, transparent);
              border-left: 1px solid var(--accent2); border-right: 1px solid var(--accent2); pointer-events: none; z-index: 2; display: none; }
 .clip { cursor: grab; transition: box-shadow 80ms linear; }
 .clip:active { cursor: grabbing; }
@@ -302,3 +303,26 @@ body.session-view #arr-body, body.session-view #overview { display: none; }
 #session td.scene.playing { background: var(--play); color: #0b0b0b; }
 #session td.empty-slot { color: var(--dim); }
 #session td.empty-slot::before { content: "■"; font-size: 7px; opacity: .35; }
+
+/* ── Ableton 식 편집(daw.js) ── */
+:root { --grid-bar: rgba(0,0,0,.16); --grid-unit: rgba(0,0,0,.06); }
+[data-theme="night"] { --grid-bar: rgba(255,255,255,.12); --grid-unit: rgba(255,255,255,.045); }
+.lane, .lane:nth-child(even), .lane.sel { background-image: var(--gridimg); background-size: var(--gridsize); background-repeat: repeat; }
+.marker { position: absolute; top: 0; width: 0; height: 0; margin-left: -5px; border: 5px solid transparent;
+          border-top: 7px solid var(--accent); pointer-events: none; z-index: 2; }
+.loopbrace { position: absolute; top: 15px; height: 9px; background: var(--line); border-radius: 2px; cursor: grab; z-index: 1;
+             opacity: .7; }
+.loopbrace.on { background: var(--accent2); opacity: 1; }
+.loopbrace .lb-h { position: absolute; top: 0; width: 6px; height: 100%; cursor: ew-resize; }
+.loopbrace .lb-h.l { left: 0; border-left: 2px solid var(--text); }
+.loopbrace .lb-h.r { right: 0; border-right: 2px solid var(--text); }
+#grid.grid { min-width: 46px; cursor: pointer; }
+#kbd.kbd { min-width: 28px; font-size: 12px; padding: 0 6px; white-space: nowrap; }
+#kbd.kbd.on { background: var(--accent); color: #000; }
+.midiled { display: inline-block; width: 8px; height: 8px; margin: 0 6px; border-radius: 50%; background: var(--line);
+           align-self: center; box-shadow: inset 0 0 0 1px rgba(0,0,0,.3); }
+.midiled.on { background: #ffd23f; box-shadow: 0 0 6px #ffd23f; }
+.midiled.none { opacity: .35; }
+body.map-mode #devices .knob[data-param] { outline: 2px dashed var(--accent2); outline-offset: 1px; cursor: crosshair; }
+body.map-mode #devices .knob.map-wait { outline: 2px solid #ffd23f; }
+#devices .knob.mapped::after { content: "CC " attr(data-cc); display: block; font-size: 8px; color: var(--accent2); text-align: center; }

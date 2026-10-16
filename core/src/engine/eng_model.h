@@ -78,6 +78,9 @@ struct Project
     std::vector<Track> tracks;
     std::vector<Slot> master;
     double masterVolumeDb = -3.0;    // 옛 엔진 기본(측정: 마스터 -3 dB)
+    /** MIDI 맵(Ableton 의 MIDI Map 모드): 컨트롤러 CC → 트랙 디바이스 파라미터. 곡과 함께 저장. */
+    struct MidiMap { int cc = 0; std::string track; int slot = 0; std::string param; double min = 0, max = 1; };
+    std::vector<MidiMap> midiMaps;
 
     double lengthBeats() const
     {
@@ -132,6 +135,10 @@ public:
     double recStartBeat = 0;
     std::atomic<int64_t> lastBlockMs { 0 };
     std::atomic<double> lastBlockBeat { 0.0 };
+    std::atomic<int> focusTrack { -1 };            // 선택한 트랙 — 녹음 대기 트랙이 없으면 연주가 여기로(Ableton 처럼 고르면 바로 연주)
+    std::atomic<int> lastCc { -1 }, lastCcValue { 0 };   // MIDI 배우기: 마지막으로 움직인 컨트롤러
+    std::atomic<uint64_t> lastCcSeq { 0 };
+    std::atomic<uint64_t> noteSeq { 0 };            // 들어온 음표 수(화면의 MIDI 입력 표시등)
 
     // 되돌리기
     std::deque<std::string> undoStack, redoStack;
@@ -168,6 +175,8 @@ public:
     void stopPlayback();
     void audioCallback (float* L, float* R, int n);
     void onMidiIn (const MidiInMsg& msg);
+    void openMidiInputs();                          // 연결된 MIDI 입력을 모두 연다(시작할 때 — 녹음 대기 없이도 연주·매핑)
+    void applyMidiMaps (std::vector<MidiEv>& evs);   // 오디오 스레드(잠금 안): 매핑된 CC → 파라미터, 그 CC 는 악기로 안 보냄
     void finishRecording();
 
     // 되돌리기

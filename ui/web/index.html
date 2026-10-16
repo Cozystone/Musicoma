@@ -28,6 +28,11 @@
   <div id="pos" class="lcd" data-tip="재생 위치 (마디. 박. 16분)">1. 1. 1</div>
   <label class="bpm" data-tip="템포"><input id="bpm" type="number" step="0.1"><span>BPM</span></label>
   <div id="sig" class="lcd sig" data-tip="박자표">4 / 4</div>
+  <button id="grid" class="lcd grid" data-tip="격자 — Ctrl+1 촘촘히 · Ctrl+2 넓게 · Ctrl+4(또는 클릭) 격자 끄기/켜기 · 끌 때 Shift/Alt 를 누르면 격자 무시">1/16</button>
+  <div class="seg">
+    <button id="kbd" class="kbd">⌨</button>
+    <span id="midiled" class="midiled none" data-tip="MIDI 입력"></span>
+  </div>
   <div class="seg">
     <button id="zout" data-icon="zoomout" data-tip="축소 (Ctrl+휠)"></button>
     <button id="zfit" data-icon="fit" data-tip="곡 전체 맞춤"></button>
@@ -120,5 +125,6 @@
 <script src="controls.js"></script>
 <script src="pianoroll.js"></script>
 <script src="app.js"></script>
+<script src="daw.js"></script>
 </body>
 </html>
