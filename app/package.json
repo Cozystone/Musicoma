@@ -48,7 +48,8 @@
       "installerIcon": "build/icon.ico",
       "uninstallerIcon": "build/icon.ico",
       "artifactName": "Musicoma Setup ${version}.exe",
-      "include": "build/installer.nsh"
+      "include": "build/installer.nsh",
+      "license": "../LICENSE"
     },
     "extraResources": [
       {
@@ -102,8 +103,17 @@
       {
         "from": "runtime/dist/uv.exe",
         "to": "runtime/uv.exe"
+      },
+      {
+        "from": "../LICENSE",
+        "to": "musicoma/LICENSE"
+      },
+      {
+        "from": "../LICENSING.md",
+        "to": "musicoma/LICENSING.md"
       }
     ],
     "compression": "normal"
-  }
+  },
+  "license": "AGPL-3.0-only"
 }

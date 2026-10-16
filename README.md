@@ -126,7 +126,10 @@ Claude Code 에서 이 폴더를 열면 `.mcp.json` 으로 MCP 도구가 등록�
 - 실존 가수 목소리 복제는 하지 않는다(스타일 — 말투·강세·태도 — 만). 저작권 있는 녹음은 받지 않는다(사용자 본인 파일만).
 
 ## 라이선스
-**아직 정하지 않았다** — 정해질 때까지 이 저장소의 Musicoma 코드는 저작권자에게 모든 권리가 있다.
-제3자 구성요소는 각자의 라이선스를 따른다: `app/THIRD_PARTY_NOTICES.md`.
-2026-10-16 부터 엔진은 자체 코드(클린룸)이고 런타임에서도 GPL 패키지(pedalboard)를 뺐다 — **설치 파일 안에 GPL/AGPL 구성요소가 없다.**
-엔진이 쓰는 외부 코드는 Steinberg VST3 SDK(MIT)뿐. 첫 실행 때 받는 플러그인(Surge XT·Dexed·Dragonfly, GPL-3.0)은 따로 배포되는 별개 프로그램이다.
+**AGPL-3.0 + 상용 이중 라이선스** — 자세한 것은 [`LICENSING.md`](LICENSING.md), 전문은 [`LICENSE`](LICENSE).
+- 무료: AGPL-3.0 — 쓰고 고치고 배포할 수 있지만, 고친 것을 배포하거나 서비스로 제공하면 전체 소스를 같은 조건으로 공개.
+- 상용: 소스 공개 없이 제품·서비스에 넣으려면 저작권자(@Cozystone)와 별도 계약.
+- Musicoma 로 만든 곡에 대해 Musicoma 는 권리를 주장하지 않는다.
+
+엔진은 자체 코드(클린룸)이고 설치 파일 안에 남의 GPL/AGPL 구성요소는 없다(외부 코드는 VST3 SDK, MIT) — 그래서 이중 라이선스가 가능하다.
+제3자 구성요소: `app/THIRD_PARTY_NOTICES.md`. 첫 실행 때 받는 플러그인(Surge XT·Dexed·Dragonfly, GPL-3.0)은 따로 배포되는 별개 프로그램.
