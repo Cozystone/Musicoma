@@ -716,5 +716,36 @@ def vocal_styles() -> dict:
     return {k: {"humanize": v["humanize"], "character": v["character"], "post": v["post"]} for k, v in vs.STYLES.items()}
 
 
+@mcp.tool()
+def knowledge_write(kind: str, id: str, text: str) -> dict:
+    """Save a NEW knowledge card so the next song can reuse it (the headless producer has no file-write tool otherwise — 10-17).
+    kind: 'style' (musicoma/knowledge/styles/<id>.yaml: id,name,aliases,essence,tempo,swing,harmony,drums,bass,keys,guitar,vocal,mix,form)
+        | 'references' (musicoma/knowledge/references/<id>.yaml: genre,collected,songs[{title,artist,measured,learn,sources}],targets_for_ours).
+    text = full YAML. Refuses to overwrite an existing card unless id ends with '-v2' etc. Returns the path."""
+    import re
+    import yaml
+    kind = kind.strip().lower()
+    if kind not in ("style", "references"):
+        raise ValueError("kind: style | references")
+    sid = re.sub(r"[^a-z0-9-]+", "-", id.strip().lower()).strip("-")
+    if not sid:
+        raise ValueError("id 가 비었음")
+    try:
+        data = yaml.safe_load(text)
+    except Exception as ex:
+        raise ValueError(f"YAML 오류: {ex}")
+    if not isinstance(data, dict):
+        raise ValueError("YAML 최상위가 매핑이어야 함")
+    d = Path(__file__).resolve().parent / "knowledge" / ("styles" if kind == "style" else "references")
+    d.mkdir(parents=True, exist_ok=True)
+    path = d / f"{sid}.yaml"
+    if path.exists():
+        raise ValueError(f"이미 있음: {path.name} — 다른 id(예: {sid}-v2)로 저장하거나 그대로 쓰세요")
+    if kind == "style":
+        data.setdefault("id", sid)
+    path.write_text(text if text.endswith("\n") else text + "\n", encoding="utf-8")
+    return {"saved": str(path), "kind": kind, "id": sid, "keys": list(data)[:12]}
+
+
 if __name__ == "__main__":
     mcp.run()
