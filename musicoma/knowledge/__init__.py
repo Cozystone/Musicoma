@@ -46,7 +46,7 @@ def style(sid):
 
 def sounds():
     cat = _load(HERE / "sounds.yaml")
-    user = HERE / "sounds_user.yaml"            # AI 가 즉석에서 받은 팩(packs.add_from_url) — 역할 이름으로 합친다
+    user = ROOT / "sounds" / "sounds_user.yaml"   # AI 가 즉석에서 받은 팩(packs.add_from_url) — 역할 이름으로 합친다(데이터 폴더)
     if user.exists():
         u = _load(user) or {}
         cat.setdefault("sfz", {}).update(u.get("sfz") or {})

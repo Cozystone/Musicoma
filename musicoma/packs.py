@@ -4,7 +4,7 @@
     packs.install("dexed")               목록의 팩 하나 받기(진행은 로그 리스트로)
     packs.add_from_url(url, id, name, license, author, homepage, kind="sfz")
                                          목록에 없는 무료 팩(zip, SFZ/wav) — 받아 풀고 sounds/sfz/<id>/ 에 두고
-                                         knowledge/sounds_user.yaml 에 역할 이름으로 등록 → resolve_sound 로 바로 쓸 수 있다
+                                         sounds/sounds_user.yaml 에 역할 이름으로 등록 → resolve_sound 로 바로 쓸 수 있다
 원칙: 라이선스가 자유로운 것만(CC0 · CC-BY · Public Domain · MIT/GPL 샘플). 출처·라이선스·저작자는 ATTRIBUTION 에 남긴다.
       zip 만 받는다(실행 파일·설치 프로그램 금지). 크기 상한 3 GB. 압축 안의 경로 탈출 검사는 setup_assets.extract 가 한다.
 """
@@ -21,7 +21,7 @@ import yaml
 from . import setup_assets as sa
 
 ROOT = Path(__file__).resolve().parent.parent
-USER_YAML = Path(__file__).resolve().parent / "knowledge" / "sounds_user.yaml"
+USER_YAML = ROOT / "sounds" / "sounds_user.yaml"        # 데이터 폴더에 — 코드 폴더는 설치 파일이 갈아엎는다(10-17 재설치 때 사라짐)
 USER_DIR = ROOT / "sounds" / "sfz"
 MAX_BYTES = 3 * 2 ** 30
 FREE_LICENSES = ("cc0", "cc-by", "cc by", "public domain", "pd", "mit", "gpl", "lgpl", "unlicense", "ofl", "apache")
