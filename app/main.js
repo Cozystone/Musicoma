@@ -15,6 +15,7 @@ const { spawn, execFileSync, execFile } = require('child_process');
 const net = require('net');
 const fs = require('fs');
 const path = require('path');
+const listenServer = require('./listen');   // 레퍼런스 듣기(:47803) — AI 가 곡을 직접 열어 듣는다
 
 const ENGINE_PORT = 47800;
 const HTTP_PORT = 47802;
@@ -406,6 +407,7 @@ if (!app.requestSingleInstanceLock()) {
 
   app.whenReady().then(async () => {
     Menu.setApplicationMenu(null);
+    listenServer.start(log);
     const { root, source } = resolveRoot();
     const py = resolvePython(root);
     log(`start — root=${root} (${source}) python=${py.python} runtime=${RUNTIME_DIR} packaged=${app.isPackaged}`);

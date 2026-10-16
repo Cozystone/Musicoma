@@ -270,6 +270,7 @@ def _prompt(song, track, text):
             f"새 곡이면 이름을 정해 build_spec 으로 짓고, 기존 곡이면 song_status 로 상태부터 본다. "
             f"Musicoma MCP 도구로만 작업하고, 끝나면 render 해서 바꾼 것과 숫자를 짧게 한국어로 보고해. "
             f"요청이 지금 곡과 다른 장르·다른 곡이면 기존 곡을 덮지 말고 새 곡 이름으로 만든다. "
+            f"장르·느낌의 기준이 필요하면 listen_reference 로 대표곡 1~3곡을 직접 들어 숫자(템포·조성·그루브·대역)로 잡는다. "
             f"요청: {text}")
 
 

@@ -60,9 +60,30 @@ def estimate_key(mono, sr):
 
 def analyze(path):
     audio, sr = load(path)
+    return analyze_array(audio, sr, file=path)
+
+
+def measure_light(path):
+    """믹스 밸런스용 가벼운 측정 — 음량·피크·6대역·폭만(템포·조성·문제 검사 없음).
+    10-17: 트랙별 측정에 analyze() 를 쓰니 7트랙 58초, 대부분이 템포·조성 추정이었다."""
+    audio, sr = load(path)
+    mono = audio.mean(axis=1)
+    lufs = pyln.Meter(sr).integrated_loudness(audio)
+    mid, side = (audio[:, 0] + audio[:, 1]) / 2, (audio[:, 0] - audio[:, 1]) / 2
+    return {"lufs": round(lufs, 1) if np.isfinite(lufs) else None,
+            "peak": round(db(np.abs(audio).max()), 1),
+            "bands_db": band_energy(mono, sr),
+            "width": round(db(np.sqrt(np.mean(side ** 2))) - db(np.sqrt(np.mean(mid ** 2))), 1)}
+
+
+def analyze_array(audio, sr, file=None):
+    """analyze() 와 같지만 메모리의 (n, 2) 배열로 — 레퍼런스 실시간 듣기(listen.py)는 파일을 만들지 않는다."""
+    audio = np.asarray(audio, dtype=np.float32)
+    if audio.ndim == 1:
+        audio = np.stack([audio, audio], 1)
     mono = audio.mean(axis=1)
     meter = pyln.Meter(sr)
-    out = {"file": path, "seconds": round(len(mono) / sr, 2), "sample_rate": sr}
+    out = {"file": file, "seconds": round(len(mono) / sr, 2), "sample_rate": sr}
 
     # 음량
     integrated = meter.integrated_loudness(audio)

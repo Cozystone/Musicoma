@@ -88,7 +88,7 @@ const std::vector<std::pair<std::string, std::string>>& helpList()
         { "audio.set", "{device, buffer?} choose the playback output" },
         { "inputs.list", "MIDI and audio inputs (keyboards, controllers, interfaces)" },
         { "track.arm", "{track, armed=true, input?(device name; default = first MIDI keyboard)} record-arm a track" },
-        { "render", "{path?, start?, end?, tail=2, sample_rate=48000, bit_depth=24, tracks?} -> wav" },
+        { "render", "{path?, start?, end?, tail=2, sample_rate=48000, bit_depth=24, tracks?, stems_dir?} -> wav (+ per-track wavs in stems_dir, one pass)" },
         { "midi.inject", "{messages:[[status,data1,data2],...]} virtual keyboard: same path as a MIDI input (monitor + record)" },
     };
     return h;
@@ -167,9 +167,30 @@ static Json doRender (Engine& e, const Json& p)
     std::vector<std::vector<float>> ch (2, std::vector<float> ((size_t) (f1 - f0), 0.0f));
     std::vector<float> L (block), R (block);
     const int64_t lat = g.latency();          // 지연 보정(PDC): 곡 전체가 lat 샘플 늦게 나오므로 그만큼 더 돌리고 앞을 버린다
+    // stems_dir: 같은 한 번의 렌더에서 트랙마다(페이더 뒤, 마스터 앞) 파일도 쓴다 — 트랙 수만큼 다시 돌리지 않는다
+    const std::string stemsDir = p.str ("stems_dir");
+    std::map<std::string, std::vector<std::vector<float>>> stems;
+    int64_t curF = 0;
+    if (! stemsDir.empty())
+    {
+        for (auto& t : P.tracks)
+            if (! t.mute && (only.empty() || only.count (t.name)))
+                stems[t.name] = std::vector<std::vector<float>> (2, std::vector<float> ((size_t) (f1 - f0), 0.0f));
+        g.tap = [&] (const std::string& name, const float* a, const float* b, int n)
+        {
+            auto it = stems.find (name);
+            if (it == stems.end()) return;
+            for (int i = 0; i < n; ++i)
+            {
+                int64_t o = curF + i - lat - f0;
+                if (o >= 0 && o < f1 - f0) { it->second[0][(size_t) o] = a[i]; it->second[1][(size_t) o] = b[i]; }
+            }
+        };
+    }
     for (int64_t f = f0; f < f1 + lat; f += block)
     {
         int n = (int) std::min<int64_t> (block, f1 + lat - f);
+        curF = f;
         g.process (L.data(), R.data(), n, f, true, only.empty() ? nullptr : &only, nullptr, -1);
         for (int i = 0; i < n; ++i)
         {
@@ -186,9 +207,24 @@ static Json doRender (Engine& e, const Json& p)
     std::string err;
     if (! writeWav (u8path (path), ch, f1 - f0, sr, bits == 16 ? 16 : bits == 32 ? 32 : 24, err))
         throw CommandError ("render: cannot write " + path + ": " + err);
+    Json stemOut = Json::object();
+    if (! stemsDir.empty())
+    {
+        fs::create_directories (u8path (stemsDir));
+        for (auto& [name, buf] : stems)
+        {
+            std::string safe = name;
+            for (auto& c : safe) if (std::string ("\\/:*?\"<>|").find (c) != std::string::npos) c = '_';
+            fs::path sp = u8path (stemsDir) / u8path (safe + ".wav");
+            if (! writeWav (sp, buf, f1 - f0, sr, 24, err))
+                throw CommandError ("render: cannot write stem " + pathToU8 (sp) + ": " + err);
+            stemOut.set (name, Json::string (pathToU8 (sp)));
+        }
+    }
     double ms = std::chrono::duration<double, std::milli> (std::chrono::steady_clock::now() - t0).count();
     Json o = Json::object();
     o.set ("path", Json::string (path));
+    if (! stemsDir.empty()) o.set ("stems", stemOut);
     o.set ("seconds", Json::number (std::round ((double) (f1 - f0) / sr * 10) / 10));
     o.set ("render_ms", Json::number (ms));
     return o;

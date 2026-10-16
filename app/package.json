@@ -28,6 +28,7 @@
       "splash.html",
       "firstrun.html",
       "firstrun-preload.js",
+      "listen.js",
       "build/icon.ico",
       "package.json"
     ],

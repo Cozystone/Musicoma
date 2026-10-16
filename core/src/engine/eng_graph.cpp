@@ -318,7 +318,9 @@ void Graph::process (float* L, float* R, int n, int64_t f0, bool playing,
                 float a = tL[(size_t) i] * gl, b = tR[(size_t) i] * gr;
                 mL[(size_t) i] += a; mR[(size_t) i] += b;
                 pl = std::max (pl, std::abs (a)); pr = std::max (pr, std::abs (b));
+                if (tap) { tL[(size_t) i] = a; tR[(size_t) i] = b; }     // 엿듣기용(페이더 뒤 값으로 덮어씀 — 이 블록에서 더 안 씀)
             }
+            if (tap) tap (t.name, tL.data(), tR.data(), n);
             auto& pk = peak[t.name];
             pk[0] = std::max (pl, pk[0] * 0.85f); pk[1] = std::max (pr, pk[1] * 0.85f);
         }

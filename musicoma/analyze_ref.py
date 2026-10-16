@@ -126,8 +126,13 @@ def _vocal_pitch(vocal_path, sections):
 
 def _drum_pattern(drum_path, beats, sr=22050):
     """드럼 스템 → 마디별 16칸 킥/스네어/햇 패턴(가장 흔한 것) + 스윙(8분 안 엇박 위치, 0.5 = 곧음)."""
-    from collections import Counter
     y, _ = librosa.load(drum_path, sr=sr, mono=True)
+    return drum_pattern_y(y, beats, sr)
+
+
+def drum_pattern_y(y, beats, sr=22050):
+    """_drum_pattern 의 배열판(모노, sr). beats = 박 시각(초)."""
+    from collections import Counter
     on = librosa.onset.onset_detect(y=y, sr=sr, units="samples", backtrack=False, delta=0.06)
     bars = beats[::4]
     pats, offs = {}, []

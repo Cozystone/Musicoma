@@ -437,7 +437,7 @@ def references(genre: str) -> dict:
     """STEP 0 of every new song: existing reference songs for the genre — form, tempo, key, harmony, devices to learn,
     with sources (knowledge/references/<genre>.yaml) + any of the user's own songs measured by the analyzer
     (scratch/refs) + genre human-priors (timing/form numbers). If no card exists or it is thin, WebSearch 3-5 canonical
-    songs (tempo/key/structure/arrangement from chord sites, wikis, reviews — never download audio), write a new card,
+    songs (tempo/key/structure/arrangement from chord sites, wikis, reviews; HEAR them with listen_reference — never download audio files), write a new card,
     then cite them in concept.references. Learn forms/devices only; never copy melodies or lyrics."""
     import yaml
     from musicoma import corpus
@@ -449,6 +449,46 @@ def references(genre: str) -> dict:
             card = d
     g = {"city-pop": "citypop", "hip-hop": "hiphop", "boom-bap": "hiphop", "chipmunk-soul": "hiphop"}.get(genre, genre)
     return {"card": card, "measured_priors": corpus.priors(g), "note": None if card else "카드 없음 — WebSearch 로 대표곡 3~5개를 조사해 knowledge/references/<genre>.yaml 로 저장"}
+
+
+@mcp.tool()
+def listen_reference(query: str = "", url: str = "", name: str = "", clips: int = 3, seconds: float = 20,
+                     speed: float = 4) -> dict:
+    """HEAR a reference song yourself (needs the Musicoma app running). query = "artist title" (searched on YouTube)
+    or url = a page with the video/audio. The app plays it in a hidden window and captures only that window's sound
+    in memory (nothing is saved, nothing goes to the speakers), at `clips` spots (~12%..88% of the song), `seconds` each.
+    speed: plays N× without pitch correction and reads it back at the original rate — same sound, N× faster (1-4;
+    the middle clip is always 1× for the tone/bands measurement). Measured: 4× gives the same tempo/key/swing as 1×.
+    Returns a reference card: tempo, key (per-clip vote), loudness, 6 bands (same scale as render reports → compare
+    directly), stereo, drum 16-step patterns + swing, stem balance, vocal pitch/rate, attacks/sec and 'feel' words.
+    Use it in STEP 0 for 1-3 canonical songs of the requested style, then set the song's targets from the numbers.
+    Learn feel/numbers only — never copy melodies or lyrics."""
+    import base64
+    import urllib.error
+    import urllib.request
+    import numpy as np
+    from musicoma import listen
+    body = json.dumps({"query": query, "url": url, "clips": clips, "seconds": seconds, "speed": speed}).encode("utf-8")
+    req = urllib.request.Request("http://127.0.0.1:47803/listen", data=body, headers={"Content-Type": "application/json"})
+    try:
+        with urllib.request.urlopen(req, timeout=300) as r:
+            got = json.loads(r.read())
+    except urllib.error.HTTPError as ex:
+        return {"error": json.loads(ex.read() or b"{}").get("error", str(ex))}
+    except OSError as ex:
+        return {"error": f"Musicoma 앱이 켜져 있어야 들을 수 있습니다 ({ex})"}
+    import librosa
+    sr = got["sample_rate"]
+    pcm = []
+    for c, rate in zip(got["clips"], got.get("rates") or [sr] * len(got["clips"])):
+        y = np.frombuffer(base64.b64decode(c), dtype=np.int16).reshape(-1, 2).astype(np.float32) / 32768.0
+        if int(rate) != int(sr):          # 1배속 구간은 높은 샘플레이트로 받았다 → 공통 레이트로
+            y = librosa.resample(y.T, orig_sr=int(rate), target_sr=int(sr)).T
+        pcm.append(np.ascontiguousarray(y))
+    meta = {**got["meta"], "speeds": got.get("speeds")}
+    card = listen.analyze_clips(pcm, sr, meta, name=name or None)
+    card.pop("clips", None)
+    return _j(card)
 
 
 @mcp.tool()

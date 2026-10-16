@@ -121,9 +121,22 @@ struct AudioOutput::Impl
     std::string lastError;
 
     void threadMain (std::promise<std::string>* initResult);
+    int runOnce (std::promise<std::string>*& initResult);   // 0 = 끝(멈춤·첫 열기 실패), 1 = 다시 열기
 };
 
+// 장치를 연 채로 돌다가, 기본 장치가 바뀌었거나(기본을 따를 때) 장치가 사라지면 다시 연다(10-17: 앱을 켤 때의 기본 장치에
+// 계속 묶여 있어서, 그 뒤 Windows 기본을 KEF 로 바꿔도 소리가 Realtek 으로 나가던 것).
 void AudioOutput::Impl::threadMain (std::promise<std::string>* initResult)
+{
+    for (;;)
+    {
+        if (runOnce (initResult) == 0) break;
+        if (WaitForSingleObject (stopEv, 500) == WAIT_OBJECT_0) break;
+    }
+    if (initResult) initResult->set_value ("알 수 없는 초기화 실패");
+}
+
+int AudioOutput::Impl::runOnce (std::promise<std::string>*& initResult)
 {
     ComScope com;
     IMMDeviceEnumerator* en = nullptr;
@@ -138,6 +151,9 @@ void AudioOutput::Impl::threadMain (std::promise<std::string>* initResult)
     Fmt fmt = Fmt::Unknown;
     int ch = 0;
     bool started = false;
+    bool reopen = false;          // 기본 장치 바뀜·장치 사라짐 → 다시 열기
+    const bool firstOpen = initResult != nullptr;
+    std::wstring openedId;
 
     auto fail = [&] (std::string e)
     {
@@ -175,6 +191,7 @@ void AudioOutput::Impl::threadMain (std::promise<std::string>* initResult)
             if (FAILED (hr)) { fail (hrText ("장치 열기", hr)); break; }
         }
         devName = toUtf8 (friendlyName (dev).c_str());
+        openedId = deviceId (dev);
 
         hr = dev->Activate (__uuidof (IAudioClient), CLSCTX_ALL, nullptr, (void**) &client);
         if (FAILED (hr)) { fail (hrText ("IAudioClient 활성화", hr)); break; }
@@ -264,22 +281,36 @@ void AudioOutput::Impl::threadMain (std::promise<std::string>* initResult)
         const HANDLE evs[2] = { stopEv, audioEv };
         const int bytesPerSample = mix->wBitsPerSample / 8;
         const int frameBytes = mix->nBlockAlign;
+        ULONGLONG lastCheck = GetTickCount64();
         for (;;)
         {
-            DWORD w = WaitForMultipleObjects (2, evs, FALSE, 2000);
+            DWORD w = WaitForMultipleObjects (2, evs, FALSE, 1000);
             if (w == WAIT_OBJECT_0) break;
+            if (wantName.empty() && GetTickCount64() - lastCheck >= 1000)   // 기본을 따르는 중: 1초마다 기본 장치 확인
+            {
+                lastCheck = GetTickCount64();
+                IMMDevice* def = nullptr;
+                if (SUCCEEDED (en->GetDefaultAudioEndpoint (eRender, eConsole, &def)))
+                {
+                    const bool changed = deviceId (def) != openedId;
+                    def->Release();
+                    if (changed) { lastError = "기본 출력 장치가 바뀜"; reopen = true; break; }
+                }
+            }
             if (w == WAIT_TIMEOUT) continue;                       // 장치가 잠시 멈춤 — 계속 기다린다
             if (w != WAIT_OBJECT_0 + 1) { lastError = "WaitForMultipleObjects 실패"; break; }
 
             UINT32 pad = 0;
             hr = client->GetCurrentPadding (&pad);
-            if (FAILED (hr)) { lastError = hr == AUDCLNT_E_DEVICE_INVALIDATED ? "장치가 사라짐(무효화)" : hrText ("GetCurrentPadding", hr); break; }
+            if (hr == AUDCLNT_E_DEVICE_INVALIDATED) { lastError = "장치가 사라짐(무효화)"; reopen = true; break; }
+            if (FAILED (hr)) { lastError = hrText ("GetCurrentPadding", hr); break; }
             const UINT32 n = bufSize - pad;
             if (n == 0) continue;
 
             BYTE* data = nullptr;
             hr = render->GetBuffer (n, &data);
-            if (FAILED (hr)) { lastError = hr == AUDCLNT_E_DEVICE_INVALIDATED ? "장치가 사라짐(무효화)" : hrText ("GetBuffer", hr); break; }
+            if (hr == AUDCLNT_E_DEVICE_INVALIDATED) { lastError = "장치가 사라짐(무효화)"; reopen = true; break; }
+            if (FAILED (hr)) { lastError = hrText ("GetBuffer", hr); break; }
 
             float* L = bufL.data();
             float* R = bufR.data();
@@ -326,7 +357,8 @@ void AudioOutput::Impl::threadMain (std::promise<std::string>* initResult)
     safeRelease (en);
     if (mix) CoTaskMemFree (mix);
     if (audioEv) CloseHandle (audioEv);
-    fail ("알 수 없는 초기화 실패");   // 아직 알리지 않았으면(정상 경로에선 무시됨)
+    if (! started) return firstOpen ? 0 : 1;   // 처음 열기 실패는 open() 이 오류로 돌려주고, 다시 열기 실패는 잠시 뒤 또 시도
+    return reopen ? 1 : 0;
 }
 
 //==============================================================================

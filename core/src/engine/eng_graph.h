@@ -1,6 +1,7 @@
 // Musicoma Engine — 곡 그래프: 블록 단위로 트랙(클립 → 체인 → 볼륨·팬) → 버스(센드·리턴) → 마스터.
 // 실시간 재생과 오프라인 렌더가 같은 코드를 쓴다(소리가 같게).
 #pragma once
+#include <functional>
 #include <array>
 #include <map>
 #include <set>
@@ -34,6 +35,9 @@ public:
 
     /** 곡 전체의 처리 지연(샘플) = 트랙 체인 지연의 최댓값. 모든 트랙을 이만큼 맞춰 늦춘다(PDC). */
     int latency();
+
+    /** 트랙별 출력 엿듣기(페이더·팬 뒤, 마스터 앞) — 한 번의 렌더로 모든 트랙 스템을 뽑는다(10-17 속도). */
+    std::function<void (const std::string& track, const float* L, const float* R, int n)> tap;
 
 private:
     Engine& eng;

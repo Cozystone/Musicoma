@@ -347,7 +347,9 @@ struct Builder
             std::replace (v.begin(), v.end(), '\\', '/');
             if (! v.empty() && v[0] == '*') { r.silence = true; r.sample.clear(); if (v != "*silence") unsupported ("sample=" + v); return; }
             r.silence = false;
-            fs::path p = u8path (defaultPath + v);
+            // 절대 경로(D:/… 또는 /…)면 default_path 를 붙이지 않는다(10-17: 찹 킷 경로가 두 번 붙어 무음이던 것)
+            const bool abs = (v.size() > 2 && v[1] == ':') || (! v.empty() && v[0] == '/');
+            fs::path p = u8path (abs ? v : defaultPath + v);
             if (p.is_relative()) p = rootDir / p;
             r.sample = pathToU8 (p.lexically_normal());
             return;

@@ -279,6 +279,9 @@ class Song:
             except OSError:
                 pass
         stamp = time.strftime("%H%M%S")
+        rows = self._render_stems_one_pass(info, out_dir, stamp, start, end, only)
+        if rows is not None:
+            return rows
         rows = []
         for t in info["tracks"]:
             if t["mute"] or (only is not None and t["name"] not in only):
@@ -293,11 +296,47 @@ class Song:
             except Exception as ex:          # 소리 없는 트랙(리턴 버스 단독 등)
                 rows.append({"track": t["name"], "error": str(ex)[:80]})
                 continue
-            rep, _, _ = ears_mod.analyze(r["path"])
-            rows.append({"track": t["name"], "lufs": rep["loudness"]["lufs_integrated"],
-                         "peak": rep["loudness"]["sample_peak_dbfs"], "bands_db": rep["bands_db"],
-                         "width": rep["stereo"]["width_side_to_mid_db"]})
+            rows.append({"track": t["name"], **ears_mod.measure_light(r["path"])})
         return rows
+
+    def _render_stems_one_pass(self, info, out_dir, stamp, start, end, only):
+        """엔진 한 번 렌더로 모든 트랙 스템(페이더 뒤, 마스터 앞) → 측정은 병렬. 엔진이 stems_dir 를 모르면 None.
+        10-17 실측(7트랙): 렌더는 따로 해도 5.5초로 빨랐고, 느린 건 트랙마다 돌던 전체 분석(58초) — 가벼운 측정 + 병렬로.
+        한 번 렌더라 리턴 버스(리버브) 스템도 실제 센드가 들어간 소리로 잰다."""
+        from concurrent.futures import ThreadPoolExecutor
+        names = [t["name"] for t in info["tracks"] if not t["mute"] and (only is None or t["name"] in only)]
+        if not names:
+            return []
+        tmp = out_dir / f"_pass_{stamp}"
+        params = {"tail": 1.5, "path": str(tmp / "_mix.wav"), "stems_dir": str(tmp)}
+        if only is not None:
+            params["tracks"] = names
+        if start is not None:
+            params["start"] = start
+        if end is not None:
+            params["end"] = end
+        r = self.e.call("render", params)
+        if "stems" not in r:                     # 옛 엔진
+            shutil.rmtree(tmp, ignore_errors=True)
+            return None
+        files = {}
+        for n in names:
+            src = r["stems"].get(n)
+            if src:
+                dst = out_dir / f"{n}_{stamp}.wav"
+                Path(src).replace(dst)
+                files[n] = dst
+        shutil.rmtree(tmp, ignore_errors=True)
+
+        def measure(n):
+            if n not in files:
+                return {"track": n, "error": "no stem"}
+            m = ears_mod.measure_light(str(files[n]))
+            if m["lufs"] is None or m["lufs"] < -70:      # 소리 없음(리턴 버스에 아무것도 안 보낸 경우 등)
+                return {"track": n, "error": "silent"}
+            return {"track": n, **m}
+        with ThreadPoolExecutor(max_workers=min(8, len(names))) as ex:
+            return list(ex.map(measure, names))
 
     def balance(self, targets=None, reference="drums", max_move_db=12.0, passes=3, tolerance_lu=0.7, rows=None, measure=None):
         """여러 번 재고 고친다 — 트랙 볼륨이 컴프레서 앞에 있으면 올린 만큼 안 올라가서(10-15 kanye 랩이 묻힌 원인),

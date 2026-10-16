@@ -273,7 +273,8 @@ def make_kit(chops, out_sfz, base_note=36, one_shot=True, names=None, choke=Fals
     """찹 → SFZ 킷 (패드처럼 노트 하나에 조각 하나). SfzPlugin 에 바로 로드."""
     out_sfz = Path(out_sfz)
     out_sfz.parent.mkdir(parents=True, exist_ok=True)
-    lines = ["// Musicoma chop kit", "<control>", f"default_path={out_sfz.parent.as_posix()}/", "", "<global>",
+    # default_path 는 쓰지 않는다 — SFZ 에선 .sfz 파일 기준 상대 경로인데, 예전엔 작업 폴더 기준 경로를 넣어 샘플이 안 읽혔다(10-17)
+    lines = ["// Musicoma chop kit", "<global>",
              "ampeg_attack=0.001", "ampeg_release=0.03" if one_shot else "ampeg_release=0.25"]
     if one_shot:
         lines.append("loop_mode=one_shot")

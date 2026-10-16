@@ -31,7 +31,82 @@ SAMPLE_TEXT = {"en": "Yeah, this one goes out to everybody chasing something big
                "ko": "오늘 밤 도시의 불빛 아래에서 나는 다시 꿈을 꾼다."}
 
 
+_VOX = None   # 상주 VoxCPM 프로세스(이 파이썬 프로세스가 사는 동안 모델을 한 번만 올린다)
+
+
+class _VoxServer:
+    def __init__(self):
+        import queue
+        import threading
+        env = {**os.environ, "PYTHONUTF8": "1", "PYTHONIOENCODING": "utf-8", "HF_HOME": str(VOX / "hf"),
+               "HF_HUB_OFFLINE": "1"}
+        (VOX / "_jobs").mkdir(exist_ok=True)
+        self.err = open(VOX / "_jobs" / "server.log", "a", encoding="utf-8", errors="replace")
+        self.p = subprocess.Popen([str(PY), str(VOX / "musicoma_voxcpm.py"), "--serve"], cwd=VOX, env=env,
+                                  stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=self.err,
+                                  text=True, encoding="utf-8", errors="replace", bufsize=1)
+        self.q = queue.Queue()
+
+        def pump():
+            for line in self.p.stdout:
+                if line.startswith("{"):
+                    try:
+                        self.q.put(json.loads(line))
+                    except ValueError:
+                        pass
+            self.q.put({"exit": self.p.poll()})
+        threading.Thread(target=pump, daemon=True).start()
+        msg = self._next(600)
+        if not msg.get("ready"):
+            raise RuntimeError(f"VoxCPM 상주 시작 실패: {msg}")
+
+    def _next(self, timeout):
+        import queue
+        try:
+            msg = self.q.get(timeout=timeout)
+        except queue.Empty:
+            raise RuntimeError("VoxCPM 응답 없음(시간 초과)")
+        if "exit" in msg:
+            raise RuntimeError(f"VoxCPM 상주 프로세스 종료({msg['exit']}) — {self.err.name}")
+        return msg
+
+    def run(self, jobs):
+        self.p.stdin.write(json.dumps({"jobs": jobs}, ensure_ascii=False) + "\n")
+        self.p.stdin.flush()
+        while True:
+            msg = self._next(1800)
+            if "done" in msg:
+                return msg
+            if "error" in msg:
+                raise RuntimeError("VoxCPM: " + msg["error"])
+
+    def alive(self):
+        return self.p.poll() is None
+
+    def close(self):
+        try:
+            if self.alive():
+                self.p.stdin.write("quit\n")
+                self.p.stdin.flush()
+                self.p.wait(timeout=20)
+        except Exception:
+            self.p.kill()
+        self.err.close()
+
+
 def _run(jobs, tag="job"):
+    """작업 목록 → VoxCPM. 상주 프로세스로 보내고(모델 로드 1번), 상주가 안 되면 예전처럼 한 번 띄워 돌린다."""
+    global _VOX
+    try:
+        if _VOX is None or not _VOX.alive():
+            import atexit
+            _VOX = _VoxServer()
+            atexit.register(_VOX.close)
+        return _VOX.run(jobs)
+    except RuntimeError as ex:
+        if "VoxCPM: " in str(ex):          # 요청 자체가 잘못됨 — 다시 해도 같다
+            raise
+        _VOX = None
     work = VOX / "_jobs"
     work.mkdir(exist_ok=True)
     req = work / f"{tag}_{random.randrange(10**8)}.json"
