@@ -114,7 +114,16 @@
         "to": "musicoma/LICENSING.md"
       }
     ],
-    "compression": "normal"
+    "compression": "normal",
+    "electronFuses": {
+      "runAsNode": false,
+      "enableCookieEncryption": true,
+      "enableNodeOptionsEnvironmentVariable": false,
+      "enableNodeCliInspectArguments": false,
+      "enableEmbeddedAsarIntegrityValidation": true,
+      "onlyLoadAppFromAsar": true,
+      "grantFileProtocolExtraPrivileges": false
+    }
   },
   "license": "AGPL-3.0-only"
 }
