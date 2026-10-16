@@ -124,7 +124,7 @@ body.simple .pro-only { display: none !important; }
 .th button.s.on { background: var(--solo); color: #fff; }
 
 /* 프로듀서 패널 */
-#producer { border-left: 1px solid var(--edge); display: grid; grid-template-rows: 22px auto auto 1fr auto 18px 150px; }
+#producer { border-left: 1px solid var(--edge); display: grid; grid-template-rows: 22px auto auto 1fr auto 18px 110px; }   /* 렌더·버전은 낮게 — 듣기 뷰어 자리(10-17) */
 .p-head { background: var(--panel-hi); border-bottom: 1px solid var(--edge); padding: 0 6px; line-height: 21px; font-weight: 600; }
 .p-head small { font-weight: 400; color: var(--dim); margin-left: 6px; }
 #ai { margin: 4px 6px 0; width: calc(100% - 12px); }

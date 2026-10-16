@@ -104,6 +104,31 @@ def _clip(y, sr):
     return out
 
 
+def _form(y, sr, bpm_hint=None):
+    """전곡 → 구간 목록(A/B/…, 시작 초, 마디 수, 크기 dB) + 첫 '가장 큰 반복 구간'(후렴일 가능성)이 오는 시각."""
+    from .analyze_ref import _beats, _sections
+    mono = y.mean(1) if y.ndim > 1 else y
+    y22 = librosa.resample(mono, orig_sr=sr, target_sr=22050)
+    tempo, beats = _beats(y22, 22050, bpm_hint)
+    secs = _sections(y22, 22050, beats)
+    rms = librosa.feature.rms(y=y22, frame_length=2048, hop_length=512)[0]
+    out = []
+    for s in secs:
+        a, b = librosa.time_to_frames([s["start"], s["end"]], sr=22050, hop_length=512)
+        lvl = float(20 * np.log10(rms[a:max(a + 1, b)].mean() + 1e-9))
+        out.append({"label": s["label"], "start_s": s["start"], "bars": s["bars"], "level_db": round(lvl, 1)})
+    if not out:
+        return {"sections": []}
+    top = max(out, key=lambda x: x["level_db"])
+    cnt = {}
+    for s in out:
+        cnt[s["label"]] = cnt.get(s["label"], 0) + 1
+    chorus_like = [s for s in out if s["label"] == top["label"]] if cnt.get(top["label"], 0) >= 2 else [top]
+    return {"tempo_est": round(float(tempo), 1), "sections": out,
+            "first_loud_repeat_s": chorus_like[0]["start_s"], "loud_repeat_label": top["label"],
+            "note": "후렴 추정 = 가장 크고 반복되는 구간. first_loud_repeat_s 가 곡에서 후렴이 처음 오는 시각(원칙: 서두르는가?)"}
+
+
 def _feel(card):
     """숫자 → 짧은 말(프로듀서가 바로 잡는 느낌). 판단 기준은 우리 렌더 측정과 같은 눈금."""
     b, words = card.get("bands_db", {}), []
@@ -167,6 +192,13 @@ def analyze_clips(clips, sr, meta=None, name=None, save=True):
         "swing_8th_ratio": round(float(np.median(swings)), 3) if swings else None,
         "clips": per,
     }
+    # 전곡(clips=0)으로 들었으면 구성까지: 마디 단위 자기유사도로 구간을 나누고 구간별 크기 → 절·후렴이 언제 오는지
+    long = [c for c in clips if len(c) > sr * 75]
+    if long:
+        try:
+            card["form"] = _form(long[0], sr, card["tempo"])
+        except Exception as ex:
+            card["form_error"] = str(ex)[:120]
     vs = [p["vocal"] for p in per if "vocal" in p]
     if vs:
         card["vocal"] = next((v for v in vs if v.get("present")), vs[0])

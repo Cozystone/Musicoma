@@ -457,6 +457,8 @@ def listen_reference(query: str = "", url: str = "", name: str = "", clips: int 
     """HEAR a reference song yourself (needs the Musicoma app running). query = "artist title" (searched on YouTube)
     or url = a page with the video/audio. The app plays it in a hidden window and captures only that window's sound
     in memory (nothing is saved, nothing goes to the speakers), at `clips` spots (~12%..88% of the song), `seconds` each.
+    clips=0 → the WHOLE song (fast) + a 1x tone clip: adds `form` (sections with bars/level, when the first loud repeated
+    section = likely chorus arrives). Use clips=0 when you need structure/arrangement, 3 when you need only the sound.
     speed: plays N× without pitch correction and reads it back at the original rate — same sound, N× faster (1-4;
     the middle clip is always 1× for the tone/bands measurement). Measured: 4× gives the same tempo/key/swing as 1×.
     Returns a reference card: tempo, key (per-clip vote), loudness, 6 bands (same scale as render reports → compare

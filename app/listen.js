@@ -75,25 +75,29 @@ const CAPTURE = String.raw`(async (clips, seconds, speed) => {
   };
   src.connect(proc); proc.connect(ctx.destination);
   await ctx.resume();
-  const want = Math.min(seconds, Math.max(5, dur / clips - 2));
+  // clips=0 → 전곡: 처음부터 끝까지 speed 배속으로 한 번 + 가운데 20초를 1배속(소리 색) — 구성(절·후렴이 언제 오나)까지 잰다
+  const full = clips === 0;
+  const want = full ? dur - 0.5 : Math.min(seconds, Math.max(5, dur / clips - 2));
   const spots = [];
-  for (let i = 0; i < clips; i++) spots.push(Math.max(0, Math.min(dur - want - 1, dur * (0.12 + 0.76 * (clips === 1 ? 0.3 : i / (clips - 1))))));
+  if (full) spots.push(0, Math.max(0, Math.min(dur - seconds - 1, dur * 0.5)));
+  else for (let i = 0; i < clips; i++) spots.push(Math.max(0, Math.min(dur - want - 1, dur * (0.12 + 0.76 * (clips === 1 ? 0.3 : i / (clips - 1))))));
   const out = [];
   for (let ci = 0; ci < spots.length; ci++) {
     const at = spots[ci];
-    const sp = ci === Math.floor(spots.length / 2) ? 1 : speed;   // 가운데(대개 후렴 근처) 구간만 1배속
+    const sp = full ? (ci === 0 ? speed : 1) : (ci === Math.floor(spots.length / 2) ? 1 : speed);
+    const wantHere = full && ci === 1 ? seconds : want;   // 가운데(대개 후렴 근처) 구간만 1배속
     v.currentTime = at;
     await new Promise((r) => { const f = () => { v.removeEventListener('seeked', f); r(); }; v.addEventListener('seeked', f); setTimeout(f, 4000); });
     try { await v.play(); } catch (_) {}
     for (let i = 0; i < 40 && (v.readyState < 3 || v.paused); i++) await sleep(150);
     await skipAds();
     setSpeed(sp);
-    say((ci + 1) + '/' + spots.length + ' 구간 · ' + Math.floor(at / 60) + ':' + String(Math.floor(at % 60)).padStart(2, '0') +
-        '부터 ' + Math.round(want) + '초 · ' + (sp === 1 ? '1배속(소리 색 재기)' : sp + '배속(리듬·조성 재기)') + ' · 스피커로는 안 나갑니다');
+    say((full ? (ci === 0 ? '전곡 ' : '소리 색 ') : (ci + 1) + '/' + spots.length + ' 구간 · ') + Math.floor(at / 60) + ':' + String(Math.floor(at % 60)).padStart(2, '0') +
+        '부터 ' + Math.round(wantHere) + '초 · ' + (sp === 1 ? '1배속(소리 색 재기)' : sp + '배속(리듬·조성 재기)') + ' · 스피커로는 안 나갑니다');
     rec = { L: [], R: [], n: 0 };
     const t0 = Date.now();
-    const need = want * ctx.sampleRate / sp;      // 원래 소리 want 초 = 이 컨텍스트 샘플 수
-    while (rec.n < need && Date.now() - t0 < (want / sp + 15) * 1000) await sleep(50);
+    const need = wantHere * ctx.sampleRate / sp;      // 원래 소리 wantHere 초 = 이 컨텍스트 샘플 수
+    while (rec.n < need && Date.now() - t0 < (wantHere / sp + 15) * 1000) await sleep(50);
     const r = rec; rec = null;
     const pcm = new Int16Array(r.n * 2);
     let k = 0;
@@ -144,10 +148,13 @@ function attachViewer(main) {
     try {
       const r = await main.webContents.executeJavaScript(
         `(() => { const e = document.querySelector('#feed') || document.querySelector('#producer'); if (!e) return null;
-                  const b = e.getBoundingClientRect(); return { x: b.left, y: b.top, w: b.width }; })()`);
+                  const b = e.getBoundingClientRect(); return { x: b.left, y: b.top, w: b.width, W: window.innerWidth, H: window.innerHeight }; })()`);
       if (!r || view.webContents.isDestroyed()) return;
-      const w = Math.max(240, Math.round(r.w)), h = Math.round(w * 9 / 16);
-      view.setBounds({ x: Math.round(r.x), y: Math.round(r.y), width: w, height: h });
+      // 패널보다 살짝 넓게(왼쪽 어레인지 위로 조금 걸침) — 사용자가 무엇을 듣는지 알아보게(10-17 본인 요청). 오른쪽 끝은 패널에 맞춘다
+      let w = Math.max(240, Math.min(Math.round(r.W * 0.45), Math.round(r.w + 340)));
+      let h = Math.round(w * 9 / 16);
+      if (h > r.H * 0.42) { h = Math.round(r.H * 0.42); w = Math.round(h * 16 / 9); }
+      view.setBounds({ x: Math.round(r.x + r.w - w), y: Math.round(r.y), width: w, height: h });
     } catch (_) { /* 창이 닫히는 중 */ }
   };
   const onResize = () => { place(); };
@@ -178,7 +185,7 @@ async function listen({ query, url, clips = 3, seconds = 20, speed = 4, show = t
     const target = url || await findOnYouTube(win, query);
     log(`listen: ${target}`);
     await win.loadURL(target);
-    const r = await win.webContents.executeJavaScript(`${CAPTURE}(${Number(clips) | 0 || 3}, ${Number(seconds) || 20}, ${Math.min(4, Math.max(1, Number(speed) || 4))})`, true);
+    const r = await win.webContents.executeJavaScript(`${CAPTURE}(${Number(clips) === 0 ? 0 : (Number(clips) | 0 || 3)}, ${Number(seconds) || 20}, ${Math.min(4, Math.max(1, Number(speed) || 4))})`, true);
     return { meta: { title: r.title, channel: r.channel, url: r.url, duration: r.duration, at: r.clips.map((c) => c.at),
                      query: query || null, speed: r.speed },
              sample_rate: r.sample_rate, clips: r.clips.map((c) => c.pcm), rates: r.clips.map((c) => c.rate),
@@ -201,7 +208,7 @@ function start(log, getMain) {
       if (!a.query && !a.url) return send(400, { error: 'query 또는 url' });
       if (busy) return send(409, { error: '이미 듣는 중' });
       busy = true;
-      const timer = setTimeout(() => { if (!res.writableEnded) send(504, { error: '시간 초과(4분)' }); }, 240000);
+      const timer = setTimeout(() => { if (!res.writableEnded) send(504, { error: '시간 초과(6분)' }); }, 360000);
       try {
         const r = await listen(a, log, getMain);
         if (!res.writableEnded) send(200, r);
