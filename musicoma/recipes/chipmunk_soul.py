@@ -20,7 +20,11 @@ SOURCE_PROGRESSIONS = {
     "city-pop": "IVmaj7 iii7 vi7 V7/vi IVmaj7 V7sus4 Imaj7 vi9",
     "soul": "Imaj7 vi7 ii7 V7 Imaj7 vi7 IVmaj7 V7sus4",
     "gospel": "IVmaj7 V/IV iii7 vi7 ii7 V7 Imaj7 I7",
+    # 단조 — 키를 'C minor' 처럼 주면 이쪽을 쓴다(10-16: 단조 요청이 장조 시티팝 레코드로 나오던 것)
+    "minor-soul": "i7 iv7 v7 bVImaj7 bIIImaj7 bVIImaj7 V7 i7",
+    "minor-gospel": "i9 iv9 bVIImaj7 bIIImaj7 bVImaj7 iiø7 V7b9 i7",
 }
+SOURCE_STYLES = sorted(SOURCE_PROGRESSIONS)
 LEAD_SOUNDS = {"flute": "flute", "violin": "solo_violin", "rhodes": "rhodes", "horn": "horn", "trumpet": "trumpet"}
 
 
@@ -44,7 +48,8 @@ def record_spec(name, src_bpm, key="F major", style="city-pop", lead="flute", se
     kname, _, kmode = key.partition(" ")
     chords = theory.progression(prog, kname, "minor" if kmode.startswith("min") else "major")
     lo, hi = (vocal.get("low", 57), vocal.get("high", 74)) if vocal else (62, 81)
-    mel = compose.lead_melody(chords, [4] * len(chords), kname, "major", low=lo, high=hi, style="soul", seed=seed)
+    mode = "minor" if kmode.startswith("min") else "major"
+    mel = compose.lead_melody(chords, [4] * len(chords), kname, mode, low=lo, high=hi, style="soul", seed=seed)
     spec = {
         "name": name, "bpm": src_bpm, "key": key, "style": style,
         "brief": "샘플 소스용 레코드 (직접 작곡·연주)",
@@ -156,6 +161,8 @@ def build(name, bpm=None, semitones=None, key="F major", source_style="city-pop"
     card = load_style("chipmunk-soul")
     notes = {"plan": p}
 
+    if source is None and source_style not in SOURCE_PROGRESSIONS:
+        raise ValueError(f"source_style 를 골라야 합니다: {SOURCE_STYLES}")
     if source is None:
         rspec = record_spec(f"{name}-record", p["source_bpm"], key, source_style, lead, seed, vocal=vocal)
         log(f"[1] 레코드 작곡·녹음: {source_style}, {key}, {p['source_bpm']} BPM, 리드={lead}")
@@ -173,7 +180,7 @@ def build(name, bpm=None, semitones=None, key="F major", source_style="city-pop"
         loop = crate.loop_region(aged, start, end, 4, bpm, tag="sample_loop")
         lead_loop = crate.loop_region(stems.get("Vox") or stems["Lead"], start, end, 4, bpm, tag="lead_loop")
         src_chords = theory.progression(SOURCE_PROGRESSIONS.get(source_style, SOURCE_PROGRESSIONS["soul"]),
-                                        key.split()[0], "major")[:4]
+                                        key.split()[0], "minor" if "min" in key else "major")[:4]
         key_after = theory.transpose_key(key, round(st))
         chords_after = [theory.transpose_chord(c, round(st)) for c in src_chords]
         log(f"[2-3] 후렴 4마디 늙히고 → {bpm} BPM, 배속 x{loop['varispeed_ratio']:.4f} "

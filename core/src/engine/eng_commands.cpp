@@ -823,10 +823,17 @@ Json Engine::handle (const std::string& method, const Json& p, bool& mutated)
         Json t = Json::object();
         t.set ("type", Json::string ("Windows Audio"));
         Json outs = Json::array();
-        for (auto& d : AudioOutput::list()) outs.push (Json::string (d.name));
+        std::string def;
+        for (auto& d : AudioOutput::list())
+        {
+            outs.push (Json::string (d.name));
+            if (d.isDefault) def = d.name;
+        }
         t.set ("outputs", outs);
         types.push (t);
         o.set ("types", types);
+        o.set ("default", Json::string (def));                    // Windows 기본 출력 장치
+        o.set ("follows_default", Json::boolean (outputName.empty()));   // 장치를 따로 고르지 않음 = 기본을 따름
         o.set ("current", Json::string (output.isOpen() ? output.deviceName() : outputName));
         o.set ("current_type", Json::string ("Windows Audio"));
         o.set ("sample_rate", Json::number (output.isOpen() ? output.sampleRate() : 0));

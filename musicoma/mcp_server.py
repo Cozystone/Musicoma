@@ -515,11 +515,13 @@ def build_spec(spec: dict, render: bool = True, label: str = "") -> dict:
 
 @mcp.tool()
 def recipe_chipmunk_soul(name: str, bpm: float = 88, semitones: float = 4, key: str = "F major",
-                         source_style: str = "city-pop", lead: str = "flute", seed: int = 7, source: str = "",
+                         source_style: str = "", lead: str = "flute", seed: int = 7, source: str = "",
                          brief: str = "") -> dict:
-    """Example recipe (old-Kanye chipmunk soul). No AI audio: composes & records a soul/city-pop 'record' at the
+    """Example recipe (old-Kanye chipmunk soul). No AI audio: composes & records a 'record' at the
     slower source tempo, ages it, samples its hook (varispeed +semitones), chops the lead, then builds a boom-bap beat
-    via arrange specs. source = the user's own audio file (sounds/inbox) to sample instead."""
+    via arrange specs. source = the user's own audio file (sounds/inbox) to sample instead.
+    source_style is REQUIRED (no default — pick what the request asks for): city-pop | soul | gospel |
+    minor-soul | minor-gospel. For minor-key requests give key like "C minor" and a minor-* style."""
     from musicoma.recipes import chipmunk_soul as cs
     log = []
     s, notes, rep = cs.build(name, bpm=bpm, semitones=semitones, key=key, source_style=source_style, lead=lead,

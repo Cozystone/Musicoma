@@ -29,6 +29,9 @@ WS_PORT, HTTP_PORT, ENGINE_PORT = 47801, 47802, 47800
 CLAUDE = shutil.which("claude") or str(Path.home() / ".local/bin/claude.exe")
 CODEX = shutil.which("codex") or str(Path.home() / "AppData/Roaming/npm/codex.cmd")
 ALLOWED = ["mcp__musicoma__*", "Read", "Glob", "Grep"]
+# 화면의 사용자는 한국어로 본다 — 끝 보고만이 아니라 중간 진행 문장까지(10-16: 중간 문장이 영어로 나오던 것)
+LANG_RULE = ("Musicoma 화면 사용자는 한국어 사용자다. 진행 중 짧은 문장과 최종 보고를 포함해 화면에 보이는 모든 글을 "
+             "한국어로 쓴다. 코드·파일 이름·도구 이름·음악 용어(BPM, LUFS 등)만 원문 그대로 둔다.")
 PY = str(ROOT / ".venv/Scripts/python.exe") if (ROOT / ".venv/Scripts/python.exe").exists() else sys.executable  # 설치판: 번들 런타임
 CODEX_MCP = [  # 사용자 Codex 설정을 바꾸지 않고, 실행할 때만 Musicoma 도구를 붙인다
     "-c", f'mcp_servers.musicoma.command="{Path(PY).as_posix()}"',
@@ -212,7 +215,7 @@ async def ask_claude(ws, msg):
     song, track, text = msg.get("song", ""), msg.get("track", ""), msg["ask"]
     context = _prompt(song, track, text)
     args = [CLAUDE, "-p", context, "--output-format", "stream-json", "--verbose",
-            "--mcp-config", str(ROOT / ".mcp.json"), "--allowedTools", *ALLOWED]
+            "--mcp-config", str(ROOT / ".mcp.json"), "--append-system-prompt", LANG_RULE, "--allowedTools", *ALLOWED]
     sf = _session_file(song) if song else None
     if sf and sf.exists() and not msg.get("new"):
         args += ["--resume", sf.read_text().strip()]
@@ -263,7 +266,7 @@ def auto_version(song):
 
 
 def _prompt(song, track, text):
-    return (f"[Musicoma 화면에서 온 요청] 현재 곡: '{song or '(새 곡)'}' (projects/{song}), 선택 트랙: '{track}'. "
+    return (f"{LANG_RULE} [Musicoma 화면에서 온 요청] 현재 곡: '{song or '(새 곡)'}' (projects/{song}), 선택 트랙: '{track}'. "
             f"새 곡이면 이름을 정해 build_spec 으로 짓고, 기존 곡이면 song_status 로 상태부터 본다. "
             f"Musicoma MCP 도구로만 작업하고, 끝나면 render 해서 바꾼 것과 숫자를 짧게 한국어로 보고해. "
             f"요청이 지금 곡과 다른 장르·다른 곡이면 기존 곡을 덮지 말고 새 곡 이름으로 만든다. "

@@ -83,6 +83,7 @@ async function onEngineRestarted() {
       await call("edit.load", { path: ep.path });
     } catch (e) { status("곡을 다시 열지 못했습니다: " + e.message); }
   }
+  loadDevices();   // 고른 출력 장치도 새 엔진에 다시
   refresh();
 }
 function onEvent(ev) {
@@ -141,10 +142,12 @@ async function loadDevices() {
   const d = await call("audio.devices");
   const sel = $("#device"); sel.innerHTML = "";
   const t = d.types.find((x) => x.type === d.current_type) || d.types[0];
-  for (const n of t.outputs) sel.append(new Option(n, n, false, n === d.current));
+  // 첫 항목 = Windows 기본 따라가기(값 ""). 따로 고른 장치는 기억했다가 다음 실행·엔진 재시작 때 다시 적용
+  sel.append(new Option(`시스템 기본${d.default ? ` (${d.default})` : ""}`, "", false, !!d.follows_default));
+  for (const n of t.outputs) sel.append(new Option(n, n, false, !d.follows_default && n === d.current));
   sel.onchange = () => { store.set("device", sel.value); call("audio.set", { device: sel.value }); };
-  const want = store.get("device", null);
-  if (want && want !== d.current && t.outputs.includes(want)) { sel.value = want; call("audio.set", { device: want }); }
+  const want = store.get("device", "");
+  if (want && t.outputs.includes(want) && (d.follows_default || want !== d.current)) { sel.value = want; call("audio.set", { device: want }); }
 }
 
 // ---------------------------------------------------------------- AI 연결 · 처음 화면

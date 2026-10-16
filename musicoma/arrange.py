@@ -134,11 +134,13 @@ def _fill(notes_fn, length_beats, cycle_beats):
     return out
 
 
-def _vocal_name(part, sec, kind):
-    """보컬 파일 이름: <트랙>_<섹션>[-<마디>]_<rap|sing>.wav — 폴더만 봐도 어디에 쓰인 건지 알게."""
+def _vocal_name(part, sec, kind, sections=None):
+    """보컬 파일 이름: <트랙>_<섹션>[-m<시작 마디>][-<마디>]_<rap|sing>.wav — 폴더만 봐도 어디에 쓰인 건지 알게.
+    같은 이름의 섹션이 둘 이상이면(verse 두 번 등) 시작 마디를 붙여 서로 덮어쓰지 않게 한다(10-16)."""
     slug = lambda t: re.sub(r"[^a-z0-9]+", "-", str(t).lower()).strip("-") or "x"
     off = part.get("offset", 0)
-    where = slug(sec["name"]) + (f"-b{int(off // 4) + 1}" if off else "")
+    dup = sections is not None and sum(1 for s in sections if s["name"] == sec["name"]) > 1
+    where = slug(sec["name"]) + (f"-m{sec['start_bar'] + 1}" if dup else "") + (f"-b{int(off // 4) + 1}" if off else "")
     return f"{slug(part['track'])}_{where}_{kind}.wav"
 
 
@@ -263,7 +265,7 @@ def build(spec, render=True, balance=None, label=None, log=print, later=None, fm
                 key_ = json.dumps([v.get("voice"), v.get("melody"), v.get("lyrics"), spec["bpm"], v.get("seed", 0)])
                 cache = per_track.setdefault("__vocal_cache", {})
                 if key_ not in cache:
-                    out = ROOT / "projects" / spec["name"] / "vocals" / _vocal_name(part, sec, "sing")
+                    out = ROOT / "projects" / spec["name"] / "vocals" / _vocal_name(part, sec, "sing", sections)
                     lang = v.get("lang") or ("ko" if any("가" <= ch <= "힣" for ch in v["lyrics"]) else "en")
                     if v.get("engine", "svc" if lang != "en" else "svs") == "svc":
                         from . import sing_svc
@@ -287,7 +289,7 @@ def build(spec, render=True, balance=None, label=None, log=print, later=None, fm
                 key_ = json.dumps(["rap", v.get("voice"), v.get("lines"), spec["bpm"], v.get("seed", 0), v.get("lock"), v.get("tail_words", 0)])
                 cache = per_track.setdefault("__vocal_cache", {})
                 if key_ not in cache:
-                    out = ROOT / "projects" / spec["name"] / "vocals" / _vocal_name(part, sec, "rap")
+                    out = ROOT / "projects" / spec["name"] / "vocals" / _vocal_name(part, sec, "rap", sections)
                     cache[key_], _ = vd.rap(v["voice"], v["lines"], spec["bpm"], out,
                                             beats_per_line=v.get("beats_per_line", 4),
                                             style=v.get("style", "confident rhythmic hip-hop rap delivery"),
