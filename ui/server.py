@@ -21,7 +21,9 @@ import websockets
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
-from musicoma.engine import start as start_engine  # noqa: E402
+from musicoma.engine import start as _start  # noqa: E402
+
+start_engine = functools.partial(_start, breakaway=False)  # 화면 서버가 띄운 엔진은 앱과 함께 꺼진다
 
 WS_PORT, HTTP_PORT, ENGINE_PORT = 47801, 47802, 47800
 CLAUDE = shutil.which("claude") or str(Path.home() / ".local/bin/claude.exe")
@@ -294,15 +296,44 @@ async def ask_codex(ws, msg):
 
 
 async def bridge(ws):
-    """브라우저 연결 하나당 엔진 연결 하나. 줄 단위 JSON 을 양방향으로 넘긴다."""
-    reader, writer = await asyncio.open_connection("127.0.0.1", ENGINE_PORT, limit=2 ** 24)
+    """브라우저 연결 하나당 엔진 연결 하나. 줄 단위 JSON 을 양방향으로 넘긴다.
+    엔진이 꺼지면 다시 띄우고 다시 붙는다(브라우저 연결·AI 작업 스트림은 그대로) — 브라우저에는 engine_restarted 를 알린다."""
+    link = {"writer": None, "pending": set()}
+
+    async def fail_pending(why):
+        for i in list(link["pending"]):
+            await ws.send(json.dumps({"id": i, "ok": False, "error": why}, ensure_ascii=False))
+        link["pending"].clear()
 
     async def engine_to_browser():
+        first = True
         while True:
-            line = await reader.readline()
-            if not line:
-                break
-            await ws.send(line.decode("utf-8"))
+            try:
+                await asyncio.to_thread(start_engine)
+                reader, writer = await asyncio.open_connection("127.0.0.1", ENGINE_PORT, limit=2 ** 24)
+            except Exception as ex:  # 엔진 실행 파일 문제 등 — 잠시 뒤 다시
+                print(f"engine unavailable: {ex}", flush=True)
+                await asyncio.sleep(2)
+                continue
+            link["writer"] = writer
+            if not first:
+                print("engine restarted — reattached", flush=True)
+                await ws.send(json.dumps({"event": "engine_restarted"}))
+            first = False
+            while True:
+                line = await reader.readline()
+                if not line:
+                    break
+                try:
+                    i = json.loads(line).get("id")
+                    link["pending"].discard(i)
+                except ValueError:
+                    pass
+                await ws.send(line.decode("utf-8"))
+            link["writer"] = None
+            writer.close()
+            await fail_pending("엔진이 다시 시작되는 중입니다")
+            await asyncio.sleep(0.5)
 
     task = asyncio.create_task(engine_to_browser())
     try:
@@ -315,15 +346,33 @@ async def bridge(ws):
                 asyncio.create_task(ask_codex(ws, req) if req.get("ai") == "codex" else ask_claude(ws, req))
                 continue
             req["client"] = "ui"
-            writer.write((json.dumps(req, ensure_ascii=False) + "\n").encode("utf-8"))
-            await writer.drain()
+            w = link["writer"]
+            if w is None or w.is_closing():
+                await ws.send(json.dumps({"id": req.get("id"), "ok": False, "error": "엔진이 다시 시작되는 중입니다"},
+                                         ensure_ascii=False))
+                continue
+            link["pending"].add(req.get("id"))
+            w.write((json.dumps(req, ensure_ascii=False) + "\n").encode("utf-8"))
+            await w.drain()
     finally:
         task.cancel()
-        writer.close()
+        if link["writer"]:
+            link["writer"].close()
+
+
+async def watch_engine():
+    """화면이 안 붙어 있어도 엔진은 늘 살아 있게(AI 작업·MCP 가 바로 쓸 수 있도록)."""
+    while True:
+        await asyncio.sleep(3)
+        try:
+            await asyncio.to_thread(start_engine)
+        except Exception as ex:
+            print(f"engine watchdog: {ex}", flush=True)
 
 
 async def main():
     start_engine()
+    asyncio.create_task(watch_engine())
     threading.Thread(target=serve_http, daemon=True).start()
     async with websockets.serve(bridge, "127.0.0.1", WS_PORT, max_size=2 ** 24):
         print(f"Musicoma UI  http://127.0.0.1:{HTTP_PORT}", flush=True)

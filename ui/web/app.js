@@ -73,7 +73,20 @@ function connect() {
   };
 }
 let refreshTimer = null;
+async function onEngineRestarted() {
+  // 엔진이 다시 떴다 — 새 엔진은 빈 상태이므로 보던 곡을 다시 연다
+  status("엔진이 다시 시작됨 — 곡을 다시 엽니다");
+  const song = $("#project").value;
+  if (song && song !== "__new") {
+    try {
+      const ep = await (await fetch(`/api/edit_path?song=${encodeURIComponent(song)}`)).json();
+      await call("edit.load", { path: ep.path });
+    } catch (e) { status("곡을 다시 열지 못했습니다: " + e.message); }
+  }
+  refresh();
+}
 function onEvent(ev) {
+  if (ev.event === "engine_restarted") return onEngineRestarted();
   if (ev.client && ev.client.startsWith("claude")) {
     const c = $("#claude");
     c.classList.add("live"); c.textContent = "AI · " + ev.method;
