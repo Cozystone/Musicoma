@@ -1,4 +1,4 @@
-"""musicoma-011 「Four O'Clock」 — 외주(한국 얼터너티브 팝 록 밴드 사운드, 125 BPM, 영어 남자 보컬). 10-17 재작업.
+"""musicoma-011 「Four O'Clock」 — 외주(한국 얼터너티브 팝 록 밴드 사운드, 140 BPM, 영어 남자 보컬). 10-17 재작업.
 
 앱 AI 의 1차(네 시의 운동장)가 불합격(포크송 같다 · 단조롭다 · 한국어 보컬 깨짐 · 악기 라인업 틀림)이라
 이번엔 사람이 직접: 악기 = 드라이브 기타 3대(파워·크런치·리드) + 록 드럼(크래시·라이드) + 피크 베이스 + 피아노 악센트,
@@ -18,7 +18,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from musicoma import arrange, concept as concept_mod, critic, lego, theory
 
 NAME = "musicoma-011-four-oclock"
-BPM, KEY = 125, "A major"
+BPM, KEY = 140, "A major"     # 10-17 본인: "템포도 더 빨라도 되겠어, 밴드 특유의 짜릿함" (125 → 140; LUCY 아니근데진짜 ~143)
 SPB = 60 / BPM
 
 # ───────── 가사(영어) — 구체적 장면, 사람 말투, 완벽한 라임 피함 ─────────
@@ -73,13 +73,17 @@ CONCEPT = {
             {"section": "verse2", "intent": "조금 더 차오른 절(12마디)", "energy": 0.5},
             {"section": "bridge", "intent": "피아노와 목소리만 — 가장 조용한 곳", "energy": 0.25},
             {"section": "build", "intent": "스네어 16분 롤 + 기타 트레몰로 → 한 박 정적", "energy": 0.7},
+            {"section": "stabs", "intent": "밴드 전체 유니즌 '딴딴딴딴딴' 두 마디 — 끊었다가 때리는 클라이맥스", "energy": 1.0},
             {"section": "chorus_last", "intent": "다 쌓음 + 리드 기타 대선율", "energy": 1.0},
             {"section": "outro", "intent": "리프 네 번, 마지막 한 방", "energy": 0.8}],
     "motif": {"melody": "E5:.5 C#5:.5 A4:1 r:.5 B4:.5 C#5:1", "why": "리프 = 내려왔다 되돌아 올라가는 자전거 바퀴"},
     "collision": ["DAY6·LUCY 식 밝은 장조 밴드 팝", "운동장·네 시 빛의 구체적 장면", "라이브 밴드의 거친 가장자리(드라이브·크래시)"],
     "constraints": ["후렴은 I–V–vi–IV 를 쓰되 후반에 bVII 로 한 번 비튼다", "절은 반 비워 두고 기타·피아노가 대답한다",
                     "보컬 멜로디·가사는 직접 쓴다(생성기 금지)", "의뢰 조건(캐치한 후렴·하모니·풍성함) 우선"],
-    "events": [{"section": "build", "at": 15, "length": 1, "type": "stop", "why": "마지막 후렴 앞 한 박 정적"}],
+    "events": [{"section": "pre1", "at": 30, "length": 2, "type": "stop", "why": "후렴 들어가기 전 두 박 딱 끊기"},
+               {"section": "pre2", "at": 30, "length": 2, "type": "stop", "why": "같은 자리 — 두 번째는 기대하게"},
+               {"section": "chorus", "at": 30, "length": 2, "type": "stop", "why": "후렴 한가운데 밴드가 빠지고 목소리만 두 박"},
+               {"section": "build", "at": 15, "length": 1, "type": "stop", "why": "스탭 앞 한 박 정적"}],
     "irregular": [{"what": "2절 12마디", "why": "할 말이 짧다"}, {"what": "브리지 피아노+목소리만", "why": "가장 조용한 고백"}],
     "references": "knowledge/references/korean-band-pop.yaml — DAY6 Happy · LUCY 아니 근데 진짜·조깅 등 · 유다빈밴드 항해",
     "not": ["클린 아치톱만", "순차 진행 선율", "4마디 복사", "추상명사 가사"],
@@ -87,7 +91,7 @@ CONCEPT = {
 
 SECTIONS = [{"name": "intro", "bars": 8}, {"name": "verse1", "bars": 16}, {"name": "pre1", "bars": 8}, {"name": "chorus", "bars": 16},
             {"name": "post", "bars": 4}, {"name": "verse2", "bars": 12}, {"name": "pre2", "bars": 8}, {"name": "chorus", "bars": 16},
-            {"name": "bridge", "bars": 8}, {"name": "build", "bars": 4}, {"name": "chorus_last", "bars": 16}, {"name": "outro", "bars": 8}]
+            {"name": "bridge", "bars": 8}, {"name": "build", "bars": 4}, {"name": "stabs", "bars": 2}, {"name": "chorus_last", "bars": 16}, {"name": "outro", "bars": 8}]
 
 PROG = {"verse": "Imaj7 V vi7 IVmaj7 Imaj7 V ii7 V7sus4", "pre": "ii7 iii7 IVmaj7 V7sus4 ii7 IVmaj7 V bVII",
         "chorus": "I V vi IV I V ii7 V I V vi IV ii7 IV bVII V", "bridge": "vi IV I V vi IV ii7 V7sus4", "outro": "I V vi IV"}
@@ -107,7 +111,7 @@ DR = {
     "verse_light": {"kick": "x...............", "snare": "................", "hat": "x.x.x.x.x.x.x.x."},   # 1절 앞 8마디: 킥 한 번·햇만(속삭임)
     "pre": {"kick": "x...x...x...x...", "snare": "....x.......x...", "hat": "x.x.x.x.x.x.x.x."},
     "chorus": {"kick": "x.....x.x.....x.", "snare": "....x.......x...", "hat": "x.x.x.x.x.x.x.x."},
-    "last": {"kick": "x..xx..x.x..x.x.", "snare": "....x..o....x.o.", "hat": "xxxxxxxxxxxxxxxx"},
+    "last": {"kick": "x..xx..x.x..x.x.", "snare": "....x..o....x.o.", "hat": "x.x.x.x.x.x.x.o."},
     "build": {"kick": "x...x...x...x...", "snare": "xxxxxxxxxxxxxxxx", "hat": "................"},
     "fill": {"kick": "x.......", "snare": "....x.xxoxoxXXXX"},
 }
@@ -122,19 +126,23 @@ RIDE = [{"pitch": 51, "start": i * 0.5, "length": 0.4, "velocity": 84 if i % 2 =
 STRUM8 = [[0, .5, .9], [.5, .5, .7], [1, .5, .85], [1.5, .5, .7], [2, .5, .9], [2.5, .5, .7], [3, .5, .85], [3.5, .5, .75]]
 MUTE8 = [[0, .4, .8], [.5, .4, .55], [1, .4, .75], [1.5, .4, .55], [2, .4, .8], [2.5, .4, .55], [3, .4, .75], [3.5, .4, .6]]
 PUSH = [[0, 1.5, .9], [1.5, .5, .7], [2.5, 1.5, .85]]                                              # 시티팝·밴드식 밀어치기(1 · 2& · 3&)
+STAB = [[0, .35, 1], [.5, .35, 1], [1, .35, 1], [1.5, .35, 1], [2, .6, 1],                        # 1마디: 딴딴딴딴딴— (2박 반 뒤 쉼)
+        [4, .35, 1], [4.5, .35, 1], [5, .35, 1], [5.5, .35, 1], [6, .35, 1], [6.5, .35, 1], [7, .35, 1], [7.5, .5, 1]]   # 2마디: 8분 연타로 후렴에 꽂기
+STAB_DR = [{"pitch": pch, "start": s, "length": .3, "velocity": 124} for s, _, _ in STAB for pch in (36, 49)]   # 킥+크래시 유니즌
 
 spec = {
     "name": NAME, "bpm": BPM, "key": KEY, "style": "korean-band-pop", "feel": "straight", "intensity": 0.85,
-    "brief": "「Four O'Clock」 외주 — 한국 얼터너티브 팝 록 밴드 사운드, 125 BPM, 영어 남자 보컬, 청춘·기억의 씁쓸함",
+    "brief": "「Four O'Clock」 외주 — 한국 얼터너티브 팝 록 밴드 사운드, 140 BPM, 영어 남자 보컬, 청춘·기억의 씁쓸함",
     "sections": SECTIONS,
     "tracks": {
         "Drums": {"preset": "drums/rock", "role": "drums", "sends": {"0": -16}},
         "Bass": {"preset": "bass/picked_rock", "role": "bass"},
-        "GtrPower": {"preset": "guitar/power", "role": "guitar", "pan": -0.45, "sends": {"0": -18}},
-        "GtrCrunch": {"preset": "guitar/crunch", "role": "guitar", "pan": 0.45, "sends": {"0": -16}},
+        "GtrPower": {"preset": "guitar/power", "role": "guitar", "pan": -0.6, "sends": {"0": -18}},
+        "GtrCrunch": {"preset": "guitar/crunch", "role": "guitar", "pan": 0.6, "sends": {"0": -16}},
         "GtrLead": {"preset": "guitar/lead_bright", "role": "lead", "pan": 0.15, "sends": {"0": -10}},
-        "Piano": {"preset": "piano/grand_bright", "role": "piano", "pan": -0.2, "sends": {"0": -12}},
-        "Violin": {"preset": "strings/solo_violin", "role": "lead", "pan": 0.3, "sends": {"0": -8}},   # LUCY 의 상징 악기 — 기타보다 바이올린이 선율을 맡는다
+        "Piano": {"preset": "piano/grand_bright", "role": "piano", "pan": -0.3, "sends": {"0": -12}},
+        "Violin": {"preset": "strings/solo_violin", "role": "lead", "pan": 0.35, "sends": {"0": -8}},   # LUCY 의 상징 악기 — 기타보다 바이올린이 선율을 맡는다
+        # 팬: v3 폭 side/mid -9.6 dB 가 LUCY(-5~-8)보다 좁아 기타 ±0.6 으로 벌림
     },
     "buses": [{"name": "Room", "bus": 0, "device": "Dragonfly Room Reverb", "volume_db": -5}],
     "parts": [
@@ -148,7 +156,9 @@ spec = {
         {"track": "Drums", "in": ["chorus", "post", "outro"], "drums": drums("chorus")},
         {"track": "Drums", "in": ["chorus_last"], "drums": drums("last")},
         {"track": "Drums", "in": ["build"], "drums": drums("build", fill=False, hv=4)},
-        {"track": "Drums", "in": ["chorus", "chorus_last", "outro"], "notes": CRASH, "cycle_beats": 16},
+        {"track": "Drums", "in": ["stabs"], "notes": STAB_DR, "cycle_beats": 8},
+        {"track": "Drums", "in": ["chorus", "outro"], "notes": CRASH, "cycle_beats": 16},
+        {"track": "Drums", "in": ["chorus_last"], "notes": CRASH, "cycle_beats": 8},
         {"track": "Drums", "in": ["chorus_last"], "notes": RIDE, "cycle_beats": 4},
         # 베이스
         {"track": "Bass", "in": ["verse1", "verse2"], "bass": {"progression": PROG["verse"], "beats_per_chord": 4, "low": 28, "high": 50,
@@ -157,20 +167,25 @@ spec = {
                                                           "pattern": [[0, .5, 0], [.5, .5, 0], [1, .5, 0], [1.5, .5, 0], [2, .5, 0], [2.5, .5, 0], [3, .5, 0], [3.5, .5, 12]]}},
         {"track": "Bass", "in": ["chorus", "chorus_last", "outro", "post"], "bass": {"progression": PROG["chorus"], "beats_per_chord": 4, "low": 28, "high": 52,
                                                                                    "pattern": [[0, .5, 0], [.5, .5, 0], [1, .5, 0], [1.5, .5, 0], [2, .5, 0], [2.5, .5, 7], [3, .5, 0], [3.5, .5, 12]]}},
-        {"track": "Bass", "in": ["bridge"], "bass": {"progression": PROG["bridge"], "beats_per_chord": 4, "low": 28, "high": 50, "pattern": [[0, 4, 0]], "legato": 1.0}},   # 브리지 빈자리(dead air) 막기 — 온음표로 깔림
+        # 브리지엔 베이스 없음 — 피아노와 목소리만(10-17 본인: 너무 채워 넣지 말 것. 빈자리는 일부러 둔 것)
+        {"track": "Bass", "in": ["stabs"], "bass": {"progression": "IV V", "beats_per_chord": 4, "low": 28, "high": 50, "pattern": [[s, l, 0] for s, l, _ in STAB]}},
         {"track": "Bass", "in": ["build"], "bass": {"progression": "V", "beats_per_chord": 16, "low": 28, "high": 50,
                                                    "pattern": [[i * .5, .5, 0] for i in range(8)]}},
         # 파워코드 기타(왼) — 절은 뮤트 8분, 후렴은 풀 스트럼
         {"track": "GtrPower", "in": ["verse1", "verse2"], "chords": {"progression": PROG["verse"], "beats_per_chord": 4, "voicing": "power", "rhythm": MUTE8, "velocity": 64}},
         {"track": "GtrPower", "in": ["pre1", "pre2"], "chords": {"progression": PROG["pre"], "beats_per_chord": 4, "voicing": "power", "rhythm": STRUM8, "velocity": 82}},
-        {"track": "GtrPower", "in": ["chorus", "chorus_last", "outro", "post"], "chords": {"progression": PROG["chorus"], "beats_per_chord": 4, "voicing": "power", "rhythm": STRUM8, "velocity": 100}},
+        {"track": "GtrPower", "in": ["chorus", "outro", "post"], "chords": {"progression": PROG["chorus"], "beats_per_chord": 4, "voicing": "power", "rhythm": STRUM8, "velocity": 112}},
+        {"track": "GtrPower", "in": ["chorus_last"], "chords": {"progression": PROG["chorus"], "beats_per_chord": 4, "voicing": "power", "rhythm": STRUM8, "velocity": 124}},
+        {"track": "GtrPower", "in": ["stabs"], "chords": {"progression": "IV V", "beats_per_chord": 4, "voicing": "power", "rhythm": STAB, "velocity": 127}},
+        {"track": "GtrCrunch", "in": ["stabs"], "chords": {"progression": "IV V", "beats_per_chord": 4, "voicing": "guitar", "rhythm": STAB, "velocity": 120}},
+        {"track": "Piano", "in": ["stabs"], "chords": {"progression": "IV V", "beats_per_chord": 4, "voicing": "rhodes", "rhythm": STAB, "velocity": 110}},
         {"track": "GtrPower", "in": ["build"], "chords": {"progression": "V", "beats_per_chord": 16, "voicing": "power",
                                                           "rhythm": [[i * .25, .25, .6 + .4 * i / 16] for i in range(16)], "velocity": 96}},
         # 크런치 기타(오른) — 밀어치기 보이싱, 후렴은 상성부 8분
         {"track": "GtrCrunch", "in": ["intro"], "offset": 16, "chords": {"progression": PROG["chorus"], "beats_per_chord": 4, "voicing": "guitar", "rhythm": STRUM8, "velocity": 84}},
         {"track": "GtrCrunch", "in": ["verse1", "verse2"], "chords": {"progression": PROG["verse"], "beats_per_chord": 4, "voicing": "guitar", "rhythm": PUSH, "velocity": 66}},
         {"track": "GtrCrunch", "in": ["pre1", "pre2"], "chords": {"progression": PROG["pre"], "beats_per_chord": 4, "voicing": "guitar", "rhythm": PUSH, "velocity": 80}},
-        {"track": "GtrCrunch", "in": ["chorus", "chorus_last", "outro", "post"], "chords": {"progression": PROG["chorus"], "beats_per_chord": 4, "voicing": "guitar", "rhythm": STRUM8, "velocity": 92}},
+        {"track": "GtrCrunch", "in": ["chorus", "chorus_last", "outro", "post"], "chords": {"progression": PROG["chorus"], "beats_per_chord": 4, "voicing": "guitar", "rhythm": STRUM8, "velocity": 104}},
         # 리드 기타 — 리프
         {"track": "GtrLead", "in": ["intro"], "melody": {"text": f"{RIFF_A} | {RIFF_B} | {RIFF_A} | {RIFF_B}", "velocity": 100, "repeat": False}},
         {"track": "GtrLead", "in": ["post"], "melody": {"text": f"{RIFF_A} | {RIFF_B}", "velocity": 104}},
@@ -180,7 +195,7 @@ spec = {
         {"track": "GtrLead", "in": ["chorus_last"], "melody": {"text": f"{RIFF_HI} | {COUNTER}", "velocity": 100}},
         # 바이올린 — 절은 줄 끝 대답(피아노와 번갈아), 프리는 긴 활, 후렴은 훅 한 옥타브 위, 브리지 대선율, 아웃트로는 리프 함께
         {"track": "Violin", "in": ["intro"], "offset": 16, "melody": {"text": "r:2 A4:2 | B4:2 C#5:2 | D5:1 C#5:1 B4:2 | A4:4", "velocity": 78, "repeat": False, "legato": 1.0}},
-        {"track": "Violin", "in": ["verse1", "verse2"], "melody": {"text": VLN_VERSE, "velocity": 70, "legato": 1.0}},
+        {"track": "Violin", "in": ["verse2"], "melody": {"text": VLN_VERSE, "velocity": 70, "legato": 1.0}},   # 1절은 비워 둔다
         {"track": "Violin", "in": ["pre1", "pre2"], "melody": {"text": VLN_PRE, "velocity": 84, "legato": 1.0}},
         {"track": "Violin", "in": ["chorus", "chorus_last"], "melody": {"text": VLN_CHORUS, "velocity": 92, "legato": 0.95}},
         {"track": "Violin", "in": ["bridge"], "melody": {"text": VLN_BRIDGE, "velocity": 74, "legato": 1.0, "repeat": False}},
@@ -190,7 +205,7 @@ spec = {
         {"track": "Piano", "in": ["verse1", "verse2"], "chords": {"progression": PROG["verse"], "beats_per_chord": 4, "voicing": "rhodes",
                                                                  "rhythm": [[2.5, .5, .7], [3, 1, .8]], "velocity": 62}},
         {"track": "Piano", "in": ["pre1", "pre2"], "chords": {"progression": PROG["pre"], "beats_per_chord": 4, "voicing": "pad", "rhythm": [[0, 4, .9]], "velocity": 70, "legato": 1.0}},
-        {"track": "Piano", "in": ["chorus", "chorus_last"], "chords": {"progression": PROG["chorus"], "beats_per_chord": 4, "voicing": "rhodes",
+        {"track": "Piano", "in": ["chorus_last"], "chords": {"progression": PROG["chorus"], "beats_per_chord": 4, "voicing": "rhodes",
                                                                       "rhythm": [[0, .5, .9], [1, .5, .7], [2, .5, .9], [3, .5, .7]], "velocity": 78}},
         {"track": "Piano", "in": ["bridge"], "chords": {"progression": PROG["bridge"], "beats_per_chord": 4, "voicing": "rhodes",
                                                        "rhythm": [[0, 1.5, .9], [1.5, .5, .6], [2, 1, .8], [3, 1, .7]], "velocity": 72}},
@@ -212,7 +227,7 @@ VOX_PART = {"track": "Vox", "vocal_sections": str(VOX.with_suffix(".json"))}
 
 
 def _notes(text, start_beat):
-    return [{**n, "start": round(n["start"] + start_beat, 4)} for n in arrange.melody(text)]
+    return [{**n, "start": round(n["start"] + start_beat, 4)} for n in arrange.melody(text)[0]]   # melody() 는 (노트, 길이) 튜플
 
 
 def vocal_sections():

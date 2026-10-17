@@ -1,0 +1,89 @@
+# LUCY(루시) 레퍼런스 카드 — 2026-10-17 앱 뷰어로 공식 MV 8곡을 직접 듣고(소리는 저장 안 함) 잰 숫자 + 들어서 아는 것.
+# 측정: musicoma/listen.py (전곡 4배속 + 가운데 30초 1배속). 유튜브 평준화 재생음 기준.
+# 신뢰도: 조성·대역·스템 균형·보컬 음역·구성(초 단위)은 쓸 만함. 템포는 4배속 구간의 캡처 결함(117.45 반복)·1배속 구간의 반박자 혼동으로 믿지 말 것.
+#        코드는 1배속 30초(대개 후렴 근처)의 박 정렬 채보 — 큰 흐름만 보고 세부는 믿지 말 것. 악기 구성은 측정으로 못 재고 들어서 안 것.
+band: LUCY (루시) — 보컬·기타 최상엽, 바이올린 신예찬, 베이스 조원상, 드럼 신광일
+listened_at: 2026-10-17
+songs:
+  - title: 아니 근데 진짜 (Unbelievable)
+    key: D major (0.56)      # 4배속 전곡 143 BPM 로 들림(빠른 펑크 팝) — 1배속 구간 56/72 는 반·¼박자
+    bands_db: {sub: -6.0, low: -4.0, low_mid: -5.1, mid: -15.4, presence: -22.1, air: -31.3}
+    width_db: -8.2
+    stems_db: {drums: -6.0, bass: -5.3, other: -7.8, vocals: -8.4}
+    vocal: {median: E4, range: [A3, A4], syllables_per_sec: 3.13}
+    chords_mid: "vi7 ×8마디 → IVmaj7 → vi7 → Imaj7 (Cm7–Abmaj7–Ebmaj7, 채보 조성 Eb)"
+    form: "1초부터 큰 소리(인트로가 곧 후렴 수준) · 27s B · 61s 후렴(14마디) · 108s 조용한 4마디 · 121s 후렴 · 190s 브레이크 2마디 → 끝"
+  - title: 놀이 (PLAY)
+    key: F major (0.68)
+    bands_db: {sub: -28.8, low: -5.8, low_mid: -2.2, mid: -10.8, presence: -14.6, air: -17.6}   # 가장 밝은 믹스
+    width_db: -8.3
+    stems_db: {drums: -10.8, bass: -24.6, other: -7.4, vocals: -3.1}     # 보컬이 제일 앞
+    vocal: {median: E4, range: [A3, D5], syllables_per_sec: 3.52}
+    chords_mid: "i7 ×3마디 → bIIImaj7 → i7 (Bbm7–Dbmaj7: 가운데 구간은 단조 색)"
+    form: "26s 부터 30마디 블록 · 87s 첫 큰 반복(53마디) · 194s 5마디 숨 · 후렴 재진입"
+  - title: 선잠 (Snooze)
+    key: C major (0.51) / 1차 측정 B minor
+    bands_db: {sub: -20.0, low: -7.6, low_mid: -1.8, mid: -8.5, presence: -21.5, air: -25.3}
+    width_db: -6.5
+    stems_db: {drums: -8.1, bass: -15.7, other: -6.1, vocals: -4.7}
+    vocal: {median: E4, range: [A3, "G#5"], syllables_per_sec: 2.94}
+    chords_mid: "Imaj7 vi7 IVmaj7 Isus4 vi7 IVmaj7 vi7 IVmaj7 (Cmaj7–Am7–Fmaj7)"
+    form: "47s 까지 조용히 쌓음 · 69s 58마디 큰 블록 · 190s 숨 · 207s 가장 큰 구간(17마디) · 250s 재진입"
+  - title: 히어로 (Hero)
+    key: "C# major (0.61)"
+    bands_db: {sub: -6.0, low: -6.9, low_mid: -5.1, mid: -6.9, presence: -15.6, air: -24.9}
+    width_db: -6.4
+    stems_db: {drums: -7.2, bass: -8.1, other: -8.6, vocals: -5.2}
+    vocal: {median: D4, range: [F3, A5], syllables_per_sec: 2.78}
+    chords_mid: "i7 → bIIImaj7 → bVImaj7 → bIImaj7 → bVIIsus4 (Cm7–Ebmaj7–Abmaj7–Dbmaj7–Bbsus4: 후렴은 Eb 장조 vi–I–IV–bVII–V 흐름)"
+    form: "25s 첫 큰 반복(12마디) · 63s 18마디 · 141s 17마디 · 187s 브레이크 2마디"
+  - title: 아지랑이 (Haze)
+    key: E major (1.0)
+    bands_db: {sub: -17.1, low: -3.1, low_mid: -4.1, mid: -11.5, presence: -15.9, air: -23.8}
+    width_db: -4.8      # 가장 넓음
+    stems_db: {drums: -10.7, bass: -5.9, other: -5.6, vocals: -5.5}
+    vocal: {median: E4, range: ["G#3", B4], syllables_per_sec: 2.51}
+    chords_mid: "Isus4 ×4마디 → Vsus4 → vi7 → Isus4 → IIsus4 (sus4 색이 짙음)"
+    form: "75초 짧은 영상 — 구성 못 잼"
+  - title: 전체관람가
+    key: G major (0.6)
+    bands_db: {sub: -18.9, low: -2.1, low_mid: -5.2, mid: -13.0, presence: -19.7, air: -27.7}
+    width_db: -5.8
+    stems_db: {drums: -8.2, bass: -26.4, other: -9.1, vocals: -2.5}     # 보컬 압도적
+    vocal: {median: D4, range: ["G#3", C5], syllables_per_sec: 2.48}
+    chords_mid: "IVmaj7 ×3.5마디 → Isus4 ×4마디 → IVmaj7 (Gmaj7–Dsus4: 두 코드로 버티는 후렴)"
+    form: "20s 9마디 · 36s 첫 큰 반복(22마디) · 80s 33마디 · 140s 34마디 — 후렴 블록이 길다"
+  - title: 개화 (Flowering)
+    key: E major (1.0)
+    bands_db: {sub: -11.6, low: -2.2, low_mid: -6.8, mid: -11.1, presence: -14.4, air: -20.6}
+    width_db: -7.2
+    stems_db: {drums: -5.2, bass: -7.5, other: -10.1, vocals: -6.0}
+    vocal: {median: E4, range: ["G#3", B5], syllables_per_sec: 2.69}
+    chords_mid: "vi7 → Isus4 → V7 → IVmaj7 ×3.5마디 → V7 → vi7 (C#m7–Esus4–B7–Amaj7)"
+    form: "11s 15마디 절 · 51s 첫 큰 반복(32마디) · 138s 2마디 숨 · 143s 19마디 · 195s 4마디 숨 · 206s 14마디"
+  - title: 조깅 (Jogging)
+    key: F major (0.52)
+    bands_db: {sub: -13.5, low: -4.1, low_mid: -3.6, mid: -9.3, presence: -19.4, air: -26.7}
+    width_db: -6.7
+    stems_db: {drums: -5.6, bass: -4.9, other: -7.1, vocals: -30.4}     # 1배속 구간이 간주였음(보컬 없음)
+    vocal: {median: "C#4", range: [F3, A4], syllables_per_sec: 3.6}
+    chords_mid: "bVImaj7 ×7마디 → i7 → IVsus4 → bVImaj7 → bIIIsus4 → bVImaj7 → Isus4 (Fmaj7–Am7–Dsus4–Csus4: 간주)"
+    form: "8s 6마디 · 29s 첫 큰 반복(12마디) · 87s · 111s 22마디 · 186s 4마디 · 203s 13마디"
+
+summary:
+  key: "전부 장조(D·F·C·C#·E·G). 밝은 조. 단조 색은 vi 로 시작하는 후렴·가운데 구간에서만."
+  chords: "다이어토닉 + 7th·sus4 색(Imaj7·vi7·IVmaj7·Isus4·V7sus4). 후렴은 두세 코드로 길게 버티기도(전체관람가 IV–I). bVII 는 히어로 정도. 전조·비다이어토닉 거의 없음."
+  tone: "presence -14~-22, air -18~-31 (놀이·개화가 가장 밝고 아니근데진짜가 가장 어두움). low -2~-8. 폭 side/mid -5~-8 dB(넓음), 상관 0.5~0.75."
+  balance: "보컬이 가장 앞(-2.5~-8, 대개 -3~-6) → 드럼(-5~-11) → 기타·바이올린(other -6~-10). 베이스 측정은 흔들림(-5~-26) — 신뢰 못 함."
+  vocal: "남성 테너, 중앙 D4~E4, 저음 F3~A3, 고음 A5~B5 까지(가성·샤우트 섞음). 음절 2.5~3.6/s — 빠르지 않고 또박또박. 하모니는 후렴 위에 3도."
+  rhythm: "스윙 0.49~0.58(거의 곧음, 개화만 살짝 셔플). 어택 4.2~5.5/s(중간 밀도). 템포는 측정 불신 — 들어서는 아니근데진짜 ~143, 전체관람가 ~136, 개화·히어로 ~89(반박자 느낌의 미드템포)."
+  form: "첫 큰 반복(후렴)이 25~87초 — 아니근데진짜는 1초부터 큰 소리(인트로=후렴급). 후렴 블록이 길고(12~34마디) 브레이크는 2~5마디로 짧게. 끝은 후렴 재진입 후 짧게."
+  instruments_heard: "보컬·기타(클린~크런치, 스트럼 위주) + 바이올린(선율·대선율·인트로 리프, 기타 솔로 자리를 바이올린이 맡음) + 베이스 + 드럼. 피아노·신스 패드는 보조. 측정으로 악기 종류는 못 잼 — 들어서 안 것."
+apply_to_four_oclock:
+  - "조·코드: A 장조 다이어토닉 + maj7/m7/sus4 유지. 후렴 끝 bVII 한 번은 히어로 선례 안."
+  - "밝기: presence -16~-18 · air -24~-27 목표 (v3: -17.1 / -27.2 ✔)."
+  - "폭: side/mid -6~-8 dB 목표 — 기타 좌우 분리 + 바이올린 오른쪽."
+  - "균형: 보컬이 제일 앞(+2.5 LU), 드럼 다음, 기타는 뒤 (현재 balance_lu 그대로)."
+  - "보컬: 중앙 E4 근처, 후렴 고음 A4~C#5, 마지막 후렴만 E5 터치. 음절 ≤3.5/s."
+  - "악기: 바이올린이 선율 악기(절 대답·프리 긴 활·후렴 훅 옥타브 위·브리지 대선율). 리드 기타는 리프·대선율만."
+  - "구성: 후렴 61초(선례 안). 브레이크는 짧게(build 4마디 + 한 박 정적)."

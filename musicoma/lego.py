@@ -30,6 +30,7 @@ ACE = ROOT / "third_party" / "ace-step-15"
 CONTEXT = 10.0          # 구간 앞뒤로 비트 문맥(초)
 BATCH = 3               # 한 번에 만드는 테이크 수(16GB: 3 까지 확인 — 10-15)
 MAX_CROP = 44.0
+LEAD_SILENCE = 1.5      # 크롭 앞 무음(초) — '곡 시작처럼' 보이게(아래 참고)
 
 
 # 보컬 생성용 '가이드 전용 악기'(10-15 검증): 곡의 실제 악기가 아니라 AI 가 반응하는 것이 확인된 소리로 박자·화성만 알려 준다.
@@ -293,7 +294,14 @@ def _take_section(si, sec, st, ref_print, reference, log, takes, enough, seed0):
         m = synth(sec["melody_notes"], bpm, sr, len(beat))[int(c0 * sr):int(c1 * sr)] * 0.35
         seg = seg + m[:, None]
         seg = seg / (np.abs(seg).max() + 1e-9) * 0.85
+    # 크롭 앞에 무음 1.5초 + 0.5초 페이드인(10-17 실측: 곡 중간에서 바로 시작하는 크롭은 모델이 '완성된 연주곡'으로 보고
+    # 노래를 안 얹어 2절부터 전부 무음(WER 1.0). 1절 크롭은 인트로 무음으로 시작해 됐음. 앞 2초를 비우니 노래가 나옴)
+    pad = int(LEAD_SILENCE * sr)
+    fade = np.linspace(0, 1, int(0.5 * sr), dtype=np.float32)[:, None]
+    seg = np.concatenate([np.zeros((pad, seg.shape[1]), np.float32), seg])
+    seg[pad:pad + len(fade)] *= fade
     sf.write(str(crop), seg, sr, subtype="PCM_24")
+    c0 -= LEAD_SILENCE                          # 이후의 '크롭 안 위치'(start/end·채점 자르기)는 무음을 포함한 기준
     req = {"tag": f"{si:02d}_{sec['name']}", "beat": str(crop), "lyrics": f"[{sec.get('tag', 'Verse')}]\n{sec['lyrics']}",
            "caption": st["caption"], "bpm": int(round(bpm)), "key": sec.get("key", key), "start": round(a - c0, 3), "end": round(b - c0, 3),
            "seeds": list(range(seed0, seed0 + takes)), "out_dir": str(work / f"{si:02d}_{sec['name']}"),
