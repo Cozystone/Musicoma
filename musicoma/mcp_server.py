@@ -433,6 +433,92 @@ def hum_place(song: str, path: str, at: str = "0", repeat: int = 1, track: str =
 
 
 @mcp.tool()
+def hum_to_instrument(song: str, path: str, preset: str = "keys/rhodes", at: str = "0", repeat: int = 1, track: str = "",
+                      lock: float = 0.8, key: str = "") -> dict:
+    """ONE CLICK: a hummed/sung/uploaded melody (any audio file) → played by an instrument preset ('role/key' from
+    presets(), e.g. piano/grand_bright, strings/solo_violin, lead/synth_brass, guitar/jangle). Notes are snapped to the
+    song's key and grid (lock 0..1 = how strictly timing is fixed — users with shaky timing: 0.9). Becomes an editable
+    MIDI clip on `track` (default = preset name) with the preset's sound + fx. 10-17 feedback: "I can't play, let me hum it"."""
+    from musicoma import hum
+    from musicoma.knowledge import presets as load_presets
+    role, _, pkey = preset.partition("/")
+    pr = load_presets()[role][pkey]
+    s = _song(song)
+    try:
+        bpm = s.bpm
+    except KeyError:                                    # 새 곡(메타 없음) — 엔진의 템포로
+        bpm = float(s.e.call("edit.info").get("bpm") or 90)
+        s.meta["bpm"] = bpm
+    r = hum.listen(path, bpm, key or s.meta.get("key") or "C major", "melody", lock=lock)
+    name = track or pr["name"].split(" (")[0]
+    placed = hum.place(s, r, track=name, at=at, repeat=repeat, sound=pr["sound"])
+    try:
+        s[name].preset(role, pkey)
+    except Exception as ex:
+        placed["preset_warning"] = f"{type(ex).__name__}: {ex}"
+    from musicoma import theory
+    placed.update({"preset": preset, "heard": [theory.note_name(n["pitch"]) for n in r["notes"]], "key": r.get("key"),
+                   "confidence": r.get("confidence"), "recording_bpm": r.get("recording_bpm")})
+    return placed
+
+
+@mcp.tool()
+def polish(kind: str, path: str = "", song: str = "", key: str = "", bpm: float = 0, strength: float = 0.85,
+           lock: float = 0.7, lufs: float = -12.0) -> dict:
+    """ONE CLICK polish of an audio file. kind = 'tune' (pitch-correct a vocal/instrument recording to the key — strength
+    0.85 natural, 1.0 robotic), 'tighten' (move each syllable/hit onto the 16th grid by `lock`; fixes shaky timing),
+    'master' (loudness/ceiling/glue to `lufs`; path empty = latest render of `song`). Original file is kept; returns the new path.
+    key/bpm default to the song's. Use the result with place_audio / as a sample."""
+    from musicoma import polish as pl
+    s = _song(song) if song else None
+    if kind == "master":
+        if not path:
+            from musicoma import layout
+            rend = sorted((Path(arrange_root()) / "projects" / song / "renders").glob("*.*"), key=lambda p: p.stat().st_mtime)
+            if not rend:
+                return {"error": "렌더가 없음 — 먼저 render"}
+            path = str(rend[-1])
+        return pl.master_file(_abs(path), lufs=lufs, log=lambda m: None)
+    if kind == "tune":
+        return pl.tune(_abs(path), key or (s.meta.get("key") if s else "") or "C major", strength=strength, log=lambda m: None)
+    if kind == "tighten":
+        return pl.tighten(_abs(path), bpm or (s.bpm if s else 90), lock=lock, log=lambda m: None)
+    return {"error": "kind = tune | tighten | master"}
+
+
+def arrange_root():
+    from musicoma import arrange
+    return arrange.ROOT
+
+
+@mcp.tool()
+def voice_register(name: str, wav: str, clone: bool = False) -> dict:
+    """Register the USER's own voice from a 10-20 s singing recording: measures range (p5-p95), comfortable range
+    (p20-p80), median, voice type, pitch steadiness. Saved to sounds/voices/<name>/profile.json. clone=True also makes
+    it a singing voice (voice.add_voice_aligned, needs clear English words). Then use voice_fit to pick keys that suit them."""
+    from musicoma import voice_profile
+    return voice_profile.register(name, _abs(wav), clone=clone, log=lambda m: None)
+
+
+@mcp.tool()
+def voice_fit(name: str, key: str, lowest: str = "C4", highest: str = "C5") -> dict:
+    """Which transposition puts a melody (lowest..highest note, e.g. 'A3'..'E5') into this registered voice's
+    comfortable range? Returns transpose (semitones) and the key after. Call before writing a song the user will sing."""
+    from musicoma import voice_profile, arrange
+    lo, hi = arrange.note_num(lowest), arrange.note_num(highest)
+    notes = [{"pitch": p} for p in range(lo, hi + 1)]
+    return voice_profile.fit(name, notes, key)
+
+
+@mcp.tool()
+def voice_profiles() -> list:
+    """Registered user voices (range / comfortable range / type). If one exists, fit new songs to it (voice_fit)."""
+    from musicoma import voice_profile
+    return [{k: p.get(k) for k in ("name", "range", "comfortable", "median", "voice_type", "pitch_scatter_cents")}
+            for p in voice_profile.profiles()]
+
+
+@mcp.tool()
 def references(genre: str) -> dict:
     """STEP 0 of every new song: existing reference songs for the genre — form, tempo, key, harmony, devices to learn,
     with sources (knowledge/references/<genre>.yaml) + any of the user's own songs measured by the analyzer

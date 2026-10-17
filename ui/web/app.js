@@ -745,6 +745,74 @@ async function hum() {
 }
 $("#hum").onclick = hum;
 
+// ---------------------------------------------------------------- 딸깍 기능(10-17 외부 피드백): 흥얼거림→악기 · 튜닝/박자/마스터 · 내 목소리 등록
+// 소리 얻기: 파일을 올리거나(취소하면) 마이크로 녹음. 둘 다 서버의 sounds/inbox 에 wav 로 남고 경로가 돌아온다.
+async function getAudioPath(hint) {
+  const useFile = confirm(`${hint}\n\n[확인] 파일 올리기   [취소] 마이크로 녹음`);
+  let blob, name = "rec.webm";
+  if (useFile) {
+    blob = await new Promise((res) => { const i = $("#upl"); i.value = ""; i.onchange = () => res(i.files[0] || null); i.click(); });
+    if (!blob) return null;
+    name = blob.name;
+  } else {
+    let stream;
+    try { stream = await navigator.mediaDevices.getUserMedia({ audio: true }); }
+    catch (e) { status("마이크를 쓸 수 없어요: " + e.message); return null; }
+    const chunks = [], rec = new MediaRecorder(stream);
+    rec.ondataavailable = (e) => e.data.size && chunks.push(e.data);
+    status("녹음 중… 끝나면 확인을 누르세요");
+    rec.start();
+    await new Promise((res) => setTimeout(res, 300));
+    alert("녹음 중입니다 — 다 불렀으면 [확인]");
+    await new Promise((res) => { rec.onstop = res; rec.stop(); });
+    stream.getTracks().forEach((t) => t.stop());
+    blob = new Blob(chunks, { type: "audio/webm" });
+  }
+  status("올리는 중…");
+  const r = await (await fetch(`/api/upload?name=${encodeURIComponent(name)}`, { method: "POST", body: blob })).json();
+  if (r.error) { status("실패: " + r.error); return null; }
+  return r.path;
+}
+const curSong = () => { const n = $("#project").value; return n === "__new" ? "" : n; };
+$("#hum2inst").onclick = async () => {
+  const song = curSong(); if (!song) { status("먼저 곡을 고르세요"); return; }
+  const path = await getAudioPath("흥얼거림(또는 연주 녹음)을 악기 연주로 바꿉니다."); if (!path) return;
+  const presets = await (await fetch("/api/presets")).json();
+  const list = Object.entries(presets).flatMap(([r, v]) => v.map((p) => `${r}/${p.key}`));
+  const preset = prompt("어떤 악기로? (role/key)\n" + list.join("  "), "keys/rhodes"); if (!preset) return;
+  const at = prompt("어디에? (예: 0 · bar 9 · 1:20)", "0") || "0";
+  status("알아듣고 연주하는 중…");
+  const r = await (await fetch(`/api/hum_place?song=${encodeURIComponent(song)}&path=${encodeURIComponent(path)}&preset=${encodeURIComponent(preset)}&at=${encodeURIComponent(at)}&lock=0.85`)).json();
+  if (r.error) { status("실패: " + r.error); return; }
+  feedMsg("tool", `🎵 ${r.track} ← ${preset} · 들은 음: ${(r.heard || []).join(" ")} · ${r.bars}마디 · 마디 ${Math.floor(r.start_beat / 4) + 1}부터`);
+  status(`넣었어요: ${r.track} (${r.notes}음)`); refresh();
+};
+$("#polish").onclick = async () => {
+  const song = curSong();
+  const kind = prompt("무엇을 다듬을까요?\n tune = 녹음 음정 보정(튜닝)\n tighten = 녹음 박자 보정\n master = 이 곡 최신 렌더 마스터", "tune");
+  if (!kind) return;
+  let path = "";
+  if (kind !== "master") { path = await getAudioPath(kind === "tune" ? "음정을 보정할 녹음(노래·단선율 악기)." : "박자를 보정할 녹음."); if (!path) return; }
+  else if (!song) { status("먼저 곡을 고르세요"); return; }
+  status("다듬는 중…");
+  const r = await (await fetch(`/api/polish?kind=${kind}&song=${encodeURIComponent(song)}&path=${encodeURIComponent(path)}`)).json();
+  if (r.error) { status("실패: " + r.error); return; }
+  const line = kind === "tune" ? `음 ${r.notes}개 중 ${r.corrected}개 보정 · 어긋남 ${r.mean_cents_before}→${r.mean_cents_after}센트`
+             : kind === "tighten" ? `덩어리 ${r.chunks}개 · 평균 ${r.moved_ms_mean} ms 이동` : `${r.result?.lufs} LUFS · 피크 ${r.result?.true_peak}`;
+  feedMsg("tool", `✨ ${kind}: ${line}\n파일 ${r.out}`);
+  if (kind !== "master") { $("#ask").value = `방금 다듬은 녹음(${r.out})을 곡에 넣어 줘 — 어디에: `; $("#ask").focus(); }
+  status("다듬었어요 — 파일 경로를 프로듀서 패널에 적었어요");
+};
+$("#myvoice").onclick = async () => {
+  const path = await getAudioPath("내 목소리 등록 — 아무 노래나 10~20초, 낮은 음부터 높은 음까지 편하게."); if (!path) return;
+  const name = prompt("목소리 이름", "my-voice") || "my-voice";
+  status("음역대 재는 중…");
+  const r = await (await fetch(`/api/voice_register?name=${encodeURIComponent(name)}&path=${encodeURIComponent(path)}`)).json();
+  if (r.error) { status("실패: " + r.error); return; }
+  feedMsg("tool", `👤 ${name}: 음역 ${r.range[0]}~${r.range[1]} · 편한 음역 ${r.comfortable[0]}~${r.comfortable[1]} · 중앙 ${r.median} · ${r.voice_type} · 음정 흔들림 ${r.pitch_scatter_cents}센트`);
+  status("등록했어요 — 앞으로 새 곡의 조성을 이 음역에 맞춥니다(voice_fit)");
+};
+
 // ---------------------------------------------------------------- 세션 뷰(섹션 = 씬, 트랙 × 섹션 = 슬롯)
 function setView(v) {
   const ses = v === "session";

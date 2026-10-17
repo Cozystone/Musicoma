@@ -113,6 +113,24 @@ class Api(http.server.SimpleHTTPRequestHandler):
                 return self._json({"error": f"트랙 '{a.get('track')}' 을 찾지 못함"})
             except Exception as ex:
                 return self._json({"error": f"{type(ex).__name__}: {ex}"})
+        if q.startswith("/api/hum_place") or q.startswith("/api/polish") or q.startswith("/api/voice_register") or q.startswith("/api/voice_profiles"):
+            # 딸깍 기능(10-17 외부 피드백): 흥얼거림→악기 / 튜닝·박자·마스터 / 내 목소리 등록 — MCP 도구를 그대로 부른다
+            from urllib.parse import parse_qs, urlparse
+            a = {k: v[0] for k, v in parse_qs(urlparse(q).query).items()}
+            try:
+                from musicoma import mcp_server as M
+                if q.startswith("/api/hum_place"):
+                    return self._json(M.hum_to_instrument(a["song"], a["path"], a.get("preset") or "keys/rhodes", a.get("at") or "0",
+                                                          int(a.get("repeat") or 1), a.get("track") or "", float(a.get("lock") or 0.8)))
+                if q.startswith("/api/polish"):
+                    return self._json(M.polish(a.get("kind") or "master", a.get("path") or "", a.get("song") or "", a.get("key") or "",
+                                               float(a.get("bpm") or 0), float(a.get("strength") or 0.85), float(a.get("lock") or 0.7),
+                                               float(a.get("lufs") or -12)))
+                if q.startswith("/api/voice_register"):
+                    return self._json(M.voice_register(a.get("name") or "my-voice", a["path"], a.get("clone") == "1"))
+                return self._json(M.voice_profiles())
+            except Exception as ex:
+                return self._json({"error": f"{type(ex).__name__}: {ex}"})
         if q.startswith("/api/export"):
             # 화면의 '내보내기' — 렌더 + 측정(LUFS·대역·PNG). 결과는 renders 목록에 뜬다
             from urllib.parse import parse_qs, urlparse
@@ -159,20 +177,27 @@ class Api(http.server.SimpleHTTPRequestHandler):
 
     def do_POST(self):
         """화면 마이크 흥얼거림 업로드 → sounds/inbox/hum_<시각>.wav → 알아듣기(hum.listen). 곡의 BPM·조성 기준."""
-        if not self.path.startswith("/api/hum"):
+        if not (self.path.startswith("/api/hum") or self.path.startswith("/api/upload")):
             self.send_error(404)
             return
         from urllib.parse import parse_qs, urlparse
         a = {k: v[0] for k, v in parse_qs(urlparse(self.path).query).items()}
         n = int(self.headers.get("Content-Length", "0"))
-        if n <= 0 or n > 50_000_000:
+        if n <= 0 or n > 200_000_000:
             return self._json({"error": "녹음이 비었거나 너무 큼"})
         raw = self.rfile.read(n)
         inbox = ROOT / "sounds" / "inbox"
         inbox.mkdir(parents=True, exist_ok=True)
         stamp = time.strftime("%Y%m%d-%H%M%S")
-        src = inbox / f"hum_{stamp}.webm"
+        ext = Path(a.get("name") or "").suffix.lower() or ".webm"
+        src = inbox / f"{'upload' if self.path.startswith('/api/upload') else 'hum'}_{stamp}{ext}"
         src.write_bytes(raw)
+        if self.path.startswith("/api/upload"):        # 파일만 받아 wav 경로를 돌려준다(흥얼거림→악기 / 다듬기 / 목소리 등록이 이어서 씀)
+            try:
+                from musicoma import importer
+                return self._json({"path": str(importer.to_wav(src, out_dir=inbox))})
+            except Exception as ex:
+                return self._json({"error": f"{type(ex).__name__}: {ex}"})
         try:
             from musicoma import hum, theory, importer
             wav = importer.to_wav(src, out_dir=inbox)
@@ -271,9 +296,16 @@ def _prompt(song, track, text):
             f"Musicoma MCP 도구로만 작업하고, 끝나면 render 해서 바꾼 것과 숫자를 짧게 한국어로 보고해. "
             f"요청이 지금 곡과 다른 장르·다른 곡이면 기존 곡을 덮지 말고 새 곡 이름으로 만든다. "
             f"장르·느낌의 기준이 필요하면 listen_reference 로 대표곡 1~3곡을 직접 들어 숫자(템포·조성·그루브·대역)로 잡는다. "
+            f"[악기·멜로디·가사 — 10-17 외주 검증 불합격에서] 요청한 장르에 맞는 소리가 없으면 먼저 packs(catalog→install/add)로 받는다 "
+            f"(예: 록·밴드 = drive 걸린 기타 프리셋 guitar/crunch·power·lead_bright, drums/rock, bass/picked_rock). 클린 아치톱만으로 록을 짓지 않는다. "
+            f"멜로디는 motif_develop·자동 배치에 맡기지 말고 직접 음표로 쓴다(싱코페이션·도약·프레이즈 길이 변화). 가사는 구체적 장면과 사람 말투로, "
+            f"AI 티(추상명사 나열·완벽한 라임)를 피한다. 의뢰 조건(외주 브리프)이 있으면 그것이 원칙보다 우선이다. "
             f"[멈춤 규칙 — 10-17 외주 검증에서 2시간 넘게 혼자 다듬던 문제] 새 곡은 '들을 수 있는 완성본'(반주+보컬 render)이 처음 나오면 "
             f"그 자리에서 보고하고 끝낸다: 파일 경로·숫자·남은 아쉬움·'더 다듬을까요?' 선택지. 같은 요청 안에서 보컬 재녹음은 최대 1회, "
             f"비평→수정은 최대 1회. 그 뒤는 사용자가 고른다. 콘셉트(concept)·요청 기록(song_log)·버전(snapshot)은 반드시 남긴다. "
+            f"[사용자 목소리·녹음 — 10-17 피드백] voice_profiles 에 등록된 목소리가 있으면 사용자가 부를 곡의 조성·멜로디 음역을 voice_fit 으로 "
+            f"그 편한 음역에 맞춘다. 사용자가 올린 노래·연주 녹음은 polish(tune → tighten)로 다듬어 쓰고, 흥얼거림은 hum_to_instrument 로 "
+            f"악기 연주로 바꿔 넣는다(악기 못 다뤄도 됨). 박자가 흔들리는 사용자는 lock 0.9. "
             f"요청: {text}")
 
 

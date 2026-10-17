@@ -177,11 +177,16 @@ def listen(path, bpm, key="C major", mode="auto", grid=0.25, lock=0.8, tempo_fro
         # 사람은 곡 조성과 상관없는 높이로 흥얼거린다 → 선율 모양(음정 간격)은 그대로 두고 곡 조성에 가장 잘 맞게 통째로 옮긴다
         heard = np.array([n["heard_midi"] for n in notes])
         tune = float(np.median(heard - np.round(heard)))                    # 전체 음정 치우침(반음 사이에서 부른 정도)
+        # 음마다 '가장 가까운 조성 음까지의 거리'로 점수(반올림하면 반음 사이에서 부른 음이 엉뚱한 쪽으로 넘어가 +4 같은 이조가 이김 — 10-17)
         def fit(k):
-            h = heard - tune + k
-            return sum(int(round(x)) % 12 in scale for x in h) - 0.05 * abs(k)
-        k = max(range(-6, 6), key=fit)
-        shift = k - tune
+            h = heard + k                                              # 전체 치우침(tune)은 빼지 않는다 — 음마다 가장 가까운 조성 음으로 붙이는 쪽이 사람 노래엔 맞다
+            s = 0.0
+            for x in h:
+                d = min(abs(x - c) for c in range(int(x) - 2, int(x) + 3) if c % 12 in scale)
+                s += 0.6 - min(d, 0.6)
+            return s - 0.05 * abs(k)
+        k = max(sorted(range(-6, 6), key=abs), key=fit)                  # 같은 점수면 안 옮기는 쪽
+        shift = float(k)
         for n in notes:
             n["pitch"] = _snap_pitch(n["heard_midi"] + shift, scale)
     elif mode == "melody" and isinstance(transpose, (int, float)):
