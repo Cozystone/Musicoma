@@ -473,10 +473,16 @@ def listen_reference(query: str = "", url: str = "", name: str = "", clips: int 
     body = json.dumps({"query": query, "url": url, "clips": clips, "seconds": seconds, "speed": speed}).encode("utf-8")
     req = urllib.request.Request("http://127.0.0.1:47803/listen", data=body, headers={"Content-Type": "application/json"})
     try:
-        with urllib.request.urlopen(req, timeout=300) as r:
+        with urllib.request.urlopen(req, timeout=420) as r:     # 앱 쪽 한도(6분)보다 길게 — 짧으면 앱은 아직 듣는 중이라 다음 요청이 '이미 듣는 중'
             got = json.loads(r.read())
     except urllib.error.HTTPError as ex:
         return {"error": json.loads(ex.read() or b"{}").get("error", str(ex))}
+    except TimeoutError:
+        try:   # 앱 쪽 듣기를 끊어 잠금을 푼다
+            urllib.request.urlopen(urllib.request.Request("http://127.0.0.1:47803/stop", data=b"{}", headers={"Content-Type": "application/json"}), timeout=5).read()
+        except Exception:
+            pass
+        return {"error": "듣기 시간 초과(7분) — 앱 쪽 듣기를 끊었습니다. 다시 시도하세요"}
     except OSError as ex:
         return {"error": f"Musicoma 앱이 켜져 있어야 들을 수 있습니다 ({ex})"}
     import librosa

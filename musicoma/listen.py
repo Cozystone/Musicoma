@@ -100,6 +100,7 @@ def _clip(y, sr):
         # 코드 진행(이 구간): 화성 스템(other+bass) → 크로마 템플릿 채보. 임시 파일은 바로 지운다(소리를 남기지 않는다)
         try:
             import tempfile, os
+            import soundfile as sf
             from . import transcribe
             harm = stems["other"] + stems["bass"]
             bpm_ = tempo if 60 < tempo < 200 else 120
@@ -193,12 +194,14 @@ def analyze_clips(clips, sr, meta=None, name=None, save=True):
     key = max(votes, key=votes.get)
     conf = round(votes[key] / max(1e-9, sum(votes.values())), 2)       # 구간 투표에서 이 조성의 몫
     tempos = [p["tempo"] for p in per]
+    longest = max(range(len(per)), key=lambda i: len(clips[i]))   # 전곡(clips=0)이면 긴 구간의 템포가 기준 — 24초 구간은 반박자(½·2배)로 자주 틀린다(10-17 조깅: 143 vs 70 → 중앙값 107 이라는 엉뚱한 값)
+    tempo = tempos[longest] if len(clips[longest]) > sr * 75 else float(np.median(tempos))
     swings = [p["drums"]["swing_8th_ratio"] for p in per if p.get("drums", {}).get("swing_8th_ratio")]
     card = {
         "title": meta.get("title"), "url": meta.get("url"), "channel": meta.get("channel"),
         "duration": meta.get("duration"), "listened_at": meta.get("at"), "speeds": meta.get("speeds"),
         "listened_seconds": round(len(full) / sr, 1),
-        "tempo": round(float(np.median(tempos)), 1), "tempo_per_clip": tempos,
+        "tempo": round(float(tempo), 1), "tempo_per_clip": tempos,
         "key": key, "key_confidence": conf,
         "loudness": rep["loudness"], "bands_db": rep["bands_db"], "stereo": rep["stereo"],
         "attacks_per_sec": round(float(np.mean([p["attacks_per_sec"] for p in per])), 2),

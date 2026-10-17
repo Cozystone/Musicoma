@@ -203,7 +203,12 @@ async function listen({ query, url, clips = 3, seconds = 20, speed = 4, show = t
 function start(log, getMain) {
   const server = http.createServer((req, res) => {
     const send = (code, obj) => { res.writeHead(code, { 'Content-Type': 'application/json; charset=utf-8' }); res.end(JSON.stringify(obj)); };
-    if (req.method !== 'POST' || req.url !== '/listen') return send(404, { error: 'POST /listen' });
+    if (req.method === 'POST' && req.url === '/stop') {   // 10-17: 듣기를 바깥에서 끊는다(브레인 쪽 시간 초과 때 잠금 해제)
+      try { if (activeWin && !activeWin.isDestroyed()) activeWin.destroy(); } catch (_) {}
+      activeWin = null; busy = false;
+      return send(200, { stopped: true });
+    }
+    if (req.method !== 'POST' || req.url !== '/listen') return send(404, { error: 'POST /listen, POST /stop' });
     let body = '';
     req.on('data', (d) => { body += d; if (body.length > 1e5) req.destroy(); });
     req.on('end', async () => {

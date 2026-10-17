@@ -147,6 +147,12 @@ def _candidates(pcs, low, high):
 
 
 def voice(chords, style="piano", low=None, high=None, top_note_target=None):
+    if style == "power":                      # 파워코드(10-17 밴드): 근음 + 5도 + 옥타브, 코드 성질 무시(장·단 구분 없이)
+        out = []
+        for ch in chords:
+            r = bass_note(ch, low or 40, high or 52)
+            out.append([r, r + 7, r + 12])
+        return out
     """보이스 리딩: 이전 보이싱에서 가장 적게 움직이는 자리 배치를 고른다."""
     cfg = VOICING_STYLES.get(style, VOICING_STYLES["piano"])
     low = low or cfg["low"]
