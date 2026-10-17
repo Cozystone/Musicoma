@@ -746,71 +746,165 @@ async function hum() {
 $("#hum").onclick = hum;
 
 // ---------------------------------------------------------------- 딸깍 기능(10-17 외부 피드백): 흥얼거림→악기 · 튜닝/박자/마스터 · 내 목소리 등록
-// 소리 얻기: 파일을 올리거나(취소하면) 마이크로 녹음. 둘 다 서버의 sounds/inbox 에 wav 로 남고 경로가 돌아온다.
-async function getAudioPath(hint) {
-  const useFile = confirm(`${hint}\n\n[확인] 파일 올리기   [취소] 마이크로 녹음`);
-  let blob, name = "rec.webm";
-  if (useFile) {
-    blob = await new Promise((res) => { const i = $("#upl"); i.value = ""; i.onchange = () => res(i.files[0] || null); i.click(); });
-    if (!blob) return null;
-    name = blob.name;
-  } else {
-    let stream;
-    try { stream = await navigator.mediaDevices.getUserMedia({ audio: true }); }
-    catch (e) { status("마이크를 쓸 수 없어요: " + e.message); return null; }
-    const chunks = [], rec = new MediaRecorder(stream);
-    rec.ondataavailable = (e) => e.data.size && chunks.push(e.data);
-    status("녹음 중… 끝나면 확인을 누르세요");
-    rec.start();
-    await new Promise((res) => setTimeout(res, 300));
-    alert("녹음 중입니다 — 다 불렀으면 [확인]");
-    await new Promise((res) => { rec.onstop = res; rec.stop(); });
-    stream.getTracks().forEach((t) => t.stop());
-    blob = new Blob(chunks, { type: "audio/webm" });
-  }
-  status("올리는 중…");
+// 10-17 본인: "취소라고 되면 마이크 녹음이라는데 뭐가 되고 있는지, 끝난 건지 모르겠다" → confirm/alert 대신 단계가 보이는 창:
+//   고르기(마이크/파일) → 녹음 중(시간·소리 크기 막대·끝 버튼) → 올리는 중 → 분석 중 → 결과 카드(닫기).
+function modal(title) {
+  document.querySelector(".mc-modal")?.remove();
+  const box = el("div", "mc-modal");
+  box.innerHTML = `<div class="mc-card"><div class="mc-head"><b>${title}</b><button class="mc-x" title="닫기">✕</button></div><div class="mc-body"></div></div>`;
+  document.body.append(box);
+  const body = box.querySelector(".mc-body");
+  const close = () => box.remove();
+  box.querySelector(".mc-x").onclick = close;
+  return { box, body, close, set: (html) => { body.innerHTML = html; return body; } };
+}
+function fmtSec(s) { return `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, "0")}`; }
+
+// 소리 얻기 → 서버 sounds/inbox 의 wav 경로. m = modal. hint = 무엇을 부를지. 돌아오면 m 은 '올리는 중' 상태.
+async function pickAudio(m, hint, minSec = 2) {
+  return new Promise((resolve) => {
+    const b = m.set(`<p class="mc-hint">${hint}</p>
+      <div class="mc-row"><button class="primary mc-mic">🎙 마이크로 녹음</button><button class="mc-file">📁 파일 올리기</button></div>
+      <p class="mc-sub">파일: wav · mp3 · m4a · webm</p>`);
+    m.box.querySelector(".mc-x").onclick = () => { m.close(); resolve(null); };
+    b.querySelector(".mc-file").onclick = () => {
+      const i = $("#upl"); i.value = "";
+      i.onchange = async () => { const f = i.files[0]; if (!f) return; resolve(await upload(m, f, f.name)); };
+      i.click();
+    };
+    b.querySelector(".mc-mic").onclick = async () => {
+      let stream;
+      try { stream = await navigator.mediaDevices.getUserMedia({ audio: true }); }
+      catch (e) { m.set(`<p class="mc-err">마이크를 쓸 수 없어요: ${e.message}</p>`); return resolve(null); }
+      const chunks = [], rec = new MediaRecorder(stream);
+      rec.ondataavailable = (e) => e.data.size && chunks.push(e.data);
+      const ctx = new AudioContext(), an = ctx.createAnalyser(); an.fftSize = 1024;
+      ctx.createMediaStreamSource(stream).connect(an);
+      const buf = new Float32Array(an.fftSize);
+      const r = m.set(`<div class="mc-rec"><span class="mc-dot"></span> 녹음 중 <b class="mc-time">0:00</b></div>
+        <div class="mc-meter"><div class="mc-level"></div></div>
+        <p class="mc-sub mc-live">소리가 들어오면 막대가 움직입니다</p>
+        <div class="mc-row"><button class="primary mc-stop">■ 녹음 끝</button><button class="mc-cancel">취소</button></div>`);
+      const t0 = performance.now(); let peak = 0, raf;
+      const tick = () => {
+        an.getFloatTimeDomainData(buf);
+        let s = 0; for (let i = 0; i < buf.length; i++) s += buf[i] * buf[i];
+        const rms = Math.sqrt(s / buf.length), db = 20 * Math.log10(rms + 1e-6), pct = Math.max(0, Math.min(100, (db + 50) * 2));
+        peak = Math.max(peak, pct);
+        r.querySelector(".mc-level").style.width = pct + "%";
+        r.querySelector(".mc-level").classList.toggle("hot", pct > 92);
+        const sec = (performance.now() - t0) / 1000;
+        r.querySelector(".mc-time").textContent = fmtSec(sec);
+        r.querySelector(".mc-live").textContent = pct < 8 ? "소리가 거의 안 들어와요 — 마이크 가까이, 조금 크게" : pct > 92 ? "너무 커요 — 조금 떨어지세요" : `잘 들어오고 있어요 (${Math.round(sec)}초)`;
+        raf = requestAnimationFrame(tick);
+      };
+      tick();
+      const finish = async (keep) => {
+        cancelAnimationFrame(raf);
+        await new Promise((res) => { rec.onstop = res; rec.stop(); });
+        stream.getTracks().forEach((t) => t.stop()); ctx.close();
+        const sec = (performance.now() - t0) / 1000;
+        if (!keep) { m.close(); return resolve(null); }
+        if (sec < minSec) { m.set(`<p class="mc-err">녹음이 ${sec.toFixed(1)}초 — 너무 짧아요(${minSec}초 이상). 다시 눌러 주세요.</p>`); return resolve(null); }
+        resolve(await upload(m, new Blob(chunks, { type: "audio/webm" }), "rec.webm", sec));
+      };
+      r.querySelector(".mc-stop").onclick = () => finish(true);
+      r.querySelector(".mc-cancel").onclick = () => finish(false);
+      m.box.querySelector(".mc-x").onclick = () => finish(false);
+      rec.start();
+    };
+  });
+}
+async function upload(m, blob, name, sec) {
+  m.set(`<p class="mc-step">⬆ 올리는 중${sec ? ` (${sec.toFixed(1)}초 녹음)` : ` (${name})`}…</p>`);
   const r = await (await fetch(`/api/upload?name=${encodeURIComponent(name)}`, { method: "POST", body: blob })).json();
-  if (r.error) { status("실패: " + r.error); return null; }
+  if (r.error) { m.set(`<p class="mc-err">올리기 실패: ${r.error}</p>`); return null; }
   return r.path;
 }
+function working(m, text) { m.set(`<p class="mc-step"><span class="mc-spin"></span> ${text}</p><p class="mc-sub">몇 초에서 1분쯤 걸립니다. 이 창을 닫아도 계속됩니다.</p>`); }
+function done(m, html, extraBtn) {
+  const b = m.set(`<div class="mc-done">✅ 완료</div>${html}<div class="mc-row">${extraBtn || ""}<button class="primary mc-ok">닫기</button></div>`);
+  b.querySelector(".mc-ok").onclick = m.close;
+  return b;
+}
+function failed(m, text) { const b = m.set(`<p class="mc-err">✖ ${text}</p><div class="mc-row"><button class="mc-ok">닫기</button></div>`); b.querySelector(".mc-ok").onclick = m.close; }
 const curSong = () => { const n = $("#project").value; return n === "__new" ? "" : n; };
+
 $("#hum2inst").onclick = async () => {
   const song = curSong(); if (!song) { status("먼저 곡을 고르세요"); return; }
-  const path = await getAudioPath("흥얼거림(또는 연주 녹음)을 악기 연주로 바꿉니다."); if (!path) return;
+  const m = modal("🎵 흥얼거림 → 악기");
+  const path = await pickAudio(m, "멜로디를 부르거나(라라라·흠흠 다 됩니다) 연주 녹음을 올리세요. 곡의 조성·박자에 맞춰 알아듣습니다."); if (!path) return;
   const presets = await (await fetch("/api/presets")).json();
-  const list = Object.entries(presets).flatMap(([r, v]) => v.map((p) => `${r}/${p.key}`));
-  const preset = prompt("어떤 악기로? (role/key)\n" + list.join("  "), "keys/rhodes"); if (!preset) return;
-  const at = prompt("어디에? (예: 0 · bar 9 · 1:20)", "0") || "0";
-  status("알아듣고 연주하는 중…");
-  const r = await (await fetch(`/api/hum_place?song=${encodeURIComponent(song)}&path=${encodeURIComponent(path)}&preset=${encodeURIComponent(preset)}&at=${encodeURIComponent(at)}&lock=0.85`)).json();
-  if (r.error) { status("실패: " + r.error); return; }
-  feedMsg("tool", `🎵 ${r.track} ← ${preset} · 들은 음: ${(r.heard || []).join(" ")} · ${r.bars}마디 · 마디 ${Math.floor(r.start_beat / 4) + 1}부터`);
-  status(`넣었어요: ${r.track} (${r.notes}음)`); refresh();
+  const opts = Object.entries(presets).flatMap(([r, v]) => v.map((p) => `<option value="${r}/${p.key}" ${r + "/" + p.key === "keys/rhodes" ? "selected" : ""}>${r} · ${p.name}</option>`)).join("");
+  const b = m.set(`<p class="mc-hint">올렸어요. 어떤 악기가 연주할까요?</p>
+    <label class="mc-field">악기 <select class="mc-preset">${opts}</select></label>
+    <label class="mc-field">위치 <input class="mc-at" value="0" placeholder="0 · bar 9 · 1:20"></label>
+    <label class="mc-field">박자 보정 <input class="mc-lock" type="range" min="0" max="1" step="0.05" value="0.85"> <span class="mc-lockv">0.85</span></label>
+    <div class="mc-row"><button class="primary mc-go">연주하기</button></div>`);
+  b.querySelector(".mc-lock").oninput = (e) => b.querySelector(".mc-lockv").textContent = e.target.value;
+  b.querySelector(".mc-go").onclick = async () => {
+    const preset = b.querySelector(".mc-preset").value, at = b.querySelector(".mc-at").value || "0", lock = b.querySelector(".mc-lock").value;
+    working(m, "알아듣고 연주하는 중…");
+    const r = await (await fetch(`/api/hum_place?song=${encodeURIComponent(song)}&path=${encodeURIComponent(path)}&preset=${encodeURIComponent(preset)}&at=${encodeURIComponent(at)}&lock=${lock}`)).json();
+    if (r.error) return failed(m, r.error);
+    done(m, `<p>트랙 <b>${r.track}</b> · ${preset}<br>들은 음: <b>${(r.heard || []).join(" ")}</b> · ${r.bars}마디 · 마디 ${Math.floor(r.start_beat / 4) + 1}부터${r.recording_bpm ? ` · 부른 템포 ${r.recording_bpm}` : ""}</p><p class="mc-sub">클립을 더블클릭하면 피아노롤에서 음을 고칠 수 있어요.</p>`);
+    feedMsg("tool", `🎵 ${r.track} ← ${preset} · ${(r.heard || []).join(" ")}`);
+    status(`넣었어요: ${r.track} (${r.notes}음)`); refresh();
+  };
 };
+
 $("#polish").onclick = async () => {
   const song = curSong();
-  const kind = prompt("무엇을 다듬을까요?\n tune = 녹음 음정 보정(튜닝)\n tighten = 녹음 박자 보정\n master = 이 곡 최신 렌더 마스터", "tune");
-  if (!kind) return;
-  let path = "";
-  if (kind !== "master") { path = await getAudioPath(kind === "tune" ? "음정을 보정할 녹음(노래·단선율 악기)." : "박자를 보정할 녹음."); if (!path) return; }
-  else if (!song) { status("먼저 곡을 고르세요"); return; }
-  status("다듬는 중…");
-  const r = await (await fetch(`/api/polish?kind=${kind}&song=${encodeURIComponent(song)}&path=${encodeURIComponent(path)}`)).json();
-  if (r.error) { status("실패: " + r.error); return; }
-  const line = kind === "tune" ? `음 ${r.notes}개 중 ${r.corrected}개 보정 · 어긋남 ${r.mean_cents_before}→${r.mean_cents_after}센트`
-             : kind === "tighten" ? `덩어리 ${r.chunks}개 · 평균 ${r.moved_ms_mean} ms 이동` : `${r.result?.lufs} LUFS · 피크 ${r.result?.true_peak}`;
-  feedMsg("tool", `✨ ${kind}: ${line}\n파일 ${r.out}`);
-  if (kind !== "master") { $("#ask").value = `방금 다듬은 녹음(${r.out})을 곡에 넣어 줘 — 어디에: `; $("#ask").focus(); }
-  status("다듬었어요 — 파일 경로를 프로듀서 패널에 적었어요");
+  const m = modal("✨ 딸깍 다듬기");
+  const b = m.set(`<div class="mc-choice">
+      <label><input type="radio" name="mc-kind" value="tune" checked> <b>튜닝</b> — 노래·단선율 녹음의 음정을 조성에 맞춰 보정</label>
+      <label><input type="radio" name="mc-kind" value="tighten"> <b>박자</b> — 녹음의 음절·타격을 16분 격자로</label>
+      <label><input type="radio" name="mc-kind" value="master"> <b>마스터</b> — 이 곡 최신 렌더를 목표 음량·천장으로</label>
+    </div><label class="mc-field mc-str">세기 <input class="mc-strength" type="range" min="0.5" max="1" step="0.05" value="0.85"> <span class="mc-strv">0.85</span> <span class="mc-sub">(1.0 = 기계처럼)</span></label>
+    <div class="mc-row"><button class="primary mc-go">다음</button></div>`);
+  b.querySelector(".mc-strength").oninput = (e) => b.querySelector(".mc-strv").textContent = e.target.value;
+  b.querySelector(".mc-go").onclick = async () => {
+    const kind = b.querySelector("input[name=mc-kind]:checked").value, strength = b.querySelector(".mc-strength").value;
+    let path = "";
+    if (kind === "master") { if (!song) return failed(m, "먼저 곡을 고르세요"); }
+    else { path = await pickAudio(m, kind === "tune" ? "음정을 보정할 녹음 — 노래나 단선율 악기." : "박자를 보정할 녹음 — 노래·랩·연주·비트박스."); if (!path) return; }
+    working(m, kind === "tune" ? "음 하나하나 듣고 맞추는 중…" : kind === "tighten" ? "박자 맞추는 중…" : "마스터 중…");
+    const r = await (await fetch(`/api/polish?kind=${kind}&song=${encodeURIComponent(song)}&path=${encodeURIComponent(path)}&strength=${strength}`)).json();
+    if (r.error) return failed(m, r.error);
+    const line = kind === "tune" ? `음 <b>${r.notes}</b>개 중 <b>${r.corrected}</b>개 보정 · 어긋남 평균 ${r.mean_cents_before} → <b>${r.mean_cents_after}</b>센트`
+               : kind === "tighten" ? `덩어리 <b>${r.chunks}</b>개 · 평균 <b>${r.moved_ms_mean}</b> ms 옮김` : `<b>${r.result?.lufs}</b> LUFS · 피크 ${r.result?.true_peak} dBTP`;
+    const out = r.out || r.result?.path;
+    done(m, `<p>${line}</p><p class="mc-sub mc-path">${out}</p>`,
+         kind !== "master" ? `<button class="mc-use">곡에 넣기 (프로듀서에게)</button>` : "");
+    m.body.querySelector(".mc-use")?.addEventListener("click", () => { m.close(); $("#ask").value = `다듬은 녹음(${out})을 곡에 넣어 줘 — 위치: `; $("#ask").focus(); });
+    feedMsg("tool", `✨ ${kind}: ${line.replace(/<[^>]+>/g, "")}\n파일 ${out}`);
+  };
 };
+
 $("#myvoice").onclick = async () => {
-  const path = await getAudioPath("내 목소리 등록 — 아무 노래나 10~20초, 낮은 음부터 높은 음까지 편하게."); if (!path) return;
-  const name = prompt("목소리 이름", "my-voice") || "my-voice";
-  status("음역대 재는 중…");
-  const r = await (await fetch(`/api/voice_register?name=${encodeURIComponent(name)}&path=${encodeURIComponent(path)}`)).json();
-  if (r.error) { status("실패: " + r.error); return; }
-  feedMsg("tool", `👤 ${name}: 음역 ${r.range[0]}~${r.range[1]} · 편한 음역 ${r.comfortable[0]}~${r.comfortable[1]} · 중앙 ${r.median} · ${r.voice_type} · 음정 흔들림 ${r.pitch_scatter_cents}센트`);
-  status("등록했어요 — 앞으로 새 곡의 조성을 이 음역에 맞춥니다(voice_fit)");
+  const m = modal("👤 내 목소리 등록");
+  const path = await pickAudio(m, "아무 노래나 <b>10~20초</b> — 편한 낮은 음부터 올라갈 수 있는 높은 음까지, 음을 끌며 부르세요(말은 안 돼요).", 5); if (!path) return;
+  const b = m.set(`<p class="mc-hint">올렸어요. 이름을 정해 주세요.</p><label class="mc-field">이름 <input class="mc-name" value="my-voice"></label>
+    <div class="mc-row"><button class="primary mc-go">음역대 재기</button></div>`);
+  b.querySelector(".mc-go").onclick = async () => {
+    const name = b.querySelector(".mc-name").value.trim() || "my-voice";
+    working(m, "음높이를 하나하나 재는 중…");
+    const r = await (await fetch(`/api/voice_register?name=${encodeURIComponent(name)}&path=${encodeURIComponent(path)}`)).json();
+    if (r.error) return failed(m, r.error);
+    // 음역 그림: C2(36)~C6(84) 자 위에 전체 음역(옅게)·편한 음역(진하게)·중앙(선)
+    const lo = 36, hi = 84, pct = (x) => Math.max(0, Math.min(100, (x - lo) / (hi - lo) * 100));
+    const [r0, r1] = r.range_midi, [c0, c1] = r.comfortable_midi;
+    done(m, `<p><b>${name}</b> · ${r.voice_type}</p>
+      <div class="mc-range"><div class="mc-r-all" style="left:${pct(r0)}%;width:${pct(r1) - pct(r0)}%"></div>
+        <div class="mc-r-comf" style="left:${pct(c0)}%;width:${pct(c1) - pct(c0)}%"></div>
+        <div class="mc-r-med" style="left:${pct(r.median_midi)}%"></div>
+        <span class="mc-r-l">C2</span><span class="mc-r-m">C4</span><span class="mc-r-r">C6</span></div>
+      <p>전체 음역 <b>${r.range[0]} ~ ${r.range[1]}</b> · 편한 음역 <b>${r.comfortable[0]} ~ ${r.comfortable[1]}</b> · 중앙 <b>${r.median}</b></p>
+      <p class="mc-sub">음정 흔들림 ${r.pitch_scatter_cents}센트${r.pitch_scatter_cents > 25 ? " — 튜닝(✨)을 걸면 또렷해져요" : " — 안정적이에요"} · 녹음 ${r.seconds}초</p>
+      <p class="mc-sub">앞으로 새 곡의 조성·멜로디 음역을 이 편한 음역에 맞춥니다.</p>`);
+    feedMsg("tool", `👤 ${name}: 음역 ${r.range[0]}~${r.range[1]} · 편한 음역 ${r.comfortable[0]}~${r.comfortable[1]} · 중앙 ${r.median} · ${r.voice_type}`);
+    status("목소리를 등록했어요");
+  };
 };
 
 // ---------------------------------------------------------------- 세션 뷰(섹션 = 씬, 트랙 × 섹션 = 슬롯)

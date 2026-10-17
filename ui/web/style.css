@@ -326,3 +326,36 @@ body.session-view #arr-body, body.session-view #overview { display: none; }
 body.map-mode #devices .knob[data-param] { outline: 2px dashed var(--accent2); outline-offset: 1px; cursor: crosshair; }
 body.map-mode #devices .knob.map-wait { outline: 2px solid #ffd23f; }
 #devices .knob.mapped::after { content: "CC " attr(data-cc); display: block; font-size: 8px; color: var(--accent2); text-align: center; }
+
+/* 딸깍 창(🎵 ✨ 👤) — 단계가 보이게: 고르기 → 녹음 중 → 올리는 중 → 분석 중 → 완료 (10-17) */
+.mc-modal { position: fixed; inset: 0; background: rgba(0,0,0,.45); z-index: 9000; display: flex; align-items: center; justify-content: center; }
+.mc-card { background: var(--panel); color: var(--text); border: 1px solid var(--edge); min-width: 360px; max-width: 520px; box-shadow: 0 8px 30px rgba(0,0,0,.4); font-size: 12px; }
+.mc-head { display: flex; justify-content: space-between; align-items: center; padding: 8px 10px; background: var(--panel-hi); border-bottom: 1px solid var(--edge); font-size: 13px; }
+.mc-x { padding: 0 6px; }
+.mc-body { padding: 12px 14px; display: flex; flex-direction: column; gap: 8px; }
+.mc-hint { margin: 0; line-height: 1.5; }
+.mc-sub { margin: 0; opacity: .75; font-size: 11px; }
+.mc-err { margin: 0; color: #ffb3b3; }
+.mc-row { display: flex; gap: 8px; margin-top: 4px; }
+.mc-row button { padding: 6px 12px; font-size: 12px; }
+.mc-rec { font-size: 14px; display: flex; align-items: center; gap: 8px; }
+.mc-dot { width: 10px; height: 10px; border-radius: 50%; background: #e33; animation: mc-blink 1s infinite; }
+@keyframes mc-blink { 50% { opacity: .25; } }
+.mc-meter { height: 10px; background: rgba(0,0,0,.35); border: 1px solid var(--edge); }
+.mc-level { height: 100%; width: 0; background: #5bc45b; transition: width .06s; }
+.mc-level.hot { background: #e33; }
+.mc-step { margin: 0; font-size: 13px; display: flex; align-items: center; gap: 8px; }
+.mc-spin { width: 12px; height: 12px; border: 2px solid var(--edge); border-top-color: var(--accent); border-radius: 50%; animation: mc-spin .8s linear infinite; }
+@keyframes mc-spin { to { transform: rotate(360deg); } }
+.mc-done { font-size: 14px; font-weight: 600; color: #7fd47f; }
+.mc-field { display: flex; align-items: center; gap: 8px; }
+.mc-field select, .mc-field input[type=text], .mc-field input:not([type]) { flex: 1; }
+.mc-choice { display: flex; flex-direction: column; gap: 6px; }
+.mc-path { word-break: break-all; }
+.mc-range { position: relative; height: 22px; background: rgba(0,0,0,.3); border: 1px solid var(--edge); margin: 4px 0; }
+.mc-r-all { position: absolute; top: 0; bottom: 0; background: rgba(230,163,26,.3); }
+.mc-r-comf { position: absolute; top: 0; bottom: 0; background: rgba(230,163,26,.85); }
+.mc-r-med { position: absolute; top: -2px; bottom: -2px; width: 2px; background: #fff; }
+.mc-r-l, .mc-r-m, .mc-r-r { position: absolute; top: 24px; font-size: 10px; opacity: .7; }
+.mc-r-l { left: 0; } .mc-r-m { left: 50%; transform: translateX(-50%); } .mc-r-r { right: 0; }
+.mc-range { margin-bottom: 16px; }
