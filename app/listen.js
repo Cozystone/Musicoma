@@ -5,7 +5,7 @@
 // 분석(템포·조성·그루브·대역…)은 파이썬 musicoma/listen.py 가 한다.
 'use strict';
 
-const { BrowserWindow, WebContentsView } = require('electron');
+const { BrowserWindow, WebContentsView, session } = require('electron');
 const http = require('http');
 
 const PORT = 47803;
@@ -28,6 +28,7 @@ const CAPTURE = String.raw`(async (clips, seconds, speed) => {
       document.documentElement.appendChild(b);
     }
     b.textContent = '🎧 Musicoma 가 듣는 중 — ' + msg;
+    console.log('[listen] ' + msg);            // 메인 프로세스가 shell.log 로 받아 적는다 — 어디서 멈췄는지 보려고(10-17)
   };
   say('영상 찾는 중');
   let v = null;
@@ -61,6 +62,10 @@ const CAPTURE = String.raw`(async (clips, seconds, speed) => {
   for (let i = 0; i < 80 && !(v.duration > 0 && isFinite(v.duration)); i++) await sleep(250);
   const dur = v.duration;
   if (!(dur > 0 && isFinite(dur))) throw new Error('길이를 알 수 없음(라이브 방송?)');
+  // 제목·채널은 지금 읽는다 — 전곡을 끝까지 들으면 자동재생이 다음 영상으로 넘어가 끝에서 읽은 제목이 엉뚱했다(10-17 LUCY 배치)
+  let title = document.title.replace(/ - YouTube$/, ''), channel = null;
+  try { const d = player && player.getVideoData && player.getVideoData(); if (d) { title = d.title || title; channel = d.author || null; } } catch (_) {}
+  const pageUrl = location.href;
   // 빨리 듣기: 음정 보정 없이 speed 배로 틀고(= 그냥 빨리 돌린 테이프) 48k×speed 로 받으면,
   // 그 샘플을 48k 로 읽는 것만으로 원래 소리가 된다(대역도 그대로 — 받는 쪽 샘플레이트를 같이 올리므로).
   // 단, 아주 높은 대역(10 kHz 위)은 빨리 틀면 재생기 쪽에서 깎인다(10-17 실측: 2배속 air -4 dB) — 그래서 한 구간은 1배속으로
@@ -119,19 +124,36 @@ const CAPTURE = String.raw`(async (clips, seconds, speed) => {
   }
   v.pause();
   say('다 들었음 — 분석 중');
-  let title = document.title.replace(/ - YouTube$/, ''), channel = null;
-  try { const d = player && player.getVideoData && player.getVideoData(); if (d) { title = d.title || title; channel = d.author || null; } } catch (_) {}
   await ctx.close();
   clearInterval(fitTimer);
-  return { title, channel, url: location.href, duration: Math.round(dur * 10) / 10, sample_rate: 48000, speed, clips: out };
+  return { title, channel, url: pageUrl, duration: Math.round(dur * 10) / 10, sample_rate: 48000, speed, clips: out };
 })`;
 
 async function findOnYouTube(win, query) {
   await win.loadURL('https://www.youtube.com/results?search_query=' + encodeURIComponent(query));
+  // 첫 결과를 그냥 집으면 플레이리스트·피아노 커버·1시간 모음에 자주 걸린다(10-17 LUCY 배치: 11곡 중 3곡이 엉뚱한 영상).
+  // 앞쪽 결과 12개를 제목·길이로 점수 매겨 고른다: 질문 낱말이 제목에 있으면 +, 공식 MV +, 모음·커버·긴 영상 −.
+  const words = query.toLowerCase().split(/\s+/).filter((w) => w.length > 1 && !['mv', 'official', 'm/v', '공식', 'audio'].includes(w));
   for (let i = 0; i < 60; i++) {
-    const href = await win.webContents.executeJavaScript(
-      `(() => { const a = document.querySelector('a#video-title[href^="/watch"], a#video-title-link[href^="/watch"], ytd-video-renderer a[href^="/watch"]'); return a ? a.href : null; })()`);
-    if (href) return href.split('&')[0];
+    const list = await win.webContents.executeJavaScript(
+      `(() => Array.from(document.querySelectorAll('ytd-video-renderer')).slice(0, 12).map((r) => {
+          const a = r.querySelector('a#video-title[href^="/watch"], a#video-title-link[href^="/watch"]');
+          const t = r.querySelector('ytd-thumbnail-overlay-time-status-renderer, .badge-shape-wiz__text, #time-status');
+          return a ? { href: a.href, title: (a.getAttribute('title') || a.textContent || '').trim(), time: t ? t.textContent.trim() : '' } : null;
+        }).filter(Boolean))()`);
+    if (list && list.length) {
+      const score = (r) => {
+        const t = r.title.toLowerCase(); let s = 0;
+        for (const w of words) if (t.includes(w)) s += 2;
+        if (/\bmv\b|m\/v|official|공식/.test(t)) s += 3;
+        if (/playlist|플레이리스트|모음|1시간|hour|cover|커버|piano|피아노|reaction|리액션|노래방|karaoke|inst\b|instrumental|연주/.test(t)) s -= 6;
+        const m = r.time.match(/(\d+):(\d+)(?::(\d+))?/);
+        if (m) { const sec = m[3] ? (+m[1]) * 3600 + (+m[2]) * 60 + (+m[3]) : (+m[1]) * 60 + (+m[2]); if (sec > 8 * 60) s -= 6; if (sec < 60) s -= 4; }
+        return s;
+      };
+      list.sort((a, b) => score(b) - score(a));
+      return list[0].href.split('&')[0];
+    }
     await sleep(250);
   }
   throw new Error(`유튜브에서 '${query}' 를 찾지 못함`);
@@ -184,10 +206,15 @@ async function listen({ query, url, clips = 3, seconds = 20, speed = 4, show = t
   const win = show && main && !main.isDestroyed() && main.isVisible() ? attachViewer(main) : hiddenWindow();
   activeWin = win;
   win.webContents.setWindowOpenHandler(() => ({ action: 'deny' }));
+  win.webContents.on('console-message', function (ev, level, message) {
+    const m = ev && typeof ev === 'object' && typeof ev.message === 'string' ? ev.message : message;   // Electron 44 는 ev.message
+    if (typeof m === 'string' && m.startsWith('[listen]')) log(m);
+  });
   try {
     const target = url || await findOnYouTube(win, query);
     log(`listen: ${target}`);
-    await win.loadURL(target);
+    await Promise.race([win.loadURL(target).catch((e) => log(`listen load: ${e.message}`)), sleep(20000)]);   // 페이지 load 가 영영 안 끝나도 20초 뒤 진행
+    log('listen: 페이지 열림 → 듣기 시작');
     const r = await win.webContents.executeJavaScript(`${CAPTURE}(${Number(clips) === 0 ? 0 : (Number(clips) | 0 || 3)}, ${Number(seconds) || 20}, ${Math.min(4, Math.max(1, Number(speed) || 4))})`, true);
     return { meta: { title: r.title, channel: r.channel, url: r.url, duration: r.duration, at: r.clips.map((c) => c.at),
                      query: query || null, speed: r.speed },
@@ -200,7 +227,19 @@ async function listen({ query, url, clips = 3, seconds = 20, speed = 4, show = t
   }
 }
 
+// 듣기 창의 광고 요청을 막는다 — 10-17 실측: 로그인 없는 창이라 곡마다 2분짜리 광고가 두 번(4분) 붙어 전곡 듣기가 6분 한도를 넘겼고,
+// 중간(1배속) 구간도 광고에 가려 코드 채보가 비었다. 광고망 요청만 끊으므로 영상·소리는 그대로다.
+const AD_URLS = ['*://*.doubleclick.net/*', '*://*.googlesyndication.com/*', '*://*.googleadservices.com/*', '*://*.google.com/pagead/*',
+                 '*://*.youtube.com/pagead/*', '*://*.youtube.com/api/stats/ads*', '*://*.youtube.com/ptracking*',
+                 '*://*.youtube.com/get_midroll_*', '*://*.youtube.com/youtubei/v1/player/ad_break*', '*://*.youtube.com/youtubei/v1/log_event*'];
+function blockAds(log) {
+  try {
+    session.fromPartition(PARTITION).webRequest.onBeforeRequest({ urls: AD_URLS }, (d, cb) => cb({ cancel: true }));
+  } catch (e) { log(`listen ad block: ${e.message}`); }
+}
+
 function start(log, getMain) {
+  blockAds(log);
   const server = http.createServer((req, res) => {
     const send = (code, obj) => { res.writeHead(code, { 'Content-Type': 'application/json; charset=utf-8' }); res.end(JSON.stringify(obj)); };
     if (req.method === 'POST' && req.url === '/stop') {   // 10-17: 듣기를 바깥에서 끊는다(브레인 쪽 시간 초과 때 잠금 해제)
