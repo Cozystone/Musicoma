@@ -240,11 +240,15 @@ def vocal_sections():
             count[name] = count.get(name, 0) + 1
             lines = MEL[lyr_key]
             per = n * 4 / len(lines)
-            notes = []
+            notes, phrases = [], []
+            lyr_lines = LYR[lyr_key].split("\n")
             for i, m in enumerate(lines):
                 notes += _notes(m, bar * 4 + i * per)
+                first = arrange.melody(m)[0]
+                phrases.append({"start": round((bar * 4 + i * per + (first[0]["start"] if first else 0)) * SPB, 3),
+                                "text": lyr_lines[i] if i < len(lyr_lines) else ""})     # 줄 시작 = 그 줄 첫 음(보컬 정렬 기준)
             out.append({"name": f"{name}{count[name]}", "start": round(bar * 4 * SPB, 3), "end": round((bar + n) * 4 * SPB, 3),
-                        "tag": tags.get(name, "Verse"), "lyrics": LYR[lyr_key], "key": KEY, "melody_notes": notes})
+                        "tag": tags.get(name, "Verse"), "lyrics": LYR[lyr_key], "key": KEY, "melody_notes": notes, "phrases": phrases})
         bar += n
     return out
 
@@ -276,7 +280,10 @@ if __name__ == "__main__":
         stamp("가이드")
         fut = ThreadPoolExecutor(1).submit(make_vocals, stamp)
         s, rep = arrange.build(spec, label=label, later={"Vox": fut.result}, log=stamp)
-    elif step == "final":
+    elif step in ("final", "align"):
+        if step == "align":   # 생성 보컬을 쓴 멜로디 줄 시작에 맞춰 당긴 뒤 다시 짓기(10-17 본인 "보컬 싱크가 안 맞아")
+            from musicoma import vocal_align
+            vocal_align.align_state(VOX.with_suffix(".json"), lang="en", log=stamp)
         spec["parts"].append(VOX_PART)
         s, rep = arrange.build(spec, label=label, log=stamp)
     else:
