@@ -1,0 +1,50 @@
+# 올드 칸예 × 시티팝 레퍼런스 카드 — 2026-10-17 앱 뷰어로 직접 듣고 잰 숫자(소리는 저장 안 함) + 화성 연구.
+# 앨범 「NIGHT SHIFT」 전 곡의 기준. 신뢰: 조성·대역·폭·스템 균형·보컬 음역·구성은 쓸 만함. 템포는 4배속 구간 결함 가능 → 아는 값 병기.
+# 시티팝 4곡은 캡처가 157초에서 끊겨 구성(form)이 없음(Plastic Love 는 시간 초과).
+listened_at: 2026-10-17
+kanye:
+  through_the_wire: {bpm_heard: 86, bpm_known: 84, key: "B major", width_db: -19.0, bands: {low: -6.7, mid: -7.9, presence: -15.5, air: -35.1}, stems: {drums: -2.6, bass: -8.1, other: -14.1, vocals: -7.1},
+                     chords_mid: "Imaj7 → #IVmaj7 → bIIsus4 → VImaj7 → IIImaj7 (채보 — 샘플의 조와 비트의 조가 어긋나 '틀린' 코드처럼 잡힘 = 올드 칸예 특유)", form: "21s 부터 12·19·28마디 큰 블록, 브레이크 3마디, 아웃트로 7마디"}
+  touch_the_sky:    {bpm_heard: 72, bpm_known: 97, key: "F# major", width_db: -21.3, bands: {low: -2.0, presence: -35.3, air: -42.8}, chords_mid: "IIIsus4 VImaj7 Vsus4 IVmaj7 V7 I I7 IVmaj7 bVImaj7 iii7 — 혼 섹션 루프, I7 로 IV 로 가는 가스펠식", form: "35s 첫 큰 블록(8마디), 88s 12마디"}
+  heard_em_say:     {bpm_heard: 65, bpm_known: 65, key: "F major", width_db: -14.8, bands: {low: -4.1, presence: -23.5, air: -35.3}, stems: {drums: -11.3, bass: -8.0, other: -8.5, vocals: -7.2},
+                     chords_mid: "IVmaj7 ×4마디 → Imaj7 ×3 → ii ×2 → iii7 — 피아노 한 대의 순환, 드럼이 작다(-11)", form: "23s 부터 20마디 블록, 끝까지 같은 밀도"}
+  flashing_lights:  {bpm_heard: 92, bpm_known: 91, key: "B minor", width_db: -15.4, bands: {low: -6.1, presence: -17.8, air: -26.2}, stems: {drums: -4.7, bass: -7.1, other: -8.5, vocals: -7.8},
+                     chords_mid: "bIIIsus4 → i7 → bIImaj7 ×2마디 (반복) — 단조 i 와 반음 위 bII 장7 의 왕복 = Graduation 식 차가움", form: "31s 부터 52마디 한 덩어리(절·훅 밀도 같음), 167s 4마디 브레이크"}
+  heartless:        {bpm_heard: 89, bpm_known: 88, key: "A# minor(채보 기준 G)", width_db: -14.6, bands: {sub: -6.1, low: -3.0, presence: -19.5, air: -30.2}, stems: {drums: -11.1, bass: -2.2, other: -11.9, vocals: -10.8},
+                     chords_mid: "bIIImaj7 bVIImaj7 bVImaj7 v7 Vsus4 — 808s: 베이스가 제일 앞(-2.2), 드럼 작음, 보컬 F#3 중앙(낮게 오토튠)", form: "13s 8마디, 35s 11마디, 65s 9마디 — 짧은 블록 교대"}
+  diamonds:         {bpm_heard: 99, bpm_known: 98, key: "B minor", width_db: -14.6, bands: {low: -3.4, presence: -16.6, air: -26.8}, stems: {drums: -4.9, bass: -10.1, other: -8.8, vocals: -6.1},
+                     chords_mid: "Vsus4 v7 bIIImaj7 bVIIsus4 bVImaj7 — 단조, sus4 로 버티다 장7 로 풀림", form: "12s 18마디 조용히(-32) → 69s → 88s 45마디 큰 블록, 255s 13마디, 1마디 컷"}
+  street_lights:    {bpm_heard: 129, bpm_known: 129, key: "C# major", width_db: -14.0, bands: {low: -3.3, presence: -21.1, air: -37.1}, stems: {drums: -4.7, bass: -43.4, other: -7.2, vocals: -4.7},
+                     chords_mid: "IVmaj7 ×8마디 → IIsus4 → Vsus4 → Isus4 → IVmaj7 — IV 에서 시작해 I 를 sus 로만 스침, 베이스 거의 없음(-43)"}
+citypop:
+  sparkle:          {bpm: 103, key: "E major", width_db: -9.5, bands: {low: -3.7, mid: -6.3, presence: -14.0, air: -28.7}, stems: {drums: -5.7, bass: -4.4, other: -5.2}, chords_mid: "IVmaj7 iii7 IVmaj7 iii7 Isus4 Imaj7 — IV↔iii 왕복 뒤 I"}
+  kimi_wa_tennenshoku: {bpm_heard: 144, key: "D major(채보 E 단조 쪽)", width_db: -9.1, bands: {presence: -30.3, air: -39.7}, chords_mid: "bIImaj7 bVImaj7 bIImaj7 i7 (채보 혼란 — 월 오브 사운드 밀도)", form: "21s 부터 61마디 블록, 124s·229s 가장 큼"}
+  mayonaka_no_door: {bpm: 112, key: "F major", width_db: -7.8, bands: {low: -1.7, presence: -18.5, air: -20.0}, stems: {drums: -2.8, bass: -6.6, other: -12.2, vocals: -8.7}, vocal: {median: "G#4", range: [C4, "A#4"]},
+                     chords_mid: "V7 vi7 ii7 bIImaj7 ii7 bIIImaj7 — bII·bIII 장7(모달 믹스처)이 시티팝의 '밤' 색"}
+  remember_summer_days: {bpm: 99, key: "E major", width_db: -9.2, bands: {low: -6.2, mid: -5.7, presence: -13.7, air: -21.1}, stems: {drums: -7.0, bass: -8.9, other: -6.4, vocals: -8.3}, vocal: {median: D5, range: ["F#2", B5]},
+                     chords_mid: "ii7 Vsus4 Imaj7 ii7 Imaj7 — ii–V–I 를 sus4 로 부드럽게", form: "0~40s 10마디 ×2 절, 65s 첫 큰 블록"}
+
+summary:
+  old_kanye_sound: "폭이 좁다(side/mid -14~-21, 거의 모노) · 고역 어둡다(air -26~-43, presence -15~-23) · 드럼이 제일 앞(-2.6~-5, 808s 계열만 베이스가 앞) · 보컬 -5~-8 · 템포 65~99(Street Lights 129)"
+  citypop_sound:   "폭 넓다(-8~-10) · 밝다(presence -14~-18, air -20~-29) · 베이스·드럼·건반이 고르게 앞 · 여성 보컬 G#4~D5 중앙 · 템포 99~112"
+  album_targets:   "비트·드럼·랩 = 올드 칸예 숫자(폭 -12~-16, air -28~-34, 드럼 앞). 레코드(샘플) = 시티팝 숫자로 녹음한 뒤 배속·비닐로 어둡게. 결과 믹스 목표: 폭 -12~-15 · presence -17~-20 · air -28~-32 · 드럼 -4 · 보컬 -6 · -11 LUFS"
+
+harmony_study:   # 10-17 본인 "칸예 곡·비슷한 장르의 화성감·이론도 연구해. 창의력. 패턴에 얽매이지 말고"
+  heard_in_kanye:
+    - "샘플의 조 ≠ 비트의 조: Through the Wire 채보가 #IV·bII 같은 '틀린' 코드로 잡히는 건 샘플(배속으로 조가 올라감) 위에 베이스가 원래 조로 깔려서. 이 어긋남이 긴장 = 올드 칸예의 핵심. 우리도 레코드를 +4 했을 때 베이스를 샘플 조에 '완전히' 맞추지 말고 한두 마디는 비트 조로 두는 선택지를 둔다."
+    - "sus4 로 버티기(Diamonds·Street Lights·Touch the Sky): I 나 V 를 3음 없이 두고 샘플이 3음을 정한다 — 장·단이 흐려져 '그리움'."
+    - "I7 → IV (Touch the Sky): 가스펠·블루스식 2차 도미넌트. 장조에서 b7 한 음으로 교회 냄새."
+    - "단조 i ↔ bIImaj7 (Flashing Lights): 반음 위 장7 왕복 — 차갑고 영화적. 808s 계열 곡(Vending Machine Heart)에 쓴다."
+    - "IV 에서 시작해 I 로 안 가기(Street Lights·Heard 'Em Say): 루프가 IV 에 머물면 끝나지 않는 느낌 — 아웃트로를 IV 로 끝내는 선택지."
+    - "루프 끝 미해결 도미넌트를 그대로 두기: 4마디 루프의 마지막 코드가 V7/vi 로 끝나 IV 로 되돌아오는 건 '틀린' 게 아니라 긴장의 반복(칸예 시티팝 02 가 그 예 — 본인이 성공작으로 꼽음)."
+  heard_in_citypop:
+    - "IVmaj7 ↔ iii7 왕복(Sparkle), ii7–V7sus4–Imaj7(Remember Summer Days): 7th 가 기본, 삼화음은 거의 없음."
+    - "bIImaj7·bIIImaj7 모달 믹스처(真夜中のドア): 장조 안의 '밤' 색. 레코드 B 구간에 한 번 넣는다."
+    - "Wall of sound(君は天然色): 코드가 안 잡힐 만큼 두껍게 — 레코드 녹음에 스트링·코러스·퍼커션 레이어."
+  rules_for_album (곡마다 하나씩 다른 장치를 고른다 — 같은 장치 두 곡 금지):
+    - Last Train: 레코드 B 끝에 bIIImaj7 모달 믹스처 → 배속 뒤 비트 베이스는 그 마디만 샘플 조를 따르지 않고 원래 I 를 유지(어긋남 1마디).
+    - Convenience Store Lights: I7 → IV 가스펠 2차 도미넌트를 혼 스탭으로.
+    - Pay Phone: 루프 끝 V7/vi 미해결 유지(칸예 시티팝 02 의 장치를 의도적으로).
+    - Vending Machine Heart: i ↔ bIImaj7 왕복, 808 베이스가 제일 앞.
+    - Overtime: IV 에서 시작해 I 를 sus4 로만 스치기, 찹이 3음을 정한다.
+    - First Train: ii7–V7sus4–Imaj7 정통 시티팝, 마지막만 IV 로 끝내 안 끝난 느낌.

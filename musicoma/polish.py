@@ -46,8 +46,9 @@ def _notes_from_f0(f0, voiced, times, min_len=0.08, jump=0.8):
     return notes
 
 
-def tune(path, key="C major", out=None, strength=0.85, max_semitones=2.0, log=print):
-    """음정 보정. 반환: {"out", "notes", "corrected", "mean_cents_before", "mean_cents_after"}"""
+def tune(path, key="C major", out=None, strength=0.85, max_semitones=2.0, log=print, region=None):
+    """음정 보정. region=(시작초, 끝초) 이면 그 구간의 음만 손댄다(나머지는 그대로 — 10-17 칸예 시티팝 훅 고음만).
+    반환: {"out", "notes", "corrected", "mean_cents_before", "mean_cents_after"}"""
     from . import dsp
     y, sr = sf.read(str(path), dtype="float32", always_2d=True)
     mono = y.mean(1)
@@ -60,6 +61,8 @@ def tune(path, key="C major", out=None, strength=0.85, max_semitones=2.0, log=pr
     fade = int(0.015 * sr)
     before, after, done = [], [], 0
     for a, b, m in notes:
+        if region and not (region[0] <= times[a] <= region[1]):
+            continue
         target = _nearest_in_scale(m, pcs)
         shift = (target - m) * strength
         before.append(abs(target - m) * 100)
